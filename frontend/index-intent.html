@@ -1064,13 +1064,15 @@
           faqEngine.setLanguage(currentLanguage);
           updateUILanguage();
 
+          // Re-render category sidebar and hot list for new language
+          renderSidebar();
+          renderHotFAQs();
+
           const query = document.getElementById('searchInput').value.trim();
           if (query) {
             performSearch();
           } else if (currentSection) {
             filterBySection(currentSection);
-          } else {
-            renderHotFAQs();
           }
         } catch (error) {
           console.error('Language switch failed:', error);
