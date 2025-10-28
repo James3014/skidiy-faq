@@ -27,7 +27,13 @@ class FAQEngine {
   async initialize() {
     try {
       // Load FAQ data from local file
-      const response = await fetch('faq_kb.json');
+      const cacheBuster =
+        typeof window !== 'undefined' && window.FAQ_KB_VERSION
+          ? window.FAQ_KB_VERSION
+          : Date.now();
+      const response = await fetch(`faq_kb.json?v=${cacheBuster}`, {
+        cache: 'no-store'
+      });
 
       if (!response.ok) {
         throw new Error(`Failed to load FAQ data: ${response.status} ${response.statusText}`);
