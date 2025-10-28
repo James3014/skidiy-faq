@@ -1,0 +1,2287 @@
+{
+  "meta": {
+    "link_tokens": {
+      "LINK_SCHEDULE": "https://booking.diy.ski/schedule",
+      "LINK_INSTRUCTORS": "https://diy.ski/instructorList.php",
+      "LINK_APPLY_SCHEDULE": "https://booking.diy.ski/apply-schedule",
+      "LINK_INSURANCE": "https://diy.ski/insurance_s.php",
+      "LINK_ARTICLES": "https://diy.ski/articleList.php",
+      "LINK_ORDER_LIST": "https://booking.diy.ski/order/list"
+    },
+    "policy_notes": [
+      "NO_QUOTE: 不口頭報價，請導至系統頁面。",
+      "NO_MANUAL_MATCH: 不人工查空檔/配對。",
+      "NO_INSURANCE_BREAKDOWN: 不外顯保險費用細項。"
+    ]
+  },
+  "items": [
+    {
+      "id": "faq.itinerary.001",
+      "intent": "ITINERARY",
+      "section": "行程規劃與周邊",
+      "canonical_question": "應該先訂好機票住宿，還是先預約滑雪教練？",
+      "hot": true,
+      "utterance_patterns": [
+        "應該先訂好機票住宿，還是先預約滑雪教練",
+        "先訂教練還是先訂機票",
+        "先訂教練還是先訂住宿",
+        "要先預約教練嗎",
+        "機票住宿要先訂嗎",
+        "先訂教練比較保險嗎",
+        "要先預約教練",
+        "機票住宿要先訂",
+        "先訂教練比較保險",
+        "應該先訂好機票住宿，還是先預約滑雪教練？"
+      ],
+      "required_slots": [],
+      "policy_flags": [
+        "NO_MANUAL_MATCH"
+      ],
+      "answer_template": {
+        "text": "我們強烈建議您「先預約教練，再訂機票住宿」。尤其是在旺季，優質的中文教練非常搶手，時常比機票或住宿更早被預約一空。先確認預約到您想要的教練與時段後，再進行後續的旅遊安排，行程會比較有保障。",
+        "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
+        "links_inline": false
+      },
+      "links": [
+        "{{LINK_SCHEDULE}}",
+        "{{LINK_ARTICLES}}"
+      ],
+      "crm_tags": [
+        "#行程規劃"
+      ]
+    },
+    {
+      "id": "faq.itinerary.002",
+      "intent": "ITINERARY",
+      "section": "行程規劃與周邊",
+      "canonical_question": "你們有推薦的住宿嗎？為什麼熱門時段的房間這麼難訂？",
+      "hot": true,
+      "utterance_patterns": [
+        "你們有推薦的住宿嗎為什麼熱門時段的房間這麼難訂",
+        "住宿推薦",
+        "有沒有推薦的飯店",
+        "房間很難訂為什麼",
+        "旺季住宿怎麼訂",
+        "住宿什麼時候會開放預訂",
+        "你們有推薦的住宿為什麼熱門時段的房間這麼難訂",
+        "你們有推薦的住宿？為什麼熱門時段的房間這麼難訂？",
+        "你們有推薦的住宿嗎？為什麼熱門時段的房間這麼難訂？"
+      ],
+      "required_slots": [],
+      "policy_flags": [
+        "NO_MANUAL_MATCH"
+      ],
+      "answer_template": {
+        "text": "我們在網站的各雪場介紹頁面中，有整理學員們較常選擇的住宿選項供您參考。關於熱門時段（如聖誕、跨年、農曆新年）訂房困難，主要有兩個原因：1) 日本的訂房通常在 2-3 個月前才開放，太早查詢會顯示無空房。2) 這些時段是全球的滑雪旺季，房價會大幅上漲且很快被訂滿，建議您確定行程後盡早預訂。",
+        "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
+        "links_inline": false
+      },
+      "links": [
+        "{{LINK_SCHEDULE}}",
+        "{{LINK_ARTICLES}}"
+      ],
+      "crm_tags": [
+        "#行程規劃"
+      ]
+    },
+    {
+      "id": "faq.service.003",
+      "intent": "SERVICE",
+      "section": "服務範圍與聯絡方式",
+      "canonical_question": "你們主要在日本哪些地區或滑雪場提供教練服務？",
+      "hot": true,
+      "utterance_patterns": [
+        "你們主要在日本哪些地區或滑雪場提供教練服務",
+        "可以在雪場裡授課嗎",
+        "可以在滑雪場內上課嗎",
+        "會不會被驅趕",
+        "會不會被趕走",
+        "會不會被勸離",
+        "輕井澤王子可以授課嗎",
+        "輕井澤王子滑雪場可以上課嗎",
+        "Prince Ski 可以上課嗎",
+        "在某個雪場是否能安排教練授課",
+        "能不能在雪場裡授課",
+        "可不可以在雪場裡授課",
+        "可以在雪場裡授課",
+        "能否在雪場裡授課",
+        "能否在滑雪場內上課",
+        "可以在滑雪場內上課",
+        "能不能在滑雪場內上課",
+        "可不可以在滑雪場內上課",
+        "輕井澤王子能否授課",
+        "輕井澤王子可以授課",
+        "輕井澤王子能不能授課",
+        "輕井澤王子可不可以授課",
+        "輕井澤王子滑雪場能不能上課",
+        "輕井澤王子滑雪場可不可以上課",
+        "輕井澤王子滑雪場可以上課",
+        "輕井澤王子滑雪場能否上課",
+        "Prince Ski 可不可以上課",
+        "Prince Ski 可以上課",
+        "Prince Ski 能不能上課",
+        "Prince Ski 能否上課",
+        "你們主要在日本哪些地區或滑雪場提供教練服務？"
+      ],
+      "required_slots": [],
+      "policy_flags": [
+        "NO_MANUAL_MATCH"
+      ],
+      "answer_template": {
+        "text": "我們的中文滑雪教練服務遍及日本多個熱門滑雪區域，包含：北海道（札幌、留壽都、富 良野）、東北（安比、藏王）、新潟（湯澤地區、苗場）、長野（輕井澤、白馬、野澤）等。您可以在我們的網站首頁或「雪場介紹」頁面，查看所有提供服務的雪場列表。",
+        "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
+        "links_inline": false
+      },
+      "links": [
+        "{{LINK_SCHEDULE}}"
+      ],
+      "crm_tags": [
+        "#服務範圍"
+      ]
+    },
+    {
+      "id": "faq.service.004",
+      "intent": "SERVICE",
+      "section": "服務範圍與聯絡方式",
+      "canonical_question": "我有問題想詢問，請問有提供電話客服嗎？",
+      "hot": true,
+      "utterance_patterns": [
+        "我有問題想詢問，有提供電話客服嗎",
+        "我有問題想詢問，請問有提供電話客服嗎",
+        "我有問題想詢問，有提供電話客服",
+        "我有問題想詢問，有提供電話客服？",
+        "我有問題想詢問，請問有提供電話客服嗎？"
+      ],
+      "required_slots": [],
+      "policy_flags": [
+        "NO_MANUAL_MATCH"
+      ],
+      "answer_template": {
+        "text": "為了確保服務品質與資訊的準確性，我們目前主要透過電子郵件 ( admin@diy.ski ) 提供客服。文字記錄能幫助我們更精準地理解您的問題，並完整地追蹤處理進度。我們承諾會盡快回覆您的所有問題。",
+        "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
+        "links_inline": false
+      },
+      "links": [
+        "{{LINK_SCHEDULE}}"
+      ],
+      "crm_tags": [
+        "#服務範圍"
+      ]
+    },
+    {
+      "id": "faq.course.005",
+      "intent": "COURSE",
+      "section": "🧭 課程選擇與內容安排",
+      "canonical_question": "滑雪課程的課程長度？怎麼上課比較適合初學者？",
+      "hot": true,
+      "utterance_patterns": [
+        "滑雪課程的課程長度怎麼上課比較適合初學者",
+        "課程長度",
+        "上幾小時比較好",
+        "初學者建議上多久",
+        "半天課和全天課差別",
+        "初學課怎麼安排比較好",
+        "滑雪課程的課程長度？怎麼上課比較適合初學者？"
+      ],
+      "required_slots": [
+        "date?",
+        "resort?",
+        "board_type?",
+        "people_total?"
+      ],
+      "policy_flags": [
+        "NO_MANUAL_MATCH"
+      ],
+      "answer_template": {
+        "text": "除了輕井澤雪場為一堂 2 小時，大部份雪場分為 3 小時上下午半天課及全天課 (時長依雪場會稍有不同 )。初學者建議至少上 8 至 12 小時，才能學習到完整進度，進階者可視自己的程度狀況預訂全日或半日課程。",
+        "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
+        "links_inline": false
+      },
+      "links": [
+        "{{LINK_SCHEDULE}}",
+        "{{LINK_INSTRUCTORS}}"
+      ],
+      "crm_tags": [
+        "#課程內容"
+      ]
+    },
+    {
+      "id": "faq.course.006",
+      "intent": "COURSE",
+      "section": "🧭 課程選擇與內容安排",
+      "canonical_question": "可以在同一堂課中同時學單板與雙板嗎？",
+      "utterance_patterns": [
+        "可以在同一堂課中同時學單板與雙板嗎",
+        "能不能在同一堂課中同時學單板與雙板嗎",
+        "可不可以在同一堂課中同時學單板與雙板",
+        "可以在同一堂課中同時學單板與雙板",
+        "能否在同一堂課中同時學單板與雙板",
+        "能不能在同一堂課中同時學單板與雙板",
+        "可以在同一堂課中同時學單板與雙板？",
+        "能否在同一堂課中同時學單板與雙板？",
+        "可不可以在同一堂課中同時學單板與雙板？",
+        "可以在同一堂課中同時學單板與雙板嗎？",
+        "能不能在同一堂課中同時學單板與雙板？"
+      ],
+      "required_slots": [
+        "date?",
+        "resort?",
+        "board_type?",
+        "people_total?"
+      ],
+      "policy_flags": [
+        "NO_MANUAL_MATCH"
+      ],
+      "answer_template": {
+        "text": "不建議。單板與雙板為完全不同的運動，裝備與技巧也不同。請先決定您希望學習的滑雪類型。",
+        "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
+        "links_inline": false
+      },
+      "links": [
+        "{{LINK_SCHEDULE}}",
+        "{{LINK_INSTRUCTORS}}"
+      ],
+      "crm_tags": [
+        "#課程內容"
+      ]
+    },
+    {
+      "id": "faq.grouping.007",
+      "intent": "GROUPING",
+      "section": "👨‍👩‍👧‍👦 一起上課安排",
+      "canonical_question": "我可以和朋友或家人一起上課嗎？不同程度能同堂上課嗎？",
+      "utterance_patterns": [
+        "我可以和朋友或家人一起上課嗎不同程度能同堂上課嗎",
+        "我能不能和朋友或家人一起上課嗎不同程度能同堂上課嗎",
+        "我可以和朋友或家人一起上課不同程度能同堂上課",
+        "我可不可以和朋友或家人一起上課不同程度能同堂上課",
+        "我能不能和朋友或家人一起上課不同程度能同堂上課",
+        "我能否和朋友或家人一起上課不同程度能同堂上課",
+        "我可以和朋友或家人一起上課嗎？不同程度能同堂上課嗎？",
+        "我可不可以和朋友或家人一起上課？不同程度能同堂上課？",
+        "我可以和朋友或家人一起上課？不同程度能同堂上課？",
+        "我能否和朋友或家人一起上課？不同程度能同堂上課？",
+        "我能不能和朋友或家人一起上課？不同程度能同堂上課？"
+      ],
+      "required_slots": [
+        "date?",
+        "resort?",
+        "board_type?",
+        "people_total?"
+      ],
+      "policy_flags": [
+        "NO_MANUAL_MATCH"
+      ],
+      "answer_template": {
+        "text": "可以安排同堂，但程度差距較大時，建議分開上課，確保每位學員都能獲得適合的教學進度。",
+        "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
+        "links_inline": false
+      },
+      "links": [
+        "{{LINK_SCHEDULE}}",
+        "{{LINK_INSTRUCTORS}}"
+      ],
+      "crm_tags": [
+        "#同堂安排"
+      ]
+    },
+    {
+      "id": "faq.grouping.008",
+      "intent": "GROUPING",
+      "section": "👨‍👩‍👧‍👦 一起上課安排",
+      "canonical_question": "成人與小孩可以一起上課嗎？",
+      "utterance_patterns": [
+        "成人與小孩可以一起上課嗎",
+        "成人與小孩能不能一起上課嗎",
+        "成人與小孩可以一起上課",
+        "成人與小孩能不能一起上課",
+        "成人與小孩可不可以一起上課",
+        "成人與小孩能否一起上課",
+        "成人與小孩可以一起上課嗎？",
+        "成人與小孩能否一起上課？",
+        "成人與小孩可不可以一起上課？",
+        "成人與小孩可以一起上課？",
+        "成人與小孩能不能一起上課？"
+      ],
+      "required_slots": [
+        "date?",
+        "resort?",
+        "board_type?",
+        "people_total?"
+      ],
+      "policy_flags": [
+        "NO_MANUAL_MATCH"
+      ],
+      "answer_template": {
+        "text": "成人與小孩可以同堂上課，但若小孩年紀較小，教練會優先確保他們的安全與基礎動作練習，因此成人的練習時間可能會相對減少。若您希望成人學習進度不受影響，建議 5 歲以下孩童分開安排課程。",
+        "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
+        "links_inline": false
+      },
+      "links": [
+        "{{LINK_SCHEDULE}}",
+        "{{LINK_INSTRUCTORS}}"
+      ],
+      "crm_tags": [
+        "#同堂安排"
+      ]
+    },
+    {
+      "id": "faq.general.009",
+      "intent": "GENERAL",
+      "section": "👶 小朋友滑雪與安全保障",
+      "canonical_question": "幾歲可以開始學滑雪？",
+      "utterance_patterns": [
+        "幾歲可以開始學滑雪",
+        "幾歲能不能開始學滑雪",
+        "幾歲可不可以開始學滑雪",
+        "幾歲能否開始學滑雪",
+        "幾歲可以開始學滑雪？",
+        "幾歲可不可以開始學滑雪？",
+        "幾歲能不能開始學滑雪？",
+        "幾歲能否開始學滑雪？"
+      ],
+      "required_slots": [],
+      "policy_flags": [
+        "NO_MANUAL_MATCH"
+      ],
+      "answer_template": {
+        "text": "建議從3歲以上開始，5歲以下的兒童建議安排一對一教學，提升安全與專注力。",
+        "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
+        "links_inline": false
+      },
+      "links": [
+        "{{LINK_SCHEDULE}}"
+      ],
+      "crm_tags": [
+        "#一般查詢"
+      ]
+    },
+    {
+      "id": "faq.general.010",
+      "intent": "GENERAL",
+      "section": "👶 小朋友滑雪與安全保障",
+      "canonical_question": "不同年齡可以同班嗎？",
+      "utterance_patterns": [
+        "不同年齡可以同班嗎",
+        "不同年齡能不能同班嗎",
+        "不同年齡可不可以同班",
+        "不同年齡能不能同班",
+        "不同年齡能否同班",
+        "不同年齡可以同班",
+        "不同年齡可以同班嗎？",
+        "不同年齡可不可以同班？",
+        "不同年齡能不能同班？",
+        "不同年齡可以同班？",
+        "不同年齡能否同班？"
+      ],
+      "required_slots": [],
+      "policy_flags": [
+        "NO_MANUAL_MATCH"
+      ],
+      "answer_template": {
+        "text": "不建議將3歲、5歲與7歲等年齡層混班，體力與進度差異大，建議分開上課。",
+        "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
+        "links_inline": false
+      },
+      "links": [
+        "{{LINK_SCHEDULE}}"
+      ],
+      "crm_tags": [
+        "#一般查詢"
+      ]
+    },
+    {
+      "id": "faq.general.011",
+      "intent": "GENERAL",
+      "section": "👶 小朋友滑雪與安全保障",
+      "canonical_question": "小朋友上課有哪些安全機制？",
+      "utterance_patterns": [
+        "小朋友上課有哪些安全機制",
+        "小朋友上課有哪些安全機制？"
+      ],
+      "required_slots": [],
+      "policy_flags": [
+        "NO_INSURANCE_BREAKDOWN",
+        "NO_MANUAL_MATCH"
+      ],
+      "answer_template": {
+        "text": "每位教練最多帶6人，小孩比例不會過高；全程附滑雪專案保險；教練具備兒童教學經驗，纜車使用時安排大人陪同。",
+        "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
+        "links_inline": false
+      },
+      "links": [
+        "{{LINK_SCHEDULE}}"
+      ],
+      "crm_tags": [
+        "#一般查詢",
+        "#親子同堂詢問"
+      ]
+    },
+    {
+      "id": "faq.general.012",
+      "intent": "GENERAL",
+      "section": "👶 小朋友滑雪與安全保障",
+      "canonical_question": "兒童保險內容與限制有哪些？",
+      "utterance_patterns": [
+        "兒童保險內容與限制有哪些",
+        "兒童保險內容與限制有哪些？"
+      ],
+      "required_slots": [],
+      "policy_flags": [
+        "NO_INSURANCE_BREAKDOWN",
+        "NO_MANUAL_MATCH"
+      ],
+      "answer_template": {
+        "text": "15歲以下無身故理賠，提供20萬實支實付醫療保障與1萬美元緊急救援補償。",
+        "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
+        "links_inline": false
+      },
+      "links": [
+        "{{LINK_SCHEDULE}}"
+      ],
+      "crm_tags": [
+        "#一般查詢",
+        "#親子同堂詢問"
+      ]
+    },
+    {
+      "id": "faq.general.013",
+      "intent": "GENERAL",
+      "section": "👶 小朋友滑雪與安全保障",
+      "canonical_question": "五歲以下小孩可以上課嗎？",
+      "utterance_patterns": [
+        "五歲以下小孩可以上課嗎",
+        "五歲以下小孩能不能上課嗎",
+        "五歲以下小孩可以上課",
+        "五歲以下小孩能否上課",
+        "五歲以下小孩能不能上課",
+        "五歲以下小孩可不可以上課",
+        "五歲以下小孩能否上課？",
+        "五歲以下小孩可不可以上課？",
+        "五歲以下小孩可以上課嗎？",
+        "五歲以下小孩可以上課？",
+        "五歲以下小孩能不能上課？"
+      ],
+      "required_slots": [],
+      "policy_flags": [
+        "NO_MANUAL_MATCH"
+      ],
+      "answer_template": {
+        "text": "可以，但需安排一對一教學；若與其他孩童同上，需有大人熟悉滑雪陪同。",
+        "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
+        "links_inline": false
+      },
+      "links": [
+        "{{LINK_SCHEDULE}}"
+      ],
+      "crm_tags": [
+        "#一般查詢"
+      ]
+    },
+    {
+      "id": "faq.general.014",
+      "intent": "GENERAL",
+      "section": "👶 小朋友滑雪與安全保障",
+      "canonical_question": "有推薦給年紀更小的兒童的滑雪學校嗎？",
+      "utterance_patterns": [
+        "有推薦給年紀更小的兒童的滑雪學校嗎",
+        "有推薦給年紀更小的兒童的滑雪學校",
+        "有推薦給年紀更小的兒童的滑雪學校？",
+        "有推薦給年紀更小的兒童的滑雪學校嗎？"
+      ],
+      "required_slots": [],
+      "policy_flags": [
+        "NO_MANUAL_MATCH"
+      ],
+      "answer_template": {
+        "text": "可以考慮「熊貓滑雪學校」（Pandaruman），專為5歲以下兒童設計課程：https://www.pandaruman.com/",
+        "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
+        "links_inline": false
+      },
+      "links": [
+        "{{LINK_SCHEDULE}}"
+      ],
+      "crm_tags": [
+        "#一般查詢",
+        "#親子同堂詢問"
+      ]
+    },
+    {
+      "id": "faq.general.015",
+      "intent": "GENERAL",
+      "section": "🏂 教練與教學安排",
+      "canonical_question": "我想連續上好幾天課，可以預約不同的教練嗎？",
+      "utterance_patterns": [
+        "我想連續上好幾天課，可以預約不同的教練嗎",
+        "我想連續上好幾天課，能不能預約不同的教練嗎",
+        "我想連續上好幾天課，能不能預約不同的教練",
+        "我想連續上好幾天課，可不可以預約不同的教練",
+        "我想連續上好幾天課，可以預約不同的教練",
+        "我想連續上好幾天課，能否預約不同的教練",
+        "我想連續上好幾天課，可以預約不同的教練？",
+        "我想連續上好幾天課，能否預約不同的教練？",
+        "我想連續上好幾天課，可不可以預約不同的教練？",
+        "我想連續上好幾天課，能不能預約不同的教練？",
+        "我想連續上好幾天課，可以預約不同的教練嗎？"
+      ],
+      "required_slots": [],
+      "policy_flags": [
+        "NO_MANUAL_MATCH"
+      ],
+      "answer_template": {
+        "text": "可以，但我們更建議盡量跟隨同一位教練上課。因為教練最了解您的學習進度與狀況，能提供連貫性的指導，學習效果會是最好的。您可以在預約系統的篩選器中「指定特定教練」，來查看他所有可預約的時段。",
+        "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
+        "links_inline": false
+      },
+      "links": [
+        "{{LINK_SCHEDULE}}"
+      ],
+      "crm_tags": [
+        "#一般查詢"
+      ]
+    },
+    {
+      "id": "faq.general.016",
+      "intent": "GENERAL",
+      "section": "🏂 教練與教學安排",
+      "canonical_question": "我預約的教練會不會臨時更換？如果更換，新教練的資格如何保證？",
+      "utterance_patterns": [
+        "我預約的教練會不會臨時更換如果更換，新教練的資格如何保證",
+        "我預約的教練會不會臨時更換？如果更換，新教練的資格如何保證？"
+      ],
+      "required_slots": [],
+      "policy_flags": [
+        "NO_MANUAL_MATCH"
+      ],
+      "answer_template": {
+        "text": "我們平台的所有教練都必須持有有效的國際滑雪指導員執照。在極少數情況下，若您預約的教練因緊急狀況無法授課，我們會在第一時間通知您，並安排「同等級或更高等級」的合格教練替代。任何教練的更換，我們都會事先與您溝通並取得您的同意。",
+        "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
+        "links_inline": false
+      },
+      "links": [
+        "{{LINK_SCHEDULE}}"
+      ],
+      "crm_tags": [
+        "#一般查詢"
+      ]
+    },
+    {
+      "id": "faq.general.017",
+      "intent": "GENERAL",
+      "section": "🏂 教練與教學安排",
+      "canonical_question": "為什麼有些教練有「最少預約N堂課」的限制？我可以只預約一堂嗎？",
+      "utterance_patterns": [
+        "為什麼有些教練有「最少預約N堂課」的限制我可以只預約一堂嗎",
+        "為什麼有些教練有「最少預約N堂課」的限制我能不能只預約一堂嗎",
+        "為什麼有些教練有「最少預約N堂課」的限制我可不可以只預約一堂",
+        "為什麼有些教練有「最少預約N堂課」的限制我能不能只預約一堂",
+        "為什麼有些教練有「最少預約N堂課」的限制我可以只預約一堂",
+        "為什麼有些教練有「最少預約N堂課」的限制我能否只預約一堂",
+        "為什麼有些教練有「最少預約N堂課」的限制？我可不可以只預約一堂？",
+        "為什麼有些教練有「最少預約N堂課」的限制？我可以只預約一堂？",
+        "為什麼有些教練有「最少預約N堂課」的限制？我能否只預約一堂？",
+        "為什麼有些教練有「最少預約N堂課」的限制？我可以只預約一堂嗎？",
+        "為什麼有些教練有「最少預約N堂課」的限制？我能不能只預約一堂？"
+      ],
+      "required_slots": [],
+      "policy_flags": [
+        "NO_MANUAL_MATCH"
+      ],
+      "answer_template": {
+        "text": "部分教練，特別是需要從較遠地區移動至該雪場的教練，可能會設定最少課程預約時數，以符合交通與時間成本。這是教練個人的設定，我們平台會尊重教練的開課條件。因此，若您希望預約該教練，建議您能滿足其最低預約要求，或選擇其他沒有此限制的教練。",
+        "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
+        "links_inline": false
+      },
+      "links": [
+        "{{LINK_SCHEDULE}}"
+      ],
+      "crm_tags": [
+        "#一般查詢"
+      ]
+    },
+    {
+      "id": "faq.general.018",
+      "intent": "GENERAL",
+      "section": "🏂 教練與教學安排",
+      "canonical_question": "每位教練最多可同時教幾人？",
+      "utterance_patterns": [
+        "每位教練最多可同時教幾人",
+        "每位教練最多可同時教幾人？"
+      ],
+      "required_slots": [],
+      "policy_flags": [
+        "NO_MANUAL_MATCH"
+      ],
+      "answer_template": {
+        "text": "我們每位教練最多可教 6 位學員。",
+        "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
+        "links_inline": false
+      },
+      "links": [
+        "{{LINK_SCHEDULE}}"
+      ],
+      "crm_tags": [
+        "#一般查詢"
+      ]
+    },
+    {
+      "id": "faq.general.019",
+      "intent": "GENERAL",
+      "section": "🏂 教練與教學安排",
+      "canonical_question": "課程會學到哪些內容？",
+      "utterance_patterns": [
+        "課程會學到哪些內容",
+        "課程會學到哪些內容？"
+      ],
+      "required_slots": [],
+      "policy_flags": [
+        "NO_MANUAL_MATCH"
+      ],
+      "answer_template": {
+        "text": "從穿脫裝備、基礎姿勢、平地行走、跌倒與站起，到轉彎與煞車技巧，會依學員程度量身調整。",
+        "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
+        "links_inline": false
+      },
+      "links": [
+        "{{LINK_SCHEDULE}}"
+      ],
+      "crm_tags": [
+        "#一般查詢"
+      ]
+    },
+    {
+      "id": "faq.general.020",
+      "intent": "GENERAL",
+      "section": "🏂 教練與教學安排",
+      "canonical_question": "我已經會滑雪，還需要上初學課嗎？",
+      "utterance_patterns": [
+        "我已經會滑雪，還需要上初學課嗎",
+        "我已經會滑雪，還需要上初學課",
+        "我已經會滑雪，還需要上初學課嗎？",
+        "我已經會滑雪，還需要上初學課？"
+      ],
+      "required_slots": [],
+      "policy_flags": [
+        "NO_MANUAL_MATCH"
+      ],
+      "answer_template": {
+        "text": "若久未滑雪或技巧不確定，建議可先上初學課讓教練評估與調整。",
+        "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
+        "links_inline": false
+      },
+      "links": [
+        "{{LINK_SCHEDULE}}"
+      ],
+      "crm_tags": [
+        "#一般查詢"
+      ]
+    },
+    {
+      "id": "faq.general.021",
+      "intent": "GENERAL",
+      "section": "📍 集合地點與交通",
+      "canonical_question": "課程在哪裡集合？會不會很遠？",
+      "utterance_patterns": [
+        "課程在哪裡集合會不會很遠",
+        "課程在哪裡集合？會不會很遠？"
+      ],
+      "required_slots": [],
+      "policy_flags": [
+        "NO_MANUAL_MATCH"
+      ],
+      "answer_template": {
+        "text": "集合地點會依各滑雪場有所不同，請於預約後參考網站說明或與教練確認。",
+        "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
+        "links_inline": false
+      },
+      "links": [
+        "{{LINK_SCHEDULE}}"
+      ],
+      "crm_tags": [
+        "#一般查詢"
+      ]
+    },
+    {
+      "id": "faq.general.022",
+      "intent": "GENERAL",
+      "section": "🧑‍🏫 教練資訊與教學語言",
+      "canonical_question": "教練有國際滑雪證照嗎？是哪一國發的？",
+      "utterance_patterns": [
+        "教練有國際滑雪證照嗎是哪一國發的",
+        "教練有國際滑雪證照是哪一國發的",
+        "教練有國際滑雪證照嗎？是哪一國發的？",
+        "教練有國際滑雪證照？是哪一國發的？"
+      ],
+      "required_slots": [],
+      "policy_flags": [
+        "NO_MANUAL_MATCH"
+      ],
+      "answer_template": {
+        "text": "是的，我們的教練皆持有國際滑雪證照，如：\n\n* 紐西蘭滑雪指導員協會 (NZSIA)  \n* 加拿大滑雪指導員聯盟 (CASI)  \n* 美國滑雪指導員協會 (PSIA)\n\n我們要求教練需具備有效證照並參與定期升級，例如 Level 2 或 Level 3 考試",
+        "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
+        "links_inline": false
+      },
+      "links": [
+        "{{LINK_SCHEDULE}}"
+      ],
+      "crm_tags": [
+        "#一般查詢"
+      ]
+    },
+    {
+      "id": "faq.general.023",
+      "intent": "GENERAL",
+      "section": "🧑‍🏫 教練資訊與教學語言",
+      "canonical_question": "教練有教學兒童或年長者的經驗嗎？",
+      "utterance_patterns": [
+        "教練有教學兒童或年長者的經驗嗎",
+        "教練有教學兒童或年長者的經驗",
+        "教練有教學兒童或年長者的經驗嗎？",
+        "教練有教學兒童或年長者的經驗？"
+      ],
+      "required_slots": [],
+      "policy_flags": [
+        "NO_MANUAL_MATCH"
+      ],
+      "answer_template": {
+        "text": "有，我們教練有豐富的兒童教學經驗，也熟悉年長者學習步調。對於學習進度差異大的學生，建議分開上課以利教學品質。",
+        "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
+        "links_inline": false
+      },
+      "links": [
+        "{{LINK_SCHEDULE}}"
+      ],
+      "crm_tags": [
+        "#一般查詢",
+        "#親子同堂詢問"
+      ]
+    },
+    {
+      "id": "faq.general.024",
+      "intent": "GENERAL",
+      "section": "🧑‍🏫 教練資訊與教學語言",
+      "canonical_question": "教練會講哪些語言？",
+      "utterance_patterns": [
+        "教練會講哪些語言",
+        "教練會講哪些語言？"
+      ],
+      "required_slots": [],
+      "policy_flags": [
+        "NO_MANUAL_MATCH"
+      ],
+      "answer_template": {
+        "text": "* 中文：所有教練皆為台灣人，中文流利  \n* 英文：皆具備基本英文教學能力，部分可全英文或廣東話授課  \n* 泰文：目前無提供",
+        "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
+        "links_inline": false
+      },
+      "links": [
+        "{{LINK_SCHEDULE}}"
+      ],
+      "crm_tags": [
+        "#一般查詢"
+      ]
+    },
+    {
+      "id": "faq.general.025",
+      "intent": "GENERAL",
+      "section": "🧑‍🏫 教練資訊與教學語言",
+      "canonical_question": "教練是否適合我這個程度？",
+      "utterance_patterns": [
+        "教練是否適合我這個程度",
+        "教練是否適合我這個程度？"
+      ],
+      "required_slots": [],
+      "policy_flags": [
+        "NO_MANUAL_MATCH"
+      ],
+      "answer_template": {
+        "text": "教練皆具備處理各種程度學員的能力，會根據您的程度調整內容與場地。教學理念與履歷可參考教練介紹頁面。",
+        "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
+        "links_inline": false
+      },
+      "links": [
+        "{{LINK_SCHEDULE}}"
+      ],
+      "crm_tags": [
+        "#一般查詢"
+      ]
+    },
+    {
+      "id": "faq.general.026",
+      "intent": "GENERAL",
+      "section": "🧑‍🏫 教練資訊與教學語言",
+      "canonical_question": "可以指定教練嗎？",
+      "utterance_patterns": [
+        "可以指定教練嗎",
+        "能不能指定教練嗎",
+        "可不可以指定教練",
+        "能否指定教練",
+        "能不能指定教練",
+        "可以指定教練",
+        "可以指定教練嗎？",
+        "能否指定教練？",
+        "能不能指定教練？",
+        "可不可以指定教練？",
+        "可以指定教練？"
+      ],
+      "required_slots": [],
+      "policy_flags": [
+        "NO_MANUAL_MATCH"
+      ],
+      "answer_template": {
+        "text": "可以。預約時可選擇指定教練，建議提早預約熱門時段。若無特定偏好，可選擇系統安排合適教練。",
+        "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
+        "links_inline": false
+      },
+      "links": [
+        "{{LINK_SCHEDULE}}"
+      ],
+      "crm_tags": [
+        "#一般查詢",
+        "#指定教練"
+      ]
+    },
+    {
+      "id": "faq.general.027",
+      "intent": "GENERAL",
+      "section": "🧑‍🏫 教練資訊與教學語言",
+      "canonical_question": "可以事先聯繫教練嗎？",
+      "utterance_patterns": [
+        "可以事先聯繫教練嗎",
+        "能不能事先聯繫教練嗎",
+        "能不能事先聯繫教練",
+        "能否事先聯繫教練",
+        "可不可以事先聯繫教練",
+        "可以事先聯繫教練",
+        "可以事先聯繫教練？",
+        "能否事先聯繫教練？",
+        "可以事先聯繫教練嗎？",
+        "可不可以事先聯繫教練？",
+        "能不能事先聯繫教練？"
+      ],
+      "required_slots": [],
+      "policy_flags": [
+        "NO_MANUAL_MATCH"
+      ],
+      "answer_template": {
+        "text": "教練通常會於課程前七天主動聯繫您。如您希望更早聯絡，也可在預約時備註需求，我們將協助安排。",
+        "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
+        "links_inline": false
+      },
+      "links": [
+        "{{LINK_SCHEDULE}}"
+      ],
+      "crm_tags": [
+        "#一般查詢"
+      ]
+    },
+    {
+      "id": "faq.general.028",
+      "intent": "GENERAL",
+      "section": "🧑‍🏫 教練資訊與教學語言",
+      "canonical_question": "開課申請後如何與教練聯繫？",
+      "utterance_patterns": [
+        "開課申請後如何與教練聯繫",
+        "開課申請後如何與教練聯繫？"
+      ],
+      "required_slots": [],
+      "policy_flags": [
+        "NO_MANUAL_MATCH"
+      ],
+      "answer_template": {
+        "text": "預約成功後系統會寄出通知信，教練會依照訂單上的主要聯絡資訊與您聯繫，並於上課前確認集合地點與時間，請確保您的 Email 正確且能聯絡到您。",
+        "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
+        "links_inline": false
+      },
+      "links": [
+        "{{LINK_SCHEDULE}}"
+      ],
+      "crm_tags": [
+        "#一般查詢"
+      ]
+    },
+    {
+      "id": "faq.general.029",
+      "intent": "GENERAL",
+      "section": "🧑‍🏫 教練資訊與教學語言",
+      "canonical_question": "有教練的教學風格或評價可以參考嗎？",
+      "utterance_patterns": [
+        "有教練的教學風格或評價可以參考嗎",
+        "有教練的教學風格或評價能不能參考嗎",
+        "有教練的教學風格或評價能否參考",
+        "有教練的教學風格或評價能不能參考",
+        "有教練的教學風格或評價可不可以參考",
+        "有教練的教學風格或評價可以參考",
+        "有教練的教學風格或評價可不可以參考？",
+        "有教練的教學風格或評價能否參考？",
+        "有教練的教學風格或評價能不能參考？",
+        "有教練的教學風格或評價可以參考嗎？",
+        "有教練的教學風格或評價可以參考？"
+      ],
+      "required_slots": [],
+      "policy_flags": [
+        "NO_MANUAL_MATCH"
+      ],
+      "answer_template": {
+        "text": "可參考：\n\n教練個人介紹頁面：含證照、理念、風格、照片與影片\n\nFacebook社團：可加入「Skidiy日本自助滑雪討論區」，查看學員分享的心得與教練評價\n\n教學紀錄：部分教練會附上教學影片連結",
+        "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
+        "links_inline": false
+      },
+      "links": [
+        "{{LINK_SCHEDULE}}"
+      ],
+      "crm_tags": [
+        "#一般查詢"
+      ]
+    },
+    {
+      "id": "faq.general.030",
+      "intent": "GENERAL",
+      "section": "📅 一般課程預約與安排",
+      "canonical_question": "預約成功後，我可以更改上課的項目嗎（例如雙板 Ski 改成單板 Snowboard）？",
+      "utterance_patterns": [
+        "預約成功後，我可以更改上課的項目嗎（例如雙板 Ski 改成單板 Snowboard）",
+        "預約成功後，我能不能更改上課的項目嗎（例如雙板 Ski 改成單板 Snowboard）",
+        "預約成功後，我可不可以更改上課的項目（例如雙板 Ski 改成單板 Snowboard）",
+        "預約成功後，我能否更改上課的項目（例如雙板 Ski 改成單板 Snowboard）",
+        "預約成功後，我可以更改上課的項目（例如雙板 Ski 改成單板 Snowboard）",
+        "預約成功後，我能不能更改上課的項目（例如雙板 Ski 改成單板 Snowboard）",
+        "預約成功後，我能否更改上課的項目（例如雙板 Ski 改成單板 Snowboard）？",
+        "預約成功後，我能不能更改上課的項目（例如雙板 Ski 改成單板 Snowboard）？",
+        "預約成功後，我可以更改上課的項目（例如雙板 Ski 改成單板 Snowboard）？",
+        "預約成功後，我可不可以更改上課的項目（例如雙板 Ski 改成單板 Snowboard）？",
+        "預約成功後，我可以更改上課的項目嗎（例如雙板 Ski 改成單板 Snowboard）？"
+      ],
+      "required_slots": [],
+      "policy_flags": [
+        "NO_MANUAL_MATCH"
+      ],
+      "answer_template": {
+        "text": "可以的。若您想更換課程項目，請盡早透過 Email 或官方聯繫方式通知我們客服人員，並提供您的訂單編號。我們將為您查詢原教練是否同時具備您想更換的項目之教學資格。若原教練無法配合，我們將會為您協調其他教練，或提供其他可行的方案。",
+        "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
+        "links_inline": false
+      },
+      "links": [
+        "{{LINK_SCHEDULE}}"
+      ],
+      "crm_tags": [
+        "#一般查詢"
+      ]
+    },
+    {
+      "id": "faq.general.031",
+      "intent": "GENERAL",
+      "section": "📅 一般課程預約與安排",
+      "canonical_question": "預約成功後，我可以更改上課的日期或時間嗎？",
+      "utterance_patterns": [
+        "預約成功後，我可以更改上課的日期或時間嗎",
+        "預約成功後，我能不能更改上課的日期或時間嗎",
+        "預約成功後，我能不能更改上課的日期或時間",
+        "預約成功後，我能否更改上課的日期或時間",
+        "預約成功後，我可不可以更改上課的日期或時間",
+        "預約成功後，我可以更改上課的日期或時間",
+        "預約成功後，我可不可以更改上課的日期或時間？",
+        "預約成功後，我可以更改上課的日期或時間嗎？",
+        "預約成功後，我能不能更改上課的日期或時間？",
+        "預約成功後，我能否更改上課的日期或時間？",
+        "預約成功後，我可以更改上課的日期或時間？"
+      ],
+      "required_slots": [],
+      "policy_flags": [
+        "NO_MANUAL_MATCH"
+      ],
+      "answer_template": {
+        "text": "若要更改已確認的課程日期或時間，請您盡快與我們的客服聯繫。我們將會為您詢問原教練在新的時段是否仍有空檔。如果教練可以配合，我們將為您修改訂單。如果教練無法配合，我們會嘗試為您協調其他教練，或者您也可以選擇依照我們的取消政策來處理原訂單。",
+        "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
+        "links_inline": false
+      },
+      "links": [
+        "{{LINK_SCHEDULE}}"
+      ],
+      "crm_tags": [
+        "#一般查詢"
+      ]
+    },
+    {
+      "id": "faq.general.032",
+      "intent": "GENERAL",
+      "section": "📅 一般課程預約與安排",
+      "canonical_question": "我想更改預約的課程堂數或人數，該如何操作？",
+      "utterance_patterns": [
+        "我想更改預約的課程堂數或人數，該如何操作",
+        "我想更改預約的課程堂數或人數，該如何操作？"
+      ],
+      "required_slots": [],
+      "policy_flags": [
+        "NO_MANUAL_MATCH"
+      ],
+      "answer_template": {
+        "text": "依情況而定。若您想增加或減少人數，請直接在後台訂單選擇，系統將自動重新計算費用。若您想「增加」堂數但要合併在同一個訂單，最快的方式是請您「自行取消原訂單，然後重新預約一個正確內容的新訂單」。因為這涉及到費用重新計算與金流，取消重訂能確保您的費用正確無誤。只要符合我們的退訂政策，取消是不會收取額外費用的。若要「減少」堂數請直接連繫客服處理。\n\n參考連結：https://booking.diy.ski/order/list",
+        "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
+        "links_inline": false
+      },
+      "links": [
+        "{{LINK_SCHEDULE}}"
+      ],
+      "crm_tags": [
+        "#一般查詢",
+        "#改人數"
+      ]
+    },
+    {
+      "id": "faq.general.033",
+      "intent": "GENERAL",
+      "section": "📅 一般課程預約與安排",
+      "canonical_question": "預定課程後可以臨時加減人數嗎？",
+      "utterance_patterns": [
+        "預定課程後可以臨時加減人數嗎",
+        "預定課程後能不能臨時加減人數嗎",
+        "預定課程後能否臨時加減人數",
+        "預定課程後可以臨時加減人數",
+        "預定課程後能不能臨時加減人數",
+        "預定課程後可不可以臨時加減人數",
+        "預定課程後能否臨時加減人數？",
+        "預定課程後可以臨時加減人數？",
+        "預定課程後能不能臨時加減人數？",
+        "預定課程後可不可以臨時加減人數？",
+        "預定課程後可以臨時加減人數嗎？"
+      ],
+      "required_slots": [],
+      "policy_flags": [
+        "NO_INSURANCE_BREAKDOWN",
+        "NO_MANUAL_MATCH"
+      ],
+      "answer_template": {
+        "text": "可以。預約成功後訂單可以修改。建議先預約原始人數，方便保險填寫名單（四天滑雪保險）。在開課前增加學員，請務必在課程開始前補齊新學員的保險資料，以確保課程當日保險生效。",
+        "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
+        "links_inline": false
+      },
+      "links": [
+        "{{LINK_SCHEDULE}}"
+      ],
+      "crm_tags": [
+        "#一般查詢",
+        "#改人數"
+      ]
+    },
+    {
+      "id": "faq.general.034",
+      "intent": "GENERAL",
+      "section": "📅 一般課程預約與安排",
+      "canonical_question": "最晚什麼時候可以修改人數？",
+      "utterance_patterns": [
+        "最晚什麼時候可以修改人數",
+        "最晚什麼時候能不能修改人數",
+        "最晚什麼時候能否修改人數",
+        "最晚什麼時候可不可以修改人數",
+        "最晚什麼時候可不可以修改人數？",
+        "最晚什麼時候可以修改人數？",
+        "最晚什麼時候能不能修改人數？",
+        "最晚什麼時候能否修改人數？"
+      ],
+      "required_slots": [],
+      "policy_flags": [
+        "NO_MANUAL_MATCH"
+      ],
+      "answer_template": {
+        "text": "是的。前一天可修改人數；若為當天更改，須透過後台手動處理，請提前告知教練。",
+        "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
+        "links_inline": false
+      },
+      "links": [
+        "{{LINK_SCHEDULE}}"
+      ],
+      "crm_tags": [
+        "#一般查詢",
+        "#改人數"
+      ]
+    },
+    {
+      "id": "faq.general.035",
+      "intent": "GENERAL",
+      "section": "📅 一般課程預約與安排",
+      "canonical_question": "預約成功後就代表成立嗎？",
+      "utterance_patterns": [
+        "預約成功後就代表成立嗎",
+        "預約成功後就代表成立",
+        "預約成功後就代表成立嗎？",
+        "預約成功後就代表成立？"
+      ],
+      "required_slots": [],
+      "policy_flags": [
+        "NO_MANUAL_MATCH"
+      ],
+      "answer_template": {
+        "text": "系統會寄發預約成功通知信。教練通常會在 3 天內確認，若由系統協調其他教練，可能需等候約兩週。",
+        "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
+        "links_inline": false
+      },
+      "links": [
+        "{{LINK_SCHEDULE}}"
+      ],
+      "crm_tags": [
+        "#一般查詢"
+      ]
+    },
+    {
+      "id": "faq.general.036",
+      "intent": "GENERAL",
+      "section": "📅 一般課程預約與安排",
+      "canonical_question": "到現場可以再加人嗎？",
+      "utterance_patterns": [
+        "到現場可以再加人嗎",
+        "到現場能不能再加人嗎",
+        "到現場能不能再加人",
+        "到現場能否再加人",
+        "到現場可以再加人",
+        "到現場可不可以再加人",
+        "到現場可以再加人？",
+        "到現場能否再加人？",
+        "到現場可以再加人嗎？",
+        "到現場能不能再加人？",
+        "到現場可不可以再加人？"
+      ],
+      "required_slots": [],
+      "policy_flags": [
+        "NO_INSURANCE_BREAKDOWN",
+        "NO_MANUAL_MATCH"
+      ],
+      "answer_template": {
+        "text": "可以。建議一開始就以預計人數預約，有利保險安排與費用試算。網站可試算不同人數的折扣優惠。",
+        "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
+        "links_inline": false
+      },
+      "links": [
+        "{{LINK_SCHEDULE}}"
+      ],
+      "crm_tags": [
+        "#一般查詢"
+      ]
+    },
+    {
+      "id": "faq.general.037",
+      "intent": "GENERAL",
+      "section": "📅 一般課程預約與安排",
+      "canonical_question": "課程中可以帶手機嗎？可請教練幫拍照嗎？",
+      "utterance_patterns": [
+        "課程中可以帶手機嗎可請教練幫拍照嗎",
+        "課程中能不能帶手機嗎可請教練幫拍照嗎",
+        "課程中可不可以帶手機可請教練幫拍照",
+        "課程中能否帶手機可請教練幫拍照",
+        "課程中可以帶手機可請教練幫拍照",
+        "課程中能不能帶手機可請教練幫拍照",
+        "課程中能否帶手機？可請教練幫拍照？",
+        "課程中可以帶手機嗎？可請教練幫拍照嗎？",
+        "課程中可不可以帶手機？可請教練幫拍照？",
+        "課程中可以帶手機？可請教練幫拍照？",
+        "課程中能不能帶手機？可請教練幫拍照？"
+      ],
+      "required_slots": [],
+      "policy_flags": [
+        "NO_MANUAL_MATCH"
+      ],
+      "answer_template": {
+        "text": "可以，教練可協助拍照或錄影。",
+        "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
+        "links_inline": false
+      },
+      "links": [
+        "{{LINK_SCHEDULE}}"
+      ],
+      "crm_tags": [
+        "#一般查詢"
+      ]
+    },
+    {
+      "id": "faq.general.038",
+      "intent": "GENERAL",
+      "section": "📅 一般課程預約與安排",
+      "canonical_question": "第一天課程會教上下纜車嗎？",
+      "utterance_patterns": [
+        "第一天課程會教上下纜車嗎",
+        "第一天課程會教上下纜車",
+        "第一天課程會教上下纜車？",
+        "第一天課程會教上下纜車嗎？"
+      ],
+      "required_slots": [],
+      "policy_flags": [
+        "NO_MANUAL_MATCH"
+      ],
+      "answer_template": {
+        "text": "依現場狀況與學習進度而定。如可行建議購買單次纜車票應對彈性需求。",
+        "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
+        "links_inline": false
+      },
+      "links": [
+        "{{LINK_SCHEDULE}}"
+      ],
+      "crm_tags": [
+        "#一般查詢"
+      ]
+    },
+    {
+      "id": "faq.general.039",
+      "intent": "GENERAL",
+      "section": "📅 一般課程預約與安排",
+      "canonical_question": "申請開課流程為何？",
+      "utterance_patterns": [
+        "申請開課流程為何",
+        "申請開課流程為何？"
+      ],
+      "required_slots": [],
+      "policy_flags": [
+        "NO_MANUAL_MATCH"
+      ],
+      "answer_template": {
+        "text": "教練不在滑雪場時需特別申請，通常需達 4–6 堂課，並支付訂金。教練有 2 天時間評估，若拒絕／逾時，我們會人工改派下一位合適教練，且每次改派都會重新起算 48 小時的回覆時間，最終無法配合將全額退費。若申請需要改派教練，請勿申請退費。",
+        "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
+        "links_inline": false
+      },
+      "links": [
+        "{{LINK_SCHEDULE}}"
+      ],
+      "crm_tags": [
+        "#一般查詢"
+      ]
+    },
+    {
+      "id": "faq.general.040",
+      "intent": "GENERAL",
+      "section": "💰 費用與支付方式",
+      "canonical_question": "課程費用包含哪些內容？是否含雪具租借與纜車票？",
+      "utterance_patterns": [
+        "課程費用包含哪些內容是否含雪具租借與纜車票",
+        "課程費用包含哪些內容？是否含雪具租借與纜車票？"
+      ],
+      "required_slots": [],
+      "policy_flags": [
+        "NO_INSURANCE_BREAKDOWN",
+        "NO_MANUAL_MATCH"
+      ],
+      "answer_template": {
+        "text": "課程費用包含教練教學與滑雪保險。纜車票（雪票）與裝備租借費用需自理。部分滑雪場提供學生優惠與早鳥票連結，建議提前查詢。部分雪場的雪鏡與手套需購買，無法租借。",
+        "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
+        "links_inline": false
+      },
+      "links": [
+        "{{LINK_SCHEDULE}}"
+      ],
+      "crm_tags": [
+        "#一般查詢"
+      ]
+    },
+    {
+      "id": "faq.general.041",
+      "intent": "GENERAL",
+      "section": "💰 費用與支付方式",
+      "canonical_question": "是否需先付全額？可以只付訂金嗎？",
+      "utterance_patterns": [
+        "是否需先付全額可以只付訂金嗎",
+        "是否需先付全額能不能只付訂金嗎",
+        "是否需先付全額可以只付訂金",
+        "是否需先付全額能不能只付訂金",
+        "是否需先付全額能否只付訂金",
+        "是否需先付全額可不可以只付訂金",
+        "是否需先付全額？能不能只付訂金？",
+        "是否需先付全額？可不可以只付訂金？",
+        "是否需先付全額？可以只付訂金嗎？",
+        "是否需先付全額？可以只付訂金？",
+        "是否需先付全額？能否只付訂金？"
+      ],
+      "required_slots": [],
+      "policy_flags": [
+        "NO_MANUAL_MATCH"
+      ],
+      "answer_template": {
+        "text": "預約課程時僅需線上刷卡支付訂金，尾款可於上課當日以日幣現金支付給教練。",
+        "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
+        "links_inline": false
+      },
+      "links": [
+        "{{LINK_SCHEDULE}}"
+      ],
+      "crm_tags": [
+        "#一般查詢"
+      ]
+    },
+    {
+      "id": "faq.general.042",
+      "intent": "GENERAL",
+      "section": "💰 費用與支付方式",
+      "canonical_question": "臨時取消可以退款嗎？退改規則是什麼？",
+      "utterance_patterns": [
+        "臨時取消可以退款嗎退改規則是什麼",
+        "臨時取消能不能退款嗎退改規則是什麼",
+        "臨時取消能不能退款退改規則是什麼",
+        "臨時取消可以退款退改規則是什麼",
+        "臨時取消可不可以退款退改規則是什麼",
+        "臨時取消能否退款退改規則是什麼",
+        "臨時取消可不可以退款？退改規則是什麼？",
+        "臨時取消能否退款？退改規則是什麼？",
+        "臨時取消可以退款嗎？退改規則是什麼？",
+        "臨時取消能不能退款？退改規則是什麼？",
+        "臨時取消可以退款？退改規則是什麼？"
+      ],
+      "required_slots": [],
+      "policy_flags": [
+        "NO_MANUAL_MATCH"
+      ],
+      "answer_template": {
+        "text": "* 兩個月前取消：訂金全額退費  \n* 一個月前取消：退還 50% 訂金  \n* 一個月內取消：訂金不退   \n* 退款皆需扣除 3–3.5% 刷卡手續費。若因教練更換或疫情等特殊情況，可能提供延期或全額退費方案。",
+        "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
+        "links_inline": false
+      },
+      "links": [
+        "{{LINK_SCHEDULE}}"
+      ],
+      "crm_tags": [
+        "#一般查詢",
+        "#退費規則"
+      ]
+    },
+    {
+      "id": "faq.general.043",
+      "intent": "GENERAL",
+      "section": "💰 費用與支付方式",
+      "canonical_question": "付款是直接給教練還是透過平台？",
+      "utterance_patterns": [
+        "付款是直接給教練還是透過平台",
+        "付款是直接給教練還是透過平台？"
+      ],
+      "required_slots": [],
+      "policy_flags": [
+        "NO_MANUAL_MATCH"
+      ],
+      "answer_template": {
+        "text": "* 訂金：線上刷卡由平台收取  \n* 尾款：現場交由教練收取日幣現金",
+        "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
+        "links_inline": false
+      },
+      "links": [
+        "{{LINK_SCHEDULE}}"
+      ],
+      "crm_tags": [
+        "#一般查詢"
+      ]
+    },
+    {
+      "id": "faq.general.044",
+      "intent": "GENERAL",
+      "section": "💰 費用與支付方式",
+      "canonical_question": "關於教練指定費與證照等級加價",
+      "utterance_patterns": [
+        "關於教練指定費與證照等級加價"
+      ],
+      "required_slots": [],
+      "policy_flags": [
+        "NO_MANUAL_MATCH"
+      ],
+      "answer_template": {
+        "text": "部分教練因證照等級或規則有「指定費」；是否加價以系統顯示與教練介紹為準；若由系統自動指派，是否加收會在頁面或確認信載明。",
+        "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
+        "links_inline": false
+      },
+      "links": [
+        "{{LINK_SCHEDULE}}"
+      ],
+      "crm_tags": [
+        "#一般查詢",
+        "#指定教練"
+      ]
+    },
+    {
+      "id": "faq.general.045",
+      "intent": "GENERAL",
+      "section": "📱 平台操作與預約流程",
+      "canonical_question": "我在網站上想預約的時段，系統顯示沒有可預約的教練，該怎麼辦？",
+      "utterance_patterns": [
+        "我在網站上想預約的時段，系統顯示沒有可預約的教練，該怎麼辦",
+        "我在網站上想預約的時段，系統顯示沒有可預約的教練，該怎麼辦？"
+      ],
+      "required_slots": [],
+      "policy_flags": [
+        "NO_MANUAL_MATCH"
+      ],
+      "answer_template": {
+        "text": "我們的教練預約系統是即時更新的。如果您看到的時段顯示為灰色或無法點選，代表該時段的教練已經被預約滿了。特別是在旺季（如聖誕、新年、農曆春節）和熱門雪場，建議您提早 2-3 個月預約。您也可以嘗試搜尋鄰近的其他雪場，或調整您的旅遊日期，看看是否有可預約的時段。",
+        "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
+        "links_inline": false
+      },
+      "links": [
+        "{{LINK_SCHEDULE}}"
+      ],
+      "crm_tags": [
+        "#一般查詢"
+      ]
+    },
+    {
+      "id": "faq.general.046",
+      "intent": "GENERAL",
+      "section": "📱 平台操作與預約流程",
+      "canonical_question": "我點擊付款連結後不小心關掉了頁面，或連結已失效，該怎麼辦？",
+      "utterance_patterns": [
+        "我點擊付款連結後不小心關掉了頁面，或連結已失效，該怎麼辦",
+        "我點擊付款連結後不小心關掉了頁面，或連結已失效，該怎麼辦？"
+      ],
+      "required_slots": [],
+      "policy_flags": [
+        "NO_MANUAL_MATCH"
+      ],
+      "answer_template": {
+        "text": "我們的付款頁面設有保護機制，連結具有時效性。如果您未完成付款就離開頁面，該筆「未成立」的訂單將會在約20分鐘後自動取消，您原本選擇的時段也會被釋出。屆時，您只需要回到網站，重新進行一次您想要的預約即可。",
+        "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
+        "links_inline": false
+      },
+      "links": [
+        "{{LINK_SCHEDULE}}"
+      ],
+      "crm_tags": [
+        "#一般查詢"
+      ]
+    },
+    {
+      "id": "faq.general.047",
+      "intent": "GENERAL",
+      "section": "📱 平台操作與預約流程",
+      "canonical_question": "我註冊了帳號，但一直沒收到Email驗證信，該怎麼辦？",
+      "utterance_patterns": [
+        "我註冊了帳號，但一直沒收到Email驗證信，該怎麼辦",
+        "我註冊了帳號，但一直沒收到Email驗證信，該怎麼辦？"
+      ],
+      "required_slots": [],
+      "policy_flags": [
+        "NO_MANUAL_MATCH"
+      ],
+      "answer_template": {
+        "text": "如果您沒有收到驗證信，請先仔細檢查您的「垃圾郵件」信箱。若垃圾信箱也沒有，很可能是您先前已用同一個Email註冊過。請您嘗試使用「忘記密碼」功能來重設密碼並登入。若問題持續，請提供您註冊的Email，讓客服人員為您查詢處理。",
+        "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
+        "links_inline": false
+      },
+      "links": [
+        "{{LINK_SCHEDULE}}"
+      ],
+      "crm_tags": [
+        "#一般查詢"
+      ]
+    },
+    {
+      "id": "faq.general.048",
+      "intent": "GENERAL",
+      "section": "📱 平台操作與預約流程",
+      "canonical_question": "預約流程怎麼走？幾步驟完成？",
+      "utterance_patterns": [
+        "預約流程怎麼走幾步驟完成",
+        "預約流程怎麼走？幾步驟完成？"
+      ],
+      "required_slots": [],
+      "policy_flags": [
+        "NO_INSURANCE_BREAKDOWN",
+        "NO_MANUAL_MATCH"
+      ],
+      "answer_template": {
+        "text": "預約流程會根據教練是否開課有所不同。\n\n* 若有教練開課，您可在網站上直接預約並完成訂單。  \n* 若無教練開課，需申請開課並等待教練同意。  \n* 預約成功後會收到通知信，後續保險、上課提醒等資訊也會寄送給您。",
+        "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
+        "links_inline": false
+      },
+      "links": [
+        "{{LINK_SCHEDULE}}"
+      ],
+      "crm_tags": [
+        "#一般查詢"
+      ]
+    },
+    {
+      "id": "faq.general.049",
+      "intent": "GENERAL",
+      "section": "📱 平台操作與預約流程",
+      "canonical_question": "我要先註冊嗎？可以用 Line 或 Facebook 登入嗎？",
+      "utterance_patterns": [
+        "我要先註冊嗎可以用 Line 或 Facebook 登入嗎",
+        "我要先註冊嗎能不能用 Line 或 Facebook 登入嗎",
+        "我要先註冊可不可以用 Line 或 Facebook 登入",
+        "我要先註冊能否用 Line 或 Facebook 登入",
+        "我要先註冊可以用 Line 或 Facebook 登入",
+        "我要先註冊能不能用 Line 或 Facebook 登入",
+        "我要先註冊？可以用 Line 或 Facebook 登入？",
+        "我要先註冊嗎？可以用 Line 或 Facebook 登入嗎？",
+        "我要先註冊？可不可以用 Line 或 Facebook 登入？",
+        "我要先註冊？能不能用 Line 或 Facebook 登入？",
+        "我要先註冊？能否用 Line 或 Facebook 登入？"
+      ],
+      "required_slots": [],
+      "policy_flags": [
+        "NO_MANUAL_MATCH"
+      ],
+      "answer_template": {
+        "text": "是的，需要先註冊才能使用網站，目前僅提供電子郵件註冊與登入。 \n\n註冊網址：https://booking.diy.ski/schedule",
+        "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
+        "links_inline": false
+      },
+      "links": [
+        "{{LINK_SCHEDULE}}"
+      ],
+      "crm_tags": [
+        "#一般查詢"
+      ]
+    },
+    {
+      "id": "faq.general.050",
+      "intent": "GENERAL",
+      "section": "📱 平台操作與預約流程",
+      "canonical_question": "有哪些教練可以選？可以用什麼條件篩選？",
+      "utterance_patterns": [
+        "有哪些教練可以選可以用什麼條件篩選",
+        "有哪些教練能不能選能不能用什麼條件篩選",
+        "有哪些教練可不可以選可不可以用什麼條件篩選",
+        "有哪些教練能否選能否用什麼條件篩選",
+        "有哪些教練能不能選？能不能用什麼條件篩選？",
+        "有哪些教練可不可以選？可不可以用什麼條件篩選？",
+        "有哪些教練能否選？能否用什麼條件篩選？",
+        "有哪些教練可以選？可以用什麼條件篩選？"
+      ],
+      "required_slots": [],
+      "policy_flags": [
+        "NO_MANUAL_MATCH"
+      ],
+      "answer_template": {
+        "text": "可在網站查詢開課教練與費用：https://booking.diy.ski/schedule\n\n教練介紹頁面：https://diy.ski/instructorList.php\n\n篩選條件包括：\n\n* 雙板/單板  \n* 上課地點（如是否在神樂）  \n* 可預約時段（半日或全日）",
+        "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
+        "links_inline": false
+      },
+      "links": [
+        "{{LINK_SCHEDULE}}"
+      ],
+      "crm_tags": [
+        "#一般查詢"
+      ]
+    },
+    {
+      "id": "faq.general.051",
+      "intent": "GENERAL",
+      "section": "📱 平台操作與預約流程",
+      "canonical_question": "如果教練無法即時確認，預約會成立嗎？",
+      "utterance_patterns": [
+        "如果教練無法即時確認，預約會成立嗎",
+        "如果教練無法即時確認，預約會成立",
+        "如果教練無法即時確認，預約會成立嗎？",
+        "如果教練無法即時確認，預約會成立？"
+      ],
+      "required_slots": [],
+      "policy_flags": [
+        "NO_MANUAL_MATCH"
+      ],
+      "answer_template": {
+        "text": "* 若教練開課，預約可即時成立。  \n* 若需申請開課，教練會於 2 天內回覆是否接受。  \n* 若該教練無法配合，系統會詢問其他教練，若皆無法配合，將取消訂單並退費。  \n* 特定雪場如輕井澤需住宿王子飯店才能預約，若不符規定，預約可能取消。",
+        "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
+        "links_inline": false
+      },
+      "links": [
+        "{{LINK_SCHEDULE}}"
+      ],
+      "crm_tags": [
+        "#一般查詢"
+      ]
+    },
+    {
+      "id": "faq.general.052",
+      "intent": "GENERAL",
+      "section": "📱 平台操作與預約流程",
+      "canonical_question": "預約課程後我會收到什麼通知？Email 或簡訊嗎？",
+      "utterance_patterns": [
+        "預約課程後我會收到什麼通知Email 或簡訊嗎",
+        "預約課程後我會收到什麼通知Email 或簡訊",
+        "預約課程後我會收到什麼通知？Email 或簡訊嗎？",
+        "預約課程後我會收到什麼通知？Email 或簡訊？"
+      ],
+      "required_slots": [],
+      "policy_flags": [
+        "NO_INSURANCE_BREAKDOWN",
+        "NO_MANUAL_MATCH"
+      ],
+      "answer_template": {
+        "text": "* 預約成功通知信件  \n* 保險與上課提醒通知信  \n* 您也可隨時於網站查詢訂單：https://booking.diy.ski/order/list\n\nQ：上課前需要準備什麼？平台會提醒嗎？\n\nA：建議準備：\n\n* 雪具（雪板、雪鞋）可先行租借  \n* 安全帽與護具（防摔褲、膝、手腕護具）建議自備  \n* 雪衣褲、手套、雪鏡等基本裝備  \n* 雪票：部分雪場提供優惠購票連結  \n* 機票、住宿、交通等個人安排\n\n提醒方式：\n\n* 上課前 7 天教練會主動聯繫確認  \n* 系統會寄出提醒信與保險通知表單",
+        "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
+        "links_inline": false
+      },
+      "links": [
+        "{{LINK_SCHEDULE}}"
+      ],
+      "crm_tags": [
+        "#一般查詢"
+      ]
+    },
+    {
+      "id": "faq.general.053",
+      "intent": "GENERAL",
+      "section": "📱 平台操作與預約流程",
+      "canonical_question": "上課當天怎麼跟教練碰面？有定位或導航嗎？",
+      "utterance_patterns": [
+        "上課當天怎麼跟教練碰面有定位或導航嗎",
+        "上課當天怎麼跟教練碰面有定位或導航",
+        "上課當天怎麼跟教練碰面？有定位或導航？",
+        "上課當天怎麼跟教練碰面？有定位或導航嗎？"
+      ],
+      "required_slots": [],
+      "policy_flags": [
+        "NO_MANUAL_MATCH"
+      ],
+      "answer_template": {
+        "text": "* 教練會於上課前一週左右主動聯繫，告知集合地點與時間  \n* 集合地點資訊會公布於網站雪場說明中  \n* 若未收到聯繫，可主動聯絡客服或平台協助轉達  \n* 每個雪場集合地點略有不同，建議再次與教練確認",
+        "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
+        "links_inline": false
+      },
+      "links": [
+        "{{LINK_SCHEDULE}}"
+      ],
+      "crm_tags": [
+        "#一般查詢"
+      ]
+    },
+    {
+      "id": "faq.general.054",
+      "intent": "GENERAL",
+      "section": "🛟 安全與保險",
+      "canonical_question": "課程是否包含保險？保障範圍是什麼？",
+      "utterance_patterns": [
+        "課程是否包含保險保障範圍是什麼",
+        "課程是否包含保險？保障範圍是什麼？"
+      ],
+      "required_slots": [],
+      "policy_flags": [
+        "NO_INSURANCE_BREAKDOWN",
+        "NO_MANUAL_MATCH"
+      ],
+      "answer_template": {
+        "text": "SKIDIY 課程皆含富邦滑雪專案保險，有效期為課程首日起四天。保障如下：\n\n* 意外身故與殘廢：100 萬（15 歲以下不適用）  \n* 意外醫療實支實付：30 萬  \n* 15 歲以下：20 萬 \\+ 1 萬美元緊急救援",
+        "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
+        "links_inline": false
+      },
+      "links": [
+        "{{LINK_SCHEDULE}}"
+      ],
+      "crm_tags": [
+        "#一般查詢"
+      ]
+    },
+    {
+      "id": "faq.general.055",
+      "intent": "GENERAL",
+      "section": "🛟 安全與保險",
+      "canonical_question": "課程費用包含的保險是強制的嗎？如果我已經自己買了旅遊平安險，可以不要或退費嗎？",
+      "utterance_patterns": [
+        "課程費用包含的保險是強制的嗎如果我已經自己買了旅遊平安險，可以不要或退費嗎",
+        "課程費用包含的保險是強制的嗎如果我已經自己買了旅遊平安險，能不能不要或退費嗎",
+        "課程費用包含的保險是強制的如果我已經自己買了旅遊平安險，能否不要或退費",
+        "課程費用包含的保險是強制的如果我已經自己買了旅遊平安險，能不能不要或退費",
+        "課程費用包含的保險是強制的如果我已經自己買了旅遊平安險，可不可以不要或退費",
+        "課程費用包含的保險是強制的如果我已經自己買了旅遊平安險，可以不要或退費",
+        "課程費用包含的保險是強制的嗎？如果我已經自己買了旅遊平安險，可以不要或退費嗎？",
+        "課程費用包含的保險是強制的？如果我已經自己買了旅遊平安險，可不可以不要或退費？",
+        "課程費用包含的保險是強制的？如果我已經自己買了旅遊平安險，可以不要或退費？",
+        "課程費用包含的保險是強制的？如果我已經自己買了旅遊平安險，能否不要或退費？",
+        "課程費用包含的保險是強制的？如果我已經自己買了旅遊平安險，能不能不要或退費？"
+      ],
+      "required_slots": [],
+      "policy_flags": [
+        "NO_INSURANCE_BREAKDOWN",
+        "NO_MANUAL_MATCH"
+      ],
+      "answer_template": {
+        "text": "是的，課程費用內含的富邦滑雪專案保險是我們為保障所有學員而提供的，屬於課程的一部分，無法單獨取消或退費。此保險主要針對「滑雪活動中發生的意外傷害」進行理賠。請特別注意，若您已自行投保富邦產險的旅遊平安險，可能會因保險公司的「重複投保」規定而無法承保我們的專案，但課程費用與內容不變。",
+        "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
+        "links_inline": false
+      },
+      "links": [
+        "{{LINK_SCHEDULE}}"
+      ],
+      "crm_tags": [
+        "#一般查詢",
+        "#退費規則"
+      ]
+    },
+    {
+      "id": "faq.general.056",
+      "intent": "GENERAL",
+      "section": "🛟 安全與保險",
+      "canonical_question": "如何確認保險是否完成？會收到保單嗎？",
+      "utterance_patterns": [
+        "如何確認保險是否完成會收到保單嗎",
+        "如何確認保險是否完成會收到保單",
+        "如何確認保險是否完成？會收到保單嗎？",
+        "如何確認保險是否完成？會收到保單？"
+      ],
+      "required_slots": [],
+      "policy_flags": [
+        "NO_INSURANCE_BREAKDOWN",
+        "NO_MANUAL_MATCH"
+      ],
+      "answer_template": {
+        "text": "保險投保作業會於上課前約一週完成，不會個別寄發保單，您可登入官網「帳號 → 訂單資訊」填寫，或使用我們提供的專用表單連結完成。可於「訂單資訊」中查詢所有學員的保險填寫狀態。",
+        "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
+        "links_inline": false
+      },
+      "links": [
+        "{{LINK_SCHEDULE}}"
+      ],
+      "crm_tags": [
+        "#一般查詢"
+      ]
+    },
+    {
+      "id": "faq.general.057",
+      "intent": "GENERAL",
+      "section": "🛟 安全與保險",
+      "canonical_question": "滑雪受傷怎麼處理？可以理賠嗎？",
+      "utterance_patterns": [
+        "滑雪受傷怎麼處理可以理賠嗎",
+        "滑雪受傷怎麼處理能不能理賠嗎",
+        "滑雪受傷怎麼處理能不能理賠",
+        "滑雪受傷怎麼處理可以理賠",
+        "滑雪受傷怎麼處理能否理賠",
+        "滑雪受傷怎麼處理可不可以理賠",
+        "滑雪受傷怎麼處理？能不能理賠？",
+        "滑雪受傷怎麼處理？可以理賠嗎？",
+        "滑雪受傷怎麼處理？可以理賠？",
+        "滑雪受傷怎麼處理？能否理賠？",
+        "滑雪受傷怎麼處理？可不可以理賠？"
+      ],
+      "required_slots": [],
+      "policy_flags": [
+        "NO_INSURANCE_BREAKDOWN",
+        "NO_MANUAL_MATCH"
+      ],
+      "answer_template": {
+        "text": "平台會提供協助，並指引聯繫保險窗口。 您需準備以下理賠文件：\n\n* 海外診斷書、醫療收據、出院摘要（住院者）  \n* 護照出入境證明、健保核退文件",
+        "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
+        "links_inline": false
+      },
+      "links": [
+        "{{LINK_SCHEDULE}}"
+      ],
+      "crm_tags": [
+        "#一般查詢"
+      ]
+    },
+    {
+      "id": "faq.general.058",
+      "intent": "GENERAL",
+      "section": "🛟 安全與保險",
+      "canonical_question": "受傷後不能上課可以退費嗎？",
+      "utterance_patterns": [
+        "受傷後不能上課可以退費嗎",
+        "受傷後不能上課能不能退費嗎",
+        "受傷後不能上課可不可以退費",
+        "受傷後不能上課能不能退費",
+        "受傷後不能上課能否退費",
+        "受傷後不能上課可以退費",
+        "受傷後不能上課能否退費？",
+        "受傷後不能上課可以退費嗎？",
+        "受傷後不能上課能不能退費？",
+        "受傷後不能上課可不可以退費？",
+        "受傷後不能上課可以退費？"
+      ],
+      "required_slots": [],
+      "policy_flags": [
+        "NO_INSURANCE_BREAKDOWN",
+        "NO_MANUAL_MATCH"
+      ],
+      "answer_template": {
+        "text": "可以。請提供診斷證明，我們會協助退課。退費金額會扣除保險費與刷卡手續費後退款。",
+        "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
+        "links_inline": false
+      },
+      "links": [
+        "{{LINK_SCHEDULE}}"
+      ],
+      "crm_tags": [
+        "#一般查詢",
+        "#退費規則"
+      ]
+    },
+    {
+      "id": "faq.general.059",
+      "intent": "GENERAL",
+      "section": "🛟 安全與保險",
+      "canonical_question": "小朋友也有保險嗎？有什麼不同？",
+      "utterance_patterns": [
+        "小朋友也有保險嗎有什麼不同",
+        "小朋友也有保險有什麼不同",
+        "小朋友也有保險？有什麼不同？",
+        "小朋友也有保險嗎？有什麼不同？"
+      ],
+      "required_slots": [],
+      "policy_flags": [
+        "NO_INSURANCE_BREAKDOWN",
+        "NO_MANUAL_MATCH"
+      ],
+      "answer_template": {
+        "text": "有，未滿15歲不適用身故項目，其他給付另有規定（如上所述）。",
+        "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
+        "links_inline": false
+      },
+      "links": [
+        "{{LINK_SCHEDULE}}"
+      ],
+      "crm_tags": [
+        "#一般查詢",
+        "#親子同堂詢問"
+      ]
+    },
+    {
+      "id": "faq.general.060",
+      "intent": "GENERAL",
+      "section": "🛟 安全與保險",
+      "canonical_question": "如果在海外就醫，理賠流程是什麼？",
+      "utterance_patterns": [
+        "如果在海外就醫，理賠流程是什麼",
+        "如果在海外就醫，理賠流程是什麼？"
+      ],
+      "required_slots": [],
+      "policy_flags": [
+        "NO_MANUAL_MATCH"
+      ],
+      "answer_template": {
+        "text": "請保留：\n\n* 原文收據正本  \n* 診斷書與出院摘要影本  \n* 健保核退資料  \n* 回台補件文件（健保局關防、診斷書副本、理賠申請書、存摺影本）",
+        "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
+        "links_inline": false
+      },
+      "links": [
+        "{{LINK_SCHEDULE}}"
+      ],
+      "crm_tags": [
+        "#一般查詢"
+      ]
+    },
+    {
+      "id": "faq.gear.061",
+      "intent": "GEAR",
+      "section": "🎒 裝備準備與租借流程",
+      "canonical_question": "上課當天，我應該先租好裝備、買好雪票再去找教練集合嗎？",
+      "utterance_patterns": [
+        "上課當天，我應該先租好裝備、買好雪票再去找教練集合嗎",
+        "要先租裝備嗎",
+        "雪票要先買嗎",
+        "現場租得到裝備嗎",
+        "裝備租借流程",
+        "集合前要做什麼準備",
+        "幾點到現場比較好",
+        "上課當天，我應該先租好裝備、買好雪票再去找教練集合",
+        "要先租裝備",
+        "雪票要先買",
+        "現場租得到裝備",
+        "上課當天，我應該先租好裝備、買好雪票再去找教練集合嗎？",
+        "上課當天，我應該先租好裝備、買好雪票再去找教練集合？"
+      ],
+      "required_slots": [],
+      "policy_flags": [
+        "NO_MANUAL_MATCH"
+      ],
+      "answer_template": {
+        "text": "是的，我們強烈建議您「提早至少1小時」抵達雪場，並在與教練約定的集合時間前，完成「租借雪具」和「購買雪票」這兩件事。因為租借裝備需要時間試穿，旺季時也可能需要排隊。將這些都準備好，才能準時開始上課，確保您的上課時間不被壓縮。如果您不確定要買哪種雪票，可以等見到教練後，聽從他的建議再迅速購買。\n\nQ：沒有裝備可以參加嗎？租借流程怎麼辦？\n\nA：可以參加，但需自行安排裝備租借，課程不含裝備：\n\n* 自行租借：建議提早至雪場附近租借店處理  \n* 教練建議：可先詢問教練推薦的租借店家與流程  \n* 可租借：雪板、雪鞋、頭盔  \n* 建議自備：雪鏡、手套、防摔褲、護膝等（多數店家不提供）  \n* 教學資訊：網站整理部分租借教學與地點可供參考",
+        "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
+        "links_inline": false
+      },
+      "links": [
+        "{{LINK_SCHEDULE}}",
+        "{{LINK_ARTICLES}}"
+      ],
+      "crm_tags": [
+        "#裝備租借"
+      ]
+    },
+    {
+      "id": "faq.gear.062",
+      "intent": "GEAR",
+      "section": "🎒 裝備準備與租借流程",
+      "canonical_question": "滑雪裝備有哪些是必備的？可以提供清單嗎？",
+      "utterance_patterns": [
+        "滑雪裝備有哪些是必備的可以提供清單嗎",
+        "滑雪裝備有哪些是必備的能不能提供清單嗎",
+        "要帶什麼裝備",
+        "裝備清單",
+        "需要準備哪些東西",
+        "護具有哪些",
+        "初學者裝備建議",
+        "滑雪裝備有哪些是必備的可不可以提供清單",
+        "滑雪裝備有哪些是必備的能否提供清單",
+        "滑雪裝備有哪些是必備的可以提供清單",
+        "滑雪裝備有哪些是必備的能不能提供清單",
+        "滑雪裝備有哪些是必備的？能否提供清單？",
+        "滑雪裝備有哪些是必備的？能不能提供清單？",
+        "滑雪裝備有哪些是必備的？可以提供清單嗎？",
+        "滑雪裝備有哪些是必備的？可不可以提供清單？",
+        "滑雪裝備有哪些是必備的？可以提供清單？"
+      ],
+      "required_slots": [],
+      "policy_flags": [
+        "NO_MANUAL_MATCH"
+      ],
+      "answer_template": {
+        "text": "* 可租借：雪板、雪鞋、頭盔  \n* 建議自備：雪鏡、手套、雪衣褲、防摔褲、護膝  \n* 其他準備提醒：機票、護照、交通、雪票與住宿等請提前安排好",
+        "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
+        "links_inline": false
+      },
+      "links": [
+        "{{LINK_SCHEDULE}}",
+        "{{LINK_ARTICLES}}"
+      ],
+      "crm_tags": [
+        "#裝備租借"
+      ]
+    },
+    {
+      "id": "faq.refund_policy.063",
+      "intent": "REFUND_POLICY",
+      "section": "退費機制規定",
+      "canonical_question": "「如付了訂金後上課當天氣候不佳會如何處理？」",
+      "utterance_patterns": [
+        "「如付了訂金後上課當天氣候不佳會如何處理」",
+        "天氣不好可以退嗎",
+        "下雨會上課嗎",
+        "雪場關閉會怎麼處理",
+        "纜車停駛怎麼辦",
+        "不可抗力怎麼計費",
+        "氣候不佳退費",
+        "天候不佳可以延期嗎",
+        "天氣不好可不可以退",
+        "天氣不好可以退",
+        "天氣不好能否退",
+        "天氣不好能不能退",
+        "下雨會上課",
+        "天候不佳能否延期",
+        "天候不佳能不能延期",
+        "天候不佳可以延期",
+        "天候不佳可不可以延期",
+        "「如付了訂金後上課當天氣候不佳會如何處理？」"
+      ],
+      "required_slots": [],
+      "policy_flags": [
+        "NO_MANUAL_MATCH",
+        "NO_QUOTE"
+      ],
+      "answer_template": {
+        "text": "以「雪場是否營運」為判斷：若雪場關閉則退費；只要纜車有營運，下雪／下雨／變冷皆屬正常上課。",
+        "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
+        "links_inline": false
+      },
+      "links": [
+        "{{LINK_SCHEDULE}}"
+      ],
+      "crm_tags": [
+        "#退費規則"
+      ]
+    },
+    {
+      "id": "faq.booking.064",
+      "intent": "BOOKING",
+      "section": "📅 預約異動與取消",
+      "canonical_question": "預約成功後，可以更改日期或時間嗎（改期）？",
+      "utterance_patterns": [
+        "可以改期嗎",
+        "更改上課日期",
+        "更改上課時間",
+        "變更預約時間",
+        "改一下時間",
+        "移動到別天",
+        "改預約日期",
+        "可不可以改期",
+        "可以改期",
+        "能否改期",
+        "能不能改期",
+        "預約成功後，能不能更改日期或時間（改期）？",
+        "預約成功後，可以更改日期或時間（改期）？",
+        "預約成功後，可不可以更改日期或時間（改期）？",
+        "預約成功後，能否更改日期或時間（改期）？",
+        "預約成功後，可以更改日期或時間嗎（改期）？"
+      ],
+      "required_slots": [],
+      "policy_flags": [
+        "NO_MANUAL_MATCH"
+      ],
+      "answer_template": {
+        "text": "若需更改已確認的日期或時間，請盡快與客服聯繫並提供訂單編號。我們會協調原教練可行時段；若無法配合，將提供其他可行安排或依規定處理。",
+        "postscript": "更多資訊以預約系統與訂單頁為準。",
+        "links_inline": false
+      },
+      "links": [
+        "{{LINK_ORDER_LIST}}",
+        "{{LINK_SCHEDULE}}"
+      ],
+      "crm_tags": [
+        "#改期",
+        "#預約變更"
+      ]
+    },
+    {
+      "id": "faq.booking.065",
+      "intent": "BOOKING",
+      "section": "📅 預約異動與取消",
+      "canonical_question": "可以更改人數嗎（加人/減人/改人數）？",
+      "utterance_patterns": [
+        "可以改人數嗎",
+        "更改人數",
+        "加一位",
+        "少一位",
+        "加人",
+        "減人",
+        "換人",
+        "人數變動",
+        "能否改人數",
+        "能不能改人數",
+        "可不可以改人數",
+        "可以改人數",
+        "能不能更改人數（加人/減人/改人數）？",
+        "能否更改人數（加人/減人/改人數）？",
+        "可以更改人數（加人/減人/改人數）？",
+        "可以更改人數嗎（加人/減人/改人數）？",
+        "可不可以更改人數（加人/減人/改人數）？"
+      ],
+      "required_slots": [],
+      "policy_flags": [
+        "NO_MANUAL_MATCH"
+      ],
+      "answer_template": {
+        "text": "可提出人數異動申請，我們將視教練負荷與安全評估調整安排。請於訂單頁或來信客服說明欲異動的人數與成員。",
+        "postscript": "實際是否可異動以當下教練負荷與政策為準。",
+        "links_inline": false
+      },
+      "links": [
+        "{{LINK_ORDER_LIST}}"
+      ],
+      "crm_tags": [
+        "#改人數",
+        "#預約變更"
+      ]
+    },
+    {
+      "id": "faq.booking.066",
+      "intent": "BOOKING",
+      "section": "📅 預約異動與取消",
+      "canonical_question": "可以取消預約嗎？是否有退費規定？",
+      "utterance_patterns": [
+        "可以取消預約嗎",
+        "如何取消",
+        "我要取消",
+        "我想取消",
+        "可以幫我取消嗎",
+        "取消上課",
+        "取消課程",
+        "取消2/23的課",
+        "退訂",
+        "退單",
+        "取消預約流程",
+        "可以取消預約",
+        "能不能取消預約",
+        "能否取消預約",
+        "可不可以取消預約",
+        "能否幫我取消",
+        "可不可以幫我取消",
+        "能不能幫我取消",
+        "可以幫我取消",
+        "可以取消預約嗎？是否有退費規定？",
+        "能不能取消預約？是否有退費規定？",
+        "可以取消預約？是否有退費規定？",
+        "可不可以取消預約？是否有退費規定？",
+        "能否取消預約？是否有退費規定？"
+      ],
+      "required_slots": [],
+      "policy_flags": [
+        "NO_MANUAL_MATCH",
+        "NO_QUOTE"
+      ],
+      "answer_template": {
+        "text": "可取消預約，依取消時間點與政策計價。請先至訂單頁查看狀態與可用操作；若需協助再來信客服。",
+        "postscript": "詳細退費機制請參考退費規定頁。",
+        "links_inline": false
+      },
+      "links": [
+        "{{LINK_ORDER_LIST}}",
+        "{{LINK_SCHEDULE}}"
+      ],
+      "crm_tags": [
+        "#退費規則"
+      ]
+    },
+    {
+      "id": "faq.instructor.067",
+      "intent": "INSTRUCTOR",
+      "section": "🧑‍🏫 教練資訊與聯繫",
+      "canonical_question": "可以指定或推薦教練嗎？怎麼挑選合適的教練？",
+      "utterance_patterns": [
+        "可以指定教練嗎",
+        "可以推薦教練嗎",
+        "推薦哪位教練",
+        "如何挑選教練",
+        "想要指定教練",
+        "教練評價",
+        "教練風格",
+        "想知道教練資訊",
+        "可不可以指定教練",
+        "能否指定教練",
+        "能不能指定教練",
+        "可以指定教練",
+        "可以推薦教練",
+        "能不能推薦教練",
+        "可不可以推薦教練",
+        "能否推薦教練",
+        "能不能指定或推薦教練？怎麼挑選合適的教練？",
+        "可以指定或推薦教練？怎麼挑選合適的教練？",
+        "可以指定或推薦教練嗎？怎麼挑選合適的教練？",
+        "能否指定或推薦教練？怎麼挑選合適的教練？",
+        "可不可以指定或推薦教練？怎麼挑選合適的教練？"
+      ],
+      "required_slots": [],
+      "policy_flags": [
+        "NO_MANUAL_MATCH"
+      ],
+      "answer_template": {
+        "text": "可以於預約系統指定教練，或依滑雪程度與偏好挑選。建議先瀏覽教練列表與介紹頁，包含證照、風格與可授課時段。",
+        "postscript": "熱門教練建議提早預約。",
+        "links_inline": false
+      },
+      "links": [
+        "{{LINK_INSTRUCTORS}}",
+        "{{LINK_SCHEDULE}}"
+      ],
+      "crm_tags": [
+        "#指定教練",
+        "#教練資訊"
+      ]
+    },
+    {
+      "id": "faq.instructor.068",
+      "intent": "INSTRUCTOR",
+      "section": "🧑‍🏫 教練資訊與聯繫",
+      "canonical_question": "可以事先聯繫教練嗎？如何與教練溝通？",
+      "utterance_patterns": [
+        "可以事先聯繫教練嗎",
+        "如何與教練聯繫",
+        "想先跟教練聯絡",
+        "可以直接聯絡教練嗎",
+        "能不能事先聯繫教練",
+        "能否事先聯繫教練",
+        "可不可以事先聯繫教練",
+        "可以事先聯繫教練",
+        "能不能直接聯絡教練",
+        "可不可以直接聯絡教練",
+        "可以直接聯絡教練",
+        "能否直接聯絡教練",
+        "能不能事先聯繫教練？如何與教練溝通？",
+        "可不可以事先聯繫教練？如何與教練溝通？",
+        "能否事先聯繫教練？如何與教練溝通？",
+        "可以事先聯繫教練？如何與教練溝通？",
+        "可以事先聯繫教練嗎？如何與教練溝通？"
+      ],
+      "required_slots": [],
+      "policy_flags": [
+        "NO_MANUAL_MATCH"
+      ],
+      "answer_template": {
+        "text": "教練通常會於課程前約 7 天主動與您聯繫，確認集合地點與上課細節。若需提前聯絡，請於備註中說明，我們會協助安排。",
+        "postscript": "請確保訂單聯絡資訊正確可用。",
+        "links_inline": false
+      },
+      "links": [
+        "{{LINK_SCHEDULE}}"
+      ],
+      "crm_tags": [
+        "#教練資訊"
+      ]
+    },
+    {
+      "id": "faq.kids.069",
+      "intent": "KIDS_SAFETY",
+      "section": "👶 小朋友滑雪與安全保障",
+      "canonical_question": "幾歲可以開始學滑雪？有哪些注意事項？",
+      "utterance_patterns": [
+        "幾歲可以開始學滑雪",
+        "幾歲能學滑雪",
+        "小朋友多大可以上課",
+        "小孩幾歲開始",
+        "幾歲可不可以開始學滑雪",
+        "幾歲能不能開始學滑雪",
+        "幾歲能否開始學滑雪",
+        "小朋友多大可不可以上課",
+        "小朋友多大能不能上課",
+        "小朋友多大能否上課",
+        "幾歲可不可以開始學滑雪？有哪些注意事項？",
+        "幾歲能不能開始學滑雪？有哪些注意事項？",
+        "幾歲能否開始學滑雪？有哪些注意事項？",
+        "幾歲可以開始學滑雪？有哪些注意事項？"
+      ],
+      "required_slots": [],
+      "policy_flags": [
+        "NO_MANUAL_MATCH"
+      ],
+      "answer_template": {
+        "text": "建議 3 歲以上開始，5 歲以下建議安排一對一，提升安全與專注力。若與其他孩童同堂，需有大人熟悉滑雪陪同。",
+        "postscript": "實際安排依當日安全與教學評估為準。",
+        "links_inline": false
+      },
+      "links": [
+        "{{LINK_SCHEDULE}}"
+      ],
+      "crm_tags": [
+        "#兒童安全",
+        "#親子同堂詢問"
+      ]
+    },
+    {
+      "id": "faq.kids.070",
+      "intent": "KIDS_SAFETY",
+      "section": "👶 小朋友滑雪與安全保障",
+      "canonical_question": "兒童保險內容與限制有哪些？",
+      "utterance_patterns": [
+        "兒童保險有哪些",
+        "保險內容與限制",
+        "小孩保險",
+        "保險保障",
+        "兒童保險內容與限制有哪些？"
+      ],
+      "required_slots": [],
+      "policy_flags": [
+        "NO_INSURANCE_BREAKDOWN",
+        "NO_MANUAL_MATCH"
+      ],
+      "answer_template": {
+        "text": "15 歲以下無身故理賠，提供醫療與緊急救援保障。詳細內容請參考保險說明頁。",
+        "postscript": "以保單條款與官網說明為準。",
+        "links_inline": false
+      },
+      "links": [
+        "{{LINK_INSURANCE}}"
+      ],
+      "crm_tags": [
+        "#保險提問"
+      ]
+    },
+    {
+      "id": "faq.kids.071",
+      "intent": "KIDS_SAFETY",
+      "section": "👶 小朋友滑雪與安全保障",
+      "canonical_question": "小朋友上課的安全機制有哪些？",
+      "utterance_patterns": [
+        "小朋友上課安全機制",
+        "小孩安全怎麼做",
+        "上課安全措施",
+        "有什麼安全機制",
+        "小朋友上課的安全機制有哪些？"
+      ],
+      "required_slots": [],
+      "policy_flags": [
+        "NO_MANUAL_MATCH"
+      ],
+      "answer_template": {
+        "text": "每位教練有帶團人數上限；全程附保險；兒童乘坐纜車時安排大人陪同；教練具備兒童教學經驗。",
+        "postscript": "依當日安全為最高原則。",
+        "links_inline": false
+      },
+      "links": [
+        "{{LINK_SCHEDULE}}"
+      ],
+      "crm_tags": [
+        "#兒童安全"
+      ]
+    }
+  ]
+}

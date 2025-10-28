@@ -1,0 +1,76 @@
+#!/usr/bin/env node
+/**
+ * FAQ Schema Validation Script
+ *
+ * Validates faq_kb.json against the JSON Schema
+ * Usage: node scripts/validate-faq-schema.js [faq-file-path]
+ */
+
+const path = require('path');
+const FAQValidator = require('../backend/src/models/faq-validator');
+
+// ANSI color codes
+const colors = {
+  reset: '\x1b[0m',
+  red: '\x1b[31m',
+  green: '\x1b[32m',
+  yellow: '\x1b[33m',
+  blue: '\x1b[34m',
+  cyan: '\x1b[36m',
+};
+
+function log(message, color = 'reset') {
+  console.log(`${colors[color]}${message}${colors.reset}`);
+}
+
+function main() {
+  // Get FAQ file path from command line or use default
+  const faqFilePath = process.argv[2] || path.join(__dirname, '../faq_kb.json');
+
+  log('\n=== FAQ Schema Validation ===\n', 'cyan');
+  log(`Validating: ${faqFilePath}`, 'blue');
+  log('', 'reset');
+
+  try {
+    const validator = new FAQValidator();
+    const result = validator.validateFile(faqFilePath);
+
+    if (result.valid) {
+      log('✓ Validation PASSED', 'green');
+      log(`  Total FAQ items: ${result.data.items.length}`, 'green');
+      log(`  Schema version: ${result.data.meta.version || 'N/A'}`, 'green');
+      log(`  Last updated: ${result.data.meta.last_updated || 'N/A'}`, 'green');
+      log('', 'reset');
+      process.exit(0);
+    } else {
+      log('✗ Validation FAILED', 'red');
+      log(`  Found ${result.errors.length} error(s):\n`, 'red');
+
+      result.errors.forEach((error, index) => {
+        log(`  ${index + 1}. ${error.path || '(root)'}`, 'yellow');
+        log(`     Field: ${error.field}`, 'yellow');
+        log(`     Error: ${error.message}`, 'red');
+        if (error.value !== undefined) {
+          log(`     Value: ${JSON.stringify(error.value)}`, 'yellow');
+        }
+        log('', 'reset');
+      });
+
+      process.exit(1);
+    }
+  } catch (error) {
+    log('✗ Validation ERROR', 'red');
+    log(`  ${error.message}`, 'red');
+    if (error.stack) {
+      log(`\nStack trace:\n${error.stack}`, 'yellow');
+    }
+    process.exit(1);
+  }
+}
+
+// Run if executed directly
+if (require.main === module) {
+  main();
+}
+
+module.exports = { main };

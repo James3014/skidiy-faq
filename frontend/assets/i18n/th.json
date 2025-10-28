@@ -1,0 +1,50 @@
+{
+  "app_title": "DIY.Ski ค้นหา FAQ",
+  "app_subtitle": "ค้นหาคำตอบสำหรับคำถามเกี่ยวกับการเล่นสกี",
+  "title": "DIY Ski คลังคำถามที่พบบ่อย",
+  "subtitle": "คำถามที่พบบ่อยเกี่ยวกับคอร์สเรียนสกี",
+  "search_placeholder": "ค้นหาคำสำคัญ เช่น: โค้ช, อุปกรณ์, รีสอร์ท...",
+  "search_button": "ค้นหา",
+  "search_results": "ผลการค้นหา",
+  "results_count": "พบ {count} ผลลัพธ์ที่เกี่ยวข้อง",
+  "response_time": "เวลาค้นหา: {time}ms",
+  "no_results": "ไม่พบผลลัพธ์",
+  "no_results_query": "ไม่พบคำถามที่ตรงกับ \"{query}\"",
+  "no_results_suggestion": "ลองคำค้นหาอื่น เช่น: โค้ช, อุปกรณ์, รีสอร์ท",
+  "empty_state_title": "เริ่มค้นหา",
+  "empty_state_text": "ใส่คำสำคัญด้านบน เช่น: การจอง, เช่าอุปกรณ์, ข้อมูลรีสอร์ท",
+  "loading": "กำลังค้นหา...",
+  "loading_init": "กำลังเริ่มต้น...",
+  "error": "การค้นหาล้มเหลว",
+  "error_init": "การเริ่มต้นล้มเหลว",
+  "confidence": "ความมั่นใจ",
+  "confidence_high": "สูง",
+  "confidence_medium": "ปานกลาง",
+  "confidence_low": "ต่ำ",
+  "show_more": "แสดงเพิ่มเติม",
+  "show_less": "แสดงน้อยลง",
+  "related_questions": "คำถามที่เกี่ยวข้อง",
+  "copy_answer": "คัดลอกคำตอบ",
+  "copied": "คัดลอกแล้ว",
+  "intents": {
+    "ITINERARY": "การวางแผนการเดินทาง",
+    "BOOKING": "กระบวนการจอง",
+    "COURSE": "เนื้อหาคอร์ส",
+    "INSTRUCTOR": "คำถามเกี่ยวกับโค้ช",
+    "KIDS_SAFETY": "เด็กและความปลอดภัย",
+    "PAYMENT": "การชำระเงินและการคืนเงิน",
+    "GEAR": "การเช่าอุปกรณ์",
+    "SERVICE": "บริการและนโยบาย",
+    "GENERAL": "คำถามทั่วไป"
+  },
+  "language_selector": {
+    "zh": "中文",
+    "en": "English",
+    "th": "ไทย"
+  },
+  "footer": {
+    "contact": "ติดต่อเรา",
+    "privacy": "นโยบายความเป็นส่วนตัว",
+    "terms": "เงื่อนไขการให้บริการ"
+  }
+}

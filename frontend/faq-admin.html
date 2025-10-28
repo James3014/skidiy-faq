@@ -1,0 +1,1383 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FAQ 管理後台 - DIY.Ski</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, "Microsoft JhengHei", sans-serif;
+      background: #f5f7fa;
+      min-height: 100vh;
+    }
+
+    /* Header */
+    .header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 1.5rem 2rem;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    .header-content {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .header-title {
+      font-size: 1.8rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 15px;
+    }
+
+    .btn {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-primary {
+      background: white;
+      color: #667eea;
+    }
+
+    .btn-primary:hover {
+      background: #f0f0f0;
+      transform: translateY(-2px);
+    }
+
+    .btn-success {
+      background: #10b981;
+      color: white;
+    }
+
+    .btn-success:hover {
+      background: #059669;
+    }
+
+    .btn-danger {
+      background: #ef4444;
+      color: white;
+    }
+
+    .btn-danger:hover {
+      background: #dc2626;
+    }
+
+    .btn-secondary {
+      background: #6b7280;
+      color: white;
+    }
+
+    .btn-secondary:hover {
+      background: #4b5563;
+    }
+
+    .btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    /* Container */
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    /* Toolbar */
+    .toolbar {
+      background: white;
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+
+    .toolbar-row {
+      display: flex;
+      gap: 15px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .search-box {
+      flex: 1;
+      min-width: 300px;
+      position: relative;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 10px 15px 10px 40px;
+      border: 2px solid #e5e7eb;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      transition: border-color 0.3s;
+    }
+
+    .search-input:focus {
+      outline: none;
+      border-color: #667eea;
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #9ca3af;
+      font-size: 1.2rem;
+    }
+
+    .filter-group {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .filter-select {
+      padding: 10px 15px;
+      border: 2px solid #e5e7eb;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      background: white;
+      cursor: pointer;
+      transition: border-color 0.3s;
+    }
+
+    .filter-select:focus {
+      outline: none;
+      border-color: #667eea;
+    }
+
+    .checkbox-label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    /* Stats Bar */
+    .stats-bar {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .stat-card {
+      background: white;
+      border-radius: 12px;
+      padding: 1.5rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .stat-icon {
+      font-size: 2.5rem;
+      width: 60px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+
+    .stat-content {
+      flex: 1;
+    }
+
+    .stat-value {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #1f2937;
+    }
+
+    .stat-label {
+      font-size: 0.9rem;
+      color: #6b7280;
+      margin-top: 4px;
+    }
+
+    /* FAQ Table */
+    .table-card {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      overflow: hidden;
+    }
+
+    .table-header {
+      padding: 1.5rem;
+      border-bottom: 2px solid #e5e7eb;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .table-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #1f2937;
+    }
+
+    .table-container {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    thead {
+      background: #f9fafb;
+    }
+
+    th {
+      padding: 1rem 1.5rem;
+      text-align: left;
+      font-weight: 600;
+      color: #374151;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    td {
+      padding: 1rem 1.5rem;
+      border-top: 1px solid #e5e7eb;
+      color: #4b5563;
+    }
+
+    tbody tr {
+      transition: background-color 0.2s;
+    }
+
+    tbody tr:hover {
+      background-color: #f9fafb;
+    }
+
+    .faq-id {
+      font-family: 'Courier New', monospace;
+      font-size: 0.85rem;
+      color: #667eea;
+      font-weight: 600;
+    }
+
+    .faq-question {
+      font-weight: 500;
+      color: #1f2937;
+      max-width: 400px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .intent-badge {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    .intent-booking { background: #dbeafe; color: #1e40af; }
+    .intent-instructor { background: #d1fae5; color: #065f46; }
+    .intent-course { background: #fef3c7; color: #92400e; }
+    .intent-kids_safety { background: #fce7f3; color: #9f1239; }
+    .intent-payment { background: #e0e7ff; color: #3730a3; }
+    .intent-gear { background: #ddd6fe; color: #5b21b6; }
+    .intent-service { background: #cffafe; color: #155e75; }
+    .intent-itinerary { background: #fed7aa; color: #9a3412; }
+    .intent-resort { background: #d9f99d; color: #3f6212; }
+    .intent-general { background: #e5e7eb; color: #1f2937; }
+
+    .hot-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 8px;
+    }
+
+    .btn-sm {
+      padding: 6px 12px;
+      font-size: 0.85rem;
+      border-radius: 6px;
+    }
+
+    .btn-icon {
+      width: 32px;
+      height: 32px;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 6px;
+    }
+
+    /* Pagination */
+    .pagination {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem;
+      border-top: 2px solid #e5e7eb;
+    }
+
+    .pagination-info {
+      color: #6b7280;
+      font-size: 0.9rem;
+    }
+
+    .pagination-buttons {
+      display: flex;
+      gap: 8px;
+    }
+
+    .page-btn {
+      padding: 8px 16px;
+      border: 2px solid #e5e7eb;
+      background: white;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-weight: 500;
+    }
+
+    .page-btn:hover:not(:disabled) {
+      border-color: #667eea;
+      color: #667eea;
+    }
+
+    .page-btn.active {
+      background: #667eea;
+      color: white;
+      border-color: #667eea;
+    }
+
+    .page-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    /* Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+
+    .modal.open {
+      display: flex;
+    }
+
+    .modal-content {
+      background: white;
+      border-radius: 16px;
+      max-width: 800px;
+      width: 100%;
+      max-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    }
+
+    .modal-header {
+      padding: 1.5rem 2rem;
+      border-bottom: 2px solid #e5e7eb;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .modal-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #1f2937;
+    }
+
+    .modal-close {
+      width: 32px;
+      height: 32px;
+      border: none;
+      background: #f3f4f6;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 1.2rem;
+      color: #6b7280;
+      transition: all 0.2s;
+    }
+
+    .modal-close:hover {
+      background: #e5e7eb;
+      color: #1f2937;
+    }
+
+    .modal-body {
+      padding: 2rem;
+      overflow-y: auto;
+      flex: 1;
+    }
+
+    .modal-footer {
+      padding: 1.5rem 2rem;
+      border-top: 2px solid #e5e7eb;
+      display: flex;
+      gap: 10px;
+      justify-content: flex-end;
+    }
+
+    /* Form */
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-label {
+      display: block;
+      font-weight: 600;
+      color: #374151;
+      margin-bottom: 0.5rem;
+    }
+
+    .form-label.required::after {
+      content: ' *';
+      color: #ef4444;
+    }
+
+    .form-input,
+    .form-textarea,
+    .form-select {
+      width: 100%;
+      padding: 10px 15px;
+      border: 2px solid #e5e7eb;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      font-family: inherit;
+      transition: border-color 0.3s;
+    }
+
+    .form-input:focus,
+    .form-textarea:focus,
+    .form-select:focus {
+      outline: none;
+      border-color: #667eea;
+    }
+
+    .form-textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    .form-help {
+      font-size: 0.85rem;
+      color: #6b7280;
+      margin-top: 0.5rem;
+    }
+
+    .form-error {
+      color: #ef4444;
+      font-size: 0.85rem;
+      margin-top: 0.5rem;
+    }
+
+    /* Loading */
+    .loading {
+      text-align: center;
+      padding: 3rem;
+      color: #6b7280;
+    }
+
+    .spinner {
+      border: 3px solid #f3f4f6;
+      border-top: 3px solid #667eea;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 1rem;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Toast Notification */
+    .toast {
+      position: fixed;
+      top: 2rem;
+      right: 2rem;
+      background: white;
+      border-radius: 12px;
+      padding: 1rem 1.5rem;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+      z-index: 2000;
+      display: none;
+      align-items: center;
+      gap: 12px;
+      max-width: 400px;
+      animation: slideIn 0.3s ease;
+    }
+
+    .toast.show {
+      display: flex;
+    }
+
+    .toast-success {
+      border-left: 4px solid #10b981;
+    }
+
+    .toast-error {
+      border-left: 4px solid #ef4444;
+    }
+
+    .toast-icon {
+      font-size: 1.5rem;
+    }
+
+    .toast-content {
+      flex: 1;
+    }
+
+    .toast-title {
+      font-weight: 600;
+      color: #1f2937;
+      margin-bottom: 4px;
+    }
+
+    .toast-message {
+      color: #6b7280;
+      font-size: 0.9rem;
+    }
+
+    @keyframes slideIn {
+      from {
+        transform: translateX(100%);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+
+    /* Checkbox */
+    input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      cursor: pointer;
+    }
+
+    /* Empty State */
+    .empty-state {
+      text-align: center;
+      padding: 4rem 2rem;
+      color: #6b7280;
+    }
+
+    .empty-icon {
+      font-size: 4rem;
+      margin-bottom: 1rem;
+      opacity: 0.5;
+    }
+
+    .empty-title {
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: #1f2937;
+      margin-bottom: 0.5rem;
+    }
+
+    .empty-message {
+      font-size: 0.95rem;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <div class="header">
+    <div class="header-content">
+      <div class="header-title">
+        📝 FAQ 管理後台
+      </div>
+      <div class="header-actions">
+        <button class="btn btn-primary" id="btnNew">
+          ➕ 新增 FAQ
+        </button>
+        <button class="btn btn-secondary" onclick="location.href='admin.html'">
+          ◀ 返回管理首頁
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Container -->
+  <div class="container">
+    <!-- Stats Bar -->
+    <div class="stats-bar">
+      <div class="stat-card">
+        <div class="stat-icon">📚</div>
+        <div class="stat-content">
+          <div class="stat-value" id="statTotal">-</div>
+          <div class="stat-label">總 FAQ 數量</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">🔥</div>
+        <div class="stat-content">
+          <div class="stat-value" id="statHot">-</div>
+          <div class="stat-label">熱門問題</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">🎯</div>
+        <div class="stat-content">
+          <div class="stat-value" id="statIntents">-</div>
+          <div class="stat-label">Intent 類型</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">📂</div>
+        <div class="stat-content">
+          <div class="stat-value" id="statSections">-</div>
+          <div class="stat-label">分類數量</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Toolbar -->
+    <div class="toolbar">
+      <div class="toolbar-row">
+        <div class="search-box">
+          <span class="search-icon">🔍</span>
+          <input type="text" class="search-input" id="searchInput" placeholder="搜尋 FAQ（ID、問題、答案）...">
+        </div>
+        <div class="filter-group">
+          <select class="filter-select" id="filterIntent">
+            <option value="">全部 Intent</option>
+          </select>
+          <select class="filter-select" id="filterSection">
+            <option value="">全部分類</option>
+          </select>
+          <label class="checkbox-label">
+            <input type="checkbox" id="filterHot">
+            <span>只顯示熱門</span>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <!-- FAQ Table -->
+    <div class="table-card">
+      <div class="table-header">
+        <div class="table-title">FAQ 列表</div>
+        <div>
+          <button class="btn btn-danger btn-sm" id="btnBatchDelete" disabled>
+            🗑 批次刪除
+          </button>
+        </div>
+      </div>
+
+      <div id="loadingState" class="loading">
+        <div class="spinner"></div>
+        <div>載入中...</div>
+      </div>
+
+      <div id="contentState" style="display: none;">
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th style="width: 50px;">
+                  <input type="checkbox" id="selectAll">
+                </th>
+                <th>ID</th>
+                <th>問題</th>
+                <th>Intent</th>
+                <th>分類</th>
+                <th>熱門</th>
+                <th style="text-align: right;">操作</th>
+              </tr>
+            </thead>
+            <tbody id="faqTableBody">
+              <!-- FAQ items will be inserted here -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Pagination -->
+        <div class="pagination">
+          <div class="pagination-info" id="paginationInfo">
+            顯示 1-20 / 共 71 筆
+          </div>
+          <div class="pagination-buttons" id="paginationButtons">
+            <!-- Pagination buttons will be inserted here -->
+          </div>
+        </div>
+      </div>
+
+      <div id="emptyState" class="empty-state" style="display: none;">
+        <div class="empty-icon">📭</div>
+        <div class="empty-title">沒有找到 FAQ</div>
+        <div class="empty-message">嘗試調整搜尋條件或新增第一個 FAQ</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit/Create Modal -->
+  <div class="modal" id="editModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="modal-title" id="modalTitle">新增 FAQ</div>
+        <button class="modal-close" onclick="closeEditModal()">✕</button>
+      </div>
+      <div class="modal-body">
+        <form id="faqForm">
+          <!-- Form fields will be here -->
+          <div class="form-group">
+            <label class="form-label required">FAQ ID</label>
+            <input type="text" class="form-input" id="inputId" placeholder="faq.booking.001" required>
+            <div class="form-help">格式：faq.{category}.{number}</div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label required">Intent</label>
+            <select class="form-select" id="inputIntent" required>
+              <option value="">請選擇 Intent</option>
+              <option value="BOOKING">BOOKING - 預約相關</option>
+              <option value="INSTRUCTOR">INSTRUCTOR - 教練相關</option>
+              <option value="COURSE">COURSE - 課程相關</option>
+              <option value="KIDS_SAFETY">KIDS_SAFETY - 兒童與安全</option>
+              <option value="PAYMENT">PAYMENT - 付款相關</option>
+              <option value="GEAR">GEAR - 裝備相關</option>
+              <option value="SERVICE">SERVICE - 服務相關</option>
+              <option value="ITINERARY">ITINERARY - 行程規劃</option>
+              <option value="RESORT">RESORT - 雪場資訊</option>
+              <option value="GENERAL">GENERAL - 一般問題</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label required">分類</label>
+            <input type="text" class="form-input" id="inputSection" placeholder="課程與費用" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label required">標準問題（中文）</label>
+            <input type="text" class="form-input" id="inputQuestion" placeholder="輸入標準問題..." required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label required">答案內容</label>
+            <textarea class="form-textarea" id="inputAnswer" placeholder="輸入答案內容..." required></textarea>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">補充說明</label>
+            <textarea class="form-textarea" id="inputPostscript" placeholder="輸入補充說明（選填）"></textarea>
+          </div>
+
+          <div class="form-group">
+            <label class="checkbox-label">
+              <input type="checkbox" id="inputHot">
+              <span>標記為熱門問題</span>
+            </label>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeEditModal()">取消</button>
+        <button class="btn btn-success" id="btnSave">儲存</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="toast" id="toast">
+    <div class="toast-icon" id="toastIcon"></div>
+    <div class="toast-content">
+      <div class="toast-title" id="toastTitle"></div>
+      <div class="toast-message" id="toastMessage"></div>
+    </div>
+  </div>
+
+  <script src="assets/env.js"></script>
+  <script src="lib/config.js"></script>
+  <script>
+    // API Configuration
+    const API_BASE = window.API_BASE || '/api/v1';
+    const AUTH_STORAGE_KEY = 'faqAdminToken';
+    let adminToken = null;
+    let authPromise = null;
+
+    async function ensureAdminToken(forceRefresh = false) {
+      if (!forceRefresh && adminToken) {
+        return adminToken;
+      }
+
+      if (!forceRefresh) {
+        const stored = localStorage.getItem(AUTH_STORAGE_KEY);
+        if (stored) {
+          adminToken = stored;
+          return adminToken;
+        }
+      }
+
+      if (!authPromise) {
+        authPromise = (async () => {
+          const response = await fetch(`${API_BASE}/auth/dev-login`, {
+            method: 'POST',
+          });
+
+          if (!response.ok) {
+            throw new Error(`Dev login failed (HTTP ${response.status})`);
+          }
+
+          const payload = await response.json();
+          const token = payload?.data?.token;
+          if (!token) {
+            throw new Error('Dev login response missing token');
+          }
+
+          adminToken = token;
+          localStorage.setItem(AUTH_STORAGE_KEY, token);
+          console.info('[Admin Auth] Development token acquired');
+          return token;
+        })().finally(() => {
+          authPromise = null;
+        });
+      }
+
+      return authPromise;
+    }
+
+    async function fetchWithAuth(url, options = {}, retrying = false) {
+      const token = await ensureAdminToken(retrying);
+      const headers = new Headers(options.headers || {});
+      headers.set('Authorization', `Bearer ${token}`);
+
+      const response = await fetch(url, {
+        ...options,
+        headers
+      });
+
+      if (response.status === 401 && !retrying) {
+        console.warn('[Admin Auth] Token rejected, retrying with refreshed token');
+        localStorage.removeItem(AUTH_STORAGE_KEY);
+        adminToken = null;
+        return fetchWithAuth(url, options, true);
+      }
+
+      return response;
+    }
+
+    // State
+    let currentPage = 1;
+    let currentLimit = 20;
+    let totalItems = 0;
+    let allFAQs = [];
+    let selectedIds = new Set();
+    let editingId = null;
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', async () => {
+      console.log('[FAQ Admin] Initializing...');
+
+      try {
+        await ensureAdminToken();
+      } catch (error) {
+        console.error('[FAQ Admin] Authentication failed:', error);
+        showToast('授權失敗', error.message || '無法取得管理者權限', 'error');
+        showLoading(false);
+        return;
+      }
+
+      // Load initial data
+      loadFAQs();
+      loadStats();
+
+      // Event listeners
+      document.getElementById('searchInput').addEventListener('input', debounce(handleSearch, 500));
+      document.getElementById('filterIntent').addEventListener('change', handleFilter);
+      document.getElementById('filterSection').addEventListener('change', handleFilter);
+      document.getElementById('filterHot').addEventListener('change', handleFilter);
+      document.getElementById('selectAll').addEventListener('change', handleSelectAll);
+      document.getElementById('btnNew').addEventListener('click', openNewModal);
+      document.getElementById('btnSave').addEventListener('click', handleSave);
+      document.getElementById('btnBatchDelete').addEventListener('click', handleBatchDelete);
+    });
+
+    // Debounce helper
+    function debounce(func, wait) {
+      let timeout;
+      return function(...args) {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => func.apply(this, args), wait);
+      };
+    }
+
+    // Load FAQs from API
+    async function loadFAQs(page = 1) {
+      console.log('[FAQ Admin] Loading FAQs...', { page });
+      showLoading(true);
+
+      try {
+        const params = new URLSearchParams({
+          page,
+          limit: currentLimit
+        });
+
+        // Add filters
+        const search = document.getElementById('searchInput').value;
+        const intent = document.getElementById('filterIntent').value;
+        const section = document.getElementById('filterSection').value;
+        const hot = document.getElementById('filterHot').checked;
+
+        if (search) params.append('search', search);
+        if (intent) params.append('intent', intent);
+        if (section) params.append('section', section);
+        if (hot) params.append('hot', 'true');
+
+        const response = await fetchWithAuth(`${API_BASE}/admin/faq?${params}`);
+        const data = await response.json();
+
+        if (data.success) {
+          currentPage = page;
+          totalItems = data.data.pagination.total;
+          renderTable(data.data.items);
+          renderPagination(data.data.pagination);
+          showLoading(false);
+        } else {
+          throw new Error(data.error?.message || 'Failed to load FAQs');
+        }
+      } catch (error) {
+        console.error('[FAQ Admin] Error loading FAQs:', error);
+        showToast('載入失敗', error.message, 'error');
+        showLoading(false);
+      }
+    }
+
+    // Load statistics
+    async function loadStats() {
+      try {
+        const response = await fetchWithAuth(`${API_BASE}/admin/faq?limit=100`);
+        const data = await response.json();
+
+        if (data.success) {
+          const items = data.data.items;
+
+          document.getElementById('statTotal').textContent = data.data.pagination.total;
+          document.getElementById('statHot').textContent = items.filter(f => f.hot).length;
+
+          const intents = new Set(items.map(f => f.intent));
+          document.getElementById('statIntents').textContent = intents.size;
+
+          const sections = new Set(items.map(f => f.section));
+          document.getElementById('statSections').textContent = sections.size;
+
+          // Populate filter dropdowns
+          populateFilters(intents, sections);
+        }
+      } catch (error) {
+        console.error('[FAQ Admin] Error loading stats:', error);
+      }
+    }
+
+    // Populate filter dropdowns
+    function populateFilters(intents, sections) {
+      const intentSelect = document.getElementById('filterIntent');
+      const sectionSelect = document.getElementById('filterSection');
+
+      // Clear existing options (except first)
+      intentSelect.innerHTML = '<option value="">全部 Intent</option>';
+      sectionSelect.innerHTML = '<option value="">全部分類</option>';
+
+      // Add intent options
+      [...intents].sort().forEach(intent => {
+        const option = document.createElement('option');
+        option.value = intent;
+        option.textContent = intent;
+        intentSelect.appendChild(option);
+      });
+
+      // Add section options
+      [...sections].sort().forEach(section => {
+        const option = document.createElement('option');
+        option.value = section;
+        option.textContent = section;
+        sectionSelect.appendChild(option);
+      });
+    }
+
+    // Render table
+    function renderTable(items) {
+      const tbody = document.getElementById('faqTableBody');
+      tbody.innerHTML = '';
+
+      if (items.length === 0) {
+        document.getElementById('contentState').style.display = 'none';
+        document.getElementById('emptyState').style.display = 'block';
+        return;
+      }
+
+      document.getElementById('contentState').style.display = 'block';
+      document.getElementById('emptyState').style.display = 'none';
+
+      items.forEach(item => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>
+            <input type="checkbox" class="row-checkbox" data-id="${item.id}">
+          </td>
+          <td><span class="faq-id">${item.id}</span></td>
+          <td><div class="faq-question">${item.canonical_question}</div></td>
+          <td><span class="intent-badge intent-${item.intent.toLowerCase()}">${item.intent}</span></td>
+          <td>${item.section}</td>
+          <td>${item.hot ? '<span class="hot-badge">🔥 熱門</span>' : '-'}</td>
+          <td style="text-align: right;">
+            <div class="action-buttons">
+              <button class="btn btn-sm btn-secondary" onclick="editFAQ('${item.id}')">✏️ 編輯</button>
+              <button class="btn btn-sm btn-danger" onclick="deleteFAQ('${item.id}')">🗑</button>
+            </div>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      // Add checkbox listeners
+      document.querySelectorAll('.row-checkbox').forEach(checkbox => {
+        checkbox.addEventListener('change', handleRowSelect);
+      });
+    }
+
+    // Render pagination
+    function renderPagination(pagination) {
+      const info = document.getElementById('paginationInfo');
+      const buttons = document.getElementById('paginationButtons');
+
+      const start = (pagination.page - 1) * pagination.limit + 1;
+      const end = Math.min(start + pagination.limit - 1, pagination.total);
+      info.textContent = `顯示 ${start}-${end} / 共 ${pagination.total} 筆`;
+
+      buttons.innerHTML = '';
+
+      // Previous button
+      const prevBtn = document.createElement('button');
+      prevBtn.className = 'page-btn';
+      prevBtn.textContent = '◀ 上一頁';
+      prevBtn.disabled = !pagination.has_prev;
+      prevBtn.onclick = () => loadFAQs(pagination.page - 1);
+      buttons.appendChild(prevBtn);
+
+      // Page numbers
+      const maxPages = 5;
+      const startPage = Math.max(1, pagination.page - Math.floor(maxPages / 2));
+      const endPage = Math.min(pagination.total_pages, startPage + maxPages - 1);
+
+      for (let i = startPage; i <= endPage; i++) {
+        const pageBtn = document.createElement('button');
+        pageBtn.className = 'page-btn' + (i === pagination.page ? ' active' : '');
+        pageBtn.textContent = i;
+        pageBtn.onclick = () => loadFAQs(i);
+        buttons.appendChild(pageBtn);
+      }
+
+      // Next button
+      const nextBtn = document.createElement('button');
+      nextBtn.className = 'page-btn';
+      nextBtn.textContent = '下一頁 ▶';
+      nextBtn.disabled = !pagination.has_next;
+      nextBtn.onclick = () => loadFAQs(pagination.page + 1);
+      buttons.appendChild(nextBtn);
+    }
+
+    // Handle search
+    function handleSearch() {
+      console.log('[FAQ Admin] Search triggered');
+      loadFAQs(1);
+    }
+
+    // Handle filter
+    function handleFilter() {
+      console.log('[FAQ Admin] Filter changed');
+      loadFAQs(1);
+    }
+
+    // Handle row selection
+    function handleRowSelect(e) {
+      const id = e.target.dataset.id;
+      if (e.target.checked) {
+        selectedIds.add(id);
+      } else {
+        selectedIds.delete(id);
+      }
+      updateBatchButtons();
+    }
+
+    // Handle select all
+    function handleSelectAll(e) {
+      const checkboxes = document.querySelectorAll('.row-checkbox');
+      checkboxes.forEach(cb => {
+        cb.checked = e.target.checked;
+        if (e.target.checked) {
+          selectedIds.add(cb.dataset.id);
+        } else {
+          selectedIds.delete(cb.dataset.id);
+        }
+      });
+      updateBatchButtons();
+    }
+
+    // Update batch buttons
+    function updateBatchButtons() {
+      const btnBatchDelete = document.getElementById('btnBatchDelete');
+      btnBatchDelete.disabled = selectedIds.size === 0;
+      btnBatchDelete.textContent = `🗑 批次刪除 (${selectedIds.size})`;
+    }
+
+    // Show loading state
+    function showLoading(show) {
+      document.getElementById('loadingState').style.display = show ? 'block' : 'none';
+      document.getElementById('contentState').style.display = show ? 'none' : 'block';
+    }
+
+    // Show toast notification
+    function showToast(title, message, type = 'success') {
+      const toast = document.getElementById('toast');
+      const toastIcon = document.getElementById('toastIcon');
+      const toastTitle = document.getElementById('toastTitle');
+      const toastMessage = document.getElementById('toastMessage');
+
+      toastTitle.textContent = title;
+      toastMessage.textContent = message;
+      toastIcon.textContent = type === 'success' ? '✅' : '❌';
+
+      toast.className = `toast show toast-${type}`;
+
+      setTimeout(() => {
+        toast.className = 'toast';
+      }, 3000);
+    }
+
+    // Modal functions
+    function openNewModal() {
+      editingId = null;
+      document.getElementById('modalTitle').textContent = '新增 FAQ';
+      document.getElementById('faqForm').reset();
+      document.getElementById('editModal').classList.add('open');
+    }
+
+    function closeEditModal() {
+      document.getElementById('editModal').classList.remove('open');
+      editingId = null;
+    }
+
+    // Edit FAQ
+    async function editFAQ(id) {
+      console.log('[FAQ Admin] Editing FAQ:', id);
+      editingId = id;
+
+      try {
+        const response = await fetchWithAuth(`${API_BASE}/admin/faq/${id}`);
+        const data = await response.json();
+
+        if (data.success) {
+          const faq = data.data;
+
+          document.getElementById('modalTitle').textContent = '編輯 FAQ';
+          document.getElementById('inputId').value = faq.id;
+          document.getElementById('inputId').disabled = true; // Can't change ID when editing
+          document.getElementById('inputIntent').value = faq.intent;
+          document.getElementById('inputSection').value = faq.section;
+          document.getElementById('inputQuestion').value = faq.canonical_question;
+          document.getElementById('inputAnswer').value = faq.answer_template?.text || '';
+          document.getElementById('inputPostscript').value = faq.answer_template?.postscript || '';
+          document.getElementById('inputHot').checked = faq.hot || false;
+
+          document.getElementById('editModal').classList.add('open');
+        } else {
+          throw new Error(data.error?.message || 'Failed to load FAQ');
+        }
+      } catch (error) {
+        console.error('[FAQ Admin] Error loading FAQ:', error);
+        showToast('載入失敗', error.message, 'error');
+      }
+    }
+
+    // Delete FAQ
+    async function deleteFAQ(id) {
+      if (!confirm(`確定要刪除 FAQ「${id}」嗎？此操作無法復原。`)) {
+        return;
+      }
+
+      try {
+        const response = await fetchWithAuth(`${API_BASE}/admin/faq/${id}?confirm=true`, {
+          method: 'DELETE'
+        });
+        const data = await response.json();
+
+        if (data.success) {
+          showToast('刪除成功', `FAQ 已刪除`, 'success');
+          loadFAQs(currentPage);
+          loadStats();
+        } else {
+          throw new Error(data.error?.message || 'Failed to delete FAQ');
+        }
+      } catch (error) {
+        console.error('[FAQ Admin] Error deleting FAQ:', error);
+        showToast('刪除失敗', error.message, 'error');
+      }
+    }
+
+    // Handle batch delete
+    async function handleBatchDelete() {
+      if (selectedIds.size === 0) return;
+
+      if (!confirm(`確定要刪除選中的 ${selectedIds.size} 個 FAQ 嗎？此操作無法復原。`)) {
+        return;
+      }
+
+      try {
+        const response = await fetchWithAuth(`${API_BASE}/admin/faq/batch`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            operation: 'delete',
+            ids: Array.from(selectedIds),
+            confirm: true
+          })
+        });
+        const data = await response.json();
+
+        if (data.success) {
+          showToast('批次刪除成功', `已刪除 ${data.data.succeeded} 個 FAQ`, 'success');
+          selectedIds.clear();
+          loadFAQs(currentPage);
+          loadStats();
+        } else {
+          throw new Error(data.error?.message || 'Failed to batch delete');
+        }
+      } catch (error) {
+        console.error('[FAQ Admin] Error batch deleting:', error);
+        showToast('批次刪除失敗', error.message, 'error');
+      }
+    }
+
+    // Handle save
+    async function handleSave() {
+      const id = document.getElementById('inputId').value.trim();
+      const intent = document.getElementById('inputIntent').value;
+      const section = document.getElementById('inputSection').value.trim();
+      const question = document.getElementById('inputQuestion').value.trim();
+      const answer = document.getElementById('inputAnswer').value.trim();
+      const postscript = document.getElementById('inputPostscript').value.trim();
+      const hot = document.getElementById('inputHot').checked;
+
+      // Basic validation
+      if (!id || !intent || !section || !question || !answer) {
+        showToast('驗證失敗', '請填寫所有必填欄位', 'error');
+        return;
+      }
+
+      // Build FAQ object
+      const faqData = {
+        id,
+        intent,
+        section,
+        canonical_question: question,
+        answer_template: {
+          text: answer,
+          postscript: postscript || undefined,
+          links_inline: false
+        },
+        hot,
+        utterance_patterns: [],
+        required_slots: [],
+        policy_flags: [],
+        links: [],
+        crm_tags: []
+      };
+
+      try {
+        const isEdit = editingId !== null;
+        const url = isEdit ? `${API_BASE}/admin/faq/${editingId}` : `${API_BASE}/admin/faq`;
+        const method = isEdit ? 'PUT' : 'POST';
+
+        const response = await fetchWithAuth(url, {
+          method,
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(faqData)
+        });
+        const data = await response.json();
+
+        if (data.success) {
+          showToast(isEdit ? '更新成功' : '新增成功', `FAQ 已${isEdit ? '更新' : '新增'}`, 'success');
+          closeEditModal();
+          loadFAQs(currentPage);
+          loadStats();
+        } else {
+          throw new Error(data.error?.message || `Failed to ${isEdit ? 'update' : 'create'} FAQ`);
+        }
+      } catch (error) {
+        console.error('[FAQ Admin] Error saving FAQ:', error);
+        showToast('儲存失敗', error.message, 'error');
+      }
+    }
+
+    // Close modal when clicking outside
+    document.getElementById('editModal').addEventListener('click', (e) => {
+      if (e.target.id === 'editModal') {
+        closeEditModal();
+      }
+    });
+  </script>
+</body>
+</html>

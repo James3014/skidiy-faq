@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LLM 分析儀表板 - DIY.Ski FAQ 系統</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Microsoft JhengHei', sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .header {
+      background: white;
+      border-radius: 12px;
+      padding: 20px 30px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .header h1 {
+      font-size: 24px;
+      color: #333;
+    }
+
+    .header .nav-links a {
+      margin-left: 20px;
+      color: #667eea;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .header .nav-links a:hover {
+      text-decoration: underline;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+
+    .stat-card {
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    .stat-card .label {
+      font-size: 14px;
+      color: #666;
+      margin-bottom: 8px;
+    }
+
+    .stat-card .value {
+      font-size: 32px;
+      font-weight: 700;
+      color: #333;
+    }
+
+    .stat-card .subvalue {
+      font-size: 14px;
+      color: #999;
+      margin-top: 4px;
+    }
+
+    .stat-card.success .value {
+      color: #10b981;
+    }
+
+    .stat-card.warning .value {
+      color: #f59e0b;
+    }
+
+    .stat-card.error .value {
+      color: #ef4444;
+    }
+
+    .stat-card.primary .value {
+      color: #667eea;
+    }
+
+    .chart-section {
+      background: white;
+      border-radius: 12px;
+      padding: 30px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    .chart-section h2 {
+      font-size: 20px;
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    .provider-comparison {
+      margin-bottom: 30px;
+    }
+
+    .provider-row {
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px;
+      padding: 15px;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      transition: all 0.2s;
+    }
+
+    .provider-row:hover {
+      background: #f9fafb;
+      transform: translateX(5px);
+    }
+
+    .provider-name {
+      min-width: 120px;
+      font-weight: 600;
+      color: #333;
+    }
+
+    .provider-bar {
+      flex: 1;
+      height: 30px;
+      background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+      border-radius: 6px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .provider-bar::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 30%;
+      background: linear-gradient(90deg, rgba(255,255,255,0.3), transparent);
+      animation: shimmer 2s infinite;
+    }
+
+    @keyframes shimmer {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(400%); }
+    }
+
+    .provider-stats {
+      min-width: 300px;
+      text-align: right;
+      font-size: 14px;
+      color: #666;
+      margin-left: 15px;
+    }
+
+    .recent-queries {
+      margin-top: 30px;
+    }
+
+    .query-item {
+      padding: 15px;
+      border-bottom: 1px solid #e5e7eb;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+
+    .query-item:last-child {
+      border-bottom: none;
+    }
+
+    .query-text {
+      flex: 1;
+      color: #333;
+      font-size: 15px;
+      margin-right: 20px;
+    }
+
+    .query-meta {
+      text-align: right;
+      font-size: 13px;
+      color: #666;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 500;
+      margin-right: 5px;
+    }
+
+    .badge.gemini {
+      background: #dbeafe;
+      color: #1e40af;
+    }
+
+    .badge.claude {
+      background: #fef3c7;
+      color: #92400e;
+    }
+
+    .badge.openai {
+      background: #d1fae5;
+      color: #065f46;
+    }
+
+    .badge.success {
+      background: #d1fae5;
+      color: #065f46;
+    }
+
+    .badge.error {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 40px;
+      color: #666;
+    }
+
+    .error-message {
+      background: #fee2e2;
+      color: #991b1b;
+      padding: 15px;
+      border-radius: 8px;
+      margin: 20px 0;
+    }
+
+    .refresh-btn {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 600;
+      transition: transform 0.2s;
+    }
+
+    .refresh-btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .refresh-btn:active {
+      transform: translateY(0);
+    }
+
+    .export-btn {
+      background: white;
+      color: #667eea;
+      border: 2px solid #667eea;
+      padding: 10px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 600;
+      margin-left: 10px;
+      transition: all 0.2s;
+    }
+
+    .export-btn:hover {
+      background: #667eea;
+      color: white;
+    }
+
+    .daily-chart {
+      margin-top: 30px;
+    }
+
+    .chart-bars {
+      display: flex;
+      align-items: flex-end;
+      height: 200px;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .bar-item {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .bar {
+      width: 100%;
+      background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
+      border-radius: 4px 4px 0 0;
+      position: relative;
+      transition: all 0.3s;
+    }
+
+    .bar:hover {
+      opacity: 0.8;
+    }
+
+    .bar-label {
+      margin-top: 8px;
+      font-size: 12px;
+      color: #666;
+    }
+
+    .bar-value {
+      position: absolute;
+      top: -25px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 11px;
+      color: #333;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .filters {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+      align-items: center;
+    }
+
+    .filters select,
+    .filters input {
+      padding: 8px 12px;
+      border: 1px solid #e5e7eb;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+
+    .filters label {
+      font-size: 14px;
+      color: #666;
+      margin-right: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>LLM 分析儀表板</h1>
+      <div class="nav-links">
+        <a href="faq-search.html">FAQ 搜尋</a>
+        <a href="index-llm.html">LLM 對話</a>
+        <a href="analytics.html">分析儀表板</a>
+      </div>
+    </div>
+
+    <!-- Overall Statistics -->
+    <div class="stats-grid" id="statsGrid">
+      <div class="stat-card primary">
+        <div class="label">總請求數</div>
+        <div class="value" id="totalRequests">-</div>
+        <div class="subvalue">所有提供者</div>
+      </div>
+      <div class="stat-card success">
+        <div class="label">成功率</div>
+        <div class="value" id="successRate">-</div>
+        <div class="subvalue"><span id="successCount">-</span> 次成功</div>
+      </div>
+      <div class="stat-card warning">
+        <div class="label">總成本</div>
+        <div class="value" id="totalCost">-</div>
+        <div class="subvalue">預測：$<span id="projectedCost">-</span>/月</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">平均回應時間</div>
+        <div class="value" id="avgResponseTime">-</div>
+        <div class="subvalue">毫秒</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">總 Token 數</div>
+        <div class="value" id="totalTokens">-</div>
+        <div class="subvalue">平均 <span id="avgTokens">-</span> 每次</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">平均 FAQ 項目</div>
+        <div class="value" id="avgFaqItems">-</div>
+        <div class="subvalue">上下文項目數</div>
+      </div>
+    </div>
+
+    <!-- Provider Comparison -->
+    <div class="chart-section">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <h2>提供者效能比較（最近 30 天）</h2>
+        <div>
+          <button class="refresh-btn" onclick="loadData()">重新整理</button>
+          <button class="export-btn" onclick="exportData('provider_stats')">匯出 CSV</button>
+        </div>
+      </div>
+      <div class="provider-comparison" id="providerComparison">
+        <div class="loading">載入提供者資料中...</div>
+      </div>
+    </div>
+
+    <!-- Daily Usage Chart -->
+    <div class="chart-section">
+      <h2>每日使用趨勢</h2>
+      <div class="daily-chart">
+        <div class="chart-bars" id="dailyChart">
+          <div class="loading">載入每日資料中...</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Recent Queries -->
+    <div class="chart-section">
+      <h2>最近查詢</h2>
+      <div class="filters">
+        <label>提供者：</label>
+        <select id="providerFilter" onchange="loadData()">
+          <option value="">所有提供者</option>
+          <option value="gemini">Gemini</option>
+          <option value="claude">Claude</option>
+          <option value="openai">OpenAI</option>
+          <option value="ollama">Ollama</option>
+        </select>
+        <label>數量：</label>
+        <select id="limitFilter" onchange="loadData()">
+          <option value="10">10</option>
+          <option value="25">25</option>
+          <option value="50">50</option>
+          <option value="100">100</option>
+        </select>
+        <button class="export-btn" onclick="exportData('llm_usage')">匯出全部</button>
+      </div>
+      <div class="recent-queries" id="recentQueries">
+        <div class="loading">載入最近查詢中...</div>
+      </div>
+    </div>
+  </div>
+
+  <script src="assets/env.js"></script>
+  <script src="lib/config.js"></script>
+  <script>
+    const API_BASE = window.API_BASE || '/api/v1';
+
+    // Load all data
+    async function loadData() {
+      try {
+        await Promise.all([
+          loadOverallStats(),
+          loadProviderComparison(),
+          loadCostReport()
+        ]);
+      } catch (error) {
+        console.error('Failed to load data:', error);
+        showError('Failed to load analytics data: ' + error.message);
+      }
+    }
+
+    // Load overall statistics
+    async function loadOverallStats() {
+      const provider = document.getElementById('providerFilter').value;
+      const limit = document.getElementById('limitFilter').value;
+
+      const params = new URLSearchParams();
+      if (provider) params.append('provider', provider);
+      params.append('limit', limit);
+
+      const response = await fetch(`${API_BASE}/analytics/llm-stats?${params}`);
+      const data = await response.json();
+
+      if (!data.success) {
+        throw new Error(data.error?.message || 'Failed to load stats');
+      }
+
+      const stats = data.data.overall;
+
+      // Update stats cards
+      document.getElementById('totalRequests').textContent = stats.totalRequests.toLocaleString();
+      document.getElementById('successRate').textContent = stats.successRate + '%';
+      document.getElementById('successCount').textContent = stats.successfulRequests.toLocaleString();
+      document.getElementById('totalCost').textContent = '$' + stats.totalCost;
+      document.getElementById('avgResponseTime').textContent = stats.avgResponseTime.toLocaleString() + 'ms';
+      document.getElementById('totalTokens').textContent = stats.totalTokens.toLocaleString();
+      document.getElementById('avgTokens').textContent = Math.round(stats.totalTokens / (stats.totalRequests || 1)).toLocaleString();
+      document.getElementById('avgFaqItems').textContent = stats.avgFaqItems;
+
+      // Render recent queries
+      renderRecentQueries(data.data.recent);
+
+      // Render daily chart
+      renderDailyChart(data.data.daily);
+    }
+
+    // Load provider comparison
+    async function loadProviderComparison() {
+      const response = await fetch(`${API_BASE}/analytics/provider-comparison`);
+      const data = await response.json();
+
+      if (!data.success) {
+        throw new Error(data.error?.message || 'Failed to load provider comparison');
+      }
+
+      renderProviderComparison(data.data);
+    }
+
+    // Load cost report
+    async function loadCostReport() {
+      const response = await fetch(`${API_BASE}/analytics/cost-report`);
+      const data = await response.json();
+
+      if (!data.success) {
+        throw new Error(data.error?.message || 'Failed to load cost report');
+      }
+
+      document.getElementById('projectedCost').textContent = data.data.projectedMonthlyCost;
+    }
+
+    // Render provider comparison
+    function renderProviderComparison(providers) {
+      const container = document.getElementById('providerComparison');
+
+      if (providers.length === 0) {
+        container.innerHTML = '<div class="loading">目前沒有提供者資料</div>';
+        return;
+      }
+
+      const maxRequests = Math.max(...providers.map(p => p.totalRequests));
+
+      container.innerHTML = providers.map(provider => {
+        const widthPercent = (provider.totalRequests / maxRequests) * 100;
+
+        return `
+          <div class="provider-row">
+            <div class="provider-name">
+              <span class="badge ${provider.provider}">${provider.provider}</span>
+            </div>
+            <div class="provider-bar" style="width: ${widthPercent}%"></div>
+            <div class="provider-stats">
+              ${provider.totalRequests} 次請求 |
+              ${provider.successRate}% 成功 |
+              $${provider.totalCost} |
+              平均 ${provider.avgResponseTime}ms
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // Render recent queries
+    function renderRecentQueries(queries) {
+      const container = document.getElementById('recentQueries');
+
+      if (queries.length === 0) {
+        container.innerHTML = '<div class="loading">目前沒有查詢記錄</div>';
+        return;
+      }
+
+      container.innerHTML = queries.map(query => `
+        <div class="query-item">
+          <div class="query-text">${escapeHtml(query.query_text)}</div>
+          <div class="query-meta">
+            <span class="badge ${query.provider}">${query.provider}</span>
+            <span class="badge ${query.success ? 'success' : 'error'}">${query.success ? '成功' : '失敗'}</span>
+            <br>
+            <small>${query.total_tokens} tokens | $${query.cost_usd?.toFixed(6) || '0.000000'} | ${query.response_time_ms}ms</small>
+            <br>
+            <small style="color: #999;">${query.timestamp}</small>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // Render daily chart
+    function renderDailyChart(dailyData) {
+      const container = document.getElementById('dailyChart');
+
+      if (dailyData.length === 0) {
+        container.innerHTML = '<div class="loading">目前沒有每日資料</div>';
+        return;
+      }
+
+      const maxRequests = Math.max(...dailyData.map(d => d.requests));
+
+      // Reverse to show oldest to newest (left to right)
+      const sortedData = [...dailyData].reverse();
+
+      container.innerHTML = sortedData.map(day => {
+        const heightPercent = (day.requests / maxRequests) * 100;
+        const date = new Date(day.date);
+        const label = `${date.getMonth() + 1}/${date.getDate()}`;
+
+        return `
+          <div class="bar-item">
+            <div class="bar" style="height: ${heightPercent}%">
+              <div class="bar-value">${day.requests}</div>
+            </div>
+            <div class="bar-label">${label}</div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // Export data as CSV
+    async function exportData(type) {
+      try {
+        window.location.href = `${API_BASE}/analytics/export?type=${type}`;
+      } catch (error) {
+        showError('Failed to export data: ' + error.message);
+      }
+    }
+
+    // Utility functions
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    function showError(message) {
+      const container = document.querySelector('.container');
+      const errorDiv = document.createElement('div');
+      errorDiv.className = 'error-message';
+      errorDiv.textContent = '錯誤：' + message;
+      container.insertBefore(errorDiv, container.firstChild);
+
+      setTimeout(() => errorDiv.remove(), 5000);
+    }
+
+    // Initial load
+    document.addEventListener('DOMContentLoaded', () => {
+      loadData();
+
+      // Auto-refresh every 30 seconds
+      setInterval(loadData, 30000);
+    });
+  </script>
+</body>
+</html>

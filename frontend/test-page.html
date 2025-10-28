@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>頁面功能測試 - DIY.Ski FAQ 系統</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+    .container {
+      background: white;
+      border-radius: 12px;
+      padding: 30px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+    }
+    h1 {
+      color: #667eea;
+      margin-bottom: 10px;
+    }
+    .subtitle {
+      color: #666;
+      margin-bottom: 30px;
+    }
+    .test-section {
+      margin-bottom: 30px;
+      padding: 20px;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      background: #f9f9f9;
+    }
+    .test-section h2 {
+      margin-top: 0;
+      color: #333;
+      font-size: 18px;
+      border-bottom: 2px solid #667eea;
+      padding-bottom: 10px;
+    }
+    .test-item {
+      margin: 15px 0;
+      padding: 15px;
+      background: white;
+      border-radius: 6px;
+      border-left: 4px solid #667eea;
+    }
+    .test-name {
+      font-weight: bold;
+      color: #333;
+      margin-bottom: 5px;
+    }
+    .test-result {
+      margin-top: 10px;
+      padding: 10px;
+      border-radius: 4px;
+      font-family: 'Courier New', monospace;
+      font-size: 13px;
+    }
+    .test-result.success {
+      background: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+    }
+    .test-result.error {
+      background: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+    }
+    .test-result.info {
+      background: #d1ecf1;
+      color: #0c5460;
+      border: 1px solid #bee5eb;
+    }
+    button {
+      background: #667eea;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 16px;
+      margin: 5px;
+      transition: all 0.3s;
+    }
+    button:hover {
+      background: #5568d3;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+    }
+    button:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+      transform: none;
+    }
+    .button-group {
+      margin-top: 20px;
+    }
+    .status-badge {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: bold;
+      margin-left: 10px;
+    }
+    .status-badge.pass {
+      background: #28a745;
+      color: white;
+    }
+    .status-badge.fail {
+      background: #dc3545;
+      color: white;
+    }
+    .status-badge.pending {
+      background: #ffc107;
+      color: #333;
+    }
+    pre {
+      background: #f4f4f4;
+      padding: 10px;
+      border-radius: 4px;
+      overflow-x: auto;
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>📋 頁面功能測試</h1>
+    <p class="subtitle">自動化測試 index-intent.html 的各項功能</p>
+
+    <div class="button-group">
+      <button onclick="runAllTests()">▶ 執行所有測試</button>
+      <button onclick="clearResults()">🗑 清除結果</button>
+      <button onclick="openTargetPage()">🔗 開啟目標頁面</button>
+    </div>
+
+    <div class="test-section">
+      <h2>1️⃣ 前端資源測試</h2>
+      <div id="frontend-tests"></div>
+    </div>
+
+    <div class="test-section">
+      <h2>2️⃣ FAQ 引擎測試</h2>
+      <div id="faq-engine-tests"></div>
+    </div>
+
+    <div class="test-section">
+      <h2>3️⃣ 多語言支援測試</h2>
+      <div id="i18n-tests"></div>
+    </div>
+
+    <div class="test-section">
+      <h2>4️⃣ API 端點測試</h2>
+      <div id="api-tests"></div>
+    </div>
+
+    <div class="test-section">
+      <h2>5️⃣ Intent 偵測測試</h2>
+      <div id="intent-tests"></div>
+    </div>
+  </div>
+
+  <script src="assets/env.js"></script>
+  <script src="lib/config.js"></script>
+  <script>
+    const API_BASE = window.API_BASE || '/api/v1';
+    const API_ROOT = window.API_ROOT || '';
+    const FRONTEND_ORIGIN = window.location.origin;
+
+    async function runTest(name, testFn) {
+      const resultDiv = document.createElement('div');
+      resultDiv.className = 'test-result info';
+      resultDiv.textContent = '⏳ 執行中...';
+
+      const itemDiv = document.createElement('div');
+      itemDiv.className = 'test-item';
+      itemDiv.innerHTML = `<div class="test-name">${name}</div>`;
+      itemDiv.appendChild(resultDiv);
+
+      try {
+        const result = await testFn();
+        resultDiv.className = 'test-result success';
+        resultDiv.innerHTML = `✅ <strong>通過</strong><br><pre>${JSON.stringify(result, null, 2)}</pre>`;
+        return { name, status: 'pass', result };
+      } catch (error) {
+        resultDiv.className = 'test-result error';
+        resultDiv.innerHTML = `❌ <strong>失敗</strong><br><pre>${error.message}</pre>`;
+        return { name, status: 'fail', error: error.message };
+      }
+
+      return itemDiv;
+    }
+
+    function addTestResult(sectionId, name, testFn) {
+      const section = document.getElementById(sectionId);
+      const itemDiv = document.createElement('div');
+      itemDiv.className = 'test-item';
+      itemDiv.innerHTML = `
+        <div class="test-name">${name} <span class="status-badge pending">PENDING</span></div>
+        <div class="test-result info" style="display:none;">⏳ 執行中...</div>
+      `;
+      section.appendChild(itemDiv);
+      return { itemDiv, testFn };
+    }
+
+    // 前端資源測試
+    const frontendTests = [
+      {
+        name: '檢查 index-intent.html 是否可訪問',
+        test: async () => {
+          const response = await fetch(`${FRONTEND_ORIGIN}/index-intent.html`);
+          if (!response.ok) throw new Error(`HTTP ${response.status}`);
+          const text = await response.text();
+          return { status: response.status, size: text.length };
+        }
+      },
+      {
+        name: '檢查 faq-engine.js 是否載入',
+        test: async () => {
+          const response = await fetch(`${FRONTEND_ORIGIN}/lib/faq-engine.js`);
+          if (!response.ok) throw new Error(`HTTP ${response.status}`);
+          return { status: response.status };
+        }
+      },
+      {
+        name: '檢查 i18n.js 是否載入',
+        test: async () => {
+          const response = await fetch(`${FRONTEND_ORIGIN}/lib/i18n.js`);
+          if (!response.ok) throw new Error(`HTTP ${response.status}`);
+          return { status: response.status };
+        }
+      },
+      {
+        name: '檢查 faq_kb.json 資料來源',
+        test: async () => {
+          const response = await fetch(`${FRONTEND_ORIGIN}/faq_kb.json`);
+          if (!response.ok) throw new Error(`HTTP ${response.status}`);
+          const data = await response.json();
+          return { items: data.items?.length || 0 };
+        }
+      }
+    ];
+
+    // FAQ 引擎測試
+    const faqEngineTests = [
+      {
+        name: 'FAQ 搜尋 API - "教練"',
+        test: async () => {
+          const response = await fetch(`${API_BASE}/faq/search`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ query: '教練', limit: 3 })
+          });
+          if (!response.ok) throw new Error(`HTTP ${response.status}`);
+          const data = await response.json();
+          return { found: data.data?.length || 0, first: data.data?.[0]?.question };
+        }
+      },
+      {
+        name: 'FAQ 搜尋 API - "野澤"',
+        test: async () => {
+          const response = await fetch(`${API_BASE}/faq/search`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ query: '野澤', limit: 3 })
+          });
+          if (!response.ok) throw new Error(`HTTP ${response.status}`);
+          const data = await response.json();
+          return { found: data.data?.length || 0 };
+        }
+      },
+      {
+        name: 'FAQ 按分類查詢',
+        test: async () => {
+          const response = await fetch(`${API_BASE}/faq/by-section/教練課程`);
+          if (!response.ok) throw new Error(`HTTP ${response.status}`);
+          const data = await response.json();
+          return { items: data.data?.length || 0 };
+        }
+      }
+    ];
+
+    // 多語言測試
+    const i18nTests = [
+      {
+        name: '檢查中文翻譯檔',
+        test: async () => {
+          const response = await fetch(`${FRONTEND_ORIGIN}/assets/i18n/zh.json`);
+          if (!response.ok) throw new Error(`HTTP ${response.status} - 檔案不存在`);
+          const data = await response.json();
+          return { keys: Object.keys(data).length };
+        }
+      },
+      {
+        name: '檢查英文翻譯檔',
+        test: async () => {
+          const response = await fetch(`${FRONTEND_ORIGIN}/assets/i18n/en.json`);
+          if (!response.ok) throw new Error(`HTTP ${response.status} - 檔案不存在`);
+          const data = await response.json();
+          return { keys: Object.keys(data).length };
+        }
+      }
+    ];
+
+    // API 端點測試
+    const apiTests = [
+      {
+        name: '後端健康檢查',
+        test: async () => {
+          const healthEndpoint = API_ROOT ? `${API_ROOT}/health` : '/health';
+          const response = await fetch(healthEndpoint);
+          if (!response.ok) throw new Error(`HTTP ${response.status}`);
+          const data = await response.json();
+          return data;
+        }
+      },
+      {
+        name: 'LLM 統計資訊',
+        test: async () => {
+          const response = await fetch(`${API_BASE}/analytics/llm-stats`);
+          if (!response.ok) throw new Error(`HTTP ${response.status}`);
+          const data = await response.json();
+          return data.data;
+        }
+      }
+    ];
+
+    // Intent 偵測測試
+    const intentTests = [
+      {
+        name: 'Intent 偵測 - "2月15日去野澤"',
+        test: async () => {
+          const response = await fetch(`${API_BASE}/intent/detect`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ query: '2月15日去野澤' })
+          });
+          if (!response.ok) throw new Error(`HTTP ${response.status}`);
+          const data = await response.json();
+          return { intent: data.data?.intent, confidence: data.data?.confidence };
+        }
+      },
+      {
+        name: 'Slot 擷取 - "2大1小"',
+        test: async () => {
+          const response = await fetch(`${API_BASE}/intent/extract-slots`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ query: '2大1小要去野澤' })
+          });
+          if (!response.ok) throw new Error(`HTTP ${response.status}`);
+          const data = await response.json();
+          return data.data;
+        }
+      }
+    ];
+
+    async function runAllTests() {
+      const allTests = [
+        { section: 'frontend-tests', tests: frontendTests },
+        { section: 'faq-engine-tests', tests: faqEngineTests },
+        { section: 'i18n-tests', tests: i18nTests },
+        { section: 'api-tests', tests: apiTests },
+        { section: 'intent-tests', tests: intentTests }
+      ];
+
+      for (const { section, tests } of allTests) {
+        const sectionDiv = document.getElementById(section);
+        sectionDiv.innerHTML = '';
+
+        for (const { name, test } of tests) {
+          const itemDiv = document.createElement('div');
+          itemDiv.className = 'test-item';
+
+          const nameDiv = document.createElement('div');
+          nameDiv.className = 'test-name';
+          nameDiv.innerHTML = `${name} <span class="status-badge pending">執行中...</span>`;
+          itemDiv.appendChild(nameDiv);
+
+          const resultDiv = document.createElement('div');
+          resultDiv.className = 'test-result info';
+          resultDiv.style.display = 'block';
+          resultDiv.textContent = '⏳ 執行中...';
+          itemDiv.appendChild(resultDiv);
+
+          sectionDiv.appendChild(itemDiv);
+
+          try {
+            const result = await test();
+            resultDiv.className = 'test-result success';
+            resultDiv.innerHTML = `✅ <strong>通過</strong><br><pre>${JSON.stringify(result, null, 2)}</pre>`;
+            nameDiv.innerHTML = `${name} <span class="status-badge pass">PASS</span>`;
+          } catch (error) {
+            resultDiv.className = 'test-result error';
+            resultDiv.innerHTML = `❌ <strong>失敗</strong><br><pre>${error.message}</pre>`;
+            nameDiv.innerHTML = `${name} <span class="status-badge fail">FAIL</span>`;
+          }
+        }
+      }
+    }
+
+    function clearResults() {
+      ['frontend-tests', 'faq-engine-tests', 'i18n-tests', 'api-tests', 'intent-tests'].forEach(id => {
+        document.getElementById(id).innerHTML = '';
+      });
+    }
+
+    function openTargetPage() {
+      window.open(`${FRONTEND_ORIGIN}/index-intent.html`, '_blank');
+    }
+  </script>
+</body>
+</html>

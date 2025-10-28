@@ -1,0 +1,269 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://diy.ski/schemas/faq-kb.json",
+  "title": "FAQ Knowledge Base Schema",
+  "description": "DIY Ski FAQ 知識庫資料結構驗證規範（JSON Schema Draft 7）",
+  "type": "object",
+  "required": ["meta", "items"],
+  "properties": {
+    "meta": {
+      "$ref": "#/definitions/Meta"
+    },
+    "items": {
+      "type": "array",
+      "description": "FAQ 項目清單",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/definitions/FAQItem"
+      },
+      "uniqueItems": true
+    }
+  },
+  "definitions": {
+    "Meta": {
+      "type": "object",
+      "description": "FAQ 知識庫元數據",
+      "required": ["version", "last_updated", "total_items"],
+      "properties": {
+        "version": {
+          "type": "string",
+          "description": "資料格式版本（語義化版本控制）",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$",
+          "examples": ["1.0.0", "2.1.3"]
+        },
+        "last_updated": {
+          "type": "string",
+          "description": "最後更新時間（ISO 8601 格式）",
+          "format": "date-time"
+        },
+        "total_items": {
+          "type": "integer",
+          "description": "FAQ 總數",
+          "minimum": 0
+        },
+        "link_tokens": {
+          "type": "object",
+          "description": "內嵌連結 Token 定義（例如 LINK_SCHEDULE）",
+          "additionalProperties": {
+            "type": "string",
+            "format": "uri"
+          },
+          "examples": [{
+            "LINK_SCHEDULE": "https://diy.ski/schedule",
+            "LINK_BOOKING": "https://diy.ski/booking"
+          }]
+        },
+        "policy_notes": {
+          "type": "array",
+          "description": "政策說明標記",
+          "items": {
+            "type": "string",
+            "enum": ["NO_QUOTE", "NO_MANUAL_MATCH", "AUTO_TAG_ONLY"]
+          }
+        }
+      }
+    },
+    "FAQItem": {
+      "type": "object",
+      "description": "單一 FAQ 項目",
+      "required": [
+        "id",
+        "intent",
+        "canonical_question",
+        "utterance_patterns",
+        "answer_template",
+        "keywords",
+        "crm_tags",
+        "metadata"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "FAQ 唯一識別碼（格式：faq.{category}.{序號}）",
+          "pattern": "^faq\\.[a-z_]+\\.\\d{3}$",
+          "examples": ["faq.itinerary.001", "faq.gear.023"]
+        },
+        "intent": {
+          "$ref": "#/definitions/IntentType"
+        },
+        "canonical_question": {
+          "type": "string",
+          "description": "中文標準問題（必填）",
+          "minLength": 5,
+          "maxLength": 200
+        },
+        "canonical_question_en": {
+          "type": "string",
+          "description": "英文標準問題（選填）",
+          "minLength": 10,
+          "maxLength": 300
+        },
+        "canonical_question_th": {
+          "type": "string",
+          "description": "泰文標準問題（選填）",
+          "minLength": 10,
+          "maxLength": 300
+        },
+        "canonical_question_ja": {
+          "type": "string",
+          "description": "日文標準問題（保留欄位）",
+          "minLength": 5,
+          "maxLength": 200
+        },
+        "utterance_patterns": {
+          "type": "array",
+          "description": "問題變體清單（至少 3 個）",
+          "minItems": 3,
+          "maxItems": 20,
+          "items": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 100
+          },
+          "uniqueItems": true
+        },
+        "answer_template": {
+          "$ref": "#/definitions/AnswerTemplate"
+        },
+        "keywords": {
+          "type": "array",
+          "description": "關鍵字清單（至少 2 個）",
+          "minItems": 2,
+          "maxItems": 30,
+          "items": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 20
+          },
+          "uniqueItems": true
+        },
+        "related_faq_ids": {
+          "type": "array",
+          "description": "相關 FAQ ID 清單",
+          "items": {
+            "type": "string",
+            "pattern": "^faq\\.[a-z_]+\\.\\d{3}$"
+          },
+          "uniqueItems": true
+        },
+        "crm_tags": {
+          "type": "array",
+          "description": "CRM 標籤清單（每個標籤必須以 # 開頭）",
+          "minItems": 1,
+          "maxItems": 10,
+          "items": {
+            "type": "string",
+            "pattern": "^#[^\\s]+$"
+          },
+          "uniqueItems": true
+        },
+        "metadata": {
+          "$ref": "#/definitions/FAQMetadata"
+        }
+      }
+    },
+    "IntentType": {
+      "type": "string",
+      "description": "意圖類型枚舉",
+      "enum": [
+        "ITINERARY",
+        "BOOKING",
+        "COURSE",
+        "INSTRUCTOR",
+        "KIDS_SAFETY",
+        "PAYMENT",
+        "GEAR",
+        "SERVICE",
+        "GENERAL"
+      ]
+    },
+    "AnswerTemplate": {
+      "type": "object",
+      "description": "多語言回答模板",
+      "required": ["text"],
+      "properties": {
+        "text": {
+          "type": "string",
+          "description": "中文主要回答（必填，支援 Markdown）",
+          "minLength": 10,
+          "maxLength": 2000
+        },
+        "text_en": {
+          "type": "string",
+          "description": "英文回答（選填）",
+          "minLength": 10,
+          "maxLength": 3000
+        },
+        "text_th": {
+          "type": "string",
+          "description": "泰文回答（選填）",
+          "minLength": 10,
+          "maxLength": 3000
+        },
+        "postscript": {
+          "type": "string",
+          "description": "補充說明（中文）",
+          "minLength": 5,
+          "maxLength": 500
+        },
+        "postscript_en": {
+          "type": "string",
+          "description": "補充說明（英文）",
+          "minLength": 5,
+          "maxLength": 500
+        },
+        "postscript_th": {
+          "type": "string",
+          "description": "補充說明（泰文）",
+          "minLength": 5,
+          "maxLength": 500
+        },
+        "links_inline": {
+          "type": "array",
+          "description": "內嵌連結 Token（例如 LINK_SCHEDULE）",
+          "items": {
+            "type": "string",
+            "pattern": "^LINK_[A-Z_]+$"
+          },
+          "uniqueItems": true
+        }
+      },
+      "additionalProperties": false
+    },
+    "FAQMetadata": {
+      "type": "object",
+      "description": "FAQ 元數據",
+      "required": ["created_at", "updated_at", "version", "status"],
+      "properties": {
+        "created_at": {
+          "type": "string",
+          "description": "建立時間（ISO 8601 格式）",
+          "format": "date-time"
+        },
+        "updated_at": {
+          "type": "string",
+          "description": "最後更新時間（ISO 8601 格式）",
+          "format": "date-time"
+        },
+        "version": {
+          "type": "integer",
+          "description": "版本號（從 1 開始）",
+          "minimum": 1
+        },
+        "status": {
+          "type": "string",
+          "description": "狀態",
+          "enum": ["active", "draft", "archived"]
+        },
+        "priority": {
+          "type": "integer",
+          "description": "顯示優先級（1-10，數字越大優先級越高）",
+          "minimum": 1,
+          "maximum": 10
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

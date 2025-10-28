@@ -1,0 +1,50 @@
+{
+  "app_title": "DIY.Ski FAQ 搜尋",
+  "app_subtitle": "快速找到您的滑雪問題解答",
+  "title": "DIY Ski FAQ 知識庫",
+  "subtitle": "滑雪課程常見問題",
+  "search_placeholder": "輸入關鍵字搜尋，例如：教練、裝備、野澤...",
+  "search_button": "搜尋",
+  "search_results": "搜尋結果",
+  "results_count": "找到 {count} 筆相關結果",
+  "response_time": "搜尋耗時: {time}ms",
+  "no_results": "找不到相關結果",
+  "no_results_query": "查詢「{query}」沒有找到匹配的 FAQ",
+  "no_results_suggestion": "試試其他關鍵字，例如：教練、裝備、雪場",
+  "empty_state_title": "開始搜尋",
+  "empty_state_text": "在上方輸入關鍵字，例如：教練預約、裝備租借、雪場推薦",
+  "loading": "正在搜尋中...",
+  "loading_init": "正在初始化...",
+  "error": "搜尋失敗",
+  "error_init": "初始化失敗",
+  "confidence": "信心度",
+  "confidence_high": "高",
+  "confidence_medium": "中",
+  "confidence_low": "低",
+  "show_more": "顯示更多",
+  "show_less": "收起",
+  "related_questions": "相關問題",
+  "copy_answer": "複製答案",
+  "copied": "已複製",
+  "intents": {
+    "ITINERARY": "行程規劃",
+    "BOOKING": "預約流程",
+    "COURSE": "課程內容",
+    "INSTRUCTOR": "教練問題",
+    "KIDS_SAFETY": "兒童與安全",
+    "PAYMENT": "付款與退款",
+    "GEAR": "裝備租借",
+    "SERVICE": "服務與政策",
+    "GENERAL": "一般諮詢"
+  },
+  "language_selector": {
+    "zh": "中文",
+    "en": "English",
+    "th": "ไทย"
+  },
+  "footer": {
+    "contact": "聯絡我們",
+    "privacy": "隱私政策",
+    "terms": "服務條款"
+  }
+}

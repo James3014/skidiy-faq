@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>文檔查看器 - DIY.Ski FAQ 系統</title>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, "Microsoft JhengHei", sans-serif;
+      background: #f5f7fa;
+    }
+
+    .header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 1.5rem 2rem;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .back-btn {
+      background: rgba(255,255,255,0.2);
+      border: 2px solid rgba(255,255,255,0.5);
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .back-btn:hover {
+      background: rgba(255,255,255,0.3);
+      border-color: white;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 2rem;
+    }
+
+    .doc-card {
+      background: white;
+      border-radius: 12px;
+      padding: 3rem;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      min-height: 500px;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 3rem;
+      color: #999;
+    }
+
+    .error {
+      background: #fee;
+      color: #c33;
+      padding: 1.5rem;
+      border-radius: 8px;
+      border: 2px solid #fcc;
+    }
+
+    /* Markdown 樣式 */
+    .markdown-body {
+      line-height: 1.8;
+      color: #333;
+    }
+
+    .markdown-body h1 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 3px solid #667eea;
+      color: #667eea;
+    }
+
+    .markdown-body h2 {
+      font-size: 2rem;
+      margin-top: 2.5rem;
+      margin-bottom: 1rem;
+      color: #555;
+      border-bottom: 2px solid #eee;
+      padding-bottom: 0.5rem;
+    }
+
+    .markdown-body h3 {
+      font-size: 1.5rem;
+      margin-top: 2rem;
+      margin-bottom: 0.75rem;
+      color: #666;
+    }
+
+    .markdown-body h4 {
+      font-size: 1.25rem;
+      margin-top: 1.5rem;
+      margin-bottom: 0.5rem;
+      color: #777;
+    }
+
+    .markdown-body p {
+      margin-bottom: 1rem;
+    }
+
+    .markdown-body ul, .markdown-body ol {
+      margin-bottom: 1rem;
+      padding-left: 2rem;
+    }
+
+    .markdown-body li {
+      margin-bottom: 0.5rem;
+    }
+
+    .markdown-body code {
+      background: #f5f5f5;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: 'Monaco', 'Menlo', monospace;
+      font-size: 0.9em;
+      color: #e83e8c;
+    }
+
+    .markdown-body pre {
+      background: #2d2d2d;
+      color: #f8f8f2;
+      padding: 1.5rem;
+      border-radius: 8px;
+      overflow-x: auto;
+      margin-bottom: 1rem;
+    }
+
+    .markdown-body pre code {
+      background: none;
+      padding: 0;
+      color: inherit;
+    }
+
+    .markdown-body blockquote {
+      border-left: 4px solid #667eea;
+      padding-left: 1rem;
+      margin: 1rem 0;
+      color: #666;
+      font-style: italic;
+    }
+
+    .markdown-body table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1rem 0;
+    }
+
+    .markdown-body th, .markdown-body td {
+      padding: 0.75rem;
+      border: 1px solid #ddd;
+      text-align: left;
+    }
+
+    .markdown-body th {
+      background: #667eea;
+      color: white;
+      font-weight: 600;
+    }
+
+    .markdown-body tr:nth-child(even) {
+      background: #f9f9f9;
+    }
+
+    .markdown-body a {
+      color: #667eea;
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.3s;
+    }
+
+    .markdown-body a:hover {
+      border-bottom-color: #667eea;
+    }
+
+    .markdown-body hr {
+      border: none;
+      border-top: 2px solid #eee;
+      margin: 2rem 0;
+    }
+
+    .markdown-body img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+      margin: 1rem 0;
+    }
+
+    .toc {
+      background: #f8f9fa;
+      padding: 1.5rem;
+      border-radius: 8px;
+      margin-bottom: 2rem;
+      border-left: 4px solid #667eea;
+    }
+
+    .toc h2 {
+      margin-top: 0 !important;
+      border-bottom: none !important;
+      font-size: 1.25rem;
+      color: #667eea;
+    }
+
+    .toc ul {
+      margin-bottom: 0;
+    }
+
+    @media (max-width: 768px) {
+      .doc-card {
+        padding: 1.5rem;
+      }
+
+      .markdown-body h1 {
+        font-size: 2rem;
+      }
+
+      .markdown-body h2 {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="header-content">
+      <div class="logo">
+        📚 文檔查看器
+      </div>
+      <a href="index.html" class="back-btn">
+        ← 返回首頁
+      </a>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="doc-card">
+      <div id="loading" class="loading">載入文檔中...</div>
+      <div id="error" class="error" style="display: none;"></div>
+      <div id="content" class="markdown-body" style="display: none;"></div>
+    </div>
+  </div>
+
+  <script>
+    const DOCS_INDEX = [
+      { title: 'FAQ 系統功能規格', file: 'specs/001-faq-system-upgrade/spec.md', description: '包含使用者情境、驗收準則與成功指標' },
+      { title: 'FAQ 系統技術計畫', file: 'specs/001-faq-system-upgrade/plan.md', description: '架構設計、任務拆解與實作時程' },
+      { title: 'FAQ 系統資料模型', file: 'specs/001-faq-system-upgrade/data-model.md', description: 'FAQ、事件、分析等資料結構定義' },
+      { title: 'Claude / AI 協作指南', file: 'CLAUDE.md', description: '如何與內建 AI 助手協作與開發' },
+      { title: '專案藍圖', file: 'PROJECT_BLUEPRINT.md', description: '重構緣起、策略與後端強化方向' }
+    ];
+
+    // Get file parameter from URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const fileName = urlParams.get('file');
+
+    if (!fileName) {
+      renderIndex();
+    } else {
+      loadMarkdownFile(fileName);
+    }
+
+    function renderIndex() {
+      const loadingEl = document.getElementById('loading');
+      const contentEl = document.getElementById('content');
+      const errorEl = document.getElementById('error');
+
+      loadingEl.style.display = 'none';
+      errorEl.style.display = 'none';
+      contentEl.style.display = 'block';
+
+      const listHtml = [
+        '<h1>文檔入口</h1>',
+        '<p>請選擇下列文檔或在網址加上 ?file= 檔案路徑。</p>',
+        '<ul>'
+      ];
+      DOCS_INDEX.forEach(doc => {
+        listHtml.push(`<li><a href="docs.html?file=${doc.file}">${doc.title}</a><br><span style="font-size:0.9rem;color:#666">${doc.description}</span></li>`);
+      });
+      listHtml.push('</ul>');
+
+      contentEl.innerHTML = listHtml.join('\n');
+    }
+
+    async function loadMarkdownFile(fileName) {
+      try {
+        // Files are accessible directly from frontend directory via symlinks
+        const filePath = fileName;
+
+        console.log('[Docs] Loading file:', filePath);
+
+        const response = await fetch(filePath);
+
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}: 無法載入檔案 ${fileName}`);
+        }
+
+        const markdown = await response.text();
+
+        // Convert markdown to HTML using marked.js
+        const html = marked.parse(markdown);
+
+        // Update document title
+        const fileNameOnly = fileName.split('/').pop().replace('.md', '');
+        document.title = `${fileNameOnly} - DIY.Ski FAQ 系統`;
+
+        // Display content
+        document.getElementById('loading').style.display = 'none';
+        const contentEl = document.getElementById('content');
+        contentEl.style.display = 'block';
+        contentEl.innerHTML = html;
+
+        // Generate table of contents
+        generateTOC();
+
+        console.log('[Docs] File loaded successfully');
+      } catch (error) {
+        console.error('[Docs] Failed to load file:', error);
+        document.getElementById('loading').style.display = 'none';
+        document.getElementById('error').style.display = 'block';
+        document.getElementById('error').innerHTML = `
+          <strong>載入失敗</strong><br>
+          檔案: ${fileName}<br>
+          錯誤: ${error.message}<br><br>
+          <small>請確認檔案路徑正確，且前端伺服器正在運行。</small>
+        `;
+      }
+    }
+
+    function generateTOC() {
+      const content = document.getElementById('content');
+      const headings = content.querySelectorAll('h2, h3');
+
+      if (headings.length === 0) return;
+
+      const toc = document.createElement('div');
+      toc.className = 'toc';
+      toc.innerHTML = '<h2>📋 目錄</h2><ul id="toc-list"></ul>';
+
+      const tocList = toc.querySelector('#toc-list');
+
+      headings.forEach((heading, index) => {
+        // Add ID to heading for anchor links
+        const id = `section-${index}`;
+        heading.id = id;
+
+        // Create TOC item
+        const li = document.createElement('li');
+        const a = document.createElement('a');
+        a.href = `#${id}`;
+        a.textContent = heading.textContent;
+        a.style.paddingLeft = heading.tagName === 'H3' ? '1rem' : '0';
+        li.appendChild(a);
+        tocList.appendChild(li);
+      });
+
+      // Insert TOC after first h1
+      const firstH1 = content.querySelector('h1');
+      if (firstH1 && firstH1.nextSibling) {
+        firstH1.parentNode.insertBefore(toc, firstH1.nextSibling);
+      } else {
+        content.insertBefore(toc, content.firstChild);
+      }
+    }
+
+    // Smooth scroll for anchor links
+    document.addEventListener('click', function(e) {
+      if (e.target.tagName === 'A' && e.target.hash) {
+        const targetId = e.target.hash.substring(1);
+        const targetElement = document.getElementById(targetId);
+        if (targetElement) {
+          e.preventDefault();
+          targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          // Update URL without triggering page reload
+          history.pushState(null, null, e.target.hash);
+        }
+      }
+    });
+  </script>
+</body>
+
+</html>

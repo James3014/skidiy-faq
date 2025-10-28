@@ -1,0 +1,981 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>雪場管理 - DIY.Ski Admin</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, "Microsoft JhengHei", sans-serif;
+      background: #f5f7fa;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .header {
+      background: white;
+      padding: 24px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      margin-bottom: 24px;
+    }
+
+    .header h1 {
+      font-size: 28px;
+      color: #1f2937;
+      margin-bottom: 8px;
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 12px;
+      margin-top: 16px;
+      flex-wrap: wrap;
+    }
+
+    .filters {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      margin-bottom: 24px;
+    }
+
+    .filter-row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    input, select, button {
+      padding: 10px 16px;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      font-size: 14px;
+    }
+
+    input[type="text"], input[type="search"] {
+      flex: 1;
+      min-width: 200px;
+    }
+
+    select {
+      min-width: 150px;
+    }
+
+    button {
+      background: #667eea;
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-weight: 500;
+      transition: background 0.2s;
+    }
+
+    button:hover {
+      background: #5568d3;
+    }
+
+    button.secondary {
+      background: #6b7280;
+    }
+
+    button.secondary:hover {
+      background: #4b5563;
+    }
+
+    .table-container {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      overflow: hidden;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    thead {
+      background: #f9fafb;
+      border-bottom: 2px solid #e5e7eb;
+    }
+
+    th {
+      padding: 16px;
+      text-align: left;
+      font-weight: 600;
+      color: #374151;
+      font-size: 14px;
+    }
+
+    td {
+      padding: 16px;
+      border-bottom: 1px solid #e5e7eb;
+      font-size: 14px;
+    }
+
+    tbody tr:hover {
+      background: #f9fafb;
+    }
+
+    .resort-name {
+      font-weight: 500;
+      color: #1f2937;
+    }
+
+    .resort-id {
+      color: #6b7280;
+      font-size: 12px;
+      font-family: monospace;
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 500;
+      margin-right: 4px;
+    }
+
+    .tag-region {
+      background: #dbeafe;
+      color: #1e40af;
+    }
+
+    .tag-night-ski {
+      background: #fef3c7;
+      color: #92400e;
+    }
+
+    .actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .btn-sm {
+      padding: 6px 12px;
+      font-size: 12px;
+    }
+
+    .pagination {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 12px;
+      padding: 24px;
+    }
+
+    .page-info {
+      color: #6b7280;
+      font-size: 14px;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 1000;
+      overflow-y: auto;
+    }
+
+    .modal.active {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal-content {
+      background: white;
+      border-radius: 12px;
+      max-width: 900px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .modal-header {
+      padding: 24px;
+      border-bottom: 1px solid #e5e7eb;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .modal-header h2 {
+      font-size: 24px;
+      color: #1f2937;
+    }
+
+    .modal-body {
+      padding: 24px;
+    }
+
+    .modal-footer {
+      padding: 24px;
+      border-top: 1px solid #e5e7eb;
+      display: flex;
+      justify-content: flex-end;
+      gap: 12px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+      color: #374151;
+    }
+
+    .form-group input, .form-group textarea {
+      width: 100%;
+    }
+
+    .form-group textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+
+    .info-item label {
+      display: block;
+      font-size: 12px;
+      color: #6b7280;
+      margin-bottom: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .info-item value {
+      display: block;
+      font-size: 16px;
+      color: #1f2937;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 40px;
+      color: #6b7280;
+    }
+
+    .error {
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+      color: #991b1b;
+      padding: 12px 16px;
+      border-radius: 8px;
+      margin-bottom: 16px;
+    }
+
+    .success {
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      color: #166534;
+      padding: 12px 16px;
+      border-radius: 8px;
+      margin-bottom: 16px;
+    }
+
+    .close-btn {
+      background: none;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+      color: #6b7280;
+      padding: 0;
+      width: 32px;
+      height: 32px;
+    }
+
+    .close-btn:hover {
+      color: #1f2937;
+      background: none;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .stat-card {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .stat-value {
+      font-size: 32px;
+      font-weight: 700;
+      color: #1f2937;
+    }
+
+    .stat-label {
+      font-size: 14px;
+      color: #6b7280;
+      margin-top: 4px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <div class="header">
+      <h1>🏔️ 雪場管理</h1>
+      <p style="color: #6b7280; margin-top: 4px;">管理雪場資訊、查看統計數據</p>
+      <div class="header-actions">
+        <button onclick="window.location.href='admin.html'">← 返回管理後台</button>
+        <button onclick="loadStats()">📊 重新載入統計</button>
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats" id="stats">
+      <div class="stat-card">
+        <div class="stat-value" id="total-resorts">-</div>
+        <div class="stat-label">總雪場數</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="regions-count">-</div>
+        <div class="stat-label">地區數</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="night-ski-count">-</div>
+        <div class="stat-label">夜間滑雪</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="with-pricing">-</div>
+        <div class="stat-label">有價格資訊</div>
+      </div>
+    </div>
+
+    <!-- Filters -->
+    <div class="filters">
+      <div class="filter-row">
+        <input type="search" id="searchInput" placeholder="搜尋雪場名稱或 ID..." />
+        <select id="regionFilter">
+          <option value="">所有地區</option>
+        </select>
+        <select id="nightSkiFilter">
+          <option value="">夜間滑雪（全部）</option>
+          <option value="true">有夜滑</option>
+          <option value="false">無夜滑</option>
+        </select>
+        <button onclick="applyFilters()">🔍 搜尋</button>
+        <button onclick="resetFilters()" class="secondary">重置</button>
+      </div>
+    </div>
+
+    <!-- Table -->
+    <div class="table-container">
+      <div id="loading" class="loading" style="display: none;">載入中...</div>
+      <div id="error" style="display: none;"></div>
+      
+      <table id="resortsTable" style="display: none;">
+        <thead>
+          <tr>
+            <th>雪場名稱</th>
+            <th>地區</th>
+            <th>纜車/雪道</th>
+            <th>雪季</th>
+            <th>特色</th>
+            <th>操作</th>
+          </tr>
+        </thead>
+        <tbody id="resortsBody">
+        </tbody>
+      </table>
+
+      <div class="pagination">
+        <button id="prevBtn" onclick="previousPage()" class="btn-sm">上一頁</button>
+        <span class="page-info" id="pageInfo">第 1 頁 / 共 1 頁</span>
+        <button id="nextBtn" onclick="nextPage()" class="btn-sm">下一頁</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- View Modal -->
+  <div id="viewModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="viewModalTitle">雪場詳情</h2>
+        <button class="close-btn" onclick="closeViewModal()">&times;</button>
+      </div>
+      <div class="modal-body" id="viewModalBody">
+      </div>
+      <div class="modal-footer">
+        <button onclick="closeViewModal()" class="secondary">關閉</button>
+        <button onclick="openEditModal()">編輯</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit Modal -->
+  <div id="editModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>編輯雪場</h2>
+        <button class="close-btn" onclick="closeEditModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div id="editError" style="display: none;"></div>
+        <form id="editForm">
+          <!-- Form fields will be populated dynamically -->
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button onclick="closeEditModal()" class="secondary">取消</button>
+        <button onclick="saveResort()">儲存</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="assets/env.js"></script>
+  <script src="lib/config.js"></script>
+  <script>
+    const API_ROOT = window.API_BASE || '/api/v1';
+    const API_BASE = `${API_ROOT}/admin/resort`;
+    const AUTH_STORAGE_KEY = 'faqAdminToken';
+    let adminToken = null;
+    let authPromise = null;
+
+    async function ensureAdminToken(forceRefresh = false) {
+      if (!forceRefresh && adminToken) {
+        return adminToken;
+      }
+
+      if (!forceRefresh) {
+        const stored = localStorage.getItem(AUTH_STORAGE_KEY);
+        if (stored) {
+          adminToken = stored;
+          return adminToken;
+        }
+      }
+
+      if (!authPromise) {
+        authPromise = (async () => {
+          const response = await fetch(`${API_ROOT}/auth/dev-login`, { method: 'POST' });
+          if (!response.ok) {
+            throw new Error(`Dev login failed (HTTP ${response.status})`);
+          }
+          const payload = await response.json();
+          const token = payload?.data?.token;
+          if (!token) {
+            throw new Error('Dev login response missing token');
+          }
+          adminToken = token;
+          localStorage.setItem(AUTH_STORAGE_KEY, token);
+          console.info('[Admin Auth] Development token acquired');
+          return token;
+        })().finally(() => {
+          authPromise = null;
+        });
+      }
+
+      return authPromise;
+    }
+
+    async function fetchWithAuth(url, options = {}, retrying = false) {
+      const token = await ensureAdminToken(retrying);
+      const headers = new Headers(options.headers || {});
+      headers.set('Authorization', `Bearer ${token}`);
+
+      const response = await fetch(url, {
+        ...options,
+        headers
+      });
+
+      if (response.status === 401 && !retrying) {
+        console.warn('[Admin Auth] Token rejected, retrying with refreshed token');
+        localStorage.removeItem(AUTH_STORAGE_KEY);
+        adminToken = null;
+        return fetchWithAuth(url, options, true);
+      }
+
+      return response;
+    }
+    
+    let currentPage = 1;
+    let totalPages = 1;
+    let currentResort = null;
+    let regionsData = [];
+    let statsData = null;
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', async () => {
+      try {
+        await ensureAdminToken();
+      } catch (error) {
+        console.error('[Resort Admin] Authentication failed:', error);
+        showError(error.message || '無法取得管理者權限，請確認後端管理者金鑰設定');
+        return;
+      }
+
+      loadStats();
+      loadRegions();
+      loadResorts();
+
+      const searchInput = document.getElementById('searchInput');
+      if (searchInput) {
+        searchInput.addEventListener('input', debounce(applyFilters, 500));
+      }
+
+      const regionFilter = document.getElementById('regionFilter');
+      if (regionFilter) {
+        regionFilter.addEventListener('change', applyFilters);
+      }
+
+      const nightSkiFilter = document.getElementById('nightSkiFilter');
+      if (nightSkiFilter) {
+        nightSkiFilter.addEventListener('change', applyFilters);
+      }
+
+      const resetButton = document.getElementById('resetButton');
+      if (resetButton) {
+        resetButton.addEventListener('click', resetFilters);
+      }
+
+      const reloadStats = document.getElementById('reloadStats');
+      if (reloadStats) {
+        reloadStats.addEventListener('click', loadStats);
+      }
+    });
+
+    function debounce(func, wait) {
+      let timeout;
+      return function (...args) {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => func.apply(this, args), wait);
+      };
+    }
+
+    // Load stats
+    async function loadStats() {
+      try {
+        const response = await fetchWithAuth(`${API_BASE}/stats`);
+        const result = await response.json();
+        
+        if (result.success) {
+          statsData = result.data.statistics;
+          document.getElementById('total-resorts').textContent = statsData.total;
+          document.getElementById('regions-count').textContent = Object.keys(statsData.by_region).length;
+          document.getElementById('night-ski-count').textContent = statsData.with_night_ski;
+          document.getElementById('with-pricing').textContent = statsData.with_pricing;
+        }
+      } catch (error) {
+        console.error('Failed to load stats:', error);
+      }
+    }
+
+    // Load regions for filter
+    async function loadRegions() {
+      try {
+        const response = await fetchWithAuth(`${API_BASE}/regions`);
+        const result = await response.json();
+        
+        if (result.success) {
+          regionsData = result.data.regions;
+          const select = document.getElementById('regionFilter');
+          regionsData.forEach(region => {
+            const option = document.createElement('option');
+            option.value = region;
+            option.textContent = region.charAt(0).toUpperCase() + region.slice(1);
+            select.appendChild(option);
+          });
+        }
+      } catch (error) {
+        console.error('Failed to load regions:', error);
+      }
+    }
+
+    // Load resorts
+    async function loadResorts(page = 1) {
+      const loading = document.getElementById('loading');
+      const table = document.getElementById('resortsTable');
+      const errorDiv = document.getElementById('error');
+      
+      loading.style.display = 'block';
+      table.style.display = 'none';
+      errorDiv.style.display = 'none';
+
+      const search = document.getElementById('searchInput').value;
+      const region = document.getElementById('regionFilter').value;
+      const nightSki = document.getElementById('nightSkiFilter').value;
+
+      const params = new URLSearchParams({
+        page,
+        limit: 20,
+        ...(search && { search }),
+        ...(region && { region }),
+        ...(nightSki && { night_ski: nightSki }),
+      });
+
+      try {
+        const response = await fetchWithAuth(`${API_BASE}?${params}`);
+        const result = await response.json();
+
+        if (result.success) {
+          renderResorts(result.data.resorts);
+          updatePagination(result.data.pagination);
+          table.style.display = 'table';
+        } else {
+          showError(result.error.message);
+        }
+      } catch (error) {
+        showError('載入雪場資料失敗: ' + error.message);
+      } finally {
+        loading.style.display = 'none';
+      }
+    }
+
+    // Render resorts table
+    function renderResorts(resorts) {
+      const tbody = document.getElementById('resortsBody');
+      tbody.innerHTML = '';
+
+      resorts.forEach(resort => {
+        const row = document.createElement('tr');
+        
+        const nameCell = document.createElement('td');
+        nameCell.innerHTML = `
+          <div class="resort-name">${resort.names.zh || resort.names.en}</div>
+          <div class="resort-id">${resort.resort_id}</div>
+        `;
+        
+        const regionCell = document.createElement('td');
+        regionCell.innerHTML = `<span class="tag tag-region">${resort.area || resort.region}</span>`;
+        
+        const statsCell = document.createElement('td');
+        statsCell.textContent = `${resort.snow_stats.lifts || 0} 纜車 / ${resort.snow_stats.courses_total || 0} 雪道`;
+        
+        const seasonCell = document.createElement('td');
+        if (resort.season) {
+          const open = resort.season.estimated_open ? new Date(resort.season.estimated_open).toLocaleDateString('zh-TW', {month: 'short', day: 'numeric'}) : '?';
+          const close = resort.season.estimated_close ? new Date(resort.season.estimated_close).toLocaleDateString('zh-TW', {month: 'short', day: 'numeric'}) : '?';
+          seasonCell.textContent = `${open} - ${close}`;
+        }
+        
+        const featuresCell = document.createElement('td');
+        if (resort.snow_stats.night_ski) {
+          featuresCell.innerHTML = '<span class="tag tag-night-ski">夜滑</span>';
+        }
+        
+        const actionsCell = document.createElement('td');
+        actionsCell.innerHTML = `
+          <div class="actions">
+            <button class="btn-sm" onclick="viewResort('${resort.resort_id}')">查看</button>
+            <button class="btn-sm secondary" onclick="editResort('${resort.resort_id}')">編輯</button>
+          </div>
+        `;
+        
+        row.appendChild(nameCell);
+        row.appendChild(regionCell);
+        row.appendChild(statsCell);
+        row.appendChild(seasonCell);
+        row.appendChild(featuresCell);
+        row.appendChild(actionsCell);
+        tbody.appendChild(row);
+      });
+    }
+
+    // Update pagination
+    function updatePagination(pagination) {
+      currentPage = pagination.page;
+      totalPages = pagination.total_pages;
+      
+      document.getElementById('pageInfo').textContent = `第 ${currentPage} 頁 / 共 ${totalPages} 頁 (共 ${pagination.total} 個雪場)`;
+      document.getElementById('prevBtn').disabled = !pagination.has_prev;
+      document.getElementById('nextBtn').disabled = !pagination.has_next;
+    }
+
+    // Pagination
+    function previousPage() {
+      if (currentPage > 1) {
+        loadResorts(currentPage - 1);
+      }
+    }
+
+    function nextPage() {
+      if (currentPage < totalPages) {
+        loadResorts(currentPage + 1);
+      }
+    }
+
+    // Apply filters
+    function applyFilters() {
+      currentPage = 1;
+      loadResorts(1);
+    }
+
+    // Reset filters
+    function resetFilters() {
+      document.getElementById('searchInput').value = '';
+      document.getElementById('regionFilter').value = '';
+      document.getElementById('nightSkiFilter').value = '';
+      applyFilters();
+    }
+
+    // View resort
+    async function viewResort(resortId) {
+      try {
+        const response = await fetchWithAuth(`${API_BASE}/${resortId}`);
+        const result = await response.json();
+        
+        if (result.success) {
+          currentResort = result.data;
+          showViewModal(result.data);
+        }
+      } catch (error) {
+        alert('載入雪場詳情失敗: ' + error.message);
+      }
+    }
+
+    // Show view modal
+    function showViewModal(resort) {
+      document.getElementById('viewModalTitle').textContent = resort.names.zh || resort.names.en;
+      
+      const body = document.getElementById('viewModalBody');
+      body.innerHTML = `
+        <div class="info-grid">
+          <div class="info-item">
+            <label>雪場 ID</label>
+            <value>${resort.resort_id}</value>
+          </div>
+          <div class="info-item">
+            <label>中文名稱</label>
+            <value>${resort.names.zh || '-'}</value>
+          </div>
+          <div class="info-item">
+            <label>英文名稱</label>
+            <value>${resort.names.en || '-'}</value>
+          </div>
+          <div class="info-item">
+            <label>日文名稱</label>
+            <value>${resort.names.ja || '-'}</value>
+          </div>
+          <div class="info-item">
+            <label>地區</label>
+            <value>${resort.region}</value>
+          </div>
+          <div class="info-item">
+            <label>區域</label>
+            <value>${resort._metadata?.area || '-'}</value>
+          </div>
+          <div class="info-item">
+            <label>纜車數</label>
+            <value>${resort.snow_stats?.lifts || 0}</value>
+          </div>
+          <div class="info-item">
+            <label>雪道數</label>
+            <value>${resort.snow_stats?.courses_total || 0}</value>
+          </div>
+          <div class="info-item">
+            <label>夜間滑雪</label>
+            <value>${resort.snow_stats?.night_ski ? '✓ 有' : '✗ 無'}</value>
+          </div>
+          <div class="info-item">
+            <label>垂直落差</label>
+            <value>${resort.snow_stats?.vertical_drop || '-'} m</value>
+          </div>
+          <div class="info-item">
+            <label>最長雪道</label>
+            <value>${resort.snow_stats?.longest_run || '-'} km</value>
+          </div>
+          <div class="info-item">
+            <label>坐標</label>
+            <value>${resort.coordinates?.lat}, ${resort.coordinates?.lng}</value>
+          </div>
+        </div>
+        <div style="margin-top: 24px;">
+          <label style="display: block; margin-bottom: 8px; font-weight: 500;">官方網站</label>
+          <a href="${resort.official_site}" target="_blank" style="color: #667eea;">${resort.official_site}</a>
+        </div>
+        ${resort.description?.tagline ? `
+          <div style="margin-top: 20px;">
+            <label style="display: block; margin-bottom: 8px; font-weight: 500;">簡介</label>
+            <p style="color: #6b7280;">${resort.description.tagline}</p>
+          </div>
+        ` : ''}
+      `;
+      
+      document.getElementById('viewModal').classList.add('active');
+    }
+
+    // Close view modal
+    function closeViewModal() {
+      document.getElementById('viewModal').classList.remove('active');
+    }
+
+    // Edit resort
+    async function editResort(resortId) {
+      await viewResort(resortId);
+      openEditModal();
+    }
+
+    // Open edit modal
+    function openEditModal() {
+      if (!currentResort) return;
+      
+      closeViewModal();
+      
+      const form = document.getElementById('editForm');
+      form.innerHTML = `
+        <input type="hidden" id="edit_resort_id" value="${currentResort.resort_id}" />
+        
+        <div class="form-group">
+          <label>中文名稱</label>
+          <input type="text" id="edit_name_zh" value="${currentResort.names.zh || ''}" required />
+        </div>
+        
+        <div class="form-group">
+          <label>英文名稱</label>
+          <input type="text" id="edit_name_en" value="${currentResort.names.en || ''}" />
+        </div>
+        
+        <div class="form-group">
+          <label>日文名稱</label>
+          <input type="text" id="edit_name_ja" value="${currentResort.names.ja || ''}" />
+        </div>
+        
+        <div class="form-group">
+          <label>地區</label>
+          <input type="text" id="edit_region" value="${currentResort.region || ''}" required />
+        </div>
+        
+        <div class="form-group">
+          <label>纜車數</label>
+          <input type="number" id="edit_lifts" value="${currentResort.snow_stats?.lifts || 0}" />
+        </div>
+        
+        <div class="form-group">
+          <label>雪道數</label>
+          <input type="number" id="edit_courses" value="${currentResort.snow_stats?.courses_total || 0}" />
+        </div>
+        
+        <div class="form-group">
+          <label>
+            <input type="checkbox" id="edit_night_ski" ${currentResort.snow_stats?.night_ski ? 'checked' : ''} />
+            夜間滑雪
+          </label>
+        </div>
+        
+        <div class="form-group">
+          <label>官方網站</label>
+          <input type="url" id="edit_official_site" value="${currentResort.official_site || ''}" />
+        </div>
+      `;
+      
+      document.getElementById('editModal').classList.add('active');
+    }
+
+    // Close edit modal
+    function closeEditModal() {
+      document.getElementById('editModal').classList.remove('active');
+      document.getElementById('editError').style.display = 'none';
+    }
+
+    // Save resort
+    async function saveResort() {
+      const resortId = document.getElementById('edit_resort_id').value;
+      
+      const updatedResort = {
+        ...currentResort,
+        names: {
+          zh: document.getElementById('edit_name_zh').value,
+          en: document.getElementById('edit_name_en').value,
+          ja: document.getElementById('edit_name_ja').value,
+        },
+        region: document.getElementById('edit_region').value,
+        snow_stats: {
+          ...currentResort.snow_stats,
+          lifts: parseInt(document.getElementById('edit_lifts').value),
+          courses_total: parseInt(document.getElementById('edit_courses').value),
+          night_ski: document.getElementById('edit_night_ski').checked,
+        },
+        official_site: document.getElementById('edit_official_site').value,
+      };
+
+      try {
+        const response = await fetchWithAuth(`${API_BASE}/${resortId}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(updatedResort),
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          showSuccess('雪場資料已更新');
+          closeEditModal();
+          loadResorts(currentPage);
+          loadStats();
+        } else {
+          showEditError(result.error.message);
+        }
+      } catch (error) {
+        showEditError('儲存失敗: ' + error.message);
+      }
+    }
+
+    // Show error
+    function showError(message) {
+      const errorDiv = document.getElementById('error');
+      errorDiv.className = 'error';
+      errorDiv.textContent = message;
+      errorDiv.style.display = 'block';
+    }
+
+    // Show edit error
+    function showEditError(message) {
+      const errorDiv = document.getElementById('editError');
+      errorDiv.className = 'error';
+      errorDiv.textContent = message;
+      errorDiv.style.display = 'block';
+    }
+
+    // Show success (toast)
+    function showSuccess(message) {
+      const toast = document.createElement('div');
+      toast.className = 'success';
+      toast.textContent = message;
+      toast.style.position = 'fixed';
+      toast.style.top = '20px';
+      toast.style.right = '20px';
+      toast.style.zIndex = '2000';
+      document.body.appendChild(toast);
+      
+      setTimeout(() => {
+        toast.remove();
+      }, 3000);
+    }
+  </script>
+</body>
+</html>

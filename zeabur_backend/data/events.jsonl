@@ -1,0 +1,2 @@
+{"event_name":"resort_view","user_id":"user-123","session_id":"sess-abc","occurred_at":"2025-10-15T00:05:00Z","context":{"resort_id":"hokkaido_niseko_moiwa","resort_name":"Niseko Moiwa","time_on_page_ms":42000},"metadata":{"cta_clicked":true}}
+{"event_name":"faq_view","user_id":"user-123","session_id":"sess-abc","occurred_at":"2025-10-15T00:06:00Z","context":{"faq_id":"faq.booking.001","faq_title":"如何預約滑雪教練"},"metadata":{"time_on_answer_ms":18000}}

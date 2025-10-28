@@ -1,0 +1,1186 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DIY.Ski FAQ 智慧搜尋系統</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+    }
+
+    /* Header with language selector */
+    .header {
+      background: rgba(255,255,255,0.95);
+      padding: 1rem 2rem;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #667eea;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .ai-badge {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 0.25rem 0.75rem;
+      border-radius: 12px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    .language-selector select {
+      padding: 0.5rem 1rem;
+      border: 2px solid #667eea;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+      background: white;
+    }
+
+    /* Main layout with sidebar */
+    .main-layout {
+      display: flex;
+      max-width: 1400px;
+      margin: 2rem auto;
+      gap: 2rem;
+      padding: 0 2rem;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 280px;
+      background: white;
+      border-radius: 12px;
+      padding: 1.5rem;
+      height: fit-content;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    }
+
+    .sidebar h3 {
+      margin-bottom: 1rem;
+      color: #333;
+      font-size: 1.1rem;
+    }
+
+    .sidebar-section {
+      padding: 0.75rem 1rem;
+      margin: 0.5rem 0;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .sidebar-section:hover {
+      background: #f0f0f0;
+    }
+
+    .sidebar-section.active {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+    }
+
+    .section-count {
+      font-size: 0.9rem;
+      opacity: 0.7;
+    }
+
+    /* Content area */
+    .content {
+      flex: 1;
+      background: white;
+      border-radius: 12px;
+      padding: 2rem;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      min-height: 600px;
+    }
+
+    /* Search box */
+    .search-box {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .search-input {
+      flex: 1;
+      padding: 1rem;
+      border: 2px solid #ddd;
+      border-radius: 12px;
+      font-size: 1rem;
+      transition: border-color 0.3s;
+    }
+
+    .search-input:focus {
+      outline: none;
+      border-color: #667eea;
+    }
+
+    .search-btn {
+      padding: 1rem 2rem;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    .search-btn:hover {
+      transform: translateY(-2px);
+    }
+
+    /* Intent Detection Panel */
+    .intent-panel {
+      background: #f8f9fa;
+      border: 2px solid #e0e0e0;
+      border-radius: 12px;
+      padding: 1rem;
+      margin-bottom: 1.5rem;
+      display: none;
+    }
+
+    .intent-panel.show {
+      display: block;
+      animation: slideIn 0.3s ease;
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .intent-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.75rem;
+    }
+
+    .intent-title {
+      font-weight: 600;
+      color: #333;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .intent-badge {
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
+      border-radius: 12px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+    }
+
+    .intent-confidence {
+      font-size: 0.9rem;
+      color: #666;
+    }
+
+    .slot-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 0.5rem;
+    }
+
+    .slot-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      padding: 0.4rem 0.75rem;
+      background: white;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 0.85rem;
+    }
+
+    .slot-label {
+      color: #999;
+      font-weight: 600;
+    }
+
+    .slot-value {
+      color: #333;
+    }
+
+    /* Recommendations */
+    .recommendations {
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid #e0e0e0;
+    }
+
+    .recommendations h4 {
+      font-size: 0.9rem;
+      color: #666;
+      margin-bottom: 0.5rem;
+    }
+
+    .recommendation-item {
+      padding: 0.5rem;
+      background: white;
+      border-radius: 6px;
+      margin-bottom: 0.5rem;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .recommendation-item:hover {
+      background: #f0f0f0;
+    }
+
+    /* Hot FAQs */
+    .hot-faqs {
+      margin-bottom: 2rem;
+    }
+
+    .hot-faqs h2 {
+      margin-bottom: 1rem;
+      color: #333;
+    }
+
+    .hot-faq-item {
+      padding: 1rem;
+      border-bottom: 1px solid #eee;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .hot-faq-item:hover {
+      background: #f8f9fa;
+    }
+
+    /* FAQ Results */
+    .results-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid #eee;
+    }
+
+    .faq-item {
+      background: white;
+      border: 2px solid #e0e0e0;
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+      cursor: pointer;
+      transition: all 0.3s;
+      overflow: hidden;
+    }
+
+    .faq-item:hover {
+      border-color: #667eea;
+      box-shadow: 0 8px 24px rgba(102, 126, 234, 0.15);
+      transform: translateY(-2px);
+    }
+
+    .faq-item.expanded {
+      border-color: #667eea;
+      background: #f8f9ff;
+    }
+
+    .faq-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .faq-question {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #333;
+      margin: 0;
+      flex: 1;
+    }
+
+    .faq-toggle-icon {
+      font-size: 1.5rem;
+      color: #667eea;
+      transition: transform 0.3s;
+      flex-shrink: 0;
+    }
+
+    .faq-item.expanded .faq-toggle-icon {
+      transform: rotate(180deg);
+    }
+
+    .faq-answer {
+      color: #666;
+      line-height: 1.6;
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid #e0e0e0;
+      max-height: 0;
+      overflow: hidden;
+      opacity: 0;
+      transition: max-height 0.4s ease, opacity 0.3s ease, margin-top 0.3s ease, padding-top 0.3s ease;
+    }
+
+    .faq-item.expanded .faq-answer {
+      max-height: 1000px;
+      opacity: 1;
+    }
+
+    .confidence-badge {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 12px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-left: 0.5rem;
+    }
+
+    .confidence-high { background: #d4edda; color: #155724; }
+    .confidence-medium { background: #fff3cd; color: #856404; }
+    .confidence-low { background: #f8d7da; color: #721c24; }
+
+    .loading { text-align: center; padding: 3rem; color: #999; }
+    .hidden { display: none; }
+
+    /* AI Chat Widget - Floating bottom-right */
+    .ai-chat-widget {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      z-index: 1000;
+    }
+
+    .ai-chat-button {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      font-size: 1.8rem;
+      cursor: pointer;
+      box-shadow: 0 4px 20px rgba(102, 126, 234, 0.4);
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .ai-chat-button:hover {
+      transform: scale(1.1);
+      box-shadow: 0 6px 30px rgba(102, 126, 234, 0.6);
+    }
+
+    .ai-chat-button.active {
+      background: #f44336;
+    }
+
+    .ai-chat-window {
+      position: absolute;
+      bottom: 80px;
+      right: 0;
+      width: 380px;
+      height: 500px;
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.2);
+      display: none;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .ai-chat-window.open {
+      display: flex;
+    }
+
+    .ai-chat-header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 1rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .ai-chat-messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 1rem;
+      background: #f5f5f5;
+    }
+
+    .ai-chat-message {
+      margin-bottom: 1rem;
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .ai-chat-message.user {
+      flex-direction: row-reverse;
+    }
+
+    .ai-chat-message .avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      flex-shrink: 0;
+    }
+
+    .ai-chat-message.assistant .avatar {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+
+    .ai-chat-message.user .avatar {
+      background: #e0e0e0;
+    }
+
+    .ai-chat-message .bubble {
+      padding: 0.75rem 1rem;
+      border-radius: 12px;
+      max-width: 70%;
+      word-wrap: break-word;
+    }
+
+    .ai-chat-message.assistant .bubble {
+      background: white;
+      color: #333;
+    }
+
+    .ai-chat-message.user .bubble {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+    }
+
+    .ai-chat-input-area {
+      padding: 1rem;
+      background: white;
+      border-top: 1px solid #e0e0e0;
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .ai-chat-input {
+      flex: 1;
+      padding: 0.75rem;
+      border: 2px solid #e0e0e0;
+      border-radius: 20px;
+      font-size: 0.95rem;
+      outline: none;
+    }
+
+    .ai-chat-input:focus {
+      border-color: #667eea;
+    }
+
+    .ai-chat-send {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-size: 1.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .ai-chat-send:hover {
+      transform: scale(1.05);
+    }
+
+    .ai-chat-send:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .main-layout { flex-direction: column; }
+      .sidebar { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <div class="header">
+    <div class="logo">
+      🎿 DIY.Ski FAQ
+      <span class="ai-badge">AI Enhanced</span>
+    </div>
+    <div class="language-selector">
+      <select id="languageSelect">
+        <option value="zh">中文</option>
+        <option value="en">English</option>
+        <option value="th">ไทย</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Main Layout -->
+  <div class="main-layout">
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <h3>📂 依分類瀏覽</h3>
+      <div id="sidebarSections"></div>
+
+      <h3 style="margin-top: 2rem;">🔥 熱門問題</h3>
+      <div id="hotFAQs"></div>
+    </div>
+
+    <!-- Content -->
+    <div class="content">
+      <!-- Search Box -->
+      <div class="search-box">
+        <input
+          type="text"
+          id="searchInput"
+          class="search-input"
+          placeholder="輸入問題，AI 會自動分析您的需求..."
+        >
+        <button id="searchBtn" class="search-btn">🔍 智慧搜尋</button>
+      </div>
+
+      <!-- Intent Detection Panel -->
+      <div id="intentPanel" class="intent-panel">
+        <div class="intent-header">
+          <div class="intent-title">
+            <span>🤖 AI 分析結果</span>
+            <span id="intentBadge" class="intent-badge"></span>
+          </div>
+          <span id="intentConfidence" class="intent-confidence"></span>
+        </div>
+
+        <div id="slotTags" class="slot-tags"></div>
+
+        <div id="recommendations" class="recommendations hidden">
+          <h4>💡 相關推薦</h4>
+          <div id="recommendationsList"></div>
+        </div>
+      </div>
+
+      <!-- Loading -->
+      <div id="loadingState" class="loading hidden">載入中...</div>
+
+      <!-- Results -->
+      <div id="resultsSection" class="hidden">
+        <div class="results-header">
+          <div id="resultCount"></div>
+          <div id="responseTime"></div>
+        </div>
+        <div id="resultsList"></div>
+      </div>
+
+      <!-- Initial Hot FAQs -->
+      <div id="initialView">
+        <h2>🔥 熱門問題</h2>
+        <div id="initialHotFAQs"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- AI Chat Widget -->
+  <div class="ai-chat-widget">
+    <button class="ai-chat-button" id="aiChatToggle">💬</button>
+    <div class="ai-chat-window" id="aiChatWindow">
+      <div class="ai-chat-header">
+        <span>🤖</span>
+        <span>AI 智慧助手</span>
+      </div>
+      <div class="ai-chat-messages" id="aiChatMessages">
+        <div class="ai-chat-message assistant">
+          <div class="avatar">🤖</div>
+          <div class="bubble">您好！我是 DIY.Ski 的 AI 助手。有什麼滑雪相關的問題想要詢問嗎？</div>
+        </div>
+      </div>
+      <div class="ai-chat-input-area">
+        <input type="text" class="ai-chat-input" id="aiChatInput" placeholder="輸入您的問題...">
+        <button class="ai-chat-send" id="aiChatSend">➤</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="assets/env.js"></script>
+  <script src="lib/config.js"></script>
+  <script src="lib/fuse.min.js"></script>
+  <script src="lib/purify.min.js"></script>
+  <script src="lib/i18n.js"></script>
+  <script src="lib/faq-engine.js"></script>
+
+  <script>
+    let faqEngine = null;
+    let i18n = null;
+    let allFAQs = [];
+    let currentSection = null;
+    let searchDebounce = null;
+
+    // API base configuration
+    const API_BASE = window.API_BASE || '/api/v1';
+
+    // Intent name mapping (中文)
+    const intentNames = {
+      ITINERARY: '行程規劃',
+      SERVICE: '服務範圍',
+      COURSE: '課程內容',
+      GROUPING: '同堂安排',
+      KIDS_SAFETY: '兒童安全',
+      INSTRUCTOR: '教練資訊',
+      BOOKING: '預約變更',
+      PAYMENT: '付款方式',
+      INSURANCE: '保險提問',
+      GEAR: '裝備租借',
+      REFUND_POLICY: '退費規則',
+      GENERAL: '一般查詢'
+    };
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', async () => {
+      try {
+        console.log('[Init] Starting initialization...');
+
+        // Initialize i18n (optional - don't fail if it errors)
+        try {
+          i18n = new I18n();
+          await i18n.initialize();
+          console.log('[Init] i18n initialized successfully');
+        } catch (i18nError) {
+          console.warn('[Init] i18n initialization failed, continuing without i18n:', i18nError);
+          // Create dummy i18n object
+          i18n = { currentLanguage: 'zh', t: (key) => key };
+        }
+
+        // Initialize FAQ engine (critical)
+        faqEngine = new FAQEngine();
+        await faqEngine.initialize();
+        allFAQs = faqEngine.getAllFAQs();
+        console.log(`[Init] FAQ engine initialized with ${allFAQs.length} FAQs`);
+
+        // Render UI components
+        renderSidebar();
+        console.log('[Init] Sidebar rendered');
+
+        renderHotFAQs();
+        console.log('[Init] Hot FAQs rendered');
+
+        setupEventListeners();
+        console.log('[Init] Event listeners setup');
+
+        // Update UI language (only if i18n is available)
+        if (typeof updateUILanguage === 'function') {
+          try {
+            updateUILanguage();
+          } catch (langError) {
+            console.warn('[Init] Language update failed:', langError);
+          }
+        }
+
+        console.log('[Init] Initialization complete!');
+
+        // Initialize AI chat widget
+        initAIChatWidget();
+      } catch (error) {
+        console.error('Initialization failed:', error);
+        alert('初始化失敗: ' + error.message + '\n\n請檢查瀏覽器控制台以獲取更多資訊。');
+      }
+    });
+
+    // Render sidebar sections
+    function renderSidebar() {
+      console.log('[Sidebar] Rendering sidebar with', allFAQs.length, 'FAQs');
+
+      const sections = {};
+      allFAQs.forEach(faq => {
+        const section = faq.section || '其他';
+        sections[section] = (sections[section] || 0) + 1;
+      });
+
+      console.log('[Sidebar] Sections found:', Object.keys(sections));
+      console.log('[Sidebar] Section counts:', sections);
+
+      const sidebarHTML = Object.entries(sections)
+        .map(([name, count]) => `
+          <div class="sidebar-section" data-section="${name}">
+            <span>${getSectionIcon(name)} ${name}</span>
+            <span class="section-count">(${count})</span>
+          </div>
+        `).join('');
+
+      const sidebarElement = document.getElementById('sidebarSections');
+      if (!sidebarElement) {
+        console.error('[Sidebar] Element #sidebarSections not found!');
+        return;
+      }
+
+      sidebarElement.innerHTML = sidebarHTML;
+      console.log('[Sidebar] HTML rendered, length:', sidebarHTML.length);
+
+      // Section click handlers
+      document.querySelectorAll('.sidebar-section').forEach(el => {
+        el.addEventListener('click', () => {
+          document.querySelectorAll('.sidebar-section').forEach(e => e.classList.remove('active'));
+          el.classList.add('active');
+
+          const section = el.dataset.section;
+          currentSection = section;
+          filterBySection(section);
+        });
+      });
+
+      console.log('[Sidebar] Click handlers attached to', document.querySelectorAll('.sidebar-section').length, 'sections');
+    }
+
+    function getSectionIcon(section) {
+      const icons = {
+        '行程規劃與周邊': '🎿',
+        '預約與報名流程': '📅',
+        '🏂 教練與教學安排': '👨‍🏫',
+        '👶 小朋友滑雪與安全保障': '👶',
+        '💰 付款與退款政策': '💰',
+        '🎽 裝備租借與準備': '🎽',
+        '服務範圍與聯絡方式': '🏔️'
+      };
+      return icons[section] || '📄';
+    }
+
+    // Render hot FAQs (prioritize hot: true, then first 5)
+    function renderHotFAQs() {
+      // First try to find FAQs marked as hot
+      let hotFAQs = allFAQs.filter(faq => faq.hot === true);
+
+      // If less than 5, fill with first FAQs
+      if (hotFAQs.length < 5) {
+        const remaining = allFAQs.filter(faq => !hotFAQs.includes(faq)).slice(0, 5 - hotFAQs.length);
+        hotFAQs = [...hotFAQs, ...remaining];
+      }
+
+      // Limit to 5
+      hotFAQs = hotFAQs.slice(0, 5);
+
+      const hotHTML = hotFAQs.map(faq => `
+        <div class="hot-faq-item" onclick="showFAQDetail('${faq.id}')">
+          ${faq.canonical_question}
+        </div>
+      `).join('');
+
+      // Render to both sidebar and initial view
+      document.getElementById('hotFAQs').innerHTML = hotHTML;
+      document.getElementById('initialHotFAQs').innerHTML = hotHTML;
+
+      console.log(`[Hot FAQs] Rendered ${hotFAQs.length} hot questions to sidebar and initial view`);
+    }
+
+    // Filter by section
+    function filterBySection(section) {
+      const filtered = allFAQs.filter(faq => faq.section === section);
+      displayFAQs(filtered, `分類：${section}`);
+      hideIntentPanel();
+    }
+
+    // Search with Intent Detection
+    async function performSearch() {
+      const query = document.getElementById('searchInput').value.trim();
+      if (!query) return;
+
+      document.getElementById('loadingState').classList.remove('hidden');
+      document.getElementById('initialView').classList.add('hidden');
+      hideIntentPanel();
+
+      try {
+        const startTime = performance.now();
+
+        // Call Intent Detection API
+        const intentResponse = await fetch(`${API_BASE}/intent/analyze`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ query, contextual: true })
+        });
+
+        if (!intentResponse.ok) {
+          throw new Error('Intent API failed');
+        }
+
+        const intentData = await intentResponse.json();
+        const searchTime = Math.round(performance.now() - startTime);
+
+        // Perform FAQ search
+        const results = await faqEngine.search(query, { limit: 10 });
+
+        // Display intent detection results
+        displayIntentResults(intentData.data);
+
+        // Display FAQ results
+        const faqs = results.map(r => ({...r.item, score: r.score}));
+        displayFAQs(faqs, '搜尋結果', searchTime);
+
+      } catch (error) {
+        console.error('Search failed:', error);
+        document.getElementById('loadingState').classList.add('hidden');
+        alert('搜尋失敗: ' + error.message);
+      }
+    }
+
+    // Display Intent Detection Results
+    function displayIntentResults(data) {
+      const panel = document.getElementById('intentPanel');
+      const { intent, slots, recommendations } = data;
+
+      // Update intent badge
+      const intentName = intentNames[intent.primary] || intent.primary;
+      document.getElementById('intentBadge').textContent = intentName;
+
+      // Update confidence
+      const confidence = Math.round(intent.confidence * 100);
+      document.getElementById('intentConfidence').textContent = `信心度 ${confidence}%`;
+
+      // Display slots
+      const slotTags = document.getElementById('slotTags');
+      const slotHTML = Object.entries(slots).map(([key, value]) => {
+        const labels = {
+          resort: '雪場',
+          date: '日期',
+          people_total: '人數',
+          board_type: '板型',
+          children_ages: '孩童年齡'
+        };
+        const displayValue = Array.isArray(value) ? value.join(', ') + '歲' : value;
+        return `
+          <div class="slot-tag">
+            <span class="slot-label">${labels[key] || key}:</span>
+            <span class="slot-value">${displayValue}</span>
+          </div>
+        `;
+      }).join('');
+      slotTags.innerHTML = slotHTML;
+
+      // Display recommendations
+      if (recommendations && recommendations.length > 0) {
+        const recList = document.getElementById('recommendationsList');
+        recList.innerHTML = recommendations.map(rec => `
+          <div class="recommendation-item" onclick="showFAQDetail('${rec.faq_id}')">
+            ${rec.question} <span style="color: #999;">(${Math.round(rec.confidence * 100)}%)</span>
+          </div>
+        `).join('');
+        document.getElementById('recommendations').classList.remove('hidden');
+      } else {
+        document.getElementById('recommendations').classList.add('hidden');
+      }
+
+      // Show panel
+      panel.classList.add('show');
+    }
+
+    function hideIntentPanel() {
+      document.getElementById('intentPanel').classList.remove('show');
+    }
+
+    // Display FAQs
+    function displayFAQs(faqs, title, searchTime = null) {
+      document.getElementById('loadingState').classList.add('hidden');
+      document.getElementById('initialView').classList.add('hidden');
+      document.getElementById('resultsSection').classList.remove('hidden');
+
+      document.getElementById('resultCount').textContent =
+        `${title}: 找到 ${faqs.length} 筆結果`;
+
+      if (searchTime) {
+        document.getElementById('responseTime').textContent =
+          `搜尋耗時: ${searchTime}ms`;
+      }
+
+      const resultsHTML = faqs.map(faq => {
+        const confidence = faq.score ? Math.round((1 - faq.score) * 100) : 100;
+        const confidenceClass = confidence >= 80 ? 'confidence-high' :
+                               confidence >= 60 ? 'confidence-medium' : 'confidence-low';
+
+        return `
+          <div class="faq-item" data-faq-id="${faq.id}">
+            <div class="faq-header">
+              <div class="faq-question">
+                ${DOMPurify.sanitize(faq.canonical_question)}
+                <span class="confidence-badge ${confidenceClass}">
+                  信心度 ${confidence}%
+                </span>
+              </div>
+              <span class="faq-toggle-icon">▼</span>
+            </div>
+            <div class="faq-answer">
+              ${DOMPurify.sanitize(faq.answer_template.text || '無答案內容')}
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      document.getElementById('resultsList').innerHTML = resultsHTML;
+
+      // Add click handlers for accordion
+      document.querySelectorAll('.faq-item').forEach(item => {
+        item.addEventListener('click', (e) => {
+          toggleFAQItem(item);
+        });
+      });
+    }
+
+    // Toggle FAQ item (accordion style)
+    function toggleFAQItem(item) {
+      const wasExpanded = item.classList.contains('expanded');
+
+      // Optional: Close all other items (uncomment if you want only one open at a time)
+      // document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('expanded'));
+
+      // Toggle this item
+      if (wasExpanded) {
+        item.classList.remove('expanded');
+      } else {
+        item.classList.add('expanded');
+      }
+    }
+
+    // Show FAQ detail (hot FAQ click or recommendation click)
+    function showFAQDetail(faqId) {
+      console.log('[showFAQDetail] Called with faqId:', faqId);
+
+      // First check if the FAQ is already in the results
+      const item = document.querySelector(`.faq-item[data-faq-id="${faqId}"]`);
+      if (item) {
+        console.log('[showFAQDetail] FAQ already in results, expanding and scrolling');
+        // If already in results, just expand it and scroll to it
+        if (!item.classList.contains('expanded')) {
+          toggleFAQItem(item);
+        }
+        item.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        return;
+      }
+
+      // If not in results, find the FAQ and display it
+      console.log('[showFAQDetail] FAQ not in results, searching in allFAQs');
+      const faq = allFAQs.find(f => f.id === faqId);
+      if (faq) {
+        console.log('[showFAQDetail] Found FAQ, calling displayFAQs');
+        // Display this single FAQ
+        displayFAQs([faq], '熱門問題');
+        hideIntentPanel();
+
+        // Expand it automatically after a short delay to allow rendering
+        setTimeout(() => {
+          const newItem = document.querySelector(`.faq-item[data-faq-id="${faqId}"]`);
+          if (newItem && !newItem.classList.contains('expanded')) {
+            console.log('[showFAQDetail] Expanding newly rendered FAQ');
+            toggleFAQItem(newItem);
+          }
+        }, 100);
+      } else {
+        console.error('[showFAQDetail] FAQ not found:', faqId);
+      }
+    }
+
+    // Event listeners
+    function setupEventListeners() {
+      // Real-time intent detection (debounced)
+      document.getElementById('searchInput').addEventListener('input', (e) => {
+        clearTimeout(searchDebounce);
+        const query = e.target.value.trim();
+
+        if (query.length >= 3) {
+          searchDebounce = setTimeout(() => {
+            // Could call intent detection here for real-time feedback
+          }, 500);
+        } else {
+          hideIntentPanel();
+        }
+      });
+
+      document.getElementById('searchInput').addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') performSearch();
+      });
+
+      document.getElementById('searchBtn').addEventListener('click', performSearch);
+
+      // Language selector
+      document.getElementById('languageSelect').addEventListener('change', async (e) => {
+        const newLanguage = e.target.value;
+        try {
+          await i18n.setLanguage(newLanguage);
+          updateUILanguage();
+
+          const query = document.getElementById('searchInput').value.trim();
+          if (query) {
+            performSearch();
+          } else if (currentSection) {
+            filterBySection(currentSection);
+          } else {
+            renderHotFAQs();
+          }
+        } catch (error) {
+          console.error('Language switch failed:', error);
+          alert('切換語言失敗: ' + error.message);
+        }
+      });
+    }
+
+    // Update UI language
+    function updateUILanguage() {
+      document.title = i18n.t('app_title');
+
+      const currentLang = i18n.currentLanguage;
+      const sidebarHeaders = document.querySelectorAll('.sidebar h3');
+      if (sidebarHeaders[0]) {
+        sidebarHeaders[0].textContent = currentLang === 'en' ? '📂 Browse by Category' :
+                                         currentLang === 'th' ? '📂 เรียกดูตามหมวดหมู่' :
+                                         '📂 依分類瀏覽';
+      }
+      if (sidebarHeaders[1]) {
+        sidebarHeaders[1].textContent = currentLang === 'en' ? '🔥 Popular Questions' :
+                                         currentLang === 'th' ? '🔥 คำถามยอดนิยม' :
+                                         '🔥 熱門問題';
+      }
+
+      document.getElementById('loadingState').textContent = i18n.t('loading');
+    }
+
+    // ==================== AI Chat Widget ====================
+
+    function initAIChatWidget() {
+      console.log('[AI Chat] Initializing AI chat widget...');
+
+      const toggleBtn = document.getElementById('aiChatToggle');
+      const chatWindow = document.getElementById('aiChatWindow');
+      const chatInput = document.getElementById('aiChatInput');
+      const sendBtn = document.getElementById('aiChatSend');
+      const messagesContainer = document.getElementById('aiChatMessages');
+
+      // Toggle chat window
+      toggleBtn.addEventListener('click', () => {
+        chatWindow.classList.toggle('open');
+        toggleBtn.classList.toggle('active');
+
+        if (chatWindow.classList.contains('open')) {
+          toggleBtn.textContent = '✕';
+          chatInput.focus();
+        } else {
+          toggleBtn.textContent = '💬';
+        }
+      });
+
+      // Send message on button click
+      sendBtn.addEventListener('click', sendMessage);
+
+      // Send message on Enter key
+      chatInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter' && !e.shiftKey) {
+          e.preventDefault();
+          sendMessage();
+        }
+      });
+
+      async function sendMessage() {
+        const message = chatInput.value.trim();
+        if (!message) return;
+
+        // Add user message to chat
+        addMessageToChat('user', message);
+        chatInput.value = '';
+        sendBtn.disabled = true;
+
+        // Scroll to bottom
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+
+        try {
+          // Search FAQ for relevant answers
+          const results = await faqEngine.search(message);
+
+          // Generate AI response
+          let response = '';
+
+          if (results.length > 0) {
+            const topResult = results[0];
+            const confidence = Math.round((1 - topResult.score) * 100);
+
+            if (confidence >= 70) {
+              // High confidence - provide direct answer
+              response = `我找到了相關答案（信心度 ${confidence}%）：\n\n${topResult.item.answer_template.text}`;
+
+              if (topResult.item.answer_template.postscript) {
+                response += `\n\n${topResult.item.answer_template.postscript}`;
+              }
+            } else {
+              // Lower confidence - suggest FAQs
+              response = `我找到了一些可能相關的問題：\n\n`;
+              results.slice(0, 3).forEach((result, index) => {
+                const conf = Math.round((1 - result.score) * 100);
+                response += `${index + 1}. ${result.item.canonical_question} (${conf}%)\n`;
+              });
+              response += `\n您可以點選左側搜尋來查看詳細答案。`;
+            }
+          } else {
+            // No results found
+            response = '抱歉，我沒有找到直接相關的答案。您可以嘗試：\n\n1. 換個方式描述您的問題\n2. 瀏覽左側的分類清單\n3. 查看熱門問題\n4. 聯繫我們的客服團隊：admin@diy.ski';
+          }
+
+          // Add AI response to chat
+          setTimeout(() => {
+            addMessageToChat('assistant', response);
+            sendBtn.disabled = false;
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+          }, 500);
+
+        } catch (error) {
+          console.error('[AI Chat] Error:', error);
+          addMessageToChat('assistant', '抱歉，處理您的問題時發生錯誤。請稍後再試。');
+          sendBtn.disabled = false;
+        }
+      }
+
+      function addMessageToChat(role, text) {
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `ai-chat-message ${role}`;
+
+        const avatar = document.createElement('div');
+        avatar.className = 'avatar';
+        avatar.textContent = role === 'user' ? '👤' : '🤖';
+
+        const bubble = document.createElement('div');
+        bubble.className = 'bubble';
+        bubble.textContent = text;
+
+        messageDiv.appendChild(avatar);
+        messageDiv.appendChild(bubble);
+
+        messagesContainer.appendChild(messageDiv);
+      }
+
+      console.log('[AI Chat] AI chat widget initialized');
+    }
+  </script>
+</body>
+</html>

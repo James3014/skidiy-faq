@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DIY.Ski AI 智慧客服</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Header */
+    .header {
+      background: rgba(255,255,255,0.95);
+      padding: 1rem 2rem;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #667eea;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .ai-badge {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 0.25rem 0.75rem;
+      border-radius: 12px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    .provider-selector {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .provider-selector label {
+      font-size: 0.9rem;
+      color: #666;
+      font-weight: 500;
+    }
+
+    .provider-selector select {
+      padding: 0.5rem 1rem;
+      border: 2px solid #667eea;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      background: white;
+      color: #333;
+      transition: all 0.3s;
+    }
+
+    .provider-selector select:hover {
+      border-color: #764ba2;
+    }
+
+    .provider-status {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #10b981;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    /* Main Chat Container */
+    .chat-container {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      max-width: 1200px;
+      width: 100%;
+      margin: 2rem auto;
+      padding: 0 1rem;
+      gap: 1rem;
+    }
+
+    /* Chat Messages Area */
+    .chat-messages {
+      flex: 1;
+      background: rgba(255,255,255,0.95);
+      border-radius: 12px;
+      padding: 1.5rem;
+      overflow-y: auto;
+      min-height: 500px;
+      max-height: 600px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    }
+
+    .message {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      animation: slideIn 0.3s ease;
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .message.user {
+      flex-direction: row-reverse;
+    }
+
+    .message-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      flex-shrink: 0;
+    }
+
+    .message.user .message-avatar {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+    }
+
+    .message.assistant .message-avatar {
+      background: #f3f4f6;
+      color: #667eea;
+    }
+
+    .message-content {
+      max-width: 70%;
+    }
+
+    .message.user .message-content {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 1rem 1.25rem;
+      border-radius: 18px 18px 4px 18px;
+    }
+
+    .message.assistant .message-content {
+      background: #f3f4f6;
+      color: #333;
+      padding: 1rem 1.25rem;
+      border-radius: 18px 18px 18px 4px;
+    }
+
+    .message-text {
+      line-height: 1.6;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+
+    .message-meta {
+      display: flex;
+      gap: 1rem;
+      margin-top: 0.5rem;
+      font-size: 0.75rem;
+      opacity: 0.7;
+    }
+
+    .message.user .message-meta {
+      justify-content: flex-end;
+    }
+
+    /* FAQ Suggestions */
+    .faq-suggestions {
+      background: white;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      padding: 0.75rem;
+      margin-top: 0.75rem;
+    }
+
+    .faq-suggestions-title {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #667eea;
+      margin-bottom: 0.5rem;
+    }
+
+    .faq-suggestion-item {
+      padding: 0.5rem;
+      background: #f9fafb;
+      border-radius: 6px;
+      margin-bottom: 0.5rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-size: 0.85rem;
+    }
+
+    .faq-suggestion-item:hover {
+      background: #f3f4f6;
+      transform: translateX(4px);
+    }
+
+    .faq-suggestion-item:last-child {
+      margin-bottom: 0;
+    }
+
+    /* Typing Indicator */
+    .typing-indicator {
+      display: flex;
+      gap: 0.25rem;
+      padding: 1rem;
+    }
+
+    .typing-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #667eea;
+      animation: typing 1.4s infinite;
+    }
+
+    .typing-dot:nth-child(2) {
+      animation-delay: 0.2s;
+    }
+
+    .typing-dot:nth-child(3) {
+      animation-delay: 0.4s;
+    }
+
+    @keyframes typing {
+      0%, 60%, 100% {
+        transform: translateY(0);
+      }
+      30% {
+        transform: translateY(-10px);
+      }
+    }
+
+    /* Welcome Message */
+    .welcome-message {
+      text-align: center;
+      padding: 3rem 2rem;
+      color: #666;
+    }
+
+    .welcome-message h2 {
+      font-size: 1.75rem;
+      color: #333;
+      margin-bottom: 1rem;
+    }
+
+    .welcome-message p {
+      font-size: 1rem;
+      line-height: 1.8;
+      margin-bottom: 0.5rem;
+    }
+
+    .welcome-examples {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .example-card {
+      background: white;
+      border: 2px solid #e5e7eb;
+      border-radius: 12px;
+      padding: 1.25rem;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .example-card:hover {
+      border-color: #667eea;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+    }
+
+    .example-card .icon {
+      font-size: 2rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .example-card .title {
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 0.5rem;
+    }
+
+    .example-card .text {
+      font-size: 0.9rem;
+      color: #666;
+    }
+
+    /* Input Area */
+    .chat-input-area {
+      background: rgba(255,255,255,0.95);
+      border-radius: 12px;
+      padding: 1.5rem;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    }
+
+    .input-container {
+      display: flex;
+      gap: 1rem;
+      align-items: flex-end;
+    }
+
+    .input-wrapper {
+      flex: 1;
+      position: relative;
+    }
+
+    #chatInput {
+      width: 100%;
+      padding: 1rem 1.25rem;
+      border: 2px solid #e5e7eb;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-family: inherit;
+      resize: none;
+      max-height: 120px;
+      transition: all 0.3s;
+    }
+
+    #chatInput:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+
+    #sendButton {
+      padding: 1rem 2rem;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      white-space: nowrap;
+    }
+
+    #sendButton:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+    }
+
+    #sendButton:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .input-hint {
+      font-size: 0.8rem;
+      color: #999;
+      margin-top: 0.5rem;
+      text-align: center;
+    }
+
+    /* Loading State */
+    .loading-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.3);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+
+    .loading-overlay.active {
+      display: flex;
+    }
+
+    .loader {
+      width: 50px;
+      height: 50px;
+      border: 4px solid rgba(255,255,255,0.3);
+      border-top-color: white;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .chat-container {
+        margin: 1rem auto;
+      }
+
+      .message-content {
+        max-width: 85%;
+      }
+
+      .welcome-examples {
+        grid-template-columns: 1fr;
+      }
+
+      .input-container {
+        flex-direction: column;
+      }
+
+      #sendButton {
+        width: 100%;
+      }
+    }
+
+    /* Markdown-like styling */
+    .message-text strong {
+      font-weight: 700;
+    }
+
+    .message-text em {
+      font-style: italic;
+    }
+
+    .message-text code {
+      background: rgba(0,0,0,0.1);
+      padding: 0.125rem 0.25rem;
+      border-radius: 4px;
+      font-family: 'Courier New', monospace;
+      font-size: 0.9em;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <div class="header">
+    <div class="logo">
+      <span>⛷️ DIY.Ski</span>
+      <span class="ai-badge">AI Enhanced</span>
+    </div>
+    <div class="provider-selector">
+      <div class="provider-status"></div>
+      <label for="providerSelect">AI Provider:</label>
+      <select id="providerSelect">
+        <option value="auto">自動選擇</option>
+        <option value="gemini">Google Gemini</option>
+        <option value="claude">Anthropic Claude</option>
+        <option value="openai">OpenAI GPT</option>
+        <option value="ollama">Ollama (本地)</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Main Chat Container -->
+  <div class="chat-container">
+    <!-- Chat Messages Area -->
+    <div class="chat-messages" id="chatMessages">
+      <!-- Welcome Message -->
+      <div class="welcome-message" id="welcomeMessage">
+        <h2>👋 歡迎使用 DIY.Ski AI 智慧客服</h2>
+        <p>我是您的滑雪助手，可以回答關於課程、裝備、雪場等各種問題</p>
+        <p>💡 使用 Google Gemini AI，結合我們的 FAQ 知識庫為您提供準確回答</p>
+
+        <div class="welcome-examples">
+          <div class="example-card" onclick="sendExample('小朋友幾歲可以開始學滑雪？')">
+            <div class="icon">👶</div>
+            <div class="title">兒童滑雪</div>
+            <div class="text">小朋友幾歲可以開始學滑雪？</div>
+          </div>
+          <div class="example-card" onclick="sendExample('野澤溫泉雪場怎麼去？')">
+            <div class="icon">🏔️</div>
+            <div class="title">雪場資訊</div>
+            <div class="text">野澤溫泉雪場怎麼去？</div>
+          </div>
+          <div class="example-card" onclick="sendExample('教練課程多少錢？')">
+            <div class="icon">💰</div>
+            <div class="title">課程費用</div>
+            <div class="text">教練課程多少錢？</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Chat Input Area -->
+    <div class="chat-input-area">
+      <div class="input-container">
+        <div class="input-wrapper">
+          <textarea
+            id="chatInput"
+            placeholder="輸入您的問題..."
+            rows="1"
+            onkeydown="handleKeyDown(event)"
+          ></textarea>
+        </div>
+        <button id="sendButton" onclick="sendMessage()">
+          發送 📤
+        </button>
+      </div>
+      <div class="input-hint">
+        按 Enter 發送，Shift+Enter 換行
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading Overlay -->
+  <div class="loading-overlay" id="loadingOverlay">
+    <div class="loader"></div>
+  </div>
+
+  <script src="assets/env.js"></script>
+  <script src="lib/config.js"></script>
+  <script>
+    const API_BASE = window.API_BASE || '/api/v1';
+    let conversationHistory = [];
+    let isGenerating = false;
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', async () => {
+      await loadProviders();
+      autoResizeTextarea();
+    });
+
+    // Load available providers
+    async function loadProviders() {
+      try {
+        const response = await fetch(`${API_BASE}/llm/providers`);
+        const data = await response.json();
+
+        if (data.success) {
+          const select = document.getElementById('providerSelect');
+          const availableProviders = data.data.availableProviders;
+
+          // Update provider status
+          const status = document.querySelector('.provider-status');
+          if (availableProviders.length > 0) {
+            status.style.background = '#10b981'; // Green
+          } else {
+            status.style.background = '#ef4444'; // Red
+          }
+
+          // Enable/disable provider options
+          Array.from(select.options).forEach(option => {
+            if (option.value !== 'auto') {
+              option.disabled = !availableProviders.includes(option.value);
+            }
+          });
+
+          console.log('Available providers:', availableProviders);
+        }
+      } catch (error) {
+        console.error('Failed to load providers:', error);
+      }
+    }
+
+    // Auto-resize textarea
+    function autoResizeTextarea() {
+      const textarea = document.getElementById('chatInput');
+      textarea.addEventListener('input', function() {
+        this.style.height = 'auto';
+        this.style.height = this.scrollHeight + 'px';
+      });
+    }
+
+    // Handle Enter key
+    function handleKeyDown(event) {
+      if (event.key === 'Enter' && !event.shiftKey) {
+        event.preventDefault();
+        sendMessage();
+      }
+    }
+
+    // Send example query
+    function sendExample(text) {
+      document.getElementById('chatInput').value = text;
+      sendMessage();
+    }
+
+    // Send message
+    async function sendMessage() {
+      const input = document.getElementById('chatInput');
+      const query = input.value.trim();
+
+      if (!query || isGenerating) return;
+
+      // Hide welcome message
+      const welcomeMsg = document.getElementById('welcomeMessage');
+      if (welcomeMsg) {
+        welcomeMsg.style.display = 'none';
+      }
+
+      // Clear input
+      input.value = '';
+      input.style.height = 'auto';
+
+      // Add user message
+      addMessage('user', query);
+
+      // Disable input
+      isGenerating = true;
+      document.getElementById('sendButton').disabled = true;
+      input.disabled = true;
+
+      // Show typing indicator
+      const typingId = addTypingIndicator();
+
+      try {
+        // Get selected provider
+        const provider = document.getElementById('providerSelect').value;
+        const requestBody = { query };
+        if (provider !== 'auto') {
+          requestBody.provider = provider;
+        }
+
+        // Call LLM API
+        const response = await fetch(`${API_BASE}/llm/chat`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(requestBody)
+        });
+
+        const data = await response.json();
+
+        // Remove typing indicator
+        removeTypingIndicator(typingId);
+
+        if (data.success) {
+          // Add assistant message
+          addMessage('assistant', data.data.answer, {
+            provider: data.data.metadata.provider,
+            model: data.data.metadata.model,
+            tokens: data.data.metadata.usage.total_tokens,
+            faqMatches: data.data.faqMatches
+          });
+
+          // Store conversation
+          conversationHistory.push({
+            user: query,
+            assistant: data.data.answer,
+            metadata: data.data.metadata
+          });
+        } else {
+          addMessage('assistant', '抱歉，發生錯誤：' + data.error.message);
+        }
+
+      } catch (error) {
+        removeTypingIndicator(typingId);
+        addMessage('assistant', '抱歉，無法連接到服務器。請確認後端服務是否正常運行。');
+        console.error('Error:', error);
+      } finally {
+        // Re-enable input
+        isGenerating = false;
+        document.getElementById('sendButton').disabled = false;
+        input.disabled = false;
+        input.focus();
+      }
+    }
+
+    // Add message to chat
+    function addMessage(role, text, metadata = null) {
+      const messagesDiv = document.getElementById('chatMessages');
+
+      const messageDiv = document.createElement('div');
+      messageDiv.className = `message ${role}`;
+
+      const avatar = document.createElement('div');
+      avatar.className = 'message-avatar';
+      avatar.textContent = role === 'user' ? '👤' : '🤖';
+
+      const contentDiv = document.createElement('div');
+      contentDiv.className = 'message-content';
+
+      const textDiv = document.createElement('div');
+      textDiv.className = 'message-text';
+      textDiv.textContent = text;
+
+      contentDiv.appendChild(textDiv);
+
+      // Add metadata for assistant messages
+      if (role === 'assistant' && metadata) {
+        const metaDiv = document.createElement('div');
+        metaDiv.className = 'message-meta';
+        metaDiv.innerHTML = `
+          <span>🤖 ${metadata.provider || 'Unknown'}</span>
+          <span>📊 ${metadata.tokens || 0} tokens</span>
+        `;
+        contentDiv.appendChild(metaDiv);
+
+        // Add FAQ suggestions if available
+        if (metadata.faqMatches && metadata.faqMatches.length > 0) {
+          const suggestionsDiv = document.createElement('div');
+          suggestionsDiv.className = 'faq-suggestions';
+
+          const title = document.createElement('div');
+          title.className = 'faq-suggestions-title';
+          title.textContent = '💡 相關 FAQ:';
+          suggestionsDiv.appendChild(title);
+
+          metadata.faqMatches.slice(0, 3).forEach(faq => {
+            const item = document.createElement('div');
+            item.className = 'faq-suggestion-item';
+            item.textContent = `${faq.question} (${Math.round(faq.confidence * 100)}%)`;
+            item.onclick = () => sendExample(faq.question);
+            suggestionsDiv.appendChild(item);
+          });
+
+          contentDiv.appendChild(suggestionsDiv);
+        }
+      }
+
+      messageDiv.appendChild(avatar);
+      messageDiv.appendChild(contentDiv);
+
+      messagesDiv.appendChild(messageDiv);
+
+      // Scroll to bottom
+      messagesDiv.scrollTop = messagesDiv.scrollHeight;
+
+      return messageDiv;
+    }
+
+    // Add typing indicator
+    function addTypingIndicator() {
+      const messagesDiv = document.getElementById('chatMessages');
+
+      const messageDiv = document.createElement('div');
+      messageDiv.className = 'message assistant';
+      messageDiv.id = 'typing-indicator-' + Date.now();
+
+      const avatar = document.createElement('div');
+      avatar.className = 'message-avatar';
+      avatar.textContent = '🤖';
+
+      const typingDiv = document.createElement('div');
+      typingDiv.className = 'typing-indicator';
+      typingDiv.innerHTML = '<div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>';
+
+      messageDiv.appendChild(avatar);
+      messageDiv.appendChild(typingDiv);
+
+      messagesDiv.appendChild(messageDiv);
+      messagesDiv.scrollTop = messagesDiv.scrollHeight;
+
+      return messageDiv.id;
+    }
+
+    // Remove typing indicator
+    function removeTypingIndicator(id) {
+      const indicator = document.getElementById(id);
+      if (indicator) {
+        indicator.remove();
+      }
+    }
+  </script>
+</body>
+</html>

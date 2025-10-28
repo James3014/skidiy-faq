@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DIY.Ski FAQ 系統首頁</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+      margin: 0;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: #fff;
+    }
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 80px 24px;
+      text-align: center;
+    }
+    h1 {
+      font-size: 2.8rem;
+      margin-bottom: 16px;
+    }
+    p {
+      line-height: 1.7;
+      margin-bottom: 32px;
+    }
+    .links {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+    }
+    a.card {
+      display: block;
+      padding: 28px 20px;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.12);
+      color: #fff;
+      text-decoration: none;
+      transition: background 0.3s ease, transform 0.2s ease;
+    }
+    a.card:hover {
+      background: rgba(255, 255, 255, 0.22);
+      transform: translateY(-3px);
+    }
+    h2 {
+      margin: 0 0 12px;
+      font-size: 1.3rem;
+    }
+    footer {
+      margin-top: 80px;
+      font-size: 0.85rem;
+      color: rgba(255, 255, 255, 0.7);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>DIY.Ski FAQ 與知識庫系統</h1>
+    <p>選擇想進入的功能入口，快速開始操作或查看分析資訊。</p>
+    <div class="links">
+      <a class="card" href="index-intent.html">
+        <h2>智慧搜尋首頁</h2>
+        <p>面向客服與訪客的 FAQ 搜尋體驗，支援多語言與意圖分析。</p>
+      </a>
+      <a class="card" href="index-llm.html">
+        <h2>LLM 助理</h2>
+        <p>測試最新的 LLM 整合，檢視模型回應與 FAQ 上下文注入。</p>
+      </a>
+      <a class="card" href="analytics.html">
+        <h2>分析儀表板</h2>
+        <p>追蹤使用者查詢、LLM 成本與 FAQ 使用狀況，支援成本警示。</p>
+      </a>
+      <a class="card" href="admin.html">
+        <h2>管理後台</h2>
+        <p>維護 FAQ / 雪場資料、檢視 CRM 標籤與匯入匯出工具。</p>
+      </a>
+      <a class="card" href="docs.html">
+        <h2>開發者指南</h2>
+        <p>查閱 API 規格、元件說明與二次開發的完整文檔。</p>
+      </a>
+      <a class="card" href="faq-search-i18n.html">
+        <h2>多語言 FAQ 搜尋</h2>
+        <p>示範 Fuse.js 搜尋設定，快速體驗 i18n 支援與 UI 變換。</p>
+      </a>
+    </div>
+    <footer>
+      © 2025 DIY.Ski | 若要查看開發者入口請前往 <a href="dev.html" style="color:#ffd369;">dev.html</a>
+    </footer>
+  </div>
+</body>
+</html>

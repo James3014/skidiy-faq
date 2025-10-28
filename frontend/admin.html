@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DIY.Ski FAQ 管理後台</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, "Microsoft JhengHei", sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1200px;
+      width: 100%;
+    }
+
+    .header {
+      text-align: center;
+      color: white;
+      margin-bottom: 50px;
+    }
+
+    .logo {
+      font-size: 3rem;
+      font-weight: 800;
+      margin-bottom: 10px;
+      text-shadow: 2px 2px 10px rgba(0,0,0,0.2);
+    }
+
+    .subtitle {
+      font-size: 1.2rem;
+      opacity: 0.95;
+      font-weight: 300;
+    }
+
+    .version-badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.2);
+      padding: 4px 12px;
+      border-radius: 12px;
+      font-size: 0.85rem;
+      margin-left: 10px;
+      backdrop-filter: blur(10px);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 25px;
+      margin-bottom: 40px;
+    }
+
+    .card {
+      background: rgba(255,255,255,0.95);
+      border-radius: 16px;
+      padding: 30px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+      transition: all 0.3s ease;
+      cursor: pointer;
+      text-decoration: none;
+      color: inherit;
+      display: block;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.3s ease;
+    }
+
+    .card:hover::before {
+      transform: scaleX(1);
+    }
+
+    .card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 15px 50px rgba(0,0,0,0.2);
+    }
+
+    .card-icon {
+      font-size: 3rem;
+      margin-bottom: 15px;
+      display: block;
+    }
+
+    .card-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #333;
+      margin-bottom: 10px;
+    }
+
+    .card-description {
+      color: #666;
+      font-size: 0.95rem;
+      line-height: 1.6;
+      margin-bottom: 15px;
+    }
+
+    .card-features {
+      list-style: none;
+      padding: 0;
+      margin-top: 15px;
+    }
+
+    .card-features li {
+      font-size: 0.85rem;
+      color: #888;
+      margin-bottom: 6px;
+      padding-left: 18px;
+      position: relative;
+    }
+
+    .card-features li::before {
+      content: '✓';
+      position: absolute;
+      left: 0;
+      color: #667eea;
+      font-weight: bold;
+    }
+
+    .card-badge {
+      display: inline-block;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 4px 10px;
+      border-radius: 8px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      margin-top: 10px;
+    }
+
+    .card-badge.new {
+      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    }
+
+    .card-badge.beta {
+      background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    }
+
+    .footer {
+      text-align: center;
+      color: white;
+      margin-top: 50px;
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    .footer-link {
+      color: white;
+      text-decoration: none;
+      font-size: 0.9rem;
+      opacity: 0.9;
+      transition: opacity 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .footer-link:hover {
+      opacity: 1;
+      text-decoration: underline;
+    }
+
+    .status-indicator {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 20px;
+      color: white;
+      font-size: 0.85rem;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #4ade80;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    .stats-bar {
+      background: rgba(255,255,255,0.15);
+      backdrop-filter: blur(10px);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 40px;
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .stat-item {
+      text-align: center;
+      color: white;
+    }
+
+    .stat-value {
+      font-size: 2rem;
+      font-weight: 700;
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .stat-label {
+      font-size: 0.85rem;
+      opacity: 0.9;
+    }
+
+    @media (max-width: 768px) {
+      .logo {
+        font-size: 2rem;
+      }
+
+      .subtitle {
+        font-size: 1rem;
+      }
+
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      .footer-links {
+        flex-direction: column;
+        gap: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="logo">
+        🔐 DIY.Ski 管理後台
+        <span class="version-badge">Admin</span>
+      </div>
+      <p class="subtitle">Analytics 分析 | 系統監控 | FAQ 管理 | CRM 整合</p>
+    </div>
+
+    <div class="stats-bar">
+      <div class="stat-item">
+        <span class="stat-value">71</span>
+        <span class="stat-label">FAQ 項目</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-value">42</span>
+        <span class="stat-label">雪場資料</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-value">12</span>
+        <span class="stat-label">Intent 類型</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-value">4</span>
+        <span class="stat-label">LLM 提供者</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-value">3</span>
+        <span class="stat-label">支援語言</span>
+      </div>
+    </div>
+
+    <div class="grid">
+      <!-- Analytics 儀表板 -->
+      <a href="analytics.html" class="card">
+        <span class="card-icon">📊</span>
+        <h2 class="card-title">Analytics 儀表板</h2>
+        <p class="card-description">
+          即時監控系統使用情況、LLM 成本、回應時間與成功率。
+        </p>
+        <ul class="card-features">
+          <li>即時統計與趨勢圖表</li>
+          <li>成本追蹤與預警</li>
+          <li>提供者分佈分析</li>
+          <li>每日請求趨勢</li>
+          <li>CSV 匯出功能</li>
+        </ul>
+        <span class="card-badge">繁體中文</span>
+      </a>
+
+      <!-- FAQ 管理 -->
+      <a href="faq-admin.html" class="card">
+        <span class="card-icon">📝</span>
+        <h2 class="card-title">FAQ 內容管理</h2>
+        <p class="card-description">
+          完整的 FAQ CRUD 管理系統，支援新增、編輯、刪除、搜尋和批次操作。
+        </p>
+        <ul class="card-features">
+          <li>新增/編輯/刪除 FAQ</li>
+          <li>搜尋與篩選功能</li>
+          <li>熱門問題標記</li>
+          <li>批次操作</li>
+          <li>自動備份機制</li>
+        </ul>
+        <span class="card-badge new">NEW</span>
+      </a>
+
+      <!-- 雪場管理 -->
+      <a href="resort-admin.html" class="card">
+        <span class="card-icon">🏔️</span>
+        <h2 class="card-title">雪場管理</h2>
+        <p class="card-description">
+          管理滑雪場資訊，包含42個日本雪場的完整資料，支援搜尋、篩選和編輯功能。
+        </p>
+        <ul class="card-features">
+          <li>42 個日本雪場資料</li>
+          <li>地區與夜滑篩選</li>
+          <li>雪道/纜車統計</li>
+          <li>價格與交通資訊</li>
+          <li>即時編輯更新</li>
+        </ul>
+        <span class="card-badge new">NEW</span>
+      </a>
+    </div>
+
+    <div class="footer">
+      <div class="footer-links">
+        <a href="docs.html?file=README.md" class="footer-link">
+          📄 使用文檔
+        </a>
+        <a href="docs.html?file=TEST_REPORT.md" class="footer-link">
+          🧪 測試報告
+        </a>
+        <a href="docs.html?file=CLAUDE.md" class="footer-link">
+          🤖 開發指南
+        </a>
+        <a href="docs.html?file=specs/001-faq-system-upgrade/spec.md" class="footer-link">
+          📋 功能規格
+        </a>
+        <a id="healthLink" href="/health" class="footer-link" target="_blank">
+          ❤️ 後端健康檢查
+        </a>
+      </div>
+
+      <div class="status-indicator">
+        <span class="status-dot"></span>
+        <span id="statusInfo">管理後台 | 前端: -- | 後端: --</span>
+      </div>
+
+      <p style="margin-top: 20px; opacity: 0.8; font-size: 0.85rem;">
+        © 2025 DIY.Ski - FAQ 管理後台 v1.0.0 | <a href="index.html" style="color: white; text-decoration: underline;">返回首頁</a> | <a href="dev.html" style="color: white; text-decoration: underline;">開發者入口</a>
+      </p>
+    </div>
+  </div>
+
+  <script src="assets/env.js"></script>
+  <script src="lib/config.js"></script>
+  <script>
+    const API_BASE = window.API_BASE || '/api/v1';
+    const API_ROOT = window.API_ROOT || '';
+
+    const healthEndpoint = API_ROOT ? `${API_ROOT}/health` : '/health';
+    const statusInfo = document.getElementById('statusInfo');
+    if (statusInfo) {
+      const frontendOrigin = window.location.origin;
+      const backendDisplay = API_ROOT || (frontendOrigin + '/api/v1');
+      statusInfo.textContent = `管理後台 | 前端: ${frontendOrigin} | 後端: ${backendDisplay}`;
+    }
+
+    const healthLink = document.getElementById('healthLink');
+    if (healthLink) {
+      healthLink.href = healthEndpoint;
+    }
+
+    // Check backend health on load
+    async function checkBackendHealth() {
+      try {
+        const response = await fetch(healthEndpoint);
+        if (response.ok) {
+          console.log('✅ Backend is healthy');
+        } else {
+          console.warn('⚠️ Backend returned non-OK status');
+        }
+      } catch (error) {
+        console.error('❌ Backend is not reachable:', error.message);
+        const statusDot = document.querySelector('.status-dot');
+        if (statusDot) {
+          statusDot.style.background = '#ef4444';
+        }
+      }
+    }
+
+    // Check health on page load
+    checkBackendHealth();
+
+    // Add smooth scroll behavior for in-page links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth' });
+        }
+      });
+    });
+
+    // Add click tracking (optional)
+    document.querySelectorAll('.card').forEach(card => {
+      card.addEventListener('click', function(e) {
+        const title = this.querySelector('.card-title').textContent;
+        console.log(`[Navigation] Clicked: ${title}`);
+      });
+    });
+
+    // Fetch live stats from backend (optional enhancement)
+    async function loadLiveStats() {
+      try {
+        const response = await fetch(`${API_BASE}/analytics/llm-stats`);
+        if (response.ok) {
+          const data = await response.json();
+          console.log('[Stats] LLM System:', data.data);
+
+          // Update FAQ count if available
+          const faqCount = data.data.totalFAQItems;
+          if (faqCount) {
+            const faqStat = document.querySelectorAll('.stat-value')[0];
+            if (faqStat) {
+              faqStat.textContent = faqCount;
+            }
+          }
+        } else {
+          console.warn('[Stats] LLM stats returned non-OK status:', response.status);
+        }
+      } catch (error) {
+        console.log('[Stats] Could not load live stats');
+      }
+    }
+
+    loadLiveStats();
+  </script>
+</body>
+</html>

@@ -1,0 +1,50 @@
+{
+  "app_title": "DIY.Ski FAQ Search",
+  "app_subtitle": "Find answers to your skiing questions",
+  "title": "DIY Ski FAQ Knowledge Base",
+  "subtitle": "Ski Lesson Frequently Asked Questions",
+  "search_placeholder": "Search keywords, e.g.: instructor, equipment, resort...",
+  "search_button": "Search",
+  "search_results": "Search Results",
+  "results_count": "Found {count} relevant result(s)",
+  "response_time": "Search time: {time}ms",
+  "no_results": "No results found",
+  "no_results_query": "No matching FAQs for \"{query}\"",
+  "no_results_suggestion": "Try other keywords, e.g.: instructor, equipment, resort",
+  "empty_state_title": "Start Searching",
+  "empty_state_text": "Enter keywords above, e.g.: booking, equipment rental, resort info",
+  "loading": "Searching...",
+  "loading_init": "Initializing...",
+  "error": "Search failed",
+  "error_init": "Initialization failed",
+  "confidence": "Confidence",
+  "confidence_high": "High",
+  "confidence_medium": "Medium",
+  "confidence_low": "Low",
+  "show_more": "Show More",
+  "show_less": "Show Less",
+  "related_questions": "Related Questions",
+  "copy_answer": "Copy Answer",
+  "copied": "Copied",
+  "intents": {
+    "ITINERARY": "Itinerary Planning",
+    "BOOKING": "Booking Process",
+    "COURSE": "Course Content",
+    "INSTRUCTOR": "Instructor Questions",
+    "KIDS_SAFETY": "Kids & Safety",
+    "PAYMENT": "Payment & Refund",
+    "GEAR": "Equipment Rental",
+    "SERVICE": "Service & Policy",
+    "GENERAL": "General Inquiry"
+  },
+  "language_selector": {
+    "zh": "中文",
+    "en": "English",
+    "th": "ไทย"
+  },
+  "footer": {
+    "contact": "Contact Us",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Service"
+  }
+}

@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DIY.Ski FAQ 搜尋系統</title>
+  <style>
+    /* CSS Reset & Base Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+      line-height: 1.6;
+      color: #333;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      overflow: hidden;
+    }
+
+    /* Header */
+    .header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 40px 30px;
+      text-align: center;
+    }
+
+    .header h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .header p {
+      font-size: 1.1rem;
+      opacity: 0.9;
+    }
+
+    /* Search Box */
+    .search-container {
+      padding: 30px;
+      background: #f8f9fa;
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    .search-box {
+      position: relative;
+      display: flex;
+      gap: 12px;
+    }
+
+    .search-input {
+      flex: 1;
+      padding: 16px 20px;
+      font-size: 1rem;
+      border: 2px solid #ddd;
+      border-radius: 12px;
+      transition: all 0.3s ease;
+      outline: none;
+    }
+
+    .search-input:focus {
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+
+    .search-input::placeholder {
+      color: #999;
+    }
+
+    .search-btn {
+      padding: 16px 32px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .search-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+    }
+
+    .search-btn:active {
+      transform: translateY(0);
+    }
+
+    /* Loading State */
+    .loading {
+      text-align: center;
+      padding: 40px;
+      color: #666;
+      font-size: 1.1rem;
+    }
+
+    .spinner {
+      display: inline-block;
+      width: 40px;
+      height: 40px;
+      border: 4px solid #f3f3f3;
+      border-top: 4px solid #667eea;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-bottom: 16px;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Results Container */
+    .results-container {
+      padding: 30px;
+      min-height: 400px;
+    }
+
+    .results-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 2px solid #e0e0e0;
+    }
+
+    .results-count {
+      font-size: 1.2rem;
+      color: #666;
+    }
+
+    .results-count strong {
+      color: #667eea;
+      font-weight: 700;
+    }
+
+    .response-time {
+      font-size: 0.9rem;
+      color: #999;
+    }
+
+    /* FAQ Item */
+    .faq-item {
+      background: white;
+      border: 2px solid #e0e0e0;
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 16px;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .faq-item:hover {
+      border-color: #667eea;
+      box-shadow: 0 8px 24px rgba(102, 126, 234, 0.15);
+      transform: translateY(-2px);
+    }
+
+    .faq-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: start;
+      margin-bottom: 12px;
+    }
+
+    .faq-question {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #333;
+      flex: 1;
+      margin-right: 16px;
+    }
+
+    .confidence-badge {
+      display: inline-block;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .confidence-high {
+      background: #d4edda;
+      color: #155724;
+    }
+
+    .confidence-medium {
+      background: #fff3cd;
+      color: #856404;
+    }
+
+    .confidence-low {
+      background: #f8d7da;
+      color: #721c24;
+    }
+
+    .faq-answer {
+      color: #666;
+      font-size: 1rem;
+      line-height: 1.7;
+      margin-top: 12px;
+    }
+
+    .faq-meta {
+      display: flex;
+      gap: 16px;
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px solid #e0e0e0;
+      font-size: 0.9rem;
+      color: #999;
+    }
+
+    .faq-tag {
+      display: inline-block;
+      padding: 4px 12px;
+      background: #f0f0f0;
+      border-radius: 12px;
+      font-size: 0.85rem;
+      color: #666;
+    }
+
+    /* Empty State */
+    .empty-state {
+      text-align: center;
+      padding: 80px 40px;
+      color: #999;
+    }
+
+    .empty-state-icon {
+      font-size: 4rem;
+      margin-bottom: 16px;
+      opacity: 0.5;
+    }
+
+    .empty-state h3 {
+      font-size: 1.5rem;
+      color: #666;
+      margin-bottom: 8px;
+    }
+
+    .empty-state p {
+      font-size: 1rem;
+      color: #999;
+    }
+
+    /* Error State */
+    .error-message {
+      background: #f8d7da;
+      border: 2px solid #f5c6cb;
+      border-radius: 12px;
+      padding: 20px;
+      margin: 20px 0;
+      color: #721c24;
+    }
+
+    .error-message strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 1.1rem;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      body {
+        padding: 10px;
+      }
+
+      .header h1 {
+        font-size: 2rem;
+      }
+
+      .header p {
+        font-size: 1rem;
+      }
+
+      .search-container {
+        padding: 20px;
+      }
+
+      .search-box {
+        flex-direction: column;
+      }
+
+      .search-btn {
+        width: 100%;
+      }
+
+      .results-container {
+        padding: 20px;
+      }
+
+      .results-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+      }
+
+      .faq-item {
+        padding: 16px;
+      }
+
+      .faq-header {
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .faq-question {
+        font-size: 1.1rem;
+        margin-right: 0;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .header h1 {
+        font-size: 1.5rem;
+      }
+
+      .search-input {
+        padding: 12px 16px;
+      }
+
+      .search-btn {
+        padding: 12px 24px;
+      }
+
+      .faq-item {
+        padding: 12px;
+      }
+
+      .faq-question {
+        font-size: 1rem;
+      }
+    }
+
+    /* Hidden by default */
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <div class="header">
+      <h1>🎿 DIY.Ski FAQ 搜尋</h1>
+      <p>快速找到您的滑雪問題解答</p>
+    </div>
+
+    <!-- Search Box -->
+    <div class="search-container">
+      <div class="search-box">
+        <input
+          type="text"
+          id="searchInput"
+          class="search-input"
+          placeholder="輸入關鍵字搜尋，例如：教練、裝備、野澤..."
+          autocomplete="off"
+        >
+        <button id="searchBtn" class="search-btn">搜尋</button>
+      </div>
+    </div>
+
+    <!-- Results Container -->
+    <div class="results-container">
+      <!-- Loading State -->
+      <div id="loadingState" class="loading hidden">
+        <div class="spinner"></div>
+        <p>正在搜尋中...</p>
+      </div>
+
+      <!-- Error State -->
+      <div id="errorState" class="error-message hidden">
+        <strong>搜尋失敗</strong>
+        <p id="errorMessage"></p>
+      </div>
+
+      <!-- Results -->
+      <div id="resultsSection" class="hidden">
+        <div class="results-header">
+          <div class="results-count">
+            找到 <strong id="resultCount">0</strong> 筆相關結果
+          </div>
+          <div class="response-time" id="responseTime"></div>
+        </div>
+        <div id="resultsList"></div>
+      </div>
+
+      <!-- Empty State -->
+      <div id="emptyState" class="empty-state">
+        <div class="empty-state-icon">🔍</div>
+        <h3>開始搜尋</h3>
+        <p>在上方輸入關鍵字，例如：教練預約、裝備租借、雪場推薦</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- JavaScript Libraries -->
+  <script src="lib/fuse.min.js"></script>
+  <script src="lib/purify.min.js"></script>
+  <script src="lib/dayjs.min.js"></script>
+
+  <!-- FAQ Engine -->
+  <script src="lib/faq-engine.js"></script>
+
+  <!-- Main Application Script -->
+  <script>
+    // Application State
+    let faqEngine = null;
+    let searchDebounceTimer = null;
+
+    // DOM Elements
+    const searchInput = document.getElementById('searchInput');
+    const searchBtn = document.getElementById('searchBtn');
+    const loadingState = document.getElementById('loadingState');
+    const errorState = document.getElementById('errorState');
+    const errorMessage = document.getElementById('errorMessage');
+    const resultsSection = document.getElementById('resultsSection');
+    const emptyState = document.getElementById('emptyState');
+    const resultCount = document.getElementById('resultCount');
+    const responseTime = document.getElementById('responseTime');
+    const resultsList = document.getElementById('resultsList');
+
+    // Initialize on page load
+    document.addEventListener('DOMContentLoaded', async () => {
+      try {
+        showLoading();
+        faqEngine = new FAQEngine();
+        await faqEngine.initialize();
+        showEmptyState();
+      } catch (error) {
+        showError('初始化失敗: ' + error.message);
+      }
+    });
+
+    // Search Event Handlers
+    searchInput.addEventListener('input', (e) => {
+      // Debounce search (T027: 300ms debounce)
+      clearTimeout(searchDebounceTimer);
+      const query = e.target.value.trim();
+
+      if (query.length === 0) {
+        showEmptyState();
+        return;
+      }
+
+      searchDebounceTimer = setTimeout(() => {
+        performSearch(query);
+      }, 300);
+    });
+
+    searchBtn.addEventListener('click', () => {
+      const query = searchInput.value.trim();
+      if (query.length > 0) {
+        clearTimeout(searchDebounceTimer);
+        performSearch(query);
+      }
+    });
+
+    searchInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        const query = searchInput.value.trim();
+        if (query.length > 0) {
+          clearTimeout(searchDebounceTimer);
+          performSearch(query);
+        }
+      }
+    });
+
+    // Perform Search (T028: Display results with confidence)
+    async function performSearch(query) {
+      try {
+        showLoading();
+
+        const startTime = performance.now();
+        const results = await faqEngine.search(query, { limit: 5 });
+        const endTime = performance.now();
+        const searchTime = Math.round(endTime - startTime);
+
+        if (results.length === 0) {
+          showNoResults(query);
+        } else {
+          displayResults(results, searchTime);
+        }
+      } catch (error) {
+        showError('搜尋過程發生錯誤: ' + error.message);
+      }
+    }
+
+    // Display Results (T028: Display with confidence score)
+    function displayResults(results, searchTime) {
+      hideAllStates();
+      resultsSection.classList.remove('hidden');
+
+      resultCount.textContent = results.length;
+      responseTime.textContent = `搜尋耗時: ${searchTime}ms`;
+
+      resultsList.innerHTML = '';
+
+      results.forEach((result, index) => {
+        const faqItem = createFAQItem(result, index);
+        resultsList.appendChild(faqItem);
+      });
+    }
+
+    // Create FAQ Item HTML
+    function createFAQItem(result, index) {
+      const div = document.createElement('div');
+      div.className = 'faq-item';
+
+      // Calculate confidence (T028: (1-score)*100)
+      const confidence = Math.round((1 - result.score) * 100);
+      const confidenceClass = confidence >= 80 ? 'confidence-high' :
+                             confidence >= 60 ? 'confidence-medium' :
+                             'confidence-low';
+
+      // Sanitize content with DOMPurify
+      const question = DOMPurify.sanitize(result.item.canonical_question);
+      const answer = DOMPurify.sanitize(result.item.answer_template.text);
+      const answerPreview = answer.length > 150 ? answer.substring(0, 150) + '...' : answer;
+
+      div.innerHTML = `
+        <div class="faq-header">
+          <div class="faq-question">${question}</div>
+          <span class="confidence-badge ${confidenceClass}">信心度 ${confidence}%</span>
+        </div>
+        <div class="faq-answer">${answerPreview}</div>
+        <div class="faq-meta">
+          <span class="faq-tag">${result.item.intent || 'GENERAL'}</span>
+          <span class="faq-tag">${result.item.section || '一般問題'}</span>
+        </div>
+      `;
+
+      // Click to expand (future enhancement)
+      div.addEventListener('click', () => {
+        alert('詳細內容功能即將推出！\n\nFAQ ID: ' + result.item.id);
+      });
+
+      return div;
+    }
+
+    // Show No Results
+    function showNoResults(query) {
+      hideAllStates();
+      emptyState.classList.remove('hidden');
+      emptyState.innerHTML = `
+        <div class="empty-state-icon">❌</div>
+        <h3>找不到相關結果</h3>
+        <p>查詢「${DOMPurify.sanitize(query)}」沒有找到匹配的 FAQ</p>
+        <p style="margin-top: 12px; color: #999;">試試其他關鍵字，例如：教練、裝備、雪場</p>
+      `;
+    }
+
+    // UI State Management (T029: Loading & Error handling)
+    function showLoading() {
+      hideAllStates();
+      loadingState.classList.remove('hidden');
+    }
+
+    function showError(message) {
+      hideAllStates();
+      errorState.classList.remove('hidden');
+      errorMessage.textContent = message;
+    }
+
+    function showEmptyState() {
+      hideAllStates();
+      emptyState.classList.remove('hidden');
+    }
+
+    function hideAllStates() {
+      loadingState.classList.add('hidden');
+      errorState.classList.add('hidden');
+      resultsSection.classList.add('hidden');
+      emptyState.classList.add('hidden');
+    }
+  </script>
+</body>
+</html>

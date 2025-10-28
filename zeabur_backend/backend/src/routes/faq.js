@@ -1,0 +1,292 @@
+/**
+ * FAQ Routes
+ *
+ * Handles FAQ search and retrieval endpoints
+ * - POST /api/v1/faq/search - Search FAQs with query string
+ * - GET /api/v1/faq/:faq_id - Get specific FAQ by ID
+ */
+
+const express = require('express');
+const router = express.Router();
+const fs = require('fs').promises;
+const path = require('path');
+const { formatSuccess, formatError, sendSuccess, sendError } = require('../utils/response-formatter');
+const { AppError } = require('../middleware/error-handler');
+
+// Cache FAQ data in memory (T031: FAQ data loading)
+let faqData = null;
+let faqDataLoadTime = null;
+
+/**
+ * Load FAQ data from faq_kb.json
+ * T031: Implement faq_kb.json loading logic
+ *
+ * @returns {Promise<Object>} FAQ knowledge base data
+ */
+async function loadFAQData() {
+  // Use cache if available and less than 5 minutes old
+  if (faqData && faqDataLoadTime && (Date.now() - faqDataLoadTime) < 5 * 60 * 1000) {
+    return faqData;
+  }
+
+  const dataPath = path.join(__dirname, '../../../data/faq_kb.json');
+
+  try {
+    const content = await fs.readFile(dataPath, 'utf-8');
+    faqData = JSON.parse(content);
+    faqDataLoadTime = Date.now();
+
+    // Validate structure
+    if (!faqData.items || !Array.isArray(faqData.items)) {
+      throw new Error('Invalid FAQ data structure: missing items array');
+    }
+
+    console.log(`[FAQ Routes] Loaded ${faqData.items.length} FAQ items from ${dataPath}`);
+    return faqData;
+  } catch (error) {
+    console.error('[FAQ Routes] Failed to load FAQ data:', error);
+    throw new AppError('FAQ_LOAD_ERROR', 'Failed to load FAQ data', 500);
+  }
+}
+
+/**
+ * POST /api/v1/faq/search
+ * T030: Create FAQ search endpoint
+ * T033: Add response time measurement
+ *
+ * Search FAQs using simple text matching
+ * (Frontend uses Fuse.js for fuzzy matching, backend provides data endpoint)
+ *
+ * Request body:
+ * {
+ *   "query": "教練",
+ *   "language": "zh",
+ *   "limit": 5,
+ *   "threshold": 0.6
+ * }
+ *
+ * Response:
+ * {
+ *   "success": true,
+ *   "data": {
+ *     "results": [...],
+ *     "total": 5
+ *   },
+ *   "meta": {
+ *     "timestamp": "...",
+ *     "query_id": "...",
+ *     "response_time_ms": 45
+ *   }
+ * }
+ */
+router.post('/search', async (req, res, next) => {
+  // T033: Start timing
+  const startTime = Date.now();
+
+  try {
+    const { query, language = 'zh', limit = 5, threshold = 0.6 } = req.body;
+
+    // Validation
+    if (!query || query.trim().length === 0) {
+      throw new AppError('INVALID_QUERY', '查詢文字不得為空', 400);
+    }
+
+    if (query.length > 200) {
+      throw new AppError('QUERY_TOO_LONG', '查詢文字過長（最多 200 字元）', 400);
+    }
+
+    if (limit < 1 || limit > 50) {
+      throw new AppError('INVALID_LIMIT', '結果數量必須在 1-50 之間', 400);
+    }
+
+    // Load FAQ data
+    const data = await loadFAQData();
+
+    // Simple text matching for backend endpoint
+    // Frontend will use Fuse.js for better fuzzy matching
+    const queryLower = query.toLowerCase().trim();
+
+    const results = data.items
+      .map(item => {
+        // Get localized fields based on language
+        const questionField = language !== 'zh' ? `canonical_question_${language}` : 'canonical_question';
+        const answerField = language !== 'zh' ? `text_${language}` : 'text';
+
+        const question = item[questionField] || item.canonical_question;
+        const answer = item.answer_template[answerField] || item.answer_template.text;
+
+        // Calculate simple match score
+        let score = 0;
+
+        // Exact match in question
+        if (question.toLowerCase().includes(queryLower)) {
+          score += 0.5;
+        }
+
+        // Match in utterance patterns
+        if (item.utterance_patterns && Array.isArray(item.utterance_patterns)) {
+          const hasMatch = item.utterance_patterns.some(pattern =>
+            pattern.toLowerCase().includes(queryLower)
+          );
+          if (hasMatch) score += 0.3;
+        }
+
+        // Match in answer
+        if (answer.toLowerCase().includes(queryLower)) {
+          score += 0.1;
+        }
+
+        // Match in keywords (if available)
+        if (item.keywords && Array.isArray(item.keywords)) {
+          const hasMatch = item.keywords.some(keyword =>
+            keyword.toLowerCase().includes(queryLower)
+          );
+          if (hasMatch) score += 0.1;
+        }
+
+        return {
+          item,
+          score,
+          question,
+          answer
+        };
+      })
+      .filter(result => result.score >= threshold)
+      .sort((a, b) => b.score - a.score)
+      .slice(0, limit)
+      .map(result => ({
+        faq_id: result.item.id,
+        canonical_question: result.question,
+        answer_preview: result.answer.substring(0, 150) + (result.answer.length > 150 ? '...' : ''),
+        score: result.score,
+        confidence: Math.round((result.score) * 100),
+        matched_fields: ['canonical_question'], // Simplified
+        intent: result.item.intent,
+        section: result.item.section
+      }));
+
+    // T033: Calculate response time
+    const responseTimeMs = Date.now() - startTime;
+
+    // Generate query ID
+    const queryId = `q_${Date.now()}_${Math.random().toString(36).substring(7)}`;
+
+    sendSuccess(res, {
+      results,
+      total: results.length,
+      query: query,
+      language: language
+    }, 200, {
+      timestamp: new Date().toISOString(),
+      query_id: queryId,
+      response_time_ms: responseTimeMs
+    });
+
+  } catch (error) {
+    next(error);
+  }
+});
+
+/**
+ * GET /api/v1/faq/:faq_id
+ * T032: Get specific FAQ by ID
+ *
+ * Retrieve full FAQ details by ID
+ *
+ * Response:
+ * {
+ *   "success": true,
+ *   "data": {
+ *     "id": "faq.booking.001",
+ *     "canonical_question": "...",
+ *     "answer_template": {...},
+ *     ...
+ *   },
+ *   "meta": {
+ *     "timestamp": "..."
+ *   }
+ * }
+ */
+router.get('/:faq_id', async (req, res, next) => {
+  try {
+    const { faq_id } = req.params;
+    const { language = 'zh' } = req.query;
+
+    // Load FAQ data
+    const data = await loadFAQData();
+
+    // Find FAQ by ID
+    const faqItem = data.items.find(item => item.id === faq_id);
+
+    if (!faqItem) {
+      throw new AppError('FAQ_NOT_FOUND', '找不到指定的 FAQ', 404);
+    }
+
+    // Build localized response
+    const questionField = language !== 'zh' ? `canonical_question_${language}` : 'canonical_question';
+    const answerTextField = language !== 'zh' ? `text_${language}` : 'text';
+    const postscriptField = language !== 'zh' ? `postscript_${language}` : 'postscript';
+
+    const response = {
+      ...faqItem,
+      canonical_question: faqItem[questionField] || faqItem.canonical_question,
+      answer_template: {
+        ...faqItem.answer_template,
+        text: faqItem.answer_template[answerTextField] || faqItem.answer_template.text,
+        postscript: faqItem.answer_template[postscriptField] || faqItem.answer_template.postscript
+      }
+    };
+
+    sendSuccess(res, response, 200, {
+      timestamp: new Date().toISOString()
+    });
+
+  } catch (error) {
+    next(error);
+  }
+});
+
+/**
+ * GET /api/v1/faq
+ * Get all FAQs (for debugging/testing)
+ *
+ * Query params:
+ * - intent: Filter by intent
+ * - section: Filter by section
+ * - limit: Maximum results
+ */
+router.get('/', async (req, res, next) => {
+  try {
+    const { intent, section, limit = 100 } = req.query;
+
+    // Load FAQ data
+    const data = await loadFAQData();
+
+    let results = data.items;
+
+    // Apply filters
+    if (intent) {
+      results = results.filter(item => item.intent === intent);
+    }
+
+    if (section) {
+      results = results.filter(item => item.section === section);
+    }
+
+    // Apply limit
+    results = results.slice(0, parseInt(limit));
+
+    sendSuccess(res, {
+      items: results,
+      total: results.length,
+      metadata: data.metadata || data.meta || {}
+    }, 200, {
+      timestamp: new Date().toISOString()
+    });
+
+  } catch (error) {
+    next(error);
+  }
+});
+
+module.exports = router;

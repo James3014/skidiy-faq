@@ -1,0 +1,1187 @@
+openapi: 3.0.3
+info:
+  title: FAQ System API
+  description: |
+    DIY Ski FAQ System Backend API - 提供搜尋、Intent 偵測、Slot 擷取、分析和 CRM 整合功能
+
+    **核心功能**:
+    - FAQ 搜尋與推薦
+    - Intent 偵測（Rule Engine + LLM 增強）
+    - Slot 擷取（雪場、日期、人數等）
+    - 搜尋分析與統計
+    - CRM 整合介面
+
+    **認證**: 目前版本不需要認證（內部使用），未來可加入 API Key
+  version: 1.0.0
+  contact:
+    name: DIY Ski CRM Team
+    url: https://diy.ski
+
+servers:
+  - url: http://localhost:3000/api/v1
+    description: Local development server
+  - url: https://api.diy.ski/api/v1
+    description: Production server (未來部署)
+
+tags:
+  - name: FAQ
+    description: FAQ 搜尋與查詢
+  - name: Intent
+    description: Intent 偵測與 Slot 擷取
+  - name: Analytics
+    description: 搜尋分析與統計
+  - name: CRM
+    description: CRM 整合介面
+
+paths:
+  /faq/search:
+    post:
+      tags:
+        - FAQ
+      summary: 搜尋 FAQ
+      description: |
+        使用 Fuse.js 進行 FAQ 搜尋，回傳最相關的結果。
+        支援多語言查詢（中文、英文、泰文）。
+
+        **效能目標**: <100ms (P95)
+      operationId: searchFAQ
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - query
+              properties:
+                query:
+                  type: string
+                  minLength: 1
+                  maxLength: 100
+                  description: 使用者查詢文字
+                  example: "去野澤要準備什麼裝備"
+                language:
+                  type: string
+                  enum: [zh, en, th]
+                  default: zh
+                  description: 查詢語言
+                limit:
+                  type: integer
+                  minimum: 1
+                  maximum: 20
+                  default: 5
+                  description: 最多回傳幾筆結果
+                threshold:
+                  type: number
+                  minimum: 0
+                  maximum: 1
+                  default: 0.6
+                  description: Fuse.js 分數閾值（0-1，越小越嚴格）
+                include_related:
+                  type: boolean
+                  default: false
+                  description: 是否包含相關 FAQ
+      responses:
+        '200':
+          description: 搜尋成功
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - success
+                  - data
+                  - meta
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    type: object
+                    properties:
+                      results:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/FAQSearchResult'
+                      total:
+                        type: integer
+                        description: 符合條件的總數
+                        example: 5
+                  meta:
+                    $ref: '#/components/schemas/ResponseMeta'
+              example:
+                success: true
+                data:
+                  results:
+                    - faq_id: "faq.gear.001"
+                      canonical_question: "去滑雪需要準備什麼裝備？"
+                      answer_preview: "基本裝備包含雪衣、雪褲、手套..."
+                      score: 0.12
+                      confidence: 88
+                      matched_fields: ["canonical_question", "keywords"]
+                  total: 5
+                meta:
+                  timestamp: "2025-01-15T14:30:00.123Z"
+                  query_id: "q_20250115_143000"
+                  response_time_ms: 45
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /faq/{faq_id}:
+    get:
+      tags:
+        - FAQ
+      summary: 取得單一 FAQ 詳情
+      description: 根據 FAQ ID 取得完整內容（含多語言）
+      operationId: getFAQById
+      parameters:
+        - name: faq_id
+          in: path
+          required: true
+          schema:
+            type: string
+            pattern: '^faq\.[a-z_]+\.\d{3}$'
+          example: "faq.gear.001"
+        - name: language
+          in: query
+          schema:
+            type: string
+            enum: [zh, en, th]
+            default: zh
+          description: 回傳內容的語言
+      responses:
+        '200':
+          description: 取得成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    $ref: '#/components/schemas/FAQItem'
+                  meta:
+                    $ref: '#/components/schemas/ResponseMeta'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /intent/detect:
+    post:
+      tags:
+        - Intent
+      summary: 偵測查詢意圖
+      description: |
+        使用 Rule Engine + LLM 混合方式偵測使用者意圖。
+
+        **決策邏輯**:
+        - Rule Engine 信心度 ≥ 75%: 直接使用 Rule Engine 結果
+        - Rule Engine 信心度 < 75%: 呼叫 LLM API 增強
+
+        **效能目標**:
+        - Rule Engine: <50ms
+        - LLM 增強: <2000ms
+      operationId: detectIntent
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - query
+              properties:
+                query:
+                  type: string
+                  minLength: 1
+                  maxLength: 100
+                  example: "2月15日去野澤，2大1小"
+                use_llm_fallback:
+                  type: boolean
+                  default: true
+                  description: 當 Rule Engine 信心度低時是否使用 LLM
+                include_slots:
+                  type: boolean
+                  default: true
+                  description: 是否同時執行 Slot 擷取
+      responses:
+        '200':
+          description: 偵測成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    $ref: '#/components/schemas/IntentDetectionResult'
+                  meta:
+                    $ref: '#/components/schemas/ResponseMeta'
+              example:
+                success: true
+                data:
+                  query_text: "2月15日去野澤，2大1小"
+                  detected_intent: "ITINERARY"
+                  confidence: 85
+                  method: "rule_engine"
+                  rule_engine:
+                    score: 85
+                    breakdown:
+                      intent_match: 35
+                      keyword_match: 25
+                      slot_match: 18
+                      historical_ctr: 7
+                    matched_keywords: ["野澤", "2大1小", "2月"]
+                  slots:
+                    resort:
+                      code: "NOZAWA"
+                      name_cn: "野澤溫泉"
+                      matched_text: "野澤"
+                    date:
+                      date: "2025-02-15"
+                      matched_text: "2月15日"
+                    people:
+                      adults: 2
+                      children: 1
+                      matched_text: "2大1小"
+                meta:
+                  timestamp: "2025-01-15T14:30:00.123Z"
+                  query_id: "q_20250115_143000"
+                  response_time_ms: 38
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /intent/extract-slots:
+    post:
+      tags:
+        - Intent
+      summary: 擷取結構化 Slots
+      description: |
+        從查詢文字中擷取結構化資訊（雪場、日期、人數、板型、兒童年齡）。
+        使用 Regex + Fuzzy Matching。
+
+        **支援的 Slot 類型**:
+        - resort: 40+ 個雪場（中英日名稱）
+        - date: YYYY-MM-DD, MM/DD, X月X日等格式
+        - people: "2大1小"格式
+        - board_type: SKI / SNOWBOARD
+        - child_age: 兒童年齡（陣列）
+      operationId: extractSlots
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - query
+              properties:
+                query:
+                  type: string
+                  example: "2月15日去野澤，2大1小要ski課程"
+      responses:
+        '200':
+          description: 擷取成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    $ref: '#/components/schemas/SlotExtractionResult'
+                  meta:
+                    $ref: '#/components/schemas/ResponseMeta'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /analytics/queries:
+    get:
+      tags:
+        - Analytics
+      summary: 查詢搜尋記錄
+      description: |
+        取得搜尋查詢的歷史記錄，支援篩選和分頁。
+        用於分析使用者行為和優化搜尋演算法。
+      operationId: getSearchQueries
+      parameters:
+        - name: start_date
+          in: query
+          schema:
+            type: string
+            format: date
+          example: "2025-01-01"
+          description: 起始日期（ISO 8601）
+        - name: end_date
+          in: query
+          schema:
+            type: string
+            format: date
+          example: "2025-01-31"
+          description: 結束日期（ISO 8601）
+        - name: intent
+          in: query
+          schema:
+            type: string
+            enum: [ITINERARY, BOOKING, COURSE, INSTRUCTOR, KIDS_SAFETY, PAYMENT, GEAR, SERVICE, GENERAL]
+          description: 篩選特定 Intent
+        - name: min_confidence
+          in: query
+          schema:
+            type: number
+            minimum: 0
+            maximum: 100
+          description: 最低信心度
+        - name: page
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+          description: 頁碼（從 1 開始）
+        - name: page_size
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+          description: 每頁筆數
+      responses:
+        '200':
+          description: 查詢成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    type: object
+                    properties:
+                      queries:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/SearchQueryRecord'
+                      pagination:
+                        type: object
+                        properties:
+                          page:
+                            type: integer
+                            example: 1
+                          page_size:
+                            type: integer
+                            example: 20
+                          total:
+                            type: integer
+                            example: 150
+                          total_pages:
+                            type: integer
+                            example: 8
+                  meta:
+                    $ref: '#/components/schemas/ResponseMeta'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /analytics/stats:
+    get:
+      tags:
+        - Analytics
+      summary: 取得統計數據
+      description: |
+        取得 FAQ 系統的總體統計數據。
+
+        **統計指標**:
+        - 總查詢數
+        - Intent 分布
+        - 平均信心度
+        - 平均回應時間
+        - LLM 使用率
+        - 熱門 FAQ
+      operationId: getAnalyticsStats
+      parameters:
+        - name: start_date
+          in: query
+          schema:
+            type: string
+            format: date
+          example: "2025-01-01"
+        - name: end_date
+          in: query
+          schema:
+            type: string
+            format: date
+          example: "2025-01-31"
+        - name: group_by
+          in: query
+          schema:
+            type: string
+            enum: [day, week, month]
+            default: day
+          description: 時間分組方式
+      responses:
+        '200':
+          description: 統計數據
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    type: object
+                    properties:
+                      total_queries:
+                        type: integer
+                        example: 1250
+                      avg_confidence:
+                        type: number
+                        example: 82.5
+                      avg_response_time_ms:
+                        type: number
+                        example: 65
+                      llm_usage_rate:
+                        type: number
+                        description: LLM 使用率（百分比）
+                        example: 18.5
+                      intent_distribution:
+                        type: object
+                        additionalProperties:
+                          type: integer
+                        example:
+                          ITINERARY: 320
+                          BOOKING: 280
+                          GEAR: 210
+                      top_faqs:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            faq_id:
+                              type: string
+                            views:
+                              type: integer
+                            clicks:
+                              type: integer
+                            ctr:
+                              type: number
+                              description: 點擊率（百分比）
+                      time_series:
+                        type: array
+                        description: 時間序列數據（依 group_by 參數）
+                        items:
+                          type: object
+                          properties:
+                            date:
+                              type: string
+                              format: date
+                            queries:
+                              type: integer
+                            avg_confidence:
+                              type: number
+                  meta:
+                    $ref: '#/components/schemas/ResponseMeta'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /analytics/events:
+    post:
+      tags:
+        - Analytics
+      summary: 記錄分析事件
+      description: |
+        前端傳送使用者互動事件到後端進行記錄。
+
+        **事件類型**:
+        - SEARCH_EXECUTED: 執行搜尋
+        - FAQ_VIEWED: 查看 FAQ
+        - FAQ_CLICKED: 點擊 FAQ
+        - LINK_CLICKED: 點擊內嵌連結
+        - COPY_PERFORMED: 複製答案
+        - LANGUAGE_SWITCHED: 切換語言
+        - ERROR_OCCURRED: 發生錯誤
+      operationId: recordAnalyticsEvent
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AnalyticsEvent'
+      responses:
+        '201':
+          description: 事件已記錄
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    type: object
+                    properties:
+                      event_id:
+                        type: string
+                        example: "evt_20250115_143000_abc123"
+                  meta:
+                    $ref: '#/components/schemas/ResponseMeta'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /crm/inquiry-log:
+    post:
+      tags:
+        - CRM
+      summary: 記錄客戶詢問日誌
+      description: |
+        將 FAQ 查詢結果寫入 CRM 整合日誌（JSONL 格式）。
+        用於與現有 tagger.html 系統整合。
+
+        **檔案路徑**: `customer_inquiries.jsonl`
+      operationId: logCRMInquiry
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CRMInquiryLog'
+      responses:
+        '201':
+          description: 日誌已記錄
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    type: object
+                    properties:
+                      log_id:
+                        type: string
+                        example: "crm_20250115_143000"
+                  meta:
+                    $ref: '#/components/schemas/ResponseMeta'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /crm/generate-tags:
+    post:
+      tags:
+        - CRM
+      summary: 生成 CRM 標籤
+      description: |
+        根據 Intent 和 Slot 自動生成 CRM 標籤。
+
+        **標籤規則**: 定義於 `crm_tag_rules.json`
+      operationId: generateCRMTags
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - intent
+              properties:
+                intent:
+                  type: string
+                  enum: [ITINERARY, BOOKING, COURSE, INSTRUCTOR, KIDS_SAFETY, PAYMENT, GEAR, SERVICE, GENERAL]
+                  example: "ITINERARY"
+                slots:
+                  type: object
+                  description: Slot 擷取結果
+                  example:
+                    resort: "NOZAWA"
+                    people:
+                      adults: 2
+                      children: 1
+                keywords:
+                  type: array
+                  items:
+                    type: string
+                  description: 額外關鍵字
+                  example: ["教練", "預約"]
+      responses:
+        '200':
+          description: 標籤生成成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    type: object
+                    properties:
+                      tags:
+                        type: array
+                        items:
+                          type: string
+                        example: ["#行程規劃", "#野澤溫泉", "#兒童相關"]
+                      tag_sources:
+                        type: object
+                        description: 每個標籤的來源
+                        additionalProperties:
+                          type: string
+                          enum: [intent, keyword, conditional]
+                        example:
+                          "#行程規劃": "intent"
+                          "#野澤溫泉": "keyword"
+                          "#兒童相關": "conditional"
+                  meta:
+                    $ref: '#/components/schemas/ResponseMeta'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+  /health:
+    get:
+      tags:
+        - System
+      summary: 健康檢查
+      description: API 伺服器健康狀態檢查
+      operationId: healthCheck
+      responses:
+        '200':
+          description: 服務正常
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "healthy"
+                  version:
+                    type: string
+                    example: "1.0.0"
+                  uptime:
+                    type: number
+                    description: 運行時間（秒）
+                    example: 86400
+                  database:
+                    type: string
+                    enum: [connected, disconnected]
+                    example: "connected"
+
+components:
+  schemas:
+    FAQSearchResult:
+      type: object
+      required:
+        - faq_id
+        - canonical_question
+        - score
+        - confidence
+      properties:
+        faq_id:
+          type: string
+          example: "faq.gear.001"
+        canonical_question:
+          type: string
+          description: 標準問題（依語言參數回傳對應語言）
+          example: "去滑雪需要準備什麼裝備？"
+        answer_preview:
+          type: string
+          description: 答案預覽（前 100 字元）
+          example: "基本裝備包含雪衣、雪褲、手套..."
+        score:
+          type: number
+          description: Fuse.js 評分（0-1，越小越好）
+          example: 0.12
+        confidence:
+          type: number
+          description: 信心度（0-100）
+          example: 88
+        matched_fields:
+          type: array
+          items:
+            type: string
+          description: 匹配的欄位
+          example: ["canonical_question", "keywords"]
+        related_faqs:
+          type: array
+          items:
+            type: object
+            properties:
+              faq_id:
+                type: string
+              canonical_question:
+                type: string
+
+    FAQItem:
+      type: object
+      required:
+        - id
+        - intent
+        - canonical_question
+        - utterance_patterns
+        - answer_template
+        - keywords
+        - crm_tags
+        - metadata
+      properties:
+        id:
+          type: string
+          pattern: '^faq\.[a-z_]+\.\d{3}$'
+          example: "faq.gear.001"
+        intent:
+          type: string
+          enum: [ITINERARY, BOOKING, COURSE, INSTRUCTOR, KIDS_SAFETY, PAYMENT, GEAR, SERVICE, GENERAL]
+        canonical_question:
+          type: string
+          description: 中文標準問題
+        canonical_question_en:
+          type: string
+          description: 英文標準問題
+        canonical_question_th:
+          type: string
+          description: 泰文標準問題
+        utterance_patterns:
+          type: array
+          items:
+            type: string
+          minItems: 3
+        answer_template:
+          type: object
+          required:
+            - text
+          properties:
+            text:
+              type: string
+              description: 中文回答（支援 Markdown）
+            text_en:
+              type: string
+            text_th:
+              type: string
+            postscript:
+              type: string
+            postscript_en:
+              type: string
+            postscript_th:
+              type: string
+            links_inline:
+              type: array
+              items:
+                type: string
+        keywords:
+          type: array
+          items:
+            type: string
+          minItems: 2
+        related_faq_ids:
+          type: array
+          items:
+            type: string
+        crm_tags:
+          type: array
+          items:
+            type: string
+            pattern: '^#'
+        metadata:
+          type: object
+          required:
+            - created_at
+            - updated_at
+            - version
+            - status
+          properties:
+            created_at:
+              type: string
+              format: date-time
+            updated_at:
+              type: string
+              format: date-time
+            version:
+              type: integer
+              minimum: 1
+            status:
+              type: string
+              enum: [active, draft, archived]
+            priority:
+              type: integer
+              minimum: 1
+              maximum: 10
+
+    IntentDetectionResult:
+      type: object
+      required:
+        - query_text
+        - detected_intent
+        - confidence
+        - method
+      properties:
+        query_text:
+          type: string
+        detected_intent:
+          type: string
+          enum: [ITINERARY, BOOKING, COURSE, INSTRUCTOR, KIDS_SAFETY, PAYMENT, GEAR, SERVICE, GENERAL]
+        confidence:
+          type: number
+          description: 0-100
+        method:
+          type: string
+          enum: [rule_engine, llm, hybrid]
+        rule_engine:
+          type: object
+          properties:
+            score:
+              type: number
+            breakdown:
+              type: object
+              properties:
+                intent_match:
+                  type: number
+                keyword_match:
+                  type: number
+                slot_match:
+                  type: number
+                historical_ctr:
+                  type: number
+            matched_keywords:
+              type: array
+              items:
+                type: string
+        llm_enhancement:
+          type: object
+          properties:
+            intent:
+              type: string
+            confidence:
+              type: number
+            reasoning:
+              type: string
+            model:
+              type: string
+            token_usage:
+              type: object
+              properties:
+                input:
+                  type: integer
+                output:
+                  type: integer
+            latency_ms:
+              type: number
+        slots:
+          $ref: '#/components/schemas/SlotExtractionResult'
+
+    SlotExtractionResult:
+      type: object
+      properties:
+        query_text:
+          type: string
+        slots:
+          type: object
+          properties:
+            resort:
+              type: object
+              properties:
+                code:
+                  type: string
+                  example: "NOZAWA"
+                name_cn:
+                  type: string
+                name_en:
+                  type: string
+                name_jp:
+                  type: string
+                matched_text:
+                  type: string
+            date:
+              type: object
+              properties:
+                date:
+                  type: string
+                  format: date
+                date_range:
+                  type: object
+                  properties:
+                    start:
+                      type: string
+                      format: date
+                    end:
+                      type: string
+                      format: date
+                matched_text:
+                  type: string
+            people:
+              type: object
+              properties:
+                adults:
+                  type: integer
+                children:
+                  type: integer
+                matched_text:
+                  type: string
+            board_type:
+              type: string
+              enum: [SKI, SNOWBOARD]
+            child_age:
+              type: array
+              items:
+                type: integer
+        confidence:
+          type: object
+          description: 每個 Slot 的信心度（0-100）
+          additionalProperties:
+            type: number
+        extraction_method:
+          type: object
+          description: 每個 Slot 的擷取方法
+          additionalProperties:
+            type: string
+
+    SearchQueryRecord:
+      type: object
+      properties:
+        id:
+          type: integer
+        query_id:
+          type: string
+        query_text:
+          type: string
+        query_language:
+          type: string
+          enum: [zh, en, th]
+        detected_intent:
+          type: string
+        intent_confidence:
+          type: number
+        extracted_slots:
+          type: object
+        results_count:
+          type: integer
+        top_result_id:
+          type: string
+        top_result_score:
+          type: number
+        response_time_ms:
+          type: integer
+        llm_used:
+          type: boolean
+        llm_cost:
+          type: number
+        session_id:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+        user_agent:
+          type: string
+
+    AnalyticsEvent:
+      type: object
+      required:
+        - event_type
+        - timestamp
+        - session_id
+      properties:
+        event_type:
+          type: string
+          enum: [SEARCH_EXECUTED, FAQ_VIEWED, FAQ_CLICKED, LINK_CLICKED, COPY_PERFORMED, LANGUAGE_SWITCHED, ERROR_OCCURRED]
+        timestamp:
+          type: string
+          format: date-time
+        session_id:
+          type: string
+        event_data:
+          type: object
+          description: 事件詳情（依 event_type 而異）
+        user_context:
+          type: object
+          properties:
+            language:
+              type: string
+              enum: [zh, en, th]
+            user_agent:
+              type: string
+            screen_width:
+              type: integer
+            screen_height:
+              type: integer
+            referrer:
+              type: string
+
+    CRMInquiryLog:
+      type: object
+      required:
+        - timestamp
+        - query_id
+        - query_text
+        - query_source
+        - detected_intent
+        - generated_tags
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+        query_id:
+          type: string
+        query_text:
+          type: string
+        query_source:
+          type: string
+          enum: [faq_search, tagger]
+        detected_intent:
+          type: string
+        intent_confidence:
+          type: number
+        extracted_slots:
+          type: object
+        recommended_faqs:
+          type: array
+          items:
+            type: object
+            properties:
+              faq_id:
+                type: string
+              confidence:
+                type: number
+              rank:
+                type: integer
+        generated_tags:
+          type: array
+          items:
+            type: string
+        user_feedback:
+          type: object
+          properties:
+            helpful:
+              type: boolean
+            selected_faq_id:
+              type: string
+            comment:
+              type: string
+
+    ResponseMeta:
+      type: object
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+          example: "2025-01-15T14:30:00.123Z"
+        query_id:
+          type: string
+          example: "q_20250115_143000"
+        response_time_ms:
+          type: integer
+          example: 45
+
+    ErrorResponse:
+      type: object
+      required:
+        - success
+        - error
+        - meta
+      properties:
+        success:
+          type: boolean
+          example: false
+        error:
+          type: object
+          required:
+            - code
+            - message
+          properties:
+            code:
+              type: string
+              example: "INVALID_QUERY"
+            message:
+              type: string
+              example: "查詢文字不得為空"
+            details:
+              type: object
+              description: 詳細錯誤資訊（僅開發模式）
+        meta:
+          type: object
+          properties:
+            timestamp:
+              type: string
+              format: date-time
+            query_id:
+              type: string
+
+  responses:
+    BadRequest:
+      description: 請求參數錯誤
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            success: false
+            error:
+              code: "INVALID_QUERY"
+              message: "查詢文字不得為空"
+            meta:
+              timestamp: "2025-01-15T14:30:00.123Z"
+
+    NotFound:
+      description: 資源不存在
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            success: false
+            error:
+              code: "FAQ_NOT_FOUND"
+              message: "找不到指定的 FAQ"
+            meta:
+              timestamp: "2025-01-15T14:30:00.123Z"
+
+    InternalError:
+      description: 伺服器內部錯誤
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            success: false
+            error:
+              code: "INTERNAL_ERROR"
+              message: "伺服器發生錯誤，請稍後再試"
+            meta:
+              timestamp: "2025-01-15T14:30:00.123Z"
+
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: API Key（未來版本啟用）
+
+# 目前版本不需要認證
+security: []
