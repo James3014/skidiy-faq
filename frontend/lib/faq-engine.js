@@ -5,11 +5,19 @@
  * T025: Fuse.js initialization with threshold 0.4, ignoreLocation true
  */
 
+const FAQ_LANGUAGES = ['zh', 'en', 'th'];
+const FAQ_DEFAULT_LANGUAGE = 'zh';
+
+function sanitizeText(value) {
+  return typeof value === 'string' ? value.trim() : '';
+}
+
 class FAQEngine {
   constructor() {
     this.faqData = null;
     this.fuseInstance = null;
     this.isInitialized = false;
+    this.language = FAQ_DEFAULT_LANGUAGE;
   }
 
   /**
@@ -26,6 +34,10 @@ class FAQEngine {
       }
 
       this.faqData = await response.json();
+
+      this.faqData.items.forEach(item => {
+        this.prepareLocalizedContent(item);
+      });
 
       // Validate data structure
       if (!this.faqData.items || !Array.isArray(this.faqData.items)) {
@@ -44,6 +56,58 @@ class FAQEngine {
     }
   }
 
+  setLanguage(language) {
+    if (FAQ_LANGUAGES.includes(language)) {
+      this.language = language;
+    }
+  }
+
+  getLanguage() {
+    return this.language;
+  }
+
+  prepareLocalizedContent(faq) {
+    if (!faq) return {};
+
+    const localized = faq.localized || {};
+
+    FAQ_LANGUAGES.forEach(lang => {
+      const isSource = lang === FAQ_DEFAULT_LANGUAGE;
+      localized[lang] = localized[lang] || {};
+      localized[lang].question = isSource
+        ? sanitizeText(faq.canonical_question)
+        : sanitizeText(faq.canonical_question_translations?.[lang]);
+      localized[lang].answer = isSource
+        ? sanitizeText(faq.answer_template?.text)
+        : sanitizeText(faq.answer_template?.text_translations?.[lang]);
+      localized[lang].postscript = isSource
+        ? sanitizeText(faq.answer_template?.postscript)
+        : sanitizeText(faq.answer_template?.postscript_translations?.[lang]);
+
+      if (!localized[lang].question) localized[lang].question = sanitizeText(faq.canonical_question);
+      if (!localized[lang].answer) localized[lang].answer = sanitizeText(faq.answer_template?.text);
+      if (!localized[lang].postscript) localized[lang].postscript = sanitizeText(faq.answer_template?.postscript);
+    });
+
+    faq.localized = localized;
+    return localized;
+  }
+
+  getLocalizedContent(faq, language = this.language || FAQ_DEFAULT_LANGUAGE) {
+    if (!faq) {
+      return { question: '', answer: '', postscript: '' };
+    }
+
+    const localized = faq.localized || this.prepareLocalizedContent(faq);
+    const preferred = [language, FAQ_DEFAULT_LANGUAGE];
+
+    const question = preferred.map(lang => localized?.[lang]?.question).find(Boolean) || '';
+    const answer = preferred.map(lang => localized?.[lang]?.answer).find(Boolean) || '';
+    const postscript = preferred.map(lang => localized?.[lang]?.postscript).find(Boolean) || '';
+
+    return { question, answer, postscript };
+  }
+
   /**
    * Get Fuse.js configuration optimized for CJK text search
    * T025: threshold 0.4, ignoreLocation true
@@ -51,30 +115,36 @@ class FAQEngine {
    * @returns {Object} Fuse.js configuration
    */
   getFuseConfig() {
+    const keys = [
+      {
+        name: 'canonical_question',
+        weight: 0.35
+      },
+      {
+        name: 'utterance_patterns',
+        weight: 0.3
+      },
+      {
+        name: 'answer_template.text',
+        weight: 0.15
+      },
+      {
+        name: 'keywords',
+        weight: 0.1
+      },
+      {
+        name: 'section',
+        weight: 0.05
+      }
+    ];
+
+    FAQ_LANGUAGES.filter(lang => lang !== FAQ_DEFAULT_LANGUAGE).forEach(lang => {
+      keys.push({ name: `canonical_question_translations.${lang}`, weight: 0.25 });
+      keys.push({ name: `answer_template.text_translations.${lang}`, weight: 0.12 });
+    });
+
     return {
-      // Keys to search (weighted)
-      keys: [
-        {
-          name: 'canonical_question',
-          weight: 0.4  // Highest priority: canonical question
-        },
-        {
-          name: 'utterance_patterns',
-          weight: 0.3  // High priority: user query patterns
-        },
-        {
-          name: 'answer_template.text',
-          weight: 0.15  // Medium priority: answer content
-        },
-        {
-          name: 'keywords',
-          weight: 0.1  // Lower priority: keywords
-        },
-        {
-          name: 'section',
-          weight: 0.05  // Lowest priority: section name
-        }
-      ],
+      keys,
 
       // Fuzzy matching threshold (0.0 = perfect match, 1.0 = match anything)
       // T025: threshold 0.4 for balanced precision/recall

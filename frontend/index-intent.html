@@ -350,6 +350,14 @@
       opacity: 1;
     }
 
+    .faq-answer .faq-postscript {
+      margin-top: 0.75rem;
+      padding-top: 0.75rem;
+      border-top: 1px dashed rgba(148, 163, 184, 0.4);
+      font-size: 0.95rem;
+      color: #64748b;
+    }
+
     .confidence-badge {
       display: inline-block;
       padding: 4px 12px;
@@ -644,6 +652,7 @@
     let allFAQs = [];
     let currentSection = null;
     let searchDebounce = null;
+    let currentLanguage = 'zh';
 
     // API base configuration
     const API_BASE = window.API_BASE || '/api/v1';
@@ -683,6 +692,8 @@
         // Initialize FAQ engine (critical)
         faqEngine = new FAQEngine();
         await faqEngine.initialize();
+        currentLanguage = i18n?.currentLanguage || 'zh';
+        faqEngine.setLanguage(currentLanguage);
         allFAQs = faqEngine.getAllFAQs();
         console.log(`[Init] FAQ engine initialized with ${allFAQs.length} FAQs`);
 
@@ -787,11 +798,15 @@
       // Limit to 5
       hotFAQs = hotFAQs.slice(0, 5);
 
-      const hotHTML = hotFAQs.map(faq => `
+      const hotHTML = hotFAQs.map(faq => {
+        const localized = faqEngine.getLocalizedContent(faq, currentLanguage);
+        const question = DOMPurify.sanitize(localized.question || faq.canonical_question || '');
+        return `
         <div class="hot-faq-item" onclick="showFAQDetail('${faq.id}')">
-          ${faq.canonical_question}
+          ${question}
         </div>
-      `).join('');
+      `;
+      }).join('');
 
       // Render to both sidebar and initial view
       document.getElementById('hotFAQs').innerHTML = hotHTML;
@@ -811,6 +826,8 @@
     async function performSearch() {
       const query = document.getElementById('searchInput').value.trim();
       if (!query) return;
+
+      faqEngine.setLanguage(currentLanguage);
 
       document.getElementById('loadingState').classList.remove('hidden');
       document.getElementById('initialView').classList.add('hidden');
@@ -923,11 +940,18 @@
         const confidenceClass = confidence >= 80 ? 'confidence-high' :
                                confidence >= 60 ? 'confidence-medium' : 'confidence-low';
 
+        const localized = faqEngine.getLocalizedContent(faq, currentLanguage);
+        const question = DOMPurify.sanitize(localized.question || faq.canonical_question || '');
+        const answer = DOMPurify.sanitize(localized.answer || '無答案內容');
+        const postscript = localized.postscript
+          ? `<div class="faq-postscript">${DOMPurify.sanitize(localized.postscript)}</div>`
+          : '';
+
         return `
           <div class="faq-item" data-faq-id="${faq.id}">
             <div class="faq-header">
               <div class="faq-question">
-                ${DOMPurify.sanitize(faq.canonical_question)}
+                ${question}
                 <span class="confidence-badge ${confidenceClass}">
                   信心度 ${confidence}%
                 </span>
@@ -935,7 +959,8 @@
               <span class="faq-toggle-icon">▼</span>
             </div>
             <div class="faq-answer">
-              ${DOMPurify.sanitize(faq.answer_template.text || '無答案內容')}
+              ${answer}
+              ${postscript}
             </div>
           </div>
         `;
@@ -1031,6 +1056,8 @@
         const newLanguage = e.target.value;
         try {
           await i18n.setLanguage(newLanguage);
+          currentLanguage = newLanguage;
+          faqEngine.setLanguage(currentLanguage);
           updateUILanguage();
 
           const query = document.getElementById('searchInput').value.trim();
