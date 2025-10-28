@@ -445,6 +445,7 @@
         showLoading();
         faqEngine = new FAQEngine();
         await faqEngine.initialize();
+        faqEngine.setLanguage('zh');
         showEmptyState();
       } catch (error) {
         showError('初始化失敗: ' + error.message);
@@ -533,8 +534,9 @@
                              'confidence-low';
 
       // Sanitize content with DOMPurify
-      const question = DOMPurify.sanitize(result.item.canonical_question);
-      const answer = DOMPurify.sanitize(result.item.answer_template.text);
+      const localized = faqEngine.getLocalizedContent(result.item, faqEngine.getLanguage());
+      const question = DOMPurify.sanitize(localized.question || result.item.canonical_question || '');
+      const answer = DOMPurify.sanitize(localized.answer || result.item.answer_template.text || '');
       const answerPreview = answer.length > 150 ? answer.substring(0, 150) + '...' : answer;
 
       div.innerHTML = `

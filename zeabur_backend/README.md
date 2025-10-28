@@ -914,26 +914,61 @@ OLLAMA_MODEL=llama2
 **格式**:
 ```json
 {
-  "version": "1.0.0",
-  "last_updated": "2025-10-13",
+  "meta": {
+    "version": "1.1.0"
+  },
   "items": [
     {
-      "faq_id": "faq.instructor.001",
-      "canonical_question": "...",
-      "answer": "...",
-      "section": "🏂 教練與教學安排",
-      "intent": "INSTRUCTOR",
-      "keywords": ["教練", "經驗", "資格"],
-      "related_faqs": ["faq.instructor.002"]
+      "id": "faq.booking.001",
+      "intent": "BOOKING",
+      "section": "📅 一般課程預約與安排",
+      "canonical_question": "中文原文",
+      "canonical_question_translations": {
+        "en": "",
+        "th": ""
+      },
+      "answer_template": {
+        "text": "中文答案",
+        "postscript": "補充說明",
+        "links_inline": false,
+        "text_translations": {
+          "en": "",
+          "th": ""
+        },
+        "postscript_translations": {
+          "en": "",
+          "th": ""
+        }
+      },
+      "metadata": {
+        "content_version": 1,
+        "source_language": "zh",
+        "last_updated": "2025-10-28T07:36:14.070Z"
+      },
+      "translation_status": {
+        "zh": { "status": "source", "last_synced_version": 1, "last_updated": "2025-10-28T07:36:14.070Z" },
+        "en": { "status": "missing", "last_synced_version": 0, "last_updated": null },
+        "th": { "status": "missing", "last_synced_version": 0, "last_updated": null }
+      }
     }
   ]
 }
 ```
 
+- 中文原文 (`canonical_question` / `answer_template.text`) 為唯一資料來源。
+- `*_translations` 物件存放英文、泰文內容；留空代表尚未翻譯。
+- `translation_status` 會在原文更新或翻譯完成時自動維護 `source / complete / pending / outdated` 狀態。
+
 **JSON Schema 驗證**:
 ```bash
 cd scripts
 node validate-faq-schema.js
+```
+
+**翻譯檢查**:
+```bash
+cd scripts
+node check-faq-translations.js
 ```
 
 ### i18n 翻譯配置

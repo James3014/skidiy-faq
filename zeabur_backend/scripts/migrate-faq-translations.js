@@ -1,0 +1,86 @@
+const fs = require('fs');
+const path = require('path');
+
+const TARGET_LANGUAGES = ['en', 'th'];
+const SOURCE_LANG = 'zh';
+
+function ensureString(obj, key) {
+  if (!obj[key]) {
+    obj[key] = '';
+  } else if (typeof obj[key] !== 'string') {
+    obj[key] = String(obj[key] || '');
+  }
+}
+
+function migrate() {
+  const dataPath = path.join(__dirname, '../data/faq_kb.json');
+  const raw = fs.readFileSync(dataPath, 'utf-8');
+  const json = JSON.parse(raw);
+
+  if (!json.items || !Array.isArray(json.items)) {
+    throw new Error('Invalid faq_kb.json structure: missing items array');
+  }
+
+  const now = new Date().toISOString();
+
+  json.items = json.items.map(item => {
+    item.metadata = item.metadata || {};
+    if (typeof item.metadata.content_version !== 'number') {
+      item.metadata.content_version = 1;
+    }
+    if (!item.metadata.source_language) {
+      item.metadata.source_language = SOURCE_LANG;
+    }
+    if (!item.metadata.last_updated) {
+      item.metadata.last_updated = item.updated_at || item.created_at || now;
+    }
+
+    item.canonical_question_translations = item.canonical_question_translations || {};
+    TARGET_LANGUAGES.forEach(lang => ensureString(item.canonical_question_translations, lang));
+
+    item.answer_template = item.answer_template || {};
+    item.answer_template.text = typeof item.answer_template.text === 'string'
+      ? item.answer_template.text
+      : String(item.answer_template.text || '');
+
+    if (item.answer_template.postscript && typeof item.answer_template.postscript !== 'string') {
+      item.answer_template.postscript = String(item.answer_template.postscript || '');
+    }
+
+    item.answer_template.text_translations = item.answer_template.text_translations || {};
+    item.answer_template.postscript_translations = item.answer_template.postscript_translations || {};
+
+    TARGET_LANGUAGES.forEach(lang => {
+      ensureString(item.answer_template.text_translations, lang);
+      ensureString(item.answer_template.postscript_translations, lang);
+    });
+
+    item.translation_status = item.translation_status || {};
+    item.translation_status[SOURCE_LANG] = {
+      status: 'source',
+      last_synced_version: item.metadata.content_version,
+      last_updated: item.metadata.last_updated
+    };
+
+    TARGET_LANGUAGES.forEach(lang => {
+      const existing = item.translation_status[lang] || {};
+      const hasQuestion = !!item.canonical_question_translations[lang]?.trim?.();
+      const hasAnswer = !!item.answer_template.text_translations[lang]?.trim?.();
+      const hasPostscript = !!item.answer_template.postscript_translations[lang]?.trim?.();
+      const hasContent = hasQuestion || hasAnswer || hasPostscript;
+
+      item.translation_status[lang] = {
+        status: hasContent ? (existing.status === 'outdated' ? 'outdated' : 'complete') : 'missing',
+        last_synced_version: hasContent ? (existing.last_synced_version || item.metadata.content_version) : 0,
+        last_updated: hasContent ? (existing.last_updated || null) : null
+      };
+    });
+
+    return item;
+  });
+
+  fs.writeFileSync(dataPath, JSON.stringify(json, null, 2), 'utf-8');
+  console.log(`Migration complete. Processed ${json.items.length} FAQ items.`);
+}
+
+migrate();

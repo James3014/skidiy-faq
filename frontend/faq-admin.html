@@ -639,6 +639,110 @@
     .empty-message {
       font-size: 0.95rem;
     }
+    .language-tabs {
+      display: flex;
+      gap: 0.5rem;
+      margin: 0.75rem 0 1.25rem;
+    }
+
+    .lang-tab {
+      border: none;
+      border-radius: 999px;
+      padding: 0.4rem 0.95rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      background: #eef2ff;
+      color: #4c51bf;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .lang-tab:hover {
+      background: #e0e7ff;
+    }
+
+    .lang-tab.active {
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      color: #fff;
+      box-shadow: 0 6px 12px rgba(99, 102, 241, 0.25);
+    }
+
+    .lang-panel {
+      display: none;
+      animation: fadeIn 0.2s ease;
+    }
+
+    .lang-panel.active {
+      display: block;
+    }
+
+    .translation-badges {
+      display: flex;
+      gap: 0.35rem;
+      justify-content: center;
+      align-items: center;
+      font-size: 0.85rem;
+    }
+
+    .translation-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.15rem;
+      padding: 0.2rem 0.55rem;
+      border-radius: 999px;
+      font-weight: 600;
+      border: 1px solid rgba(99, 102, 241, 0.2);
+      background: #f5f3ff;
+      color: #4c51bf;
+    }
+
+    .translation-badge .status-dot {
+      width: 0.4rem;
+      height: 0.4rem;
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    .status-missing .status-dot {
+      background: #f97316;
+    }
+
+    .status-pending .status-dot {
+      background: #facc15;
+    }
+
+    .status-complete .status-dot {
+      background: #22c55e;
+    }
+
+    .status-outdated .status-dot {
+      background: #ef4444;
+    }
+
+    .status-missing {
+      background: #fff7ed;
+      color: #c2410c;
+      border-color: rgba(251, 146, 60, 0.35);
+    }
+
+    .status-pending {
+      background: #fef9c3;
+      color: #854d0e;
+      border-color: rgba(234, 179, 8, 0.35);
+    }
+
+    .status-complete {
+      background: #dcfce7;
+      color: #166534;
+      border-color: rgba(34, 197, 94, 0.35);
+    }
+
+    .status-outdated {
+      background: #fee2e2;
+      color: #b91c1c;
+      border-color: rgba(248, 113, 113, 0.35);
+    }
+
   </style>
 </head>
 <body>
@@ -689,6 +793,13 @@
         <div class="stat-content">
           <div class="stat-value" id="statSections">-</div>
           <div class="stat-label">分類數量</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">🌐</div>
+        <div class="stat-content">
+          <div class="stat-value" id="statTranslations">-</div>
+          <div class="stat-label">翻譯進度</div>
         </div>
       </div>
     </div>
@@ -743,6 +854,7 @@
                 <th>問題</th>
                 <th>Intent</th>
                 <th>分類</th>
+                <th>翻譯</th>
                 <th>熱門</th>
                 <th style="text-align: right;">操作</th>
               </tr>
@@ -811,18 +923,63 @@
           </div>
 
           <div class="form-group">
-            <label class="form-label required">標準問題（中文）</label>
-            <input type="text" class="form-input" id="inputQuestion" placeholder="輸入標準問題..." required>
+            <label class="form-label">翻譯狀態</label>
+            <div class="translation-badges" id="translationStatusSummary"></div>
+            <div class="form-help">更新原文後，未同步內容會顯示為 Outdated，留空代表尚未提供該語言</div>
           </div>
 
           <div class="form-group">
-            <label class="form-label required">答案內容</label>
-            <textarea class="form-textarea" id="inputAnswer" placeholder="輸入答案內容..." required></textarea>
-          </div>
+            <label class="form-label required">多語內容</label>
+            <div class="language-tabs" id="formLanguageTabs">
+              <button type="button" class="lang-tab active" data-lang="zh">中文</button>
+              <button type="button" class="lang-tab" data-lang="en">English</button>
+              <button type="button" class="lang-tab" data-lang="th">ไทย</button>
+            </div>
 
-          <div class="form-group">
-            <label class="form-label">補充說明</label>
-            <textarea class="form-textarea" id="inputPostscript" placeholder="輸入補充說明（選填）"></textarea>
+            <div class="lang-panel active" data-lang="zh">
+              <div class="form-group">
+                <label class="form-label required">標準問題（中文）</label>
+                <input type="text" class="form-input lang-question" id="inputQuestion-zh" placeholder="輸入標準問題..." required>
+              </div>
+              <div class="form-group">
+                <label class="form-label required">答案內容（中文）</label>
+                <textarea class="form-textarea lang-answer" id="inputAnswer-zh" placeholder="輸入答案內容..." required></textarea>
+              </div>
+              <div class="form-group">
+                <label class="form-label">補充說明（中文）</label>
+                <textarea class="form-textarea lang-postscript" id="inputPostscript-zh" placeholder="輸入補充說明（選填）"></textarea>
+              </div>
+            </div>
+
+            <div class="lang-panel" data-lang="en">
+              <div class="form-group">
+                <label class="form-label">標準問題（English）</label>
+                <input type="text" class="form-input lang-question" id="inputQuestion-en" placeholder="Enter question in English">
+              </div>
+              <div class="form-group">
+                <label class="form-label">答案內容（English）</label>
+                <textarea class="form-textarea lang-answer" id="inputAnswer-en" placeholder="Provide the answer in English"></textarea>
+              </div>
+              <div class="form-group">
+                <label class="form-label">補充說明（English）</label>
+                <textarea class="form-textarea lang-postscript" id="inputPostscript-en" placeholder="Additional notes (optional)"></textarea>
+              </div>
+            </div>
+
+            <div class="lang-panel" data-lang="th">
+              <div class="form-group">
+                <label class="form-label">標準問題（ไทย）</label>
+                <input type="text" class="form-input lang-question" id="inputQuestion-th" placeholder="ใส่คำถามภาษาไทย">
+              </div>
+              <div class="form-group">
+                <label class="form-label">答案內容（ไทย）</label>
+                <textarea class="form-textarea lang-answer" id="inputAnswer-th" placeholder="ตอบคำถามเป็นภาษาไทย"></textarea>
+              </div>
+              <div class="form-group">
+                <label class="form-label">補充說明（ไทย）</label>
+                <textarea class="form-textarea lang-postscript" id="inputPostscript-th" placeholder="หมายเหตุเพิ่มเติม (ไม่จำเป็น)"></textarea>
+              </div>
+            </div>
           </div>
 
           <div class="form-group">
@@ -855,6 +1012,12 @@
     // API Configuration
     const API_BASE = window.API_BASE || '/api/v1';
     const AUTH_STORAGE_KEY = 'faqAdminToken';
+    const LANGUAGES = [
+      { code: 'zh', label: '中文' },
+      { code: 'en', label: 'English' },
+      { code: 'th', label: 'ไทย' }
+    ];
+    const TRANSLATION_LANGS = LANGUAGES.filter(lang => lang.code !== 'zh');
     let adminToken = null;
     let authPromise = null;
 
@@ -926,6 +1089,9 @@
     let allFAQs = [];
     let selectedIds = new Set();
     let editingId = null;
+    let editingData = null;
+    let editingTranslationStatus = {};
+    let activeFormLanguage = 'zh';
 
     // Initialize
     document.addEventListener('DOMContentLoaded', async () => {
@@ -953,6 +1119,12 @@
       document.getElementById('btnNew').addEventListener('click', openNewModal);
       document.getElementById('btnSave').addEventListener('click', handleSave);
       document.getElementById('btnBatchDelete').addEventListener('click', handleBatchDelete);
+
+      initLanguageTabs();
+      document.querySelectorAll('.lang-question, .lang-answer, .lang-postscript').forEach(el => {
+        el.addEventListener('input', refreshTranslationSummary);
+      });
+      refreshTranslationSummary();
     });
 
     // Debounce helper
@@ -1023,6 +1195,20 @@
           const sections = new Set(items.map(f => f.section));
           document.getElementById('statSections').textContent = sections.size;
 
+          const translationSummary = TRANSLATION_LANGS.map(lang => {
+            const statuses = items.map(f => f.translation_status?.[lang.code]?.status || 'missing');
+            const total = items.length || 1;
+            const complete = statuses.filter(s => s === 'complete').length;
+            const outdated = statuses.filter(s => s === 'outdated').length;
+            const pending = statuses.filter(s => s === 'pending').length;
+            const label = lang.code.toUpperCase();
+            const parts = [`${complete}/${total}`];
+            if (outdated) parts.push(`↻${outdated}`);
+            if (pending) parts.push(`…${pending}`);
+            return `${label} ${parts.join(' ')}`;
+          }).join(' | ');
+          document.getElementById('statTranslations').textContent = translationSummary || '—';
+
           // Populate filter dropdowns
           populateFilters(intents, sections);
         }
@@ -1073,14 +1259,16 @@
 
       items.forEach(item => {
         const tr = document.createElement('tr');
+        const translationBadges = renderTranslationBadges(item.translation_status || {});
         tr.innerHTML = `
           <td>
             <input type="checkbox" class="row-checkbox" data-id="${item.id}">
           </td>
           <td><span class="faq-id">${item.id}</span></td>
-          <td><div class="faq-question">${item.canonical_question}</div></td>
+          <td><div class="faq-question">${escapeHtml(item.canonical_question)}</div></td>
           <td><span class="intent-badge intent-${item.intent.toLowerCase()}">${item.intent}</span></td>
-          <td>${item.section}</td>
+          <td>${escapeHtml(item.section)}</td>
+          <td><div class="translation-badges">${translationBadges}</div></td>
           <td>${item.hot ? '<span class="hot-badge">🔥 熱門</span>' : '-'}</td>
           <td style="text-align: right;">
             <div class="action-buttons">
@@ -1207,17 +1395,136 @@
       }, 3000);
     }
 
+    function sanitizeValue(value) {
+      return typeof value === 'string' ? value.trim() : '';
+    }
+
+    function escapeHtml(value) {
+      return sanitizeValue(value).replace(/[&<>"']/g, (char) => {
+        switch (char) {
+          case '&': return '&amp;';
+          case '<': return '&lt;';
+          case '>': return '&gt;';
+          case '"': return '&quot;';
+          case "'": return '&#39;';
+          default: return char;
+        }
+      });
+    }
+
+    function renderTranslationBadges(statusMap = {}) {
+      return TRANSLATION_LANGS.map(lang => {
+        const status = statusMap?.[lang.code]?.status || 'missing';
+        const label = lang.code.toUpperCase();
+        return `<span class="translation-badge status-${status}"><span class="status-dot"></span>${label}</span>`;
+      }).join('');
+    }
+
+    function computeTranslationStatusForLang(langCode) {
+      const questionEl = document.getElementById(`inputQuestion-${langCode}`);
+      const answerEl = document.getElementById(`inputAnswer-${langCode}`);
+      const postscriptEl = document.getElementById(`inputPostscript-${langCode}`);
+
+      const question = sanitizeValue(questionEl ? questionEl.value : '');
+      const answer = sanitizeValue(answerEl ? answerEl.value : '');
+      const postscript = sanitizeValue(postscriptEl ? postscriptEl.value : '');
+      const hasContent = Boolean(question || answer || postscript);
+
+      const existingStatus = editingTranslationStatus?.[langCode]?.status;
+      const existingQuestion = sanitizeValue(editingData?.canonical_question_translations?.[langCode]);
+      const existingAnswer = sanitizeValue(editingData?.answer_template?.text_translations?.[langCode]);
+      const existingPostscript = sanitizeValue(editingData?.answer_template?.postscript_translations?.[langCode]);
+      const changed = question !== existingQuestion || answer !== existingAnswer || postscript !== existingPostscript;
+
+      if (!hasContent) {
+        if (existingStatus === 'outdated') return { status: 'outdated' };
+        if (existingStatus === 'pending') return { status: 'pending' };
+        return { status: 'missing' };
+      }
+
+      if (existingStatus === 'outdated' && !changed) {
+        return { status: 'outdated' };
+      }
+
+      return { status: 'complete' };
+    }
+
+    function refreshTranslationSummary() {
+      const summaryEl = document.getElementById('translationStatusSummary');
+      if (!summaryEl) return;
+
+      const badges = renderTranslationBadges(
+        TRANSLATION_LANGS.reduce((acc, lang) => {
+          acc[lang.code] = computeTranslationStatusForLang(lang.code);
+          return acc;
+        }, {})
+      );
+
+      summaryEl.innerHTML = badges;
+    }
+
+    function setActiveFormLanguage(lang) {
+      activeFormLanguage = lang;
+      document.querySelectorAll('.lang-tab').forEach(tab => {
+        tab.classList.toggle('active', tab.dataset.lang === lang);
+      });
+      document.querySelectorAll('.lang-panel').forEach(panel => {
+        panel.classList.toggle('active', panel.dataset.lang === lang);
+      });
+    }
+
+    function initLanguageTabs() {
+      document.querySelectorAll('.lang-tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+          setActiveFormLanguage(tab.dataset.lang);
+        });
+      });
+      setActiveFormLanguage('zh');
+    }
+
+    function populateTranslationFields(faq) {
+      editingTranslationStatus = faq?.translation_status || {};
+
+      LANGUAGES.forEach(({ code }) => {
+        const questionInput = document.getElementById(`inputQuestion-${code}`);
+        const answerInput = document.getElementById(`inputAnswer-${code}`);
+        const postscriptInput = document.getElementById(`inputPostscript-${code}`);
+        if (!questionInput || !answerInput || !postscriptInput) return;
+
+        if (code === 'zh') {
+          questionInput.value = sanitizeValue(faq?.canonical_question || '');
+          answerInput.value = sanitizeValue(faq?.answer_template?.text || '');
+          postscriptInput.value = sanitizeValue(faq?.answer_template?.postscript || '');
+        } else {
+          questionInput.value = sanitizeValue(faq?.canonical_question_translations?.[code] || '');
+          answerInput.value = sanitizeValue(faq?.answer_template?.text_translations?.[code] || '');
+          postscriptInput.value = sanitizeValue(faq?.answer_template?.postscript_translations?.[code] || '');
+        }
+      });
+
+      refreshTranslationSummary();
+    }
+
     // Modal functions
     function openNewModal() {
       editingId = null;
+      editingData = null;
+      editingTranslationStatus = {};
       document.getElementById('modalTitle').textContent = '新增 FAQ';
       document.getElementById('faqForm').reset();
+      document.getElementById('inputId').disabled = false;
+      populateTranslationFields(null);
+      setActiveFormLanguage('zh');
+      refreshTranslationSummary();
       document.getElementById('editModal').classList.add('open');
     }
 
     function closeEditModal() {
       document.getElementById('editModal').classList.remove('open');
       editingId = null;
+      editingData = null;
+      editingTranslationStatus = {};
+      setActiveFormLanguage('zh');
     }
 
     // Edit FAQ
@@ -1232,15 +1539,19 @@
         if (data.success) {
           const faq = data.data;
 
+          editingData = faq;
+          editingTranslationStatus = faq.translation_status || {};
+
           document.getElementById('modalTitle').textContent = '編輯 FAQ';
           document.getElementById('inputId').value = faq.id;
           document.getElementById('inputId').disabled = true; // Can't change ID when editing
           document.getElementById('inputIntent').value = faq.intent;
           document.getElementById('inputSection').value = faq.section;
-          document.getElementById('inputQuestion').value = faq.canonical_question;
-          document.getElementById('inputAnswer').value = faq.answer_template?.text || '';
-          document.getElementById('inputPostscript').value = faq.answer_template?.postscript || '';
           document.getElementById('inputHot').checked = faq.hot || false;
+
+          populateTranslationFields(faq);
+          setActiveFormLanguage('zh');
+          refreshTranslationSummary();
 
           document.getElementById('editModal').classList.add('open');
         } else {
@@ -1316,34 +1627,64 @@
       const id = document.getElementById('inputId').value.trim();
       const intent = document.getElementById('inputIntent').value;
       const section = document.getElementById('inputSection').value.trim();
-      const question = document.getElementById('inputQuestion').value.trim();
-      const answer = document.getElementById('inputAnswer').value.trim();
-      const postscript = document.getElementById('inputPostscript').value.trim();
       const hot = document.getElementById('inputHot').checked;
 
+      let questionZh = '';
+      let answerZh = '';
+      let postscriptZh = '';
+      const questionTranslations = {};
+      const answerTranslations = {};
+      const postscriptTranslations = {};
+
+      LANGUAGES.forEach(({ code }) => {
+        const question = sanitizeValue(document.getElementById(`inputQuestion-${code}`)?.value);
+        const answer = sanitizeValue(document.getElementById(`inputAnswer-${code}`)?.value);
+        const postscript = sanitizeValue(document.getElementById(`inputPostscript-${code}`)?.value);
+
+        if (code === 'zh') {
+          questionZh = question;
+          answerZh = answer;
+          postscriptZh = postscript;
+        } else {
+          questionTranslations[code] = question;
+          answerTranslations[code] = answer;
+          postscriptTranslations[code] = postscript;
+        }
+      });
+
       // Basic validation
-      if (!id || !intent || !section || !question || !answer) {
-        showToast('驗證失敗', '請填寫所有必填欄位', 'error');
+      if (!id || !intent || !section || !questionZh || !answerZh) {
+        showToast('驗證失敗', '請填寫所有必填欄位（ID / Intent / 分類 / 中文內容）', 'error');
         return;
       }
 
-      // Build FAQ object
+      const existing = editingData || {};
+      const answerTemplate = {
+        text: answerZh,
+        links_inline: Boolean(existing.answer_template?.links_inline),
+        text_translations: answerTranslations,
+        postscript_translations: postscriptTranslations
+      };
+
+      if (postscriptZh) {
+        answerTemplate.postscript = postscriptZh;
+      } else if (existing.answer_template?.postscript) {
+        answerTemplate.postscript = '';
+      }
+
       const faqData = {
         id,
         intent,
         section,
-        canonical_question: question,
-        answer_template: {
-          text: answer,
-          postscript: postscript || undefined,
-          links_inline: false
-        },
+        canonical_question: questionZh,
+        canonical_question_translations: questionTranslations,
+        answer_template: answerTemplate,
         hot,
-        utterance_patterns: [],
-        required_slots: [],
-        policy_flags: [],
-        links: [],
-        crm_tags: []
+        utterance_patterns: existing.utterance_patterns || [],
+        required_slots: existing.required_slots || [],
+        policy_flags: existing.policy_flags || [],
+        links: existing.links || [],
+        crm_tags: existing.crm_tags || []
       };
 
       try {
@@ -1371,6 +1712,7 @@
         showToast('儲存失敗', error.message, 'error');
       }
     }
+
 
     // Close modal when clicking outside
     document.getElementById('editModal').addEventListener('click', (e) => {

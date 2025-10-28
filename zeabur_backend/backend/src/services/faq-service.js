@@ -9,6 +9,164 @@ const fs = require('fs').promises;
 const path = require('path');
 const { AppError } = require('../middleware/error-handler');
 
+const SOURCE_LANGUAGE = 'zh';
+const TRANSLATION_LANGUAGES = ['en', 'th'];
+
+function normalizeString(value) {
+  return typeof value === 'string' ? value.trim() : '';
+}
+
+function cloneTranslations(translations = {}) {
+  return TRANSLATION_LANGUAGES.reduce((acc, lang) => {
+    acc[lang] = normalizeString(translations[lang] || '');
+    return acc;
+  }, {});
+}
+
+function determineTranslationStatus({
+  language,
+  hasContent,
+  baseChanged,
+  contentVersion,
+  now,
+  translationChanged,
+  previousStatus
+}) {
+  if (!hasContent) {
+    return {
+      status: baseChanged ? 'pending' : 'missing',
+      last_synced_version: 0,
+      last_updated: null
+    };
+  }
+
+  if (baseChanged && !translationChanged) {
+    return {
+      status: 'outdated',
+      last_synced_version: previousStatus?.last_synced_version || 0,
+      last_updated: previousStatus?.last_updated || null
+    };
+  }
+
+  if (translationChanged) {
+    return {
+      status: 'complete',
+      last_synced_version: contentVersion,
+      last_updated: now
+    };
+  }
+
+  if (previousStatus?.status) {
+    const status = baseChanged ? 'outdated' : previousStatus.status;
+    return {
+      status,
+      last_synced_version: baseChanged
+        ? previousStatus.last_synced_version || 0
+        : previousStatus.last_synced_version || contentVersion,
+      last_updated: previousStatus.last_updated || null
+    };
+  }
+
+  return {
+    status: 'complete',
+    last_synced_version: contentVersion,
+    last_updated: now
+  };
+}
+
+function normalizeFAQStructure(faqData, previous = null) {
+  const now = new Date().toISOString();
+  const normalized = JSON.parse(JSON.stringify(faqData));
+
+  normalized.canonical_question = normalizeString(normalized.canonical_question);
+  normalized.canonical_question_translations = {
+    ...(previous?.canonical_question_translations || {}),
+    ...(normalized.canonical_question_translations || {})
+  };
+  normalized.canonical_question_translations = cloneTranslations(normalized.canonical_question_translations);
+
+  normalized.answer_template = {
+    ...(previous?.answer_template || {}),
+    ...(normalized.answer_template || {})
+  };
+  normalized.answer_template.text = normalizeString(normalized.answer_template.text);
+  if ('postscript' in normalized.answer_template) {
+    normalized.answer_template.postscript = normalizeString(normalized.answer_template.postscript);
+  }
+
+  normalized.answer_template.text_translations = cloneTranslations({
+    ...(previous?.answer_template?.text_translations || {}),
+    ...(normalized.answer_template.text_translations || {})
+  });
+  normalized.answer_template.postscript_translations = cloneTranslations({
+    ...(previous?.answer_template?.postscript_translations || {}),
+    ...(normalized.answer_template.postscript_translations || {})
+  });
+
+  normalized.metadata = {
+    ...(previous?.metadata || {}),
+    source_language: SOURCE_LANGUAGE,
+  };
+
+  const previousVersion = previous?.metadata?.content_version ?? 1;
+  const baseChanged = !previous ||
+    normalized.canonical_question !== normalizeString(previous?.canonical_question) ||
+    normalized.answer_template.text !== normalizeString(previous?.answer_template?.text) ||
+    normalizeString(normalized.answer_template.postscript) !== normalizeString(previous?.answer_template?.postscript);
+
+  let contentVersion = previous ? previousVersion : 1;
+  if (previous && baseChanged) {
+    contentVersion = previousVersion + 1;
+  }
+
+  normalized.metadata.content_version = contentVersion;
+  normalized.metadata.last_updated = baseChanged
+    ? now
+    : (previous?.metadata?.last_updated || now);
+
+  normalized.translation_status = normalized.translation_status || previous?.translation_status || {};
+  normalized.translation_status[SOURCE_LANGUAGE] = {
+    status: 'source',
+    last_synced_version: contentVersion,
+    last_updated: normalized.metadata.last_updated
+  };
+
+  TRANSLATION_LANGUAGES.forEach(lang => {
+    const text = normalizeString(normalized.answer_template.text_translations[lang]);
+    normalized.answer_template.text_translations[lang] = text;
+    const question = normalizeString(normalized.canonical_question_translations[lang]);
+    normalized.canonical_question_translations[lang] = question;
+    const postscript = normalizeString(normalized.answer_template.postscript_translations[lang]);
+    normalized.answer_template.postscript_translations[lang] = postscript;
+
+    const hasContent = Boolean(text || question || postscript);
+    const previousStatus = previous?.translation_status?.[lang];
+    const translationChanged = !previous
+      ? hasContent
+      : (
+          text !== normalizeString(previous?.answer_template?.text_translations?.[lang]) ||
+          question !== normalizeString(previous?.canonical_question_translations?.[lang]) ||
+          postscript !== normalizeString(previous?.answer_template?.postscript_translations?.[lang])
+        );
+
+    normalized.translation_status[lang] = determineTranslationStatus({
+      language: lang,
+      hasContent,
+      baseChanged,
+      contentVersion,
+      now,
+      translationChanged,
+      previousStatus
+    });
+  });
+
+  return {
+    normalized,
+    baseChanged,
+    timestamp: now
+  };
+}
+
 class FAQService {
   constructor() {
     this.dataPath = path.join(__dirname, '../../../data/faq_kb.json');
@@ -153,10 +311,24 @@ class FAQService {
     if (search && search.trim().length > 0) {
       const searchLower = search.toLowerCase().trim();
       items = items.filter(item => {
-        const questionMatch = item.canonical_question?.toLowerCase().includes(searchLower);
-        const answerMatch = item.answer_template?.text?.toLowerCase().includes(searchLower);
+        const questionVariants = [normalizeString(item.canonical_question)];
+        TRANSLATION_LANGUAGES.forEach(lang => {
+          questionVariants.push(normalizeString(item.canonical_question_translations?.[lang]));
+        });
+
+        const answerVariants = [normalizeString(item.answer_template?.text)];
+        TRANSLATION_LANGUAGES.forEach(lang => {
+          answerVariants.push(normalizeString(item.answer_template?.text_translations?.[lang]));
+          answerVariants.push(normalizeString(item.answer_template?.postscript_translations?.[lang]));
+        });
+
         const idMatch = item.id?.toLowerCase().includes(searchLower);
-        return questionMatch || answerMatch || idMatch;
+
+        return (
+          questionVariants.some(text => text && text.toLowerCase().includes(searchLower)) ||
+          answerVariants.some(text => text && text.toLowerCase().includes(searchLower)) ||
+          idMatch
+        );
       });
     }
 
@@ -201,11 +373,13 @@ class FAQService {
     const pageItems = items.slice(offset, offset + limit).map(item => ({
       id: item.id,
       canonical_question: item.canonical_question,
+      canonical_question_translations: item.canonical_question_translations || {},
       intent: item.intent,
       section: item.section,
       hot: item.hot || false,
       answer_preview: item.answer_template?.text?.substring(0, 150) +
                      (item.answer_template?.text?.length > 150 ? '...' : ''),
+      translation_status: item.translation_status || {},
       created_at: item.created_at || null,
       updated_at: item.updated_at || null
     }));
@@ -295,6 +469,39 @@ class FAQService {
       errors.push({ field: 'answer_template.text', message: 'Answer text 長度必須在 10-5000 字元之間' });
     }
 
+    if (faqData.canonical_question_translations && typeof faqData.canonical_question_translations !== 'object') {
+      errors.push({ field: 'canonical_question_translations', message: 'Translations 必須為物件' });
+    } else if (faqData.canonical_question_translations) {
+      TRANSLATION_LANGUAGES.forEach(lang => {
+        const value = faqData.canonical_question_translations[lang];
+        if (value !== undefined && typeof value !== 'string') {
+          errors.push({ field: `canonical_question_translations.${lang}`, message: 'Translation 必須為字串' });
+        }
+      });
+    }
+
+    if (faqData.answer_template?.text_translations && typeof faqData.answer_template.text_translations !== 'object') {
+      errors.push({ field: 'answer_template.text_translations', message: 'Translation map 必須為物件' });
+    } else if (faqData.answer_template?.text_translations) {
+      TRANSLATION_LANGUAGES.forEach(lang => {
+        const value = faqData.answer_template.text_translations[lang];
+        if (value !== undefined && typeof value !== 'string') {
+          errors.push({ field: `answer_template.text_translations.${lang}`, message: 'Translation 必須為字串' });
+        }
+      });
+    }
+
+    if (faqData.answer_template?.postscript_translations && typeof faqData.answer_template.postscript_translations !== 'object') {
+      errors.push({ field: 'answer_template.postscript_translations', message: 'Translation map 必須為物件' });
+    } else if (faqData.answer_template?.postscript_translations) {
+      TRANSLATION_LANGUAGES.forEach(lang => {
+        const value = faqData.answer_template.postscript_translations[lang];
+        if (value !== undefined && typeof value !== 'string') {
+          errors.push({ field: `answer_template.postscript_translations.${lang}`, message: 'Translation 必須為字串' });
+        }
+      });
+    }
+
     // Optional field validations
     if (faqData.utterance_patterns && Array.isArray(faqData.utterance_patterns)) {
       if (faqData.utterance_patterns.length > 50) {
@@ -326,11 +533,18 @@ class FAQService {
 
     // Add timestamps
     const now = new Date().toISOString();
+    const { normalized } = normalizeFAQStructure(faqData);
     const newFAQ = {
-      ...faqData,
+      ...normalized,
       created_at: now,
       updated_at: now
     };
+
+    newFAQ.metadata.last_updated = now;
+    if (newFAQ.translation_status?.[SOURCE_LANGUAGE]) {
+      newFAQ.translation_status[SOURCE_LANGUAGE].last_updated = now;
+      newFAQ.translation_status[SOURCE_LANGUAGE].last_synced_version = newFAQ.metadata.content_version;
+    }
 
     // Add to items array
     data.items.push(newFAQ);
@@ -360,16 +574,23 @@ class FAQService {
       throw new AppError('FAQ_NOT_FOUND', '找不到指定的 FAQ', 404);
     }
 
-    // Backup old version
-    const backupId = await this.createBackup(faqId, data.items[index]);
+    const existing = data.items[index];
 
-    // Update FAQ (preserve created_at, update updated_at)
+    // Backup old version
+    const backupId = await this.createBackup(faqId, existing);
+
+    const { normalized, timestamp } = normalizeFAQStructure({ ...existing, ...faqData }, existing);
     const updatedFAQ = {
-      ...faqData,
+      ...normalized,
       id: faqId, // Ensure ID doesn't change
-      created_at: data.items[index].created_at,
-      updated_at: new Date().toISOString()
+      created_at: existing.created_at,
+      updated_at: timestamp
     };
+
+    if (updatedFAQ.translation_status?.[SOURCE_LANGUAGE]) {
+      updatedFAQ.translation_status[SOURCE_LANGUAGE].last_updated = timestamp;
+      updatedFAQ.translation_status[SOURCE_LANGUAGE].last_synced_version = updatedFAQ.metadata.content_version;
+    }
 
     data.items[index] = updatedFAQ;
 
