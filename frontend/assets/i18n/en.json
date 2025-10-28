@@ -42,6 +42,24 @@
     "en": "English",
     "th": "ไทย"
   },
+  "section_mapping": {
+    "行程規劃與周邊": "Itinerary Planning & Local Tips",
+    "服務範圍與聯絡方式": "Service Coverage & Contact",
+    "🧭 課程選擇與內容安排": "🧭 Course Selection & Curriculum",
+    "👨‍👩‍👧‍👦 一起上課安排": "👨‍👩‍👧‍👦 Group Lesson Arrangements",
+    "👶 小朋友滑雪與安全保障": "👶 Kids Skiing & Safety",
+    "🏂 教練與教學安排": "🏂 Coaching & Lesson Scheduling",
+    "📍 集合地點與交通": "📍 Meeting Points & Transportation",
+    "🧑‍🏫 教練資訊與教學語言": "🧑‍🏫 Instructor Profiles & Languages",
+    "📅 一般課程預約與安排": "📅 General Lesson Booking",
+    "💰 費用與支付方式": "💰 Pricing & Payment Methods",
+    "📱 平台操作與預約流程": "📱 Platform Usage & Booking Flow",
+    "🛟 安全與保險": "🛟 Safety & Insurance",
+    "🎒 裝備準備與租借流程": "🎒 Gear Preparation & Rental",
+    "退費機制規定": "Refund Policy & Terms",
+    "📅 預約異動與取消": "📅 Booking Changes & Cancellation",
+    "🧑‍🏫 教練資訊與聯繫": "🧑‍🏫 Instructor Info & Contact"
+  },
   "footer": {
     "contact": "Contact Us",
     "privacy": "Privacy Policy",

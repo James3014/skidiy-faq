@@ -726,6 +726,16 @@
       }
     });
 
+    function getSectionLabel(rawSection) {
+      if (!rawSection) return '';
+      if (!i18n || typeof i18n.t !== 'function') {
+        return rawSection;
+      }
+      const key = `section_mapping.${rawSection}`;
+      const translated = i18n.t(key);
+      return translated && translated !== key ? translated : rawSection;
+    }
+
     // Render sidebar sections
     function renderSidebar() {
       console.log('[Sidebar] Rendering sidebar with', allFAQs.length, 'FAQs');
@@ -742,7 +752,7 @@
       const sidebarHTML = Object.entries(sections)
         .map(([name, count]) => `
           <div class="sidebar-section" data-section="${name}">
-            <span>${getSectionIcon(name)} ${name}</span>
+            <span>${getSectionLabel(name)}</span>
             <span class="section-count">(${count})</span>
           </div>
         `).join('');
@@ -768,20 +778,14 @@
         });
       });
 
-      console.log('[Sidebar] Click handlers attached to', document.querySelectorAll('.sidebar-section').length, 'sections');
-    }
+      if (currentSection) {
+        const activeEl = document.querySelector(`.sidebar-section[data-section="${currentSection}"]`);
+        if (activeEl) {
+          activeEl.classList.add('active');
+        }
+      }
 
-    function getSectionIcon(section) {
-      const icons = {
-        '行程規劃與周邊': '🎿',
-        '預約與報名流程': '📅',
-        '🏂 教練與教學安排': '👨‍🏫',
-        '👶 小朋友滑雪與安全保障': '👶',
-        '💰 付款與退款政策': '💰',
-        '🎽 裝備租借與準備': '🎽',
-        '服務範圍與聯絡方式': '🏔️'
-      };
-      return icons[section] || '📄';
+      console.log('[Sidebar] Click handlers attached to', document.querySelectorAll('.sidebar-section').length, 'sections');
     }
 
     // Render hot FAQs (prioritize hot: true, then first 5)
@@ -818,7 +822,7 @@
     // Filter by section
     function filterBySection(section) {
       const filtered = allFAQs.filter(faq => faq.section === section);
-      displayFAQs(filtered, `分類：${section}`);
+      displayFAQs(filtered, `分類：${getSectionLabel(section)}`);
       hideIntentPanel();
     }
 
