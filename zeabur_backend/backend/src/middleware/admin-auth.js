@@ -16,6 +16,10 @@ function extractToken(req) {
 
 function requireAdminAuth(req, res, next) {
   try {
+    if (req.method === 'OPTIONS') {
+      return next();
+    }
+
     const secret = process.env.ADMIN_JWT_SECRET;
     if (!secret) {
       throw new AppError(
