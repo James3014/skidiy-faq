@@ -133,6 +133,46 @@ const API_BASE = 'http://localhost:3001/api/v1';
 
 ### 部署到 Zeabur
 
+#### 1. 環境變數配置
+
+在 Zeabur 控制台為後端服務設定以下環境變數：
+
+**必要變數**:
+```bash
+# 管理員 JWT 密鑰（用於 FAQ 管理後台認證）
+ADMIN_JWT_SECRET=your-secure-random-secret-here
+
+# 允許開發登入（FAQ 管理後台需要）
+ENABLE_DEV_LOGIN=true
+
+# Node 環境
+NODE_ENV=production
+
+# 資料庫路徑
+DATABASE_PATH=../data/analytics.db
+JSONL_LOG_PATH=../data/customer_inquiries.jsonl
+```
+
+**可選變數**:
+```bash
+# LLM API Keys（若要啟用 AI 增強功能）
+GEMINI_API_KEY=your-gemini-api-key
+CLAUDE_API_KEY=your-claude-api-key
+
+# FAQ Insights API 密鑰
+FAQ_INSIGHTS_API_KEYS=your-insights-api-key
+```
+
+**設定步驟**:
+1. 登入 [Zeabur 控制台](https://dash.zeabur.com)
+2. 選擇你的專案 (skidiy-faq)
+3. 點擊後端服務 (backend)
+4. 進入 "Environment Variables" 標籤
+5. 新增上述環境變數
+6. 儲存後自動重新部署
+
+#### 2. 前端配置
+
 部署時使用生產配置（zeabur 目錄下的檔案）：
 ```javascript
 const API_BASE = '/api/v1';  // 相對路徑，由 Zeabur 自動路由
@@ -312,6 +352,47 @@ CREATE TABLE faq_views (
 - **意圖偵測**: <50ms (規則引擎), <2s (LLM)
 - **Bundle 大小**: <100KB (gzipped)
 
+## 故障排除
+
+### FAQ 管理後台登入失敗 (405 錯誤)
+
+**問題**: 訪問 https://skidiy-faq.zeabur.app/faq-admin.html 時，`POST /api/v1/auth/dev-login` 返回 405 錯誤。
+
+**原因**: 後端環境變數未配置。
+
+**解決方案**:
+1. 登入 Zeabur 控制台
+2. 進入後端服務的 Environment Variables
+3. 新增以下兩個變數：
+   ```
+   ADMIN_JWT_SECRET=your-secure-random-secret
+   ENABLE_DEV_LOGIN=true
+   ```
+4. 儲存並等待自動重新部署（約 2-3 分鐘）
+5. 重新載入 faq-admin.html
+
+### 熱門 FAQ 顯示錯誤
+
+**問題**: 熱門 FAQ 區塊顯示「無法載入熱門問題」。
+
+**原因**: Analytics API 未回應或資料庫未初始化。
+
+**解決方案**:
+1. 檢查 `/api/v1/analytics/hot-faqs` 端點是否正常
+2. 確認 DATABASE_PATH 環境變數正確
+3. 檢查 analytics.db 是否存在於 data/ 目錄
+
+### 多語言切換無效
+
+**問題**: 切換語言後內容沒有更新。
+
+**原因**: 瀏覽器快取或 i18n 檔案載入失敗。
+
+**解決方案**:
+1. 強制重新整理 (Ctrl+Shift+R 或 Cmd+Shift+R)
+2. 檢查開發者工具 Console 是否有載入錯誤
+3. 確認 assets/i18n/ 目錄下的 JSON 檔案存在
+
 ## 授權與聯絡
 
 - **專案**: SkiDIY FAQ System
@@ -323,4 +404,4 @@ CREATE TABLE faq_views (
 ---
 
 **最後更新**: 2025-11-01
-**版本**: 1.2.0 (Dynamic Hot FAQs)
+**版本**: 1.2.1 (Environment Config + Troubleshooting)
