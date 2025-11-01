@@ -9,6 +9,15 @@ const ALLOW_DEV_LOGIN =
   process.env.ENABLE_DEV_LOGIN === 'true' || process.env.NODE_ENV !== 'production';
 
 /**
+ * OPTIONS /api/v1/auth/dev-login
+ *
+ * Handle CORS preflight request
+ */
+router.options('/dev-login', (req, res) => {
+  res.status(200).end();
+});
+
+/**
  * POST /api/v1/auth/dev-login
  *
  * Development-only endpoint to generate an admin JWT token.

@@ -259,12 +259,12 @@
         "NO_MANUAL_MATCH"
       ],
       "answer_template": {
-        "text": "為了確保服務品質與資訊的準確性，我們目前主要透過電子郵件 ( admin@skidiy.com ) 提供客服。文字記錄能幫助我們更精準地理解您的問題，並完整地追蹤處理進度。我們承諾會盡快回覆您的所有問題。",
+        "text": "為了確保服務品質與資訊的準確性，我們目前主要透過電子郵件 ( service@diy.ski ) 提供客服。文字記錄能幫助我們更精準地理解您的問題，並完整地追蹤處理進度。我們承諾會盡快回覆您的所有問題。",
         "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
         "links_inline": false,
         "text_translations": {
-          "en": "To ensure service quality and accuracy of information, we currently primarily provide customer service via email (admin@skidiy.com). Text records help us understand your questions more precisely and fully track the progress of their resolution. We promise to respond to all your inquiries as quickly as possible.",
-          "th": "เพื่อให้มั่นใจในคุณภาพการบริการและความถูกต้องของข้อมูล ปัจจุบันเราให้บริการลูกค้าหลักผ่านทางอีเมล (admin@skidiy.com) การบันทึกข้อความช่วยให้เราเข้าใจปัญหาของคุณได้อย่างแม่นยำยิ่งขึ้น และติดตามความคืบหน้าในการแก้ไขได้อย่างสมบูรณ์ เราสัญญาว่าจะตอบกลับทุกคำถามของคุณโดยเร็วที่สุด"
+          "en": "To ensure service quality and accuracy of information, we currently primarily provide customer service via email (service@diy.ski). Text records help us understand your questions more precisely and fully track the progress of their resolution. We promise to respond to all your inquiries as quickly as possible.",
+          "th": "เพื่อให้มั่นใจในคุณภาพการบริการและความถูกต้องของข้อมูล ปัจจุบันเราให้บริการลูกค้าหลักผ่านทางอีเมล (service@diy.ski) การบันทึกข้อความช่วยให้เราเข้าใจปัญหาของคุณได้อย่างแม่นยำยิ่งขึ้น และติดตามความคืบหน้าในการแก้ไขได้อย่างสมบูรณ์ เราสัญญาว่าจะตอบกลับทุกคำถามของคุณโดยเร็วที่สุด"
         },
         "postscript_translations": {
           "en": "For more information and the latest availability, please refer to the reservation system.",
