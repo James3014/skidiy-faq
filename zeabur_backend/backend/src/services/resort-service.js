@@ -11,7 +11,7 @@ const { AppError } = require('../middleware/error-handler');
 
 class ResortService {
   constructor() {
-    const dataDir = process.env.FAQ_DATA_DIR || path.join(__dirname, '../../../data');
+    const dataDir = process.env.FAQ_DATA_DIR || path.join(__dirname, '../data');
     this.dataPath = path.join(dataDir, 'resort_kb.json');
     this.backupPath = path.join(dataDir, 'resort_kb.backup.json');
     this.backupDir = path.join(dataDir, 'backups');

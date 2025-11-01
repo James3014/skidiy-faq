@@ -170,7 +170,9 @@ function normalizeFAQStructure(faqData, previous = null) {
 class FAQService {
   constructor() {
     // Support both local development and production deployment
-    const dataDir = process.env.FAQ_DATA_DIR || path.join(__dirname, '../../../data');
+    // Production (Zeabur): /src/src/services -> ../data = /src/src/data
+    // Development: __dirname/../../ -> ../../../data
+    const dataDir = process.env.FAQ_DATA_DIR || path.join(__dirname, '../data');
     this.dataPath = path.join(dataDir, 'faq_kb.json');
     this.backupPath = path.join(dataDir, 'faq_kb.backup.json');
     this.backupDir = path.join(dataDir, 'backups');
