@@ -3,32 +3,30 @@ FROM node:22-slim AS base
 
 # Install dependencies only when needed
 FROM base AS deps
-WORKDIR /app/backend
+WORKDIR /app
 
 # Copy package files
 COPY backend/package*.json ./
 RUN npm ci --only=production
 
-# Build stage
+# Production stage
 FROM base AS runner
 WORKDIR /app
 
 # Copy node_modules from deps
-COPY --from=deps /app/backend/node_modules ./backend/node_modules
+COPY --from=deps /app/node_modules ./node_modules
 
 # Copy backend source code
-COPY backend ./backend
+COPY backend/src ./src
+COPY backend/package*.json ./
 
 # Copy data directory (contains faq_kb.json)
-COPY data ./data
+COPY data ../data
 
 # Create directories for runtime data
 RUN mkdir -p /data && \
     mkdir -p /data/backups && \
-    chown -R node:node /data
-
-# Set working directory to backend
-WORKDIR /app/backend
+    chown -R node:node /data /app
 
 # Use non-root user
 USER node
