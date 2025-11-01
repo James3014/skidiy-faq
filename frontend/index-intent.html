@@ -8,32 +8,34 @@
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      font-family: Roboto, "微軟正黑體", -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+      background: #F0F0F0;
       min-height: 100vh;
+      color: #47596C;
     }
 
     /* Header with language selector */
     .header {
-      background: rgba(255,255,255,0.95);
+      background: white;
       padding: 1rem 2rem;
       box-shadow: 0 2px 10px rgba(0,0,0,0.1);
       display: flex;
       justify-content: space-between;
       align-items: center;
+      border-bottom: 2px solid #619AEC;
     }
 
     .logo {
       font-size: 1.5rem;
       font-weight: 700;
-      color: #667eea;
+      color: #619AEC;
       display: flex;
       align-items: center;
       gap: 0.5rem;
     }
 
     .ai-badge {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      background: #619AEC;
       color: white;
       padding: 0.25rem 0.75rem;
       border-radius: 12px;
@@ -43,11 +45,12 @@
 
     .language-selector select {
       padding: 0.5rem 1rem;
-      border: 2px solid #667eea;
-      border-radius: 8px;
+      border: 2px solid #619AEC;
+      border-radius: 20px;
       font-size: 1rem;
       cursor: pointer;
       background: white;
+      color: #619AEC;
     }
 
     /* Main layout with sidebar */
@@ -91,7 +94,7 @@
     }
 
     .sidebar-section.active {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      background: #619AEC;
       color: white;
     }
 
@@ -120,30 +123,32 @@
     .search-input {
       flex: 1;
       padding: 1rem;
-      border: 2px solid #ddd;
-      border-radius: 12px;
+      border: 2px solid #619AEC;
+      border-radius: 20px;
       font-size: 1rem;
       transition: border-color 0.3s;
+      color: #47596C;
     }
 
     .search-input:focus {
       outline: none;
-      border-color: #667eea;
+      border-color: #1d6ee4;
+      box-shadow: 0 1px 0 0 #619AEC;
     }
 
     .search-btn {
       padding: 1rem 2rem;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      background: #619AEC;
       color: white;
       border: none;
-      border-radius: 12px;
+      border-radius: 20px;
       font-weight: 600;
       cursor: pointer;
-      transition: transform 0.2s;
+      transition: background 0.2s;
     }
 
     .search-btn:hover {
-      transform: translateY(-2px);
+      background: #1d6ee4;
     }
 
     /* Intent Detection Panel */
@@ -190,10 +195,10 @@
     .intent-badge {
       display: inline-block;
       padding: 0.25rem 0.75rem;
-      border-radius: 12px;
+      border-radius: 20px;
       font-size: 0.85rem;
       font-weight: 600;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      background: #619AEC;
       color: white;
     }
 
@@ -287,7 +292,7 @@
 
     .faq-item {
       background: white;
-      border: 2px solid #e0e0e0;
+      border: 2px solid #619AEC;
       border-radius: 12px;
       padding: 1.5rem;
       margin-bottom: 1rem;
@@ -297,14 +302,14 @@
     }
 
     .faq-item:hover {
-      border-color: #667eea;
-      box-shadow: 0 8px 24px rgba(102, 126, 234, 0.15);
+      border-color: #1d6ee4;
+      box-shadow: 0 4px 16px rgba(97, 154, 236, 0.15);
       transform: translateY(-2px);
     }
 
     .faq-item.expanded {
-      border-color: #667eea;
-      background: #f8f9ff;
+      border-color: #1d6ee4;
+      background: #eaf1fc;
     }
 
     .faq-header {
@@ -324,7 +329,7 @@
 
     .faq-toggle-icon {
       font-size: 1.5rem;
-      color: #667eea;
+      color: #619AEC;
       transition: transform 0.3s;
       flex-shrink: 0;
     }
@@ -386,12 +391,12 @@
       width: 60px;
       height: 60px;
       border-radius: 50%;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      background: #619AEC;
       color: white;
       border: none;
       font-size: 1.8rem;
       cursor: pointer;
-      box-shadow: 0 4px 20px rgba(102, 126, 234, 0.4);
+      box-shadow: 0 4px 20px rgba(97, 154, 236, 0.4);
       transition: all 0.3s;
       display: flex;
       align-items: center;
@@ -400,7 +405,7 @@
 
     .ai-chat-button:hover {
       transform: scale(1.1);
-      box-shadow: 0 6px 30px rgba(102, 126, 234, 0.6);
+      box-shadow: 0 6px 30px rgba(97, 154, 236, 0.6);
     }
 
     .ai-chat-button.active {
@@ -426,7 +431,7 @@
     }
 
     .ai-chat-header {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      background: #619AEC;
       color: white;
       padding: 1rem;
       font-weight: 600;
@@ -464,7 +469,7 @@
     }
 
     .ai-chat-message.assistant .avatar {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      background: #619AEC;
     }
 
     .ai-chat-message.user .avatar {
@@ -484,7 +489,7 @@
     }
 
     .ai-chat-message.user .bubble {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      background: #619AEC;
       color: white;
     }
 
@@ -499,21 +504,23 @@
     .ai-chat-input {
       flex: 1;
       padding: 0.75rem;
-      border: 2px solid #e0e0e0;
+      border: 2px solid #619AEC;
       border-radius: 20px;
       font-size: 0.95rem;
       outline: none;
+      color: #47596C;
     }
 
     .ai-chat-input:focus {
-      border-color: #667eea;
+      border-color: #1d6ee4;
+      box-shadow: 0 1px 0 0 #619AEC;
     }
 
     .ai-chat-send {
       width: 40px;
       height: 40px;
       border-radius: 50%;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      background: #619AEC;
       color: white;
       border: none;
       cursor: pointer;
@@ -525,6 +532,7 @@
 
     .ai-chat-send:hover {
       transform: scale(1.05);
+      background: #1d6ee4;
     }
 
     .ai-chat-send:disabled {
@@ -533,10 +541,107 @@
       transform: none;
     }
 
+    /* Results Modal */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 100;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .modal-overlay.show {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-content {
+      background: white;
+      border-radius: 12px;
+      padding: 2rem;
+      max-height: 90vh;
+      overflow-y: auto;
+      max-width: 800px;
+      width: 90%;
+      position: relative;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+      animation: slideUp 0.3s ease;
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid #619AEC;
+    }
+
+    .modal-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #619AEC;
+      margin: 0;
+    }
+
+    .modal-close {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: #999;
+      cursor: pointer;
+      padding: 0;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      transition: background 0.2s;
+    }
+
+    .modal-close:hover {
+      background: #f0f0f0;
+      color: #619AEC;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
     /* Responsive */
     @media (max-width: 1024px) {
       .main-layout { flex-direction: column; }
       .sidebar { width: 100%; }
+    }
+
+    @media (max-width: 768px) {
+      .modal-content {
+        width: 95%;
+        padding: 1.5rem;
+        border-radius: 8px;
+      }
+
+      .modal-title {
+        font-size: 1.2rem;
+      }
     }
   </style>
 </head>
@@ -544,7 +649,8 @@
   <!-- Header -->
   <div class="header">
     <div class="logo">
-      🎿 DIY.Ski FAQ
+      <img src="assets/logo.png" alt="SkiDIY" style="height: 2.5rem; width: auto; margin-right: 0.5rem;">
+      <span>FAQ</span>
       <span class="ai-badge">AI Enhanced</span>
     </div>
     <div class="language-selector">
@@ -615,6 +721,17 @@
         <h2>🔥 熱門問題</h2>
         <div id="initialHotFAQs"></div>
       </div>
+    </div>
+  </div>
+
+  <!-- Results Modal (for mobile optimization) -->
+  <div id="resultsModal" class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="modalTitle" class="modal-title">分類結果</h2>
+        <button class="modal-close" id="modalClose" aria-label="關閉">✕</button>
+      </div>
+      <div id="modalResultsList"></div>
     </div>
   </div>
 
@@ -693,7 +810,6 @@
         faqEngine = new FAQEngine();
         await faqEngine.initialize();
         currentLanguage = i18n?.currentLanguage || 'zh';
-        faqEngine.setLanguage(currentLanguage);
         allFAQs = faqEngine.getAllFAQs();
         console.log(`[Init] FAQ engine initialized with ${allFAQs.length} FAQs`);
 
@@ -788,15 +904,59 @@
       console.log('[Sidebar] Click handlers attached to', document.querySelectorAll('.sidebar-section').length, 'sections');
     }
 
-    // Render hot FAQs (prioritize hot: true, then first 5)
-    function renderHotFAQs() {
-      // First try to find FAQs marked as hot
-      let hotFAQs = allFAQs.filter(faq => faq.hot === true);
+    // Track FAQ views and clicks for analytics
+    async function trackFAQView(faqId, clicked = false) {
+      try {
+        await fetch(`${API_BASE}/analytics/track-faq-view`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            faq_id: faqId,
+            clicked: clicked,
+            timestamp: new Date().toISOString()
+          })
+        });
+        console.log(`[Analytics] Tracked ${clicked ? 'click' : 'view'} for ${faqId}`);
+      } catch (error) {
+        console.warn('[Analytics] Failed to track FAQ view:', error);
+        // Fail silently - analytics should not block user experience
+      }
+    }
 
-      // If less than 5, fill with first FAQs
-      if (hotFAQs.length < 5) {
-        const remaining = allFAQs.filter(faq => !hotFAQs.includes(faq)).slice(0, 5 - hotFAQs.length);
-        hotFAQs = [...hotFAQs, ...remaining];
+    // Render hot FAQs (fetch from analytics API, fallback to manually marked)
+    async function renderHotFAQs() {
+      let hotFAQs = [];
+
+      // Try to fetch hot FAQs from analytics API
+      try {
+        const response = await fetch(`${API_BASE}/analytics/hot-faqs?limit=5&days=30`);
+        if (response.ok) {
+          const data = await response.json();
+          if (data.success && data.data.hot_faqs && data.data.hot_faqs.length > 0) {
+            // Map analytics data to FAQ objects
+            const hotFaqIds = data.data.hot_faqs.map(item => item.faq_id);
+            hotFAQs = allFAQs.filter(faq => hotFaqIds.includes(faq.id));
+            // Sort by analytics ranking
+            hotFAQs.sort((a, b) => hotFaqIds.indexOf(a.id) - hotFaqIds.indexOf(b.id));
+            console.log(`[Hot FAQs] Loaded ${hotFAQs.length} FAQs from analytics (30 days)`);
+          }
+        } else {
+          console.warn('[Hot FAQs] Analytics API returned status:', response.status);
+        }
+      } catch (error) {
+        console.warn('[Hot FAQs] Failed to fetch from analytics, using fallback:', error);
+      }
+
+      // Fallback: Use manually marked hot FAQs
+      if (hotFAQs.length === 0) {
+        hotFAQs = allFAQs.filter(faq => faq.hot === true);
+        console.log(`[Hot FAQs] Using ${hotFAQs.length} manually marked hot FAQs`);
+      }
+
+      // If still empty, use first 5 FAQs
+      if (hotFAQs.length === 0) {
+        hotFAQs = allFAQs.slice(0, 5);
+        console.log('[Hot FAQs] No hot FAQs found, using first 5 FAQs');
       }
 
       // Limit to 5
@@ -822,8 +982,56 @@
     // Filter by section
     function filterBySection(section) {
       const filtered = allFAQs.filter(faq => faq.section === section);
-      displayFAQs(filtered, `分類：${getSectionLabel(section)}`);
+      const title = `分類：${getSectionLabel(section)}`;
+
+      // Show results in Modal (mobile-friendly)
+      displayFAQsInModal(filtered, title);
       hideIntentPanel();
+    }
+
+    function displayFAQsInModal(faqs, title) {
+      // Update modal title
+      document.getElementById('modalTitle').textContent = title;
+
+      // Generate FAQ items HTML
+      const faqsHtml = faqs.map(faq => {
+        const confidence = faq.score ? Math.round((1 - faq.score) * 100) : 100;
+        const confidenceClass = confidence >= 80 ? 'confidence-high' :
+                               confidence >= 60 ? 'confidence-medium' : 'confidence-low';
+
+        return `
+          <div class="faq-item" data-faq-id="${faq.id}">
+            <div class="faq-header">
+              <div class="faq-question">
+                ${DOMPurify.sanitize(faq.canonical_question)}
+                <span class="confidence-badge ${confidenceClass}">
+                  信心度 ${confidence}%
+                </span>
+              </div>
+              <span class="faq-toggle-icon">▼</span>
+            </div>
+            <div class="faq-answer">
+              ${DOMPurify.sanitize(faq.answer_template.text || '無答案內容')}
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      document.getElementById('modalResultsList').innerHTML = faqsHtml;
+
+      // Add click handlers for accordion
+      document.querySelectorAll('#resultsModal .faq-item').forEach(item => {
+        item.addEventListener('click', (e) => {
+          toggleFAQItem(item);
+        });
+      });
+
+      // Show modal
+      document.getElementById('resultsModal').classList.add('show');
+    }
+
+    function closeResultsModal() {
+      document.getElementById('resultsModal').classList.remove('show');
     }
 
     // Search with Intent Detection
@@ -831,36 +1039,42 @@
       const query = document.getElementById('searchInput').value.trim();
       if (!query) return;
 
-      faqEngine.setLanguage(currentLanguage);
-
       document.getElementById('loadingState').classList.remove('hidden');
       document.getElementById('initialView').classList.add('hidden');
       hideIntentPanel();
 
       try {
         const startTime = performance.now();
+        let intentData = null;
 
-        // Call Intent Detection API
-        const intentResponse = await fetch(`${API_BASE}/intent/analyze`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ query, contextual: true })
-        });
+        // Try to call Intent Detection API (optional)
+        try {
+          const intentResponse = await fetch(`${API_BASE}/intent/analyze`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ query, contextual: true })
+          });
 
-        if (!intentResponse.ok) {
-          throw new Error('Intent API failed');
+          if (intentResponse.ok) {
+            intentData = await intentResponse.json();
+            console.log('[Search] Intent detection succeeded');
+          } else {
+            console.warn('[Search] Intent API returned status:', intentResponse.status);
+          }
+        } catch (intentError) {
+          console.warn('[Search] Intent API unavailable:', intentError.message);
         }
 
-        const intentData = await intentResponse.json();
+        // Perform FAQ search (always required)
+        const results = await faqEngine.search(query, { limit: 10 });
         const searchTime = Math.round(performance.now() - startTime);
 
-        // Perform FAQ search
-        const results = await faqEngine.search(query, { limit: 10 });
+        // Display intent detection results if available
+        if (intentData && intentData.data) {
+          displayIntentResults(intentData.data);
+        }
 
-        // Display intent detection results
-        displayIntentResults(intentData.data);
-
-        // Display FAQ results
+        // Display FAQ results (always)
         const faqs = results.map(r => ({...r.item, score: r.score}));
         displayFAQs(faqs, '搜尋結果', searchTime);
 
@@ -992,12 +1206,21 @@
         item.classList.remove('expanded');
       } else {
         item.classList.add('expanded');
+
+        // Track FAQ click when expanding
+        const faqId = item.dataset.faqId;
+        if (faqId) {
+          trackFAQView(faqId, true);
+        }
       }
     }
 
     // Show FAQ detail (hot FAQ click or recommendation click)
     function showFAQDetail(faqId) {
       console.log('[showFAQDetail] Called with faqId:', faqId);
+
+      // Track the hot FAQ click
+      trackFAQView(faqId, true);
 
       // First check if the FAQ is already in the results
       const item = document.querySelector(`.faq-item[data-faq-id="${faqId}"]`);
@@ -1035,6 +1258,16 @@
 
     // Event listeners
     function setupEventListeners() {
+      // Modal close button
+      document.getElementById('modalClose').addEventListener('click', closeResultsModal);
+
+      // Close modal when clicking on overlay (outside the modal)
+      document.getElementById('resultsModal').addEventListener('click', (e) => {
+        if (e.target.id === 'resultsModal') {
+          closeResultsModal();
+        }
+      });
+
       // Real-time intent detection (debounced)
       document.getElementById('searchInput').addEventListener('input', (e) => {
         clearTimeout(searchDebounce);
@@ -1061,7 +1294,6 @@
         try {
           await i18n.setLanguage(newLanguage);
           currentLanguage = newLanguage;
-          faqEngine.setLanguage(currentLanguage);
           updateUILanguage();
 
           // Re-render category sidebar and hot list for new language
