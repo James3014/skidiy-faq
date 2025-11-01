@@ -237,6 +237,31 @@ POST /api/v1/intent/analyze
 
 ## 最近更新
 
+### 2025-11-02 - UI/UX 品牌風格統一 🎨
+
+#### 設計系統更新
+1. **統一深藍色 Header**
+   - 所有頁面 header 背景色統一為 #2c3e50（深藍色）
+   - 移除舊有紫色漸層風格
+   - 添加 SkiDIY Logo 到所有管理頁面
+
+2. **更新的頁面**
+   - `index-intent.html` - 主 FAQ 搜尋頁（已有深藍 header）
+   - `faq-admin.html` - FAQ 管理後台（新增 logo + 深藍 header + 品牌藍按鈕）
+   - `analytics.html` - LLM 分析儀表板（深藍 header + logo + 淺灰背景）
+   - `admin.html` - 管理後台導航頁（深藍 header + logo + 新佈局）
+
+3. **品牌色系統**
+   - 主色：#2c3e50（深藍）
+   - 品牌藍：#619AEC（按鈕主色）
+   - 深藍：#1d6ee4（hover 狀態）
+   - 背景：#f5f7fa（淺灰）
+
+4. **響應式設計**
+   - 所有頁面支援手機/平板/桌面
+   - 統一的 header 高度和 padding
+   - Logo 自適應大小（2.5rem）
+
 ### 2025-11-01 - 動態熱門 FAQ 功能 ⭐
 
 #### 新增功能
@@ -403,5 +428,5 @@ CREATE TABLE faq_views (
 
 ---
 
-**最後更新**: 2025-11-01
-**版本**: 1.2.1 (Environment Config + Troubleshooting)
+**最後更新**: 2025-11-02
+**版本**: 1.3.0 (UI/UX Brand Unification)
