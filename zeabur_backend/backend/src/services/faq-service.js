@@ -217,11 +217,27 @@ class FAQService {
         throw new Error('Invalid FAQ data structure: missing items array');
       }
 
-      console.log(`[FAQ Service] Loaded ${this.cache.items.length} FAQ items`);
+      console.log(`[FAQ Service] Loaded ${this.cache.items.length} FAQ items from JSON file`);
       return this.cache;
     } catch (error) {
-      console.error('[FAQ Service] Failed to load FAQ data:', error);
-      throw new AppError('FAQ_LOAD_ERROR', '無法載入 FAQ 資料', 500);
+      // Fallback: try to load from bundled JS module
+      console.warn(`[FAQ Service] Failed to load from ${this.dataPath}, trying fallback module...`);
+      try {
+        const fallbackPath = path.join(__dirname, '../data/faq_kb.js');
+        delete require.cache[require.resolve(fallbackPath)]; // Clear cache
+        this.cache = require(fallbackPath);
+        this.cacheTime = Date.now();
+
+        if (!this.cache.items || !Array.isArray(this.cache.items)) {
+          throw new Error('Invalid fallback FAQ data structure');
+        }
+
+        console.log(`[FAQ Service] Loaded ${this.cache.items.length} FAQ items from fallback module`);
+        return this.cache;
+      } catch (fallbackError) {
+        console.error('[FAQ Service] Both load attempts failed:', error, fallbackError);
+        throw new AppError('FAQ_LOAD_ERROR', '無法載入 FAQ 資料', 500);
+      }
     }
   }
 
