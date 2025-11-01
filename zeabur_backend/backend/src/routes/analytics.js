@@ -517,4 +517,126 @@ router.put('/alerts/config', async (req, res, next) => {
   }
 });
 
+/**
+ * GET /api/v1/analytics/hot-faqs
+ *
+ * Get most clicked/viewed FAQs (hot/trending FAQs)
+ *
+ * Query params:
+ * - limit: Number of FAQs to return (default: 5)
+ * - days: Number of days to look back (default: 7)
+ *
+ * Response:
+ * {
+ *   "success": true,
+ *   "data": {
+ *     "hot_faqs": [
+ *       {
+ *         "faq_id": "faq.booking.001",
+ *         "views": 150,
+ *         "clicks": 120,
+ *         "click_rate": 0.8
+ *       }
+ *     ]
+ *   }
+ * }
+ */
+router.get('/hot-faqs', async (req, res, next) => {
+  try {
+    if (!analyticsService) {
+      throw new AppError('SERVICE_UNAVAILABLE', 'Analytics 服務尚未初始化', 503);
+    }
+
+    const limit = parseInt(req.query.limit) || 5;
+    const days = parseInt(req.query.days) || 7;
+
+    const db = analyticsService.db;
+    const cutoffDate = new Date();
+    cutoffDate.setDate(cutoffDate.getDate() - days);
+
+    // Get FAQs with most clicks in the last N days
+    const hotFAQs = db.prepare(`
+      SELECT
+        faq_id,
+        COUNT(*) as views,
+        SUM(CASE WHEN clicked = 1 THEN 1 ELSE 0 END) as clicks,
+        ROUND(CAST(SUM(CASE WHEN clicked = 1 THEN 1 ELSE 0 END) AS FLOAT) / COUNT(*), 2) as click_rate
+      FROM faq_views
+      WHERE timestamp >= ?
+      GROUP BY faq_id
+      ORDER BY clicks DESC, views DESC
+      LIMIT ?
+    `).all(cutoffDate.toISOString(), limit);
+
+    sendSuccess(res, {
+      hot_faqs: hotFAQs,
+      period_days: days,
+      total_faqs: hotFAQs.length
+    }, 200, {
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
+/**
+ * POST /api/v1/analytics/track-faq-view
+ *
+ * Track FAQ view/click event
+ *
+ * Body:
+ * {
+ *   "faq_id": "faq.booking.001",
+ *   "clicked": true,
+ *   "query_id": 123,
+ *   "position": 1,
+ *   "time_to_click_ms": 1500
+ * }
+ *
+ * Response:
+ * {
+ *   "success": true,
+ *   "data": { "tracked": true }
+ * }
+ */
+router.post('/track-faq-view', async (req, res, next) => {
+  try {
+    if (!analyticsService) {
+      throw new AppError('SERVICE_UNAVAILABLE', 'Analytics 服務尚未初始化', 503);
+    }
+
+    const { faq_id, clicked, query_id, position, time_to_click_ms } = req.body;
+
+    if (!faq_id) {
+      throw new AppError('VALIDATION_ERROR', 'faq_id 為必填欄位', 400);
+    }
+
+    const db = analyticsService.db;
+
+    // Insert view record
+    const stmt = db.prepare(`
+      INSERT INTO faq_views (faq_id, query_id, position, clicked, time_to_click_ms)
+      VALUES (?, ?, ?, ?, ?)
+    `);
+
+    stmt.run(
+      faq_id,
+      query_id || null,
+      position || 0,
+      clicked ? 1 : 0,
+      time_to_click_ms || null
+    );
+
+    sendSuccess(res, {
+      tracked: true,
+      faq_id
+    }, 201, {
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
 module.exports = router;
