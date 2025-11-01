@@ -169,9 +169,11 @@ function normalizeFAQStructure(faqData, previous = null) {
 
 class FAQService {
   constructor() {
-    this.dataPath = path.join(__dirname, '../../../data/faq_kb.json');
-    this.backupPath = path.join(__dirname, '../../../data/faq_kb.backup.json');
-    this.backupDir = path.join(__dirname, '../../../data/backups');
+    // Support both local development and production deployment
+    const dataDir = process.env.FAQ_DATA_DIR || path.join(__dirname, '../../../data');
+    this.dataPath = path.join(dataDir, 'faq_kb.json');
+    this.backupPath = path.join(dataDir, 'faq_kb.backup.json');
+    this.backupDir = path.join(dataDir, 'backups');
 
     // In-memory cache
     this.cache = null;

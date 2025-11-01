@@ -11,9 +11,10 @@ const { AppError } = require('../middleware/error-handler');
 
 class ResortService {
   constructor() {
-    this.dataPath = path.join(__dirname, '../../../data/resort_kb.json');
-    this.backupPath = path.join(__dirname, '../../../data/resort_kb.backup.json');
-    this.backupDir = path.join(__dirname, '../../../data/backups');
+    const dataDir = process.env.FAQ_DATA_DIR || path.join(__dirname, '../../../data');
+    this.dataPath = path.join(dataDir, 'resort_kb.json');
+    this.backupPath = path.join(dataDir, 'resort_kb.backup.json');
+    this.backupDir = path.join(dataDir, 'backups');
 
     // In-memory cache
     this.cache = null;
