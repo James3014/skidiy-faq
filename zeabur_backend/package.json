@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "FAQ System Backend with Data",
   "scripts": {
-    "start": "cd backend && node src/server.js",
+    "start": "cd backend && sh start.sh",
     "install": "cd backend && npm install"
   },
   "engines": {

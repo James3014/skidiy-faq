@@ -1,0 +1,17 @@
+#!/bin/sh
+echo "=== Zeabur Deployment Diagnostics ==="
+echo "PWD: $(pwd)"
+echo "Listing /src:"
+ls -la /src/ || echo "No /src directory"
+echo ""
+echo "Listing /src/src:"
+ls -la /src/src/ || echo "No /src/src directory"
+echo ""
+echo "Listing /src/src/data:"
+ls -la /src/src/data/ || echo "No /src/src/data directory"
+echo ""
+echo "Searching for faq_kb.json:"
+find /src -name "faq_kb.json" 2>/dev/null || echo "File not found"
+echo ""
+echo "Starting server..."
+node src/server.js
