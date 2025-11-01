@@ -21,6 +21,8 @@
   "confidence_high": "สูง",
   "confidence_medium": "ปานกลาง",
   "confidence_low": "ต่ำ",
+  "category": "หมวดหมู่",
+  "no_answer_content": "ไม่มีคำตอบ",
   "show_more": "แสดงเพิ่มเติม",
   "show_less": "แสดงน้อยลง",
   "related_questions": "คำถามที่เกี่ยวข้อง",

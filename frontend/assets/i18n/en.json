@@ -21,6 +21,8 @@
   "confidence_high": "High",
   "confidence_medium": "Medium",
   "confidence_low": "Low",
+  "category": "Category",
+  "no_answer_content": "No answer available",
   "show_more": "Show More",
   "show_less": "Show Less",
   "related_questions": "Related Questions",

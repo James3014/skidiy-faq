@@ -16,19 +16,19 @@
 
     /* Header with language selector */
     .header {
-      background: white;
+      background: #2c3e50;
       padding: 1rem 2rem;
       box-shadow: 0 2px 10px rgba(0,0,0,0.1);
       display: flex;
       justify-content: space-between;
       align-items: center;
-      border-bottom: 2px solid #619AEC;
+      border-bottom: none;
     }
 
     .logo {
       font-size: 1.5rem;
       font-weight: 700;
-      color: #619AEC;
+      color: white;
       display: flex;
       align-items: center;
       gap: 0.5rem;
@@ -651,13 +651,12 @@
     <div class="logo">
       <img src="assets/logo.png" alt="SkiDIY" style="height: 2.5rem; width: auto; margin-right: 0.5rem;">
       <span>FAQ</span>
-      <span class="ai-badge">AI Enhanced</span>
     </div>
     <div class="language-selector">
       <select id="languageSelect">
-        <option value="zh">中文</option>
+        <option value="zh">繁體中文</option>
         <option value="en">English</option>
-        <option value="th">ไทย</option>
+        <option value="th">ภาษาไทย</option>
       </select>
     </div>
   </div>
@@ -982,7 +981,8 @@
     // Filter by section
     function filterBySection(section) {
       const filtered = allFAQs.filter(faq => faq.section === section);
-      const title = `分類：${getSectionLabel(section)}`;
+      const categoryLabel = i18n ? i18n.t('category') : '分類';
+      const title = `${categoryLabel}：${getSectionLabel(section)}`;
 
       // Show results in Modal (mobile-friendly)
       displayFAQsInModal(filtered, title);
@@ -999,19 +999,25 @@
         const confidenceClass = confidence >= 80 ? 'confidence-high' :
                                confidence >= 60 ? 'confidence-medium' : 'confidence-low';
 
+        // Get localized content
+        const localized = faqEngine.getLocalizedContent(faq, currentLanguage);
+        const question = DOMPurify.sanitize(localized.question || faq.canonical_question || '');
+        const answer = DOMPurify.sanitize(localized.answer || faq.answer_template?.text || (i18n ? i18n.t('no_answer_content') : '無答案內容'));
+        const confidenceLabel = i18n ? i18n.t('confidence') : '信心度';
+
         return `
           <div class="faq-item" data-faq-id="${faq.id}">
             <div class="faq-header">
               <div class="faq-question">
-                ${DOMPurify.sanitize(faq.canonical_question)}
+                ${question}
                 <span class="confidence-badge ${confidenceClass}">
-                  信心度 ${confidence}%
+                  ${confidenceLabel} ${confidence}%
                 </span>
               </div>
               <span class="faq-toggle-icon">▼</span>
             </div>
             <div class="faq-answer">
-              ${DOMPurify.sanitize(faq.answer_template.text || '無答案內容')}
+              ${answer}
             </div>
           </div>
         `;

@@ -21,6 +21,8 @@
   "confidence_high": "高",
   "confidence_medium": "中",
   "confidence_low": "低",
+  "category": "分類",
+  "no_answer_content": "無答案內容",
   "show_more": "顯示更多",
   "show_less": "收起",
   "related_questions": "相關問題",
