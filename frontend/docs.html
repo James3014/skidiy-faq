@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>文檔查看器 - DIY.Ski FAQ 系統</title>
+  <title>文檔查看器 - FAQ 系統</title>
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <style>
     * {
@@ -339,7 +339,7 @@
 
         // Update document title
         const fileNameOnly = fileName.split('/').pop().replace('.md', '');
-        document.title = `${fileNameOnly} - DIY.Ski FAQ 系統`;
+        document.title = `${fileNameOnly} - FAQ 系統`;
 
         // Display content
         document.getElementById('loading').style.display = 'none';
