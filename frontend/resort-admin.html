@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>雪場管理 - DIY.Ski Admin</title>
+  <title>雪場管理</title>
   <style>
     * {
       margin: 0;
@@ -14,12 +14,46 @@
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, "Microsoft JhengHei", sans-serif;
       background: #f5f7fa;
-      padding: 20px;
+      min-height: 100vh;
+    }
+
+    .page-header {
+      background: #2c3e50;
+      color: white;
+      padding: 1.5rem 2rem;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      margin-bottom: 24px;
+    }
+
+    .page-header-content {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .page-header-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .page-header-title img {
+      height: 2.5rem;
+      width: auto;
+    }
+
+    .page-header h1 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin: 0;
     }
 
     .container {
       max-width: 1400px;
       margin: 0 auto;
+      padding: 0 20px;
     }
 
     .header {
@@ -30,8 +64,8 @@
       margin-bottom: 24px;
     }
 
-    .header h1 {
-      font-size: 28px;
+    .header h2 {
+      font-size: 20px;
       color: #1f2937;
       margin-bottom: 8px;
     }
@@ -74,16 +108,18 @@
     }
 
     button {
-      background: #667eea;
+      background: #619AEC;
       color: white;
       border: none;
       cursor: pointer;
       font-weight: 500;
       transition: background 0.2s;
+      border-radius: 20px;
     }
 
     button:hover {
-      background: #5568d3;
+      background: #1d6ee4;
+      transform: translateY(-1px);
     }
 
     button.secondary {
@@ -344,13 +380,25 @@
   </style>
 </head>
 <body>
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="page-header-content">
+      <div class="page-header-title">
+        <img src="assets/logo.png" alt="SkiDIY">
+        <h1>雪場管理</h1>
+      </div>
+      <button onclick="window.location.href='admin.html'" style="background: rgba(255,255,255,0.2); border: 2px solid rgba(255,255,255,0.3);">
+        ← 返回管理後台
+      </button>
+    </div>
+  </div>
+
   <div class="container">
     <!-- Header -->
     <div class="header">
-      <h1>🏔️ 雪場管理</h1>
+      <h2>雪場列表</h2>
       <p style="color: #6b7280; margin-top: 4px;">管理雪場資訊、查看統計數據</p>
       <div class="header-actions">
-        <button onclick="window.location.href='admin.html'">← 返回管理後台</button>
         <button onclick="loadStats()">📊 重新載入統計</button>
       </div>
     </div>
