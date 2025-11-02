@@ -601,15 +601,15 @@
 
       const stats = data.data.overall;
 
-      // Update stats cards
-      document.getElementById('totalRequests').textContent = stats.totalRequests.toLocaleString();
-      document.getElementById('successRate').textContent = stats.successRate + '%';
-      document.getElementById('successCount').textContent = stats.successfulRequests.toLocaleString();
-      document.getElementById('totalCost').textContent = '$' + stats.totalCost;
-      document.getElementById('avgResponseTime').textContent = stats.avgResponseTime.toLocaleString() + 'ms';
-      document.getElementById('totalTokens').textContent = stats.totalTokens.toLocaleString();
-      document.getElementById('avgTokens').textContent = Math.round(stats.totalTokens / (stats.totalRequests || 1)).toLocaleString();
-      document.getElementById('avgFaqItems').textContent = stats.avgFaqItems;
+      // Update stats cards with null checks
+      document.getElementById('totalRequests').textContent = (stats.totalRequests || 0).toLocaleString();
+      document.getElementById('successRate').textContent = (stats.successRate || '0') + '%';
+      document.getElementById('successCount').textContent = (stats.successfulRequests || 0).toLocaleString();
+      document.getElementById('totalCost').textContent = '$' + (stats.totalCost || '0.00');
+      document.getElementById('avgResponseTime').textContent = (stats.avgResponseTime || 0).toLocaleString() + 'ms';
+      document.getElementById('totalTokens').textContent = (stats.totalTokens || 0).toLocaleString();
+      document.getElementById('avgTokens').textContent = Math.round((stats.totalTokens || 0) / (stats.totalRequests || 1)).toLocaleString();
+      document.getElementById('avgFaqItems').textContent = stats.avgFaqItems || '0';
 
       // Render recent queries
       renderRecentQueries(data.data.recent);
