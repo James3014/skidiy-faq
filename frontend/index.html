@@ -1362,6 +1362,67 @@
       return `${minutes}分鐘`;
     }
 
+    const FAQ_TAG_LOCALE = {
+      '#行程規劃': { zh: '#行程規劃', en: '#Itinerary', th: '#วางแผนทริป' },
+      '#服務範圍': { zh: '#服務範圍', en: '#ServiceScope', th: '#ขอบเขตบริการ' },
+      '#課程內容': { zh: '#課程內容', en: '#CourseDetails', th: '#เนื้อหาคอร์ส' },
+      '#同堂安排': { zh: '#同堂安排', en: '#GroupLesson', th: '#เรียนกลุ่ม' },
+      '#一般查詢': { zh: '#一般查詢', en: '#General', th: '#คำถามทั่วไป' },
+      '#親子同堂詢問': { zh: '#親子同堂', en: '#FamilyLesson', th: '#ครอบครัวเรียนร่วม' },
+      '#指定教練': { zh: '#指定教練', en: '#PreferredInstructor', th: '#เลือกครูสอน' },
+      '#改人數': { zh: '#改人數', en: '#AdjustPeople', th: '#ปรับจำนวนคน' },
+      '#退費規則': { zh: '#退費規則', en: '#RefundPolicy', th: '#นโยบายคืนเงิน' },
+      '#裝備租借': { zh: '#裝備租借', en: '#GearRental', th: '#เช่าอุปกรณ์' },
+      '#改期': { zh: '#改期', en: '#Reschedule', th: '#เลื่อนวัน' },
+      '#預約變更': { zh: '#預約變更', en: '#BookingChange', th: '#ปรับการจอง' },
+      '#教練資訊': { zh: '#教練資訊', en: '#InstructorInfo', th: '#ข้อมูลครู' },
+      '#兒童安全': { zh: '#兒童安全', en: '#KidsSafety', th: '#ความปลอดภัยเด็ก' },
+      '#保險提問': { zh: '#保險提問', en: '#Insurance', th: '#ประกันภัย' }
+    };
+
+    const RESORT_AMENITY_LOCALE = {
+      'Onsen': { zh: '溫泉', en: 'Onsen', th: 'ออนเซ็น' },
+      'Ski-in/Ski-out Hotel': { zh: '滑進滑出飯店', en: 'Ski-in/Ski-out Hotel', th: 'โรงแรมสกีอิน/สกีเอาต์' },
+      'Kids Park': { zh: '兒童遊樂園', en: 'Kids Park', th: 'โซนเด็ก' },
+      'Terrain Park': { zh: '地形公園', en: 'Terrain Park', th: 'เทอร์เรนพาร์ค' },
+      'Night Skiing': { zh: '夜間滑雪', en: 'Night Skiing', th: 'สกีกลางคืน' },
+      'Dog Sledding': { zh: '狗拉雪橇', en: 'Dog Sledding', th: 'เลื่อนสุนัขลาก' },
+      'Snowmobiling': { zh: '雪上摩托', en: 'Snowmobiling', th: 'สโนว์โมบิล' },
+      'Onsen (nearby)': { zh: '溫泉（附近）', en: 'Onsen (Nearby)', th: 'ออนเซ็น (ใกล้เคียง)' },
+      'Indoor Wave Pool': { zh: '室內造浪池', en: 'Indoor Wave Pool', th: 'สระคลื่นในร่ม' },
+      'Ice Village': { zh: '冰之村', en: 'Ice Village', th: 'หมู่บ้านน้ำแข็ง' },
+      'CAT Skiing': { zh: '雪貓越野滑雪', en: 'CAT Skiing', th: 'แคทสกี' },
+      'Yoo-Hoo! SWING': { zh: 'Yoo-Hoo! 盪鞦韆', en: 'Yoo-Hoo! SWING', th: 'ชิงช้าหิมะ Yoo-Hoo!' },
+      'Dog-friendly': { zh: '寵物友善', en: 'Dog-friendly', th: 'ต้อนรับสุนัข' },
+      'SORA terrace': { zh: 'SORA 觀景平台', en: 'SORA Terrace', th: 'ระเบียง SORA' },
+      'Dog-friendly Area': { zh: '寵物友善區', en: 'Dog-friendly Area', th: 'โซนสุนัข' },
+      'Shopping Outlet': { zh: '暢貨中心', en: 'Shopping Outlet', th: 'เอาต์เล็ทช้อปปิ้ง' },
+      'Onsen Town': { zh: '溫泉小鎮', en: 'Onsen Town', th: 'เมืองออนเซ็น' },
+      'Rental Shops': { zh: '租賃商店', en: 'Rental Shops', th: 'ร้านเช่าอุปกรณ์' },
+      'English-friendly Ski Schools': { zh: '英語友善滑雪學校', en: 'English-friendly Ski Schools', th: 'โรงเรียนสกีพูดอังกฤษ' },
+      'English-friendly': { zh: '英語友善', en: 'English-friendly', th: 'รองรับภาษาอังกฤษ' },
+      'Ski-in/Ski-out Hotel (Wada Goya)': { zh: '滑進滑出旅館（和田小屋）', en: 'Ski-in/Ski-out Hotel (Wada Goya)', th: 'โรงแรมสกีอิน/เอาต์ (Wada Goya)' },
+      'Train Station Access': { zh: '鄰近車站', en: 'Train Station Access', th: 'ใกล้สถานีรถไฟ' },
+      'Zipline': { zh: '高空滑索', en: 'Zipline', th: 'ซิปไลน์' },
+      'Tubing Park': { zh: '滑胎公園', en: 'Tubing Park', th: 'โซนสไลด์ยาง' },
+      'Bouldering': { zh: '抱石攀岩', en: 'Bouldering', th: 'ปีนผาจำลอง' },
+      'Pool': { zh: '游泳池', en: 'Pool', th: 'สระว่ายน้ำ' }
+    };
+
+    function getFaqTagLabel(tag, language) {
+      const locale = FAQ_TAG_LOCALE[tag];
+      if (!locale) return tag;
+      const lang = language || currentLanguage || 'zh';
+      return locale[lang] || locale.zh || tag;
+    }
+
+    function getAmenityLabel(amenity, language) {
+      const locale = RESORT_AMENITY_LOCALE[amenity];
+      if (!locale) return amenity;
+      const lang = language || currentLanguage || 'zh';
+      return locale[lang] || locale.zh || amenity;
+    }
+
     // Initialize
     document.addEventListener('DOMContentLoaded', async () => {
       try {
@@ -1676,7 +1737,7 @@
       if (isExpanded) {
         // 收合：只顯示前 15 個
         container.innerHTML = allAmenities.slice(0, 15).map(a =>
-          `<span class="resort-amenity clickable" onclick="trackTagClick(event, 'resort', '${DOMPurify.sanitize(a)}', '${resortId}')">${DOMPurify.sanitize(a)}</span>`
+          `<span class="resort-amenity clickable" onclick="trackTagClick(event, 'resort', '${DOMPurify.sanitize(a)}', '${resortId}')">${DOMPurify.sanitize(getAmenityLabel(a, currentLanguage))}</span>`
         ).join('') + `
           <button onclick="toggleMoreAmenities('${resortId}', ${JSON.stringify(allAmenities).replace(/"/g, '&quot;')})"
             style="background: #4A5F8C; color: white; border: none; padding: 0.25rem 0.75rem; border-radius: 6px; cursor: pointer; font-size: 0.8rem;">
@@ -1687,7 +1748,7 @@
       } else {
         // 展開：顯示全部
         container.innerHTML = allAmenities.map(a =>
-          `<span class="resort-amenity clickable" onclick="trackTagClick(event, 'resort', '${DOMPurify.sanitize(a)}', '${resortId}')">${DOMPurify.sanitize(a)}</span>`
+          `<span class="resort-amenity clickable" onclick="trackTagClick(event, 'resort', '${DOMPurify.sanitize(a)}', '${resortId}')">${DOMPurify.sanitize(getAmenityLabel(a, currentLanguage))}</span>`
         ).join('') + `
           <button onclick="toggleMoreAmenities('${resortId}', ${JSON.stringify(allAmenities).replace(/"/g, '&quot;')})"
             style="background: #666; color: white; border: none; padding: 0.25rem 0.75rem; border-radius: 6px; cursor: pointer; font-size: 0.8rem;">
@@ -1809,7 +1870,7 @@
 
           ${amenities.length > 0 ? `
             <div class="resort-amenities" id="amenities-${resort.resort_id}">
-              ${amenities.slice(0, 15).map(a => `<span class="resort-amenity clickable" onclick="trackTagClick(event, 'resort', '${DOMPurify.sanitize(a)}', '${resort.resort_id}')">${DOMPurify.sanitize(a)}</span>`).join('')}
+              ${amenities.slice(0, 15).map(a => `<span class="resort-amenity clickable" onclick="trackTagClick(event, 'resort', '${DOMPurify.sanitize(a)}', '${resort.resort_id}')">${DOMPurify.sanitize(getAmenityLabel(a, currentLanguage))}</span>`).join('')}
               ${amenities.length > 15 ? `
                 <button onclick="toggleMoreAmenities('${resort.resort_id}', ${JSON.stringify(amenities).replace(/"/g, '&quot;')})"
                   style="background: #4A5F8C; color: white; border: none; padding: 0.25rem 0.75rem; border-radius: 6px; cursor: pointer; font-size: 0.8rem;">
@@ -1864,8 +1925,10 @@
           resort.amenities && resort.amenities.includes(amenity)
         );
 
+        const amenityLabel = getAmenityLabel(amenity, currentLanguage);
+
         if (filtered.length === 0) {
-          alert(locale.alerts.amenityNotFound(amenity));
+          alert(locale.alerts.amenityNotFound(amenityLabel));
           return;
         }
 
@@ -1888,7 +1951,8 @@
       const endIdx = startIdx + RESORTS_PER_PAGE;
       const pageResorts = resorts.slice(startIdx, endIdx);
 
-      const title = locale.pagination.amenityTitle(amenity, page, totalPages, resorts.length);
+      const amenityLabel = getAmenityLabel(amenity, currentLanguage);
+      const title = locale.pagination.amenityTitle(amenityLabel, page, totalPages, resorts.length);
       const resortsHTML = pageResorts.map(resort => createResortCard(resort)).join('');
       const escapedAmenity = amenity.replace(/'/g, "\\'");
 
@@ -2070,9 +2134,10 @@
         // Render tags if available
         const tagsHTML = faq.crm_tags && faq.crm_tags.length > 0
           ? `<div class="faq-tags">
-              ${faq.crm_tags.map(tag =>
-                `<span class="faq-tag" onclick="trackTagClick(event, 'faq', '${DOMPurify.sanitize(tag)}', '${faq.id}')">${DOMPurify.sanitize(tag)}</span>`
-              ).join('')}
+              ${faq.crm_tags.map(tag => {
+                const displayTag = DOMPurify.sanitize(getFaqTagLabel(tag, currentLanguage));
+                return `<span class="faq-tag" onclick="trackTagClick(event, 'faq', '${DOMPurify.sanitize(tag)}', '${faq.id}')">${displayTag}</span>`;
+              }).join('')}
             </div>`
           : '';
 
@@ -2323,9 +2388,10 @@
         // Render tags if available
         const tagsHTML = faq.crm_tags && faq.crm_tags.length > 0
           ? `<div class="faq-tags">
-              ${faq.crm_tags.map(tag =>
-                `<span class="faq-tag" onclick="trackTagClick(event, 'faq', '${DOMPurify.sanitize(tag)}', '${faq.id}')">${DOMPurify.sanitize(tag)}</span>`
-              ).join('')}
+              ${faq.crm_tags.map(tag => {
+                const displayTag = DOMPurify.sanitize(getFaqTagLabel(tag, currentLanguage));
+                return `<span class="faq-tag" onclick="trackTagClick(event, 'faq', '${DOMPurify.sanitize(tag)}', '${faq.id}')">${displayTag}</span>`;
+              }).join('')}
             </div>`
           : '';
 
@@ -2421,11 +2487,13 @@
 
         console.log(`[Filter] Found ${filtered.length} FAQs with tag ${tagName}`);
 
+        const displayTag = getFaqTagLabel(tagName, currentLanguage);
+
         if (filtered.length === 0) {
           const messages = {
-            zh: `沒有找到標籤「${tagName}」的 FAQ`,
-            en: `No FAQs found with tag "${tagName}"`,
-            th: `ไม่พบ FAQ ที่มีแท็ก "${tagName}"`
+            zh: `沒有找到標籤「${displayTag}」的 FAQ`,
+            en: `No FAQs found with tag "${displayTag}"`,
+            th: `ไม่พบ FAQ ที่มีแท็ก "${displayTag}"`
           };
           alert(messages[currentLanguage] || messages.zh);
           return;
@@ -2433,9 +2501,9 @@
 
         // Use modal to display filtered results (consistent with category filtering)
         const titles = {
-          zh: `🏷️ 標籤篩選: ${tagName} (${filtered.length} 個結果)`,
-          en: `🏷️ Tag Filter: ${tagName} (${filtered.length} result(s))`,
-          th: `🏷️ ตัวกรองแท็ก: ${tagName} (${filtered.length} รายการ)`
+          zh: `🏷️ 標籤篩選: ${displayTag} (${filtered.length} 個結果)`,
+          en: `🏷️ Tag Filter: ${displayTag} (${filtered.length} result(s))`,
+          th: `🏷️ ตัวกรองแท็ก: ${displayTag} (${filtered.length} รายการ)`
         };
         const title = titles[currentLanguage] || titles.zh;
         displayFAQsInModal(filtered, title);

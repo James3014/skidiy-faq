@@ -38,7 +38,8 @@ module.exports =
       "names": {
         "zh": "星野集團 NEKOMA MOUNTAIN",
         "en": "Hoshino Resorts NEKOMA MOUNTAIN",
-        "ja": "星野リゾート ネコマ マウンテン"
+        "ja": "星野リゾート ネコマ マウンテン",
+        "th": "ฮอชิโนะ รีสอร์ต เนโคมะ เมาน์เทน"
       },
       "country_code": "JP",
       "region": "Fukushima Prefecture",
@@ -194,7 +195,8 @@ module.exports =
       "names": {
         "zh": "猪苗代滑雪場",
         "en": "Inawashiro Ski Resort",
-        "ja": "猪苗代スキー場"
+        "ja": "猪苗代スキー場",
+        "th": "สกีรีสอร์ตอินาวาชิโระ"
       },
       "country_code": "JP",
       "region": "Fukushima Prefecture",
@@ -349,7 +351,8 @@ module.exports =
       "names": {
         "zh": "丸沼高原滑雪場",
         "en": "Marunuma Kogen Ski Resort",
-        "ja": "丸沼高原スキー場"
+        "ja": "丸沼高原スキー場",
+        "th": "สกีรีสอร์ตมารุนุมะ โคเก็น"
       },
       "country_code": "JP",
       "region": "Gunma Prefecture",
@@ -508,7 +511,8 @@ module.exports =
       "names": {
         "zh": "水上高原滑雪度假村",
         "en": "Minakami Kogen Ski Resort",
-        "ja": "水上高原スキーリゾート"
+        "ja": "水上高原スキーリゾート",
+        "th": "สกีรีสอร์ตมินาคามิ โคเก็น"
       },
       "country_code": "JP",
       "region": "Gunma Prefecture",
@@ -667,7 +671,8 @@ module.exports =
       "names": {
         "zh": "尾瀨岩鞍滑雪場",
         "en": "White World Oze Iwakura",
-        "ja": "ホワイトワールド尾瀬岩鞍"
+        "ja": "ホワイトワールド尾瀬岩鞍",
+        "th": "ไวท์เวิลด์ โอเซะ อิวาคุระ สกีรีสอร์ต"
       },
       "country_code": "JP",
       "region": "Gunma Prefecture",
@@ -812,7 +817,8 @@ module.exports =
       "names": {
         "zh": "群馬White Valley滑雪場",
         "en": "Gunma White Valley Ski Resort",
-        "ja": "群馬みなかみホワイトバレースキー場"
+        "ja": "群馬みなかみホワイトバレースキー場",
+        "th": "สกีรีสอร์ตไวท์แวลลีย์ กุนมะ"
       },
       "country_code": "JP",
       "region": "Gunma Prefecture",
@@ -940,7 +946,8 @@ module.exports =
       "names": {
         "zh": "二世谷Moiwa滑雪場",
         "en": "Niseko Moiwa Ski Resort",
-        "ja": "ニセコモイワスキー場"
+        "ja": "ニセコモイワスキー場",
+        "th": "สกีรีสอร์ตนิเซโกะ โมอิวะ"
       },
       "country_code": "JP",
       "region": "Hokkaido",
@@ -1086,7 +1093,8 @@ module.exports =
       "names": {
         "zh": "星野集團TOMAMU度假村",
         "en": "Hoshino Resorts TOMAMU",
-        "ja": "星野リゾート トマム"
+        "ja": "星野リゾート トマム",
+        "th": "ฮอชิโนะ รีสอร์ต โทมามุ"
       },
       "country_code": "JP",
       "region": "Hokkaido",
@@ -1211,7 +1219,8 @@ module.exports =
       "names": {
         "zh": "留壽都度假村",
         "en": "Rusutsu Resort",
-        "ja": "ルスツリゾート"
+        "ja": "ルスツリゾート",
+        "th": "รูสุสึ รีสอร์ต"
       },
       "country_code": "JP",
       "region": "Hokkaido",
@@ -1342,7 +1351,8 @@ module.exports =
       "names": {
         "zh": "富良野滑雪度假村",
         "en": "Furano Ski Resort",
-        "ja": "富良野スキー場"
+        "ja": "富良野スキー場",
+        "th": "สกีรีสอร์ตฟุราโนะ"
       },
       "country_code": "JP",
       "region": "Hokkaido",
@@ -1464,7 +1474,8 @@ module.exports =
       "names": {
         "zh": "安比高原滑雪場",
         "en": "Appi Kogen Ski Resort",
-        "ja": "安比高原スキー場"
+        "ja": "安比高原スキー場",
+        "th": "สกีรีสอร์ตอัปปิ โคเก็น"
       },
       "country_code": "JP",
       "region": "Iwate Prefecture",
@@ -1627,7 +1638,8 @@ module.exports =
       "names": {
         "zh": "雫石滑雪場",
         "en": "Shizukuishi Ski Resort",
-        "ja": "雫石スキー場"
+        "ja": "雫石スキー場",
+        "th": "สกีรีสอร์ตชิซุกุอิชิ"
       },
       "country_code": "JP",
       "region": "Iwate Prefecture",
@@ -1775,7 +1787,8 @@ module.exports =
       "names": {
         "zh": "白馬八方尾根滑雪場",
         "en": "Hakuba Happo-one Ski Resort",
-        "ja": "白馬八方尾根スキー場"
+        "ja": "白馬八方尾根スキー場",
+        "th": "สกีรีสอร์ตฮะกุบะ ฮัปโปะโอะเนะ"
       },
       "country_code": "JP",
       "region": "Nagano Prefecture",
@@ -1944,7 +1957,8 @@ module.exports =
       "names": {
         "zh": "白馬五龍 & Hakuba47 滑雪場",
         "en": "Hakuba Goryu & Hakuba47 Winter Sports Park",
-        "ja": "エイブル白馬五竜 & Hakuba47"
+        "ja": "エイブル白馬五竜 & Hakuba47",
+        "th": "ฮะกุบะ โกริว และ ฮะกุบะ47 วินเทอร์สปอร์ตพาร์ก"
       },
       "country_code": "JP",
       "region": "Nagano Prefecture",
@@ -2094,7 +2108,8 @@ module.exports =
       "names": {
         "zh": "白馬岩岳滑雪場",
         "en": "Hakuba Iwatake Snow Field",
-        "ja": "白馬岩岳スノーフィールド"
+        "ja": "白馬岩岳スノーフィールド",
+        "th": "สโนว์ฟิลด์ฮะกุบะ อิวะตาเกะ"
       },
       "country_code": "JP",
       "region": "Nagano Prefecture",
@@ -2238,7 +2253,8 @@ module.exports =
       "names": {
         "zh": "白馬乗鞍溫泉滑雪場",
         "en": "Hakuba Norikura Onsen Ski Resort",
-        "ja": "白馬乗鞍温泉スキー場"
+        "ja": "白馬乗鞍温泉スキー場",
+        "th": "สกีรีสอร์ตฮะกุบะ นอริคุระ ออนเซ็น"
       },
       "country_code": "JP",
       "region": "Nagano Prefecture",
@@ -2357,7 +2373,8 @@ module.exports =
       "names": {
         "zh": "白馬栂池高原滑雪場",
         "en": "Hakuba Tsugaike Kogen Ski Resort",
-        "ja": "栂池高原スキー場"
+        "ja": "栂池高原スキー場",
+        "th": "สกีรีสอร์ตฮะกุบะ สึกะอิเคะ โคเก็น"
       },
       "country_code": "JP",
       "region": "Nagano Prefecture",
@@ -2509,7 +2526,8 @@ module.exports =
       "names": {
         "zh": "白馬Cortina滑雪場",
         "en": "Hakuba Cortina Ski Resort",
-        "ja": "白馬コルチナスキー場"
+        "ja": "白馬コルチナスキー場",
+        "th": "สกีรีสอร์ตฮะกุบะ คอร์ตินา"
       },
       "country_code": "JP",
       "region": "Nagano Prefecture",
@@ -2669,7 +2687,8 @@ module.exports =
       "names": {
         "zh": "竜王滑雪公園",
         "en": "Ryuoo Ski Park",
-        "ja": "竜王スキーパーク"
+        "ja": "竜王スキーパーク",
+        "th": "ริวโอ สกี พาร์ก"
       },
       "country_code": "JP",
       "region": "Nagano Prefecture",
@@ -2827,7 +2846,8 @@ module.exports =
       "names": {
         "zh": "野澤溫泉滑雪場",
         "en": "Nozawa Onsen Snow Resort",
-        "ja": "野沢温泉スキー場"
+        "ja": "野沢温泉スキー場",
+        "th": "สโนว์รีสอร์ตโนซาวะ ออนเซ็น"
       },
       "country_code": "JP",
       "region": "Nagano Prefecture",
@@ -2972,7 +2992,8 @@ module.exports =
       "names": {
         "zh": "斑尾高原滑雪場",
         "en": "Madarao Mountain Resort",
-        "ja": "斑尾高原スキー場"
+        "ja": "斑尾高原スキー場",
+        "th": "มาดาราโอะ เมาน์เทน รีสอร์ต"
       },
       "country_code": "JP",
       "region": "Nagano Prefecture",
@@ -3146,7 +3167,8 @@ module.exports =
       "names": {
         "zh": "黑姬高原滑雪公園",
         "en": "Kurohime Kogen Snow Park",
-        "ja": "黒姫高原スノーパーク"
+        "ja": "黒姫高原スノーパーク",
+        "th": "สโนว์พาร์กคุโรฮิเมะ โคเก็น"
       },
       "country_code": "JP",
       "region": "Nagano Prefecture",
@@ -3269,7 +3291,8 @@ module.exports =
       "names": {
         "zh": "輕井澤王子大飯店滑雪場",
         "en": "Karuizawa Prince Hotel Ski Resort",
-        "ja": "軽井沢プリンスホテルスキー場"
+        "ja": "軽井沢プリンスホテルスキー場",
+        "th": "คารุอิซาวะ ปรินซ์ โฮเทล สกี รีสอร์ต"
       },
       "country_code": "JP",
       "region": "Nagano Prefecture",
@@ -3404,7 +3427,8 @@ module.exports =
       "names": {
         "zh": "上越國際滑雪場",
         "en": "Joetsu Kokusai Ski Resort",
-        "ja": "上越国際スキー場"
+        "ja": "上越国際スキー場",
+        "th": "โจเอ็ตสึ โคคุไซ สกี รีสอร์ต"
       },
       "country_code": "JP",
       "region": "Niigata Prefecture",
@@ -3567,7 +3591,8 @@ module.exports =
       "names": {
         "zh": "石打丸山滑雪場",
         "en": "Ishiuchi Maruyama Ski Resort",
-        "ja": "石打丸山スキー場"
+        "ja": "石打丸山スキー場",
+        "th": "สกีรีสอร์ตอิชิอุจิ มารุยามะ"
       },
       "country_code": "JP",
       "region": "Niigata Prefecture",
@@ -3722,7 +3747,8 @@ module.exports =
       "names": {
         "zh": "妙高池之平溫泉滑雪場",
         "en": "Ikenotaira Onsen Alpenblick Ski Resort",
-        "ja": "池の平温泉アルペンブリックスキー場"
+        "ja": "池の平温泉アルペンブリックスキー場",
+        "th": "อิเคะโนะไตระ ออนเซ็น อัลเพนบลิค สกีรีสอร์ต"
       },
       "country_code": "JP",
       "region": "Niigata Prefecture",
@@ -3889,7 +3915,8 @@ module.exports =
       "names": {
         "zh": "妙高杉之原滑雪場",
         "en": "Myoko Suginohara Ski Resort",
-        "ja": "妙高杉ノ原スキー場"
+        "ja": "妙高杉ノ原スキー場",
+        "th": "มโยโกะ สุงิโนะฮาระ สกีรีสอร์ต"
       },
       "country_code": "JP",
       "region": "Niigata Prefecture",
@@ -4068,7 +4095,8 @@ module.exports =
       "names": {
         "zh": "赤倉溫泉滑雪場",
         "en": "Akakura Onsen Ski Resort",
-        "ja": "赤倉温泉スキー場"
+        "ja": "赤倉温泉スキー場",
+        "th": "สกีรีสอร์ตอาคาคุระ ออนเซ็น"
       },
       "country_code": "JP",
       "region": "Niigata Prefecture",
@@ -4230,7 +4258,8 @@ module.exports =
       "names": {
         "zh": "赤倉觀光雪場",
         "en": "Akakura Kanko Resort",
-        "ja": "赤倉観光リゾートスキー場"
+        "ja": "赤倉観光リゾートスキー場",
+        "th": "อาคาคุระ คันโค รีสอร์ต"
       },
       "country_code": "JP",
       "region": "Niigata Prefecture",
@@ -4373,7 +4402,8 @@ module.exports =
       "names": {
         "zh": "岩原滑雪場",
         "en": "Iwappara Ski Resort",
-        "ja": "岩原スキー場"
+        "ja": "岩原スキー場",
+        "th": "สกีรีสอร์ตอิวัปพาระ"
       },
       "country_code": "JP",
       "region": "Niigata Prefecture",
@@ -4520,7 +4550,8 @@ module.exports =
       "names": {
         "zh": "苗場滑雪場",
         "en": "Naeba Ski Resort",
-        "ja": "苗場スキー場"
+        "ja": "苗場スキー場",
+        "th": "สกีรีสอร์ตนาเอบะ"
       },
       "country_code": "JP",
       "region": "Niigata Prefecture",
@@ -4654,7 +4685,8 @@ module.exports =
       "names": {
         "zh": "神立高原滑雪場",
         "en": "Kandatsu Snow Resort",
-        "ja": "神立スノーリゾート"
+        "ja": "神立スノーリゾート",
+        "th": "กันดัตสึ สโนว์ รีสอร์ต"
       },
       "country_code": "JP",
       "region": "Niigata Prefecture",
@@ -4801,7 +4833,8 @@ module.exports =
       "names": {
         "zh": "神樂滑雪場",
         "en": "Kagura Ski Resort",
-        "ja": "かぐらスキー場"
+        "ja": "かぐらスキー場",
+        "th": "คากุระ สกี รีสอร์ต"
       },
       "country_code": "JP",
       "region": "Niigata Prefecture",
@@ -4932,7 +4965,8 @@ module.exports =
       "names": {
         "zh": "湯澤中里滑雪度假村",
         "en": "Yuzawa Nakazato Snow Resort",
-        "ja": "湯沢中里スノーリゾート"
+        "ja": "湯沢中里スノーリゾート",
+        "th": "สโนว์รีสอร์ตยูซาวะ นะคะซะโตะ"
       },
       "country_code": "JP",
       "region": "Niigata Prefecture",
@@ -5107,7 +5141,8 @@ module.exports =
       "names": {
         "zh": "湯澤公園滑雪場",
         "en": "Yuzawa Park Resort",
-        "ja": "湯沢パークスキー場"
+        "ja": "湯沢パークスキー場",
+        "th": "ยูซาวะ พาร์ก รีสอร์ต"
       },
       "country_code": "JP",
       "region": "Niigata Prefecture",
@@ -5263,7 +5298,8 @@ module.exports =
       "names": {
         "zh": "舞子高原滑雪場",
         "en": "Maiko Snow Resort",
-        "ja": "舞子スノーリゾート"
+        "ja": "舞子スノーリゾート",
+        "th": "ไมโกะ สโนว์ รีสอร์ต"
       },
       "country_code": "JP",
       "region": "Niigata Prefecture",
@@ -5414,7 +5450,8 @@ module.exports =
       "names": {
         "zh": "樂天新井度假村",
         "en": "Lotte Arai Resort",
-        "ja": "ロッテアライリゾート"
+        "ja": "ロッテアライリゾート",
+        "th": "ล็อตเต้ อะไร รีสอร์ต"
       },
       "country_code": "JP",
       "region": "Niigata Prefecture",
@@ -5562,7 +5599,8 @@ module.exports =
       "names": {
         "zh": "GALA湯澤滑雪場",
         "en": "GALA Yuzawa Snow Resort",
-        "ja": "GALA湯沢スキー場"
+        "ja": "GALA湯沢スキー場",
+        "th": "กาล่า ยูซาวะ สโนว์ รีสอร์ต"
       },
       "country_code": "JP",
       "region": "Niigata Prefecture",
@@ -5687,7 +5725,8 @@ module.exports =
       "names": {
         "zh": "NASPA滑雪花園",
         "en": "NASPA Ski Garden",
-        "ja": "NASPAスキーガーデン"
+        "ja": "NASPAスキーガーデン",
+        "th": "นัสปา สกี การ์เดน"
       },
       "country_code": "JP",
       "region": "Niigata Prefecture",
@@ -5845,7 +5884,8 @@ module.exports =
       "names": {
         "zh": "獵人山鹽原滑雪場",
         "en": "Hunter Mountain Shiobara",
-        "ja": "ハンターマウンテン塩原"
+        "ja": "ハンターマウンテン塩原",
+        "th": "ฮันเตอร์ เมาน์เทน ชิโอบาระ"
       },
       "country_code": "JP",
       "region": "Tochigi Prefecture",
@@ -6001,7 +6041,8 @@ module.exports =
       "names": {
         "zh": "エーデルワイススキーリゾート",
         "en": "Edelweiss Ski Resort",
-        "ja": "エーデルワイススキーリゾート"
+        "ja": "エーデルワイススキーリゾート",
+        "th": "สกีรีสอร์ตเอดีลไวส์"
       },
       "country_code": "JP",
       "region": "Tochigi Prefecture",
@@ -6148,7 +6189,8 @@ module.exports =
       "names": {
         "zh": "藏王溫泉滑雪場",
         "en": "Zao Onsen Ski Resort",
-        "ja": "蔵王温泉スキー場"
+        "ja": "蔵王温泉スキー場",
+        "th": "สกีรีสอร์ตซาโอะ ออนเซ็น"
       },
       "country_code": "JP",
       "region": "Yamagata Prefecture",

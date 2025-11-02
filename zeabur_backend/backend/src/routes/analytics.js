@@ -549,13 +549,14 @@ router.get('/hot-faqs', async (req, res, next) => {
 
     const limit = parseInt(req.query.limit) || 5;
     const days = parseInt(req.query.days) || 7;
+    const languageFilter = req.query.language || null;
 
     const db = analyticsService.db;
     const cutoffDate = new Date();
     cutoffDate.setDate(cutoffDate.getDate() - days);
 
     // Get FAQs with most clicks in the last N days
-    const hotFAQs = db.prepare(`
+    let hotQuery = `
       SELECT
         faq_id,
         COUNT(*) as views,
@@ -563,15 +564,41 @@ router.get('/hot-faqs', async (req, res, next) => {
         ROUND(CAST(SUM(CASE WHEN clicked = 1 THEN 1 ELSE 0 END) AS FLOAT) / COUNT(*), 2) as click_rate
       FROM faq_views
       WHERE timestamp >= ?
+    `;
+
+    const params = [cutoffDate.toISOString()];
+    if (languageFilter) {
+      hotQuery += ` AND language = ?`;
+      params.push(languageFilter);
+    }
+
+    hotQuery += `
       GROUP BY faq_id
       ORDER BY clicks DESC, views DESC
       LIMIT ?
-    `).all(cutoffDate.toISOString(), limit);
+    `;
+    params.push(limit);
+
+    const hotFAQs = db.prepare(hotQuery).all(...params);
+
+    const byLanguage = db.prepare(`
+      SELECT
+        language,
+        COUNT(*) as views,
+        SUM(CASE WHEN clicked = 1 THEN 1 ELSE 0 END) as clicks
+      FROM faq_views
+      WHERE timestamp >= ?
+      ${languageFilter ? 'AND language = ?' : ''}
+      GROUP BY language
+      ORDER BY clicks DESC
+    `).all(languageFilter ? [cutoffDate.toISOString(), languageFilter] : [cutoffDate.toISOString()]);
 
     sendSuccess(res, {
       hot_faqs: hotFAQs,
       period_days: days,
-      total_faqs: hotFAQs.length
+      total_faqs: hotFAQs.length,
+      language: languageFilter || 'all',
+      by_language: byLanguage
     }, 200, {
       timestamp: new Date().toISOString()
     });
@@ -606,7 +633,7 @@ router.post('/track-faq-view', async (req, res, next) => {
       throw new AppError('SERVICE_UNAVAILABLE', 'Analytics 服務尚未初始化', 503);
     }
 
-    const { faq_id, clicked, query_id, position, time_to_click_ms } = req.body;
+    const { faq_id, clicked, query_id, position, time_to_click_ms, language = 'zh' } = req.body;
 
     if (!faq_id) {
       throw new AppError('VALIDATION_ERROR', 'faq_id 為必填欄位', 400);
@@ -616,8 +643,8 @@ router.post('/track-faq-view', async (req, res, next) => {
 
     // Insert view record
     const stmt = db.prepare(`
-      INSERT INTO faq_views (faq_id, query_id, position, clicked, time_to_click_ms)
-      VALUES (?, ?, ?, ?, ?)
+      INSERT INTO faq_views (faq_id, query_id, position, clicked, time_to_click_ms, language)
+      VALUES (?, ?, ?, ?, ?, ?)
     `);
 
     stmt.run(
@@ -625,7 +652,8 @@ router.post('/track-faq-view', async (req, res, next) => {
       query_id || null,
       position || 0,
       clicked ? 1 : 0,
-      time_to_click_ms || null
+      time_to_click_ms || null,
+      language || 'zh'
     );
 
     sendSuccess(res, {
@@ -764,10 +792,11 @@ router.get('/section-stats', async (req, res, next) => {
         COUNT(*) as clicks
       FROM section_views
       WHERE timestamp >= ?
+      ${language ? 'AND language = ?' : ''}
       GROUP BY language
       ORDER BY clicks DESC
     `;
-    const byLanguage = db.prepare(byLanguageQuery).all(dateFilter);
+    const byLanguage = db.prepare(byLanguageQuery).all(language ? [dateFilter, language] : [dateFilter]);
 
     // Daily stats
     const dailyQuery = `
@@ -777,18 +806,20 @@ router.get('/section-stats', async (req, res, next) => {
         COUNT(*) as clicks
       FROM section_views
       WHERE timestamp >= ?
+      ${language ? 'AND language = ?' : ''}
       GROUP BY DATE(timestamp), section
       ORDER BY date DESC, clicks DESC
       LIMIT 100
     `;
-    const daily = db.prepare(dailyQuery).all(dateFilter);
+    const daily = db.prepare(dailyQuery).all(language ? [dateFilter, language] : [dateFilter]);
 
     sendSuccess(res, {
       total,
       by_section: bySection,
       by_language: byLanguage,
       daily,
-      period_days: parseInt(days, 10)
+      period_days: parseInt(days, 10),
+      language: language || 'all'
     }, 200, {
       timestamp: new Date().toISOString()
     });
@@ -824,7 +855,7 @@ router.get('/faq-stats', async (req, res, next) => {
       throw new AppError('SERVICE_UNAVAILABLE', 'Analytics 服務尚未初始化', 503);
     }
 
-    const { days = 30, clicked_only = 'true' } = req.query;
+    const { days = 30, clicked_only = 'true', language } = req.query;
     const db = analyticsService.db;
 
     const daysAgo = new Date();
@@ -832,14 +863,19 @@ router.get('/faq-stats', async (req, res, next) => {
     const dateFilter = daysAgo.toISOString();
 
     // Total views and clicks
-    const totalsQuery = `
+    let totalsQuery = `
       SELECT
         COUNT(*) as total_views,
         SUM(clicked) as total_clicks
       FROM faq_views
       WHERE timestamp >= ?
     `;
-    const totals = db.prepare(totalsQuery).get(dateFilter);
+    const totalsParams = [dateFilter];
+    if (language) {
+      totalsQuery += ` AND language = ?`;
+      totalsParams.push(language);
+    }
+    const totals = db.prepare(totalsQuery).get(...totalsParams);
     const clickThroughRate = totals.total_views > 0
       ? ((totals.total_clicks / totals.total_views) * 100).toFixed(2)
       : '0.00';
@@ -854,14 +890,18 @@ router.get('/faq-stats', async (req, res, next) => {
       FROM faq_views
       WHERE timestamp >= ?
     `;
-
+    const byFaqParams = [dateFilter];
+    if (language) {
+      byFaqQuery += ` AND language = ?`;
+      byFaqParams.push(language);
+    }
     if (clicked_only === 'true') {
       byFaqQuery += ` AND clicked = 1`;
     }
 
     byFaqQuery += ` GROUP BY faq_id ORDER BY clicks DESC LIMIT 50`;
 
-    const byFaq = db.prepare(byFaqQuery).all(dateFilter);
+    const byFaq = db.prepare(byFaqQuery).all(...byFaqParams);
 
     // Enrich FAQ data with titles from faq_kb.js
     const faqKB = require('../data/faq_kb.js');
@@ -883,17 +923,36 @@ router.get('/faq-stats', async (req, res, next) => {
     }));
 
     // Daily stats
-    const dailyQuery = `
+    let dailyQuery = `
       SELECT
         DATE(timestamp) as date,
         COUNT(*) as views,
         SUM(clicked) as clicks
       FROM faq_views
       WHERE timestamp >= ?
-      GROUP BY DATE(timestamp)
-      ORDER BY date DESC
     `;
-    const daily = db.prepare(dailyQuery).all(dateFilter);
+    const dailyParams = [dateFilter];
+    if (language) {
+      dailyQuery += ` AND language = ?`;
+      dailyParams.push(language);
+    }
+    if (clicked_only === 'true') {
+      dailyQuery += ` AND clicked = 1`;
+    }
+    dailyQuery += ` GROUP BY DATE(timestamp) ORDER BY date DESC`;
+    const daily = db.prepare(dailyQuery).all(...dailyParams);
+
+    const byLanguage = db.prepare(`
+      SELECT
+        language,
+        COUNT(*) as views,
+        SUM(clicked) as clicks
+      FROM faq_views
+      WHERE timestamp >= ?
+      ${language ? 'AND language = ?' : ''}
+      GROUP BY language
+      ORDER BY clicks DESC
+    `).all(language ? [dateFilter, language] : [dateFilter]);
 
     sendSuccess(res, {
       total_views: totals.total_views,
@@ -901,7 +960,9 @@ router.get('/faq-stats', async (req, res, next) => {
       click_through_rate: clickThroughRate,
       by_faq: enrichedByFaq,
       daily,
-      period_days: parseInt(days, 10)
+      by_language: byLanguage,
+      period_days: parseInt(days, 10),
+      language: language || 'all'
     }, 200, {
       timestamp: new Date().toISOString()
     });
@@ -1013,6 +1074,7 @@ router.get('/tag-stats', async (req, res, next) => {
     const tagType = req.query.tag_type;
     const days = parseInt(req.query.days) || 7;
     const limit = parseInt(req.query.limit) || 20;
+    const languageFilter = req.query.language || null;
 
     const db = analyticsService.db;
     const cutoffDate = new Date();
@@ -1036,6 +1098,11 @@ router.get('/tag-stats', async (req, res, next) => {
       params.push(tagType);
     }
 
+    if (languageFilter) {
+      byTagQuery += ` AND language = ?`;
+      params.push(languageFilter);
+    }
+
     byTagQuery += `
       GROUP BY tag_name, tag_type
       ORDER BY clicks DESC
@@ -1046,6 +1113,10 @@ router.get('/tag-stats', async (req, res, next) => {
     const byTag = db.prepare(byTagQuery).all(...params);
 
     // Get statistics by tag type
+    const typeQueryParams = [cutoffDate.toISOString()];
+    if (tagType) typeQueryParams.push(tagType);
+    if (languageFilter) typeQueryParams.push(languageFilter);
+
     const byType = db.prepare(`
       SELECT
         tag_type,
@@ -1055,11 +1126,16 @@ router.get('/tag-stats', async (req, res, next) => {
       FROM tag_clicks
       WHERE timestamp >= ?
       ${tagType ? 'AND tag_type = ?' : ''}
+      ${languageFilter ? 'AND language = ?' : ''}
       GROUP BY tag_type
       ORDER BY total_clicks DESC
-    `).all(tagType ? [cutoffDate.toISOString(), tagType] : [cutoffDate.toISOString()]);
+    `).all(...typeQueryParams);
 
     // Get daily statistics
+    const dailyParams = [cutoffDate.toISOString()];
+    if (tagType) dailyParams.push(tagType);
+    if (languageFilter) dailyParams.push(languageFilter);
+
     const daily = db.prepare(`
       SELECT
         DATE(timestamp) as date,
@@ -1068,15 +1144,35 @@ router.get('/tag-stats', async (req, res, next) => {
       FROM tag_clicks
       WHERE timestamp >= ?
       ${tagType ? 'AND tag_type = ?' : ''}
+      ${languageFilter ? 'AND language = ?' : ''}
       GROUP BY DATE(timestamp), tag_type
       ORDER BY date DESC
-    `).all(tagType ? [cutoffDate.toISOString(), tagType] : [cutoffDate.toISOString()]);
+    `).all(...dailyParams);
+
+    const languageParams = [cutoffDate.toISOString()];
+    if (tagType) languageParams.push(tagType);
+    if (languageFilter) languageParams.push(languageFilter);
+
+    const byLanguage = db.prepare(`
+      SELECT
+        language,
+        COUNT(*) as clicks,
+        COUNT(DISTINCT tag_name) as unique_tags
+      FROM tag_clicks
+      WHERE timestamp >= ?
+      ${tagType ? 'AND tag_type = ?' : ''}
+      ${languageFilter ? 'AND language = ?' : ''}
+      GROUP BY language
+      ORDER BY clicks DESC
+    `).all(...languageParams);
 
     sendSuccess(res, {
       by_tag: byTag,
       by_type: byType,
       daily,
-      period_days: days
+      by_language: byLanguage,
+      period_days: days,
+      language: languageFilter || 'all'
     }, 200, {
       timestamp: new Date().toISOString()
     });
@@ -1194,12 +1290,17 @@ router.get('/resort-stats', async (req, res, next) => {
     const clickType = req.query.click_type;
     const days = parseInt(req.query.days) || 7;
     const limit = parseInt(req.query.limit) || 20;
+    const languageFilter = req.query.language || null;
 
     const db = analyticsService.db;
     const cutoffDate = new Date();
     cutoffDate.setDate(cutoffDate.getDate() - days);
 
     // Statistics by type
+    const byTypeParams = [cutoffDate.toISOString()];
+    if (clickType) byTypeParams.push(clickType);
+    if (languageFilter) byTypeParams.push(languageFilter);
+
     const byType = db.prepare(`
       SELECT
         click_type,
@@ -1207,11 +1308,15 @@ router.get('/resort-stats', async (req, res, next) => {
       FROM resort_clicks
       WHERE timestamp >= ?
       ${clickType ? 'AND click_type = ?' : ''}
+      ${languageFilter ? 'AND language = ?' : ''}
       GROUP BY click_type
       ORDER BY total_clicks DESC
-    `).all(clickType ? [cutoffDate.toISOString(), clickType] : [cutoffDate.toISOString()]);
+    `).all(...byTypeParams);
 
     // Top regions
+    const topRegionParams = [cutoffDate.toISOString()];
+    if (languageFilter) topRegionParams.push(languageFilter);
+
     const topRegions = db.prepare(`
       SELECT
         region,
@@ -1220,12 +1325,16 @@ router.get('/resort-stats', async (req, res, next) => {
       WHERE timestamp >= ?
         AND click_type = 'region'
         AND region IS NOT NULL
+        ${languageFilter ? 'AND language = ?' : ''}
       GROUP BY region
       ORDER BY clicks DESC
       LIMIT ?
-    `).all(cutoffDate.toISOString(), limit);
+    `).all(...topRegionParams, limit);
 
     // Top resorts
+    const topResortParams = [cutoffDate.toISOString()];
+    if (languageFilter) topResortParams.push(languageFilter);
+
     const topResorts = db.prepare(`
       SELECT
         resort_id,
@@ -1234,12 +1343,17 @@ router.get('/resort-stats', async (req, res, next) => {
       WHERE timestamp >= ?
         AND click_type = 'resort_card'
         AND resort_id IS NOT NULL
+        ${languageFilter ? 'AND language = ?' : ''}
       GROUP BY resort_id
       ORDER BY clicks DESC
       LIMIT ?
-    `).all(cutoffDate.toISOString(), limit);
+    `).all(...topResortParams, limit);
 
     // Daily statistics
+    const dailyParams = [cutoffDate.toISOString()];
+    if (clickType) dailyParams.push(clickType);
+    if (languageFilter) dailyParams.push(languageFilter);
+
     const daily = db.prepare(`
       SELECT
         DATE(timestamp) as date,
@@ -1248,16 +1362,35 @@ router.get('/resort-stats', async (req, res, next) => {
       FROM resort_clicks
       WHERE timestamp >= ?
       ${clickType ? 'AND click_type = ?' : ''}
+      ${languageFilter ? 'AND language = ?' : ''}
       GROUP BY DATE(timestamp), click_type
       ORDER BY date DESC
-    `).all(clickType ? [cutoffDate.toISOString(), clickType] : [cutoffDate.toISOString()]);
+    `).all(...dailyParams);
+
+    const byLanguageParams = [cutoffDate.toISOString()];
+    if (clickType) byLanguageParams.push(clickType);
+    if (languageFilter) byLanguageParams.push(languageFilter);
+
+    const byLanguage = db.prepare(`
+      SELECT
+        language,
+        COUNT(*) as clicks
+      FROM resort_clicks
+      WHERE timestamp >= ?
+      ${clickType ? 'AND click_type = ?' : ''}
+      ${languageFilter ? 'AND language = ?' : ''}
+      GROUP BY language
+      ORDER BY clicks DESC
+    `).all(...byLanguageParams);
 
     sendSuccess(res, {
       by_type: byType,
       top_regions: topRegions,
       top_resorts: topResorts,
       daily,
-      period_days: days
+      by_language: byLanguage,
+      period_days: days,
+      language: languageFilter || 'all'
     }, 200, {
       timestamp: new Date().toISOString()
     });

@@ -91,6 +91,7 @@ class AnalyticsService {
       CREATE INDEX IF NOT EXISTS idx_faq_views_faq_id ON faq_views(faq_id);
       CREATE INDEX IF NOT EXISTS idx_faq_views_timestamp ON faq_views(timestamp);
       CREATE INDEX IF NOT EXISTS idx_faq_views_clicked ON faq_views(clicked);
+      CREATE INDEX IF NOT EXISTS idx_faq_views_language ON faq_views(language);
 
       CREATE TABLE IF NOT EXISTS section_views (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -101,6 +102,7 @@ class AnalyticsService {
 
       CREATE INDEX IF NOT EXISTS idx_section_views_section ON section_views(section);
       CREATE INDEX IF NOT EXISTS idx_section_views_timestamp ON section_views(timestamp);
+      CREATE INDEX IF NOT EXISTS idx_section_views_language ON section_views(language);
 
       CREATE TABLE IF NOT EXISTS tag_clicks (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -114,6 +116,7 @@ class AnalyticsService {
       CREATE INDEX IF NOT EXISTS idx_tag_clicks_tag_name ON tag_clicks(tag_name);
       CREATE INDEX IF NOT EXISTS idx_tag_clicks_tag_type ON tag_clicks(tag_type);
       CREATE INDEX IF NOT EXISTS idx_tag_clicks_timestamp ON tag_clicks(timestamp);
+      CREATE INDEX IF NOT EXISTS idx_tag_clicks_language ON tag_clicks(language);
 
       CREATE TABLE IF NOT EXISTS resort_clicks (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -128,7 +131,27 @@ class AnalyticsService {
       CREATE INDEX IF NOT EXISTS idx_resort_clicks_resort_id ON resort_clicks(resort_id);
       CREATE INDEX IF NOT EXISTS idx_resort_clicks_region ON resort_clicks(region);
       CREATE INDEX IF NOT EXISTS idx_resort_clicks_timestamp ON resort_clicks(timestamp);
+      CREATE INDEX IF NOT EXISTS idx_resort_clicks_language ON resort_clicks(language);
     `);
+
+    // Ensure new columns exist for backward compatibility with older databases
+    const ensureColumn = (table, column, alterSql, defaultValue = null) => {
+      const infoStmt = this.db.prepare(`PRAGMA table_info(${table})`);
+      const columns = infoStmt.all();
+      const hasColumn = columns.some(col => col.name === column);
+      if (!hasColumn) {
+        console.log(`[Analytics Service] Adding missing column ${column} to ${table}`);
+        this.db.exec(alterSql);
+        if (defaultValue !== null) {
+          this.db.exec(`UPDATE ${table} SET ${column} = '${defaultValue}' WHERE ${column} IS NULL`);
+        }
+      }
+    };
+
+    ensureColumn('faq_views', 'language', "ALTER TABLE faq_views ADD COLUMN language TEXT DEFAULT 'zh'", 'zh');
+    ensureColumn('tag_clicks', 'language', "ALTER TABLE tag_clicks ADD COLUMN language TEXT DEFAULT 'zh'", 'zh');
+    ensureColumn('section_views', 'language', "ALTER TABLE section_views ADD COLUMN language TEXT DEFAULT 'zh'", 'zh');
+    ensureColumn('resort_clicks', 'language', "ALTER TABLE resort_clicks ADD COLUMN language TEXT DEFAULT 'zh'", 'zh');
 
     console.log('[Analytics Service] Tables initialized');
   }
