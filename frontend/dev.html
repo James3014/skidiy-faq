@@ -17,6 +17,17 @@
       justify-content: center;
       padding: 40px 20px;
     }
+    .logo-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    .logo-container img {
+      height: 3rem;
+      width: auto;
+    }
     h1 {
       font-size: 2.4rem;
       margin-bottom: 12px;
@@ -31,14 +42,15 @@
       display: inline-block;
       padding: 14px 24px;
       border-radius: 999px;
-      background: linear-gradient(135deg, #00c6ff 0%, #0072ff 100%);
+      background: #4A5F8C;
       color: #fff;
       text-decoration: none;
       font-weight: 600;
-      transition: transform 0.2s ease;
+      transition: all 0.2s ease;
     }
     a:hover {
       transform: translateY(-2px);
+      background: #5A6F9C;
     }
     .links {
       display: grid;
@@ -50,8 +62,8 @@
       border-radius: 16px;
       padding: 16px 20px;
       text-align: left;
-      background: rgba(255, 255, 255, 0.08);
-      transition: background 0.3s ease, transform 0.2s ease;
+      background: rgba(74, 95, 140, 0.2);
+      transition: all 0.3s ease;
     }
     .links a span {
       display: block;
@@ -60,7 +72,7 @@
       margin-top: 6px;
     }
     .links a:hover {
-      background: rgba(255, 255, 255, 0.16);
+      background: rgba(74, 95, 140, 0.4);
       transform: translateY(-2px);
     }
     footer {
@@ -69,9 +81,29 @@
       color: rgba(255, 255, 255, 0.6);
       text-align: center;
     }
+    footer a {
+      background: none;
+      padding: 0;
+      color: #7FA8D9;
+    }
+    footer a:hover {
+      color: #9FC8F9;
+      transform: none;
+    }
+    @media (max-width: 768px) {
+      .logo-container img {
+        height: 2.5rem;
+      }
+      h1 {
+        font-size: 1.8rem;
+      }
+    }
   </style>
 </head>
 <body>
+  <div class="logo-container">
+    <img src="assets/logo.png" alt="SkiDIY">
+  </div>
   <h1>開發者入口</h1>
   <p>這裡整理了所有與 FAQ / Analytics / LLM 相關的開發資源與工具，協助工程師快速上線。</p>
   <div class="links">

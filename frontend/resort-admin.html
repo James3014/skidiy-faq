@@ -377,6 +377,51 @@
       color: #6b7280;
       margin-top: 4px;
     }
+
+    /* Mobile Responsive */
+    @media (max-width: 768px) {
+      .page-header {
+        padding: 1rem;
+      }
+
+      .page-header-content {
+        flex-direction: column;
+        gap: 0.75rem;
+        align-items: flex-start;
+      }
+
+      .page-header-title h1 {
+        font-size: 1.3rem;
+      }
+
+      .page-header-title img {
+        height: 2rem;
+      }
+
+      .page-header-actions .btn {
+        padding: 8px 16px;
+        font-size: 0.85rem;
+      }
+
+      .container {
+        padding: 1rem;
+      }
+
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.75rem;
+      }
+
+      .filters {
+        flex-direction: column;
+        gap: 0.75rem;
+      }
+
+      .filters input,
+      .filters select {
+        width: 100%;
+      }
+    }
   </style>
 </head>
 <body>
