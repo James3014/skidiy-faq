@@ -41,11 +41,27 @@ async function loadFAQData() {
       throw new Error('Invalid FAQ data structure: missing items array');
     }
 
-    console.log(`[FAQ Routes] Loaded ${faqData.items.length} FAQ items from ${dataPath}`);
+    console.log(`[FAQ Routes] Loaded ${faqData.items.length} FAQ items from JSON file`);
     return faqData;
   } catch (error) {
-    console.error('[FAQ Routes] Failed to load FAQ data:', error);
-    throw new AppError('FAQ_LOAD_ERROR', 'Failed to load FAQ data', 500);
+    // Fallback: try to load from bundled JS module
+    console.warn(`[FAQ Routes] Failed to load from ${dataPath}, trying fallback module...`);
+    try {
+      const fallbackPath = path.join(__dirname, '../data/faq_kb.js');
+      delete require.cache[require.resolve(fallbackPath)]; // Clear cache
+      faqData = require(fallbackPath);
+      faqDataLoadTime = Date.now();
+
+      if (!faqData.items || !Array.isArray(faqData.items)) {
+        throw new Error('Invalid fallback FAQ data structure');
+      }
+
+      console.log(`[FAQ Routes] Loaded ${faqData.items.length} FAQ items from fallback module`);
+      return faqData;
+    } catch (fallbackError) {
+      console.error('[FAQ Routes] Both load attempts failed:', error, fallbackError);
+      throw new AppError('FAQ_LOAD_ERROR', 'Failed to load FAQ data', 500);
+    }
   }
 }
 
