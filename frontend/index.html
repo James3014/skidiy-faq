@@ -1783,6 +1783,15 @@
         const answer = DOMPurify.sanitize(localized.answer || faq.answer_template?.text || (i18n ? i18n.t('no_answer_content') : '無答案內容'));
         const confidenceLabel = i18n ? i18n.t('confidence') : '信心度';
 
+        // Render tags if available
+        const tagsHTML = faq.crm_tags && faq.crm_tags.length > 0
+          ? `<div class="faq-tags">
+              ${faq.crm_tags.map(tag =>
+                `<span class="faq-tag" onclick="trackTagClick(event, 'faq', '${DOMPurify.sanitize(tag)}', '${faq.id}')">${DOMPurify.sanitize(tag)}</span>`
+              ).join('')}
+            </div>`
+          : '';
+
         return `
           <div class="faq-item" data-faq-id="${faq.id}">
             <div class="faq-header">
@@ -1794,6 +1803,7 @@
               </div>
               <span class="faq-toggle-icon">▼</span>
             </div>
+            ${tagsHTML}
             <div class="faq-answer">
               ${answer}
             </div>
