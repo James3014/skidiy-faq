@@ -2115,7 +2115,9 @@
           return;
         }
 
-        displayFAQs(filtered, `標籤篩選: ${tagName}`, null, []);
+        // Use modal to display filtered results (consistent with category filtering)
+        const title = `🏷️ 標籤篩選: ${tagName} (${filtered.length} 個結果)`;
+        displayFAQsInModal(filtered, title);
       } catch (error) {
         console.error('[Filter] Error filtering by tag:', error);
       }
