@@ -611,6 +611,8 @@
       <button class="tab active" onclick="switchTab('llm')">📊 LLM 使用統計</button>
       <button class="tab" onclick="switchTab('faq')">❓ FAQ 點擊分析</button>
       <button class="tab" onclick="switchTab('tag')">🏷️ Tag 點擊分析</button>
+      <button class="tab" onclick="switchTab('section')">📂 分類點擊分析</button>
+      <button class="tab" onclick="switchTab('resort')">🏔️ 雪場點擊分析</button>
     </div>
 
     <!-- LLM Statistics Tab -->
@@ -826,6 +828,176 @@
         </div>
       </div>
     </div> <!-- End Tag Tab -->
+
+    <!-- Section Statistics Tab -->
+    <div id="section-tab" class="tab-content">
+      <!-- Overall Section Statistics -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="label">總分類點擊數</div>
+          <div class="value" id="sectionTotalClicks">-</div>
+        </div>
+        <div class="stat-card primary">
+          <div class="label">不同分類數</div>
+          <div class="value" id="sectionUniqueCount">-</div>
+        </div>
+        <div class="stat-card success">
+          <div class="label">最熱門分類</div>
+          <div class="value" id="sectionTopName">-</div>
+          <div class="subvalue"><span id="sectionTopClicks">-</span> 次點擊</div>
+        </div>
+        <div class="stat-card warning">
+          <div class="label">多語言覆蓋</div>
+          <div class="value" id="sectionLanguages">-</div>
+          <div class="subvalue">種語言</div>
+        </div>
+      </div>
+
+      <!-- Filters -->
+      <div class="filter-section">
+        <div class="filter-row">
+          <label>語系篩選:</label>
+          <select id="sectionLanguageFilter" onchange="loadSectionData()">
+            <option value="">全部語系</option>
+            <option value="zh">繁體中文</option>
+            <option value="en">English</option>
+            <option value="th">ภาษาไทย</option>
+          </select>
+
+          <label style="margin-left: 1.5rem;">時間範圍:</label>
+          <select id="sectionDaysFilter" onchange="loadSectionData()">
+            <option value="7">最近 7 天</option>
+            <option value="30">最近 30 天</option>
+            <option value="90">最近 90 天</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Top Sections Ranking -->
+      <div class="provider-section">
+        <h3 style="margin-bottom: 1rem; color: #2D395C;">📊 熱門分類排行</h3>
+        <div class="provider-list" id="topSections">
+          <p style="text-align: center; color: #999; padding: 2rem;">載入中...</p>
+        </div>
+      </div>
+
+      <!-- Daily Trend Chart -->
+      <div class="chart-section">
+        <h3 style="margin-bottom: 1rem; color: #2D395C;">📈 每日分類點擊趨勢</h3>
+        <div class="chart" id="sectionDailyChart">
+          <p style="text-align: center; color: #999; padding: 3rem;">載入中...</p>
+        </div>
+      </div>
+
+      <!-- Language Distribution -->
+      <div class="provider-section">
+        <h3 style="margin-bottom: 1rem; color: #2D395C;">🌏 語系分佈</h3>
+        <div class="provider-list" id="sectionLanguageDistribution">
+          <p style="text-align: center; color: #999; padding: 2rem;">載入中...</p>
+        </div>
+      </div>
+
+      <!-- Local Section Clicks -->
+      <div class="provider-section">
+        <h3 style="margin-bottom: 1rem; color: #2D395C;">🗂️ 本地分類點擊記錄 (最近 100 筆)</h3>
+        <div class="recent-queries" id="localSectionClicks">
+          <p style="text-align: center; color: #999; padding: 2rem;">載入中...</p>
+        </div>
+      </div>
+    </div> <!-- End Section Tab -->
+
+    <!-- Resort Statistics Tab -->
+    <div id="resort-tab" class="tab-content">
+      <!-- Overall Resort Statistics -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="label">總雪場點擊數</div>
+          <div class="value" id="resortTotalClicks">-</div>
+        </div>
+        <div class="stat-card primary">
+          <div class="label">地區點擊</div>
+          <div class="value" id="resortRegionClicks">-</div>
+          <div class="subvalue"><span id="resortUniqueRegions">-</span> 個地區</div>
+        </div>
+        <div class="stat-card success">
+          <div class="label">雪場卡片點擊</div>
+          <div class="value" id="resortCardClicks">-</div>
+          <div class="subvalue"><span id="resortUniqueResorts">-</span> 個雪場</div>
+        </div>
+        <div class="stat-card warning">
+          <div class="label">最熱門地區</div>
+          <div class="value" id="resortTopRegion">-</div>
+          <div class="subvalue"><span id="resortTopRegionClicks">-</span> 次點擊</div>
+        </div>
+      </div>
+
+      <!-- Filters -->
+      <div class="filter-section">
+        <div class="filter-row">
+          <label>點擊類型:</label>
+          <select id="resortClickTypeFilter" onchange="loadResortData()">
+            <option value="">全部類型</option>
+            <option value="region">地區點擊</option>
+            <option value="resort_card">雪場卡片點擊</option>
+          </select>
+
+          <label style="margin-left: 1.5rem;">語系篩選:</label>
+          <select id="resortLanguageFilter" onchange="loadResortData()">
+            <option value="">全部語系</option>
+            <option value="zh">繁體中文</option>
+            <option value="en">English</option>
+            <option value="th">ภาษาไทย</option>
+          </select>
+
+          <label style="margin-left: 1.5rem;">時間範圍:</label>
+          <select id="resortDaysFilter" onchange="loadResortData()">
+            <option value="7">最近 7 天</option>
+            <option value="30">最近 30 天</option>
+            <option value="90">最近 90 天</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Top Regions Ranking -->
+      <div class="provider-section">
+        <h3 style="margin-bottom: 1rem; color: #2D395C;">🗺️ 熱門地區排行</h3>
+        <div class="provider-list" id="topRegions">
+          <p style="text-align: center; color: #999; padding: 2rem;">載入中...</p>
+        </div>
+      </div>
+
+      <!-- Top Resorts Ranking -->
+      <div class="provider-section">
+        <h3 style="margin-bottom: 1rem; color: #2D395C;">⛷️ 熱門雪場排行</h3>
+        <div class="provider-list" id="topResorts">
+          <p style="text-align: center; color: #999; padding: 2rem;">載入中...</p>
+        </div>
+      </div>
+
+      <!-- Daily Trend Chart -->
+      <div class="chart-section">
+        <h3 style="margin-bottom: 1rem; color: #2D395C;">📈 每日雪場點擊趨勢</h3>
+        <div class="chart" id="resortDailyChart">
+          <p style="text-align: center; color: #999; padding: 3rem;">載入中...</p>
+        </div>
+      </div>
+
+      <!-- Language Distribution -->
+      <div class="provider-section">
+        <h3 style="margin-bottom: 1rem; color: #2D395C;">🌏 語系分佈</h3>
+        <div class="provider-list" id="resortLanguageDistribution">
+          <p style="text-align: center; color: #999; padding: 2rem;">載入中...</p>
+        </div>
+      </div>
+
+      <!-- Local Resort Clicks -->
+      <div class="provider-section">
+        <h3 style="margin-bottom: 1rem; color: #2D395C;">🗂️ 本地雪場點擊記錄 (最近 100 筆)</h3>
+        <div class="recent-queries" id="localResortClicks">
+          <p style="text-align: center; color: #999; padding: 2rem;">載入中...</p>
+        </div>
+      </div>
+    </div> <!-- End Resort Tab -->
   </div>
 
   <script src="assets/env.js"></script>
@@ -1030,6 +1202,14 @@
         document.getElementById('tag-tab').classList.add('active');
         // Load Tag data when switching to Tag tab
         loadTagData();
+      } else if (tab === 'section') {
+        document.getElementById('section-tab').classList.add('active');
+        // Load Section data when switching to Section tab
+        loadSectionData();
+      } else if (tab === 'resort') {
+        document.getElementById('resort-tab').classList.add('active');
+        // Load Resort data when switching to Resort tab
+        loadResortData();
       }
     }
 
@@ -1433,6 +1613,291 @@
       }
     }
 
+    // Load Section analytics data
+    async function loadSectionData() {
+      const languageFilter = document.getElementById('sectionLanguageFilter').value;
+      const days = document.getElementById('sectionDaysFilter').value;
+
+      try {
+        const params = new URLSearchParams();
+        if (languageFilter) params.append('language', languageFilter);
+        params.append('days', days);
+        params.append('limit', 50);
+
+        const response = await fetch(`${API_BASE}/analytics/section-stats?${params}`);
+
+        if (response.ok) {
+          const data = await response.json();
+          if (data.success) {
+            displaySectionStats(data.data);
+          } else {
+            console.warn('[Section Analytics] API returned error:', data.error);
+            displayLocalSectionData();
+          }
+        } else {
+          console.warn('[Section Analytics] API unavailable, using localStorage');
+          displayLocalSectionData();
+        }
+      } catch (error) {
+        console.warn('[Section Analytics] Error loading from API:', error);
+        displayLocalSectionData();
+      }
+    }
+
+    function displaySectionStats(data) {
+      // Overall statistics
+      const totalClicks = data.by_section.reduce((sum, s) => sum + s.total_clicks, 0);
+      document.getElementById('sectionTotalClicks').textContent = totalClicks.toLocaleString();
+      document.getElementById('sectionUniqueCount').textContent = data.by_section.length;
+
+      // Top section
+      if (data.by_section.length > 0) {
+        const topSection = data.by_section[0];
+        document.getElementById('sectionTopName').textContent = topSection.section;
+        document.getElementById('sectionTopClicks').textContent = topSection.total_clicks.toLocaleString();
+      }
+
+      // Languages
+      document.getElementById('sectionLanguages').textContent = data.by_language.length;
+
+      // Top sections ranking
+      const topSectionsHTML = data.by_section.map((section, index) => `
+        <div class="provider-row">
+          <div style="display: flex; align-items: center; gap: 0.5rem;">
+            <span style="font-weight: 600; color: ${index < 3 ? '#f59e0b' : '#666'}; min-width: 2rem;">
+              ${index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : (index + 1) + '.'}
+            </span>
+            <span style="font-weight: 600;">${section.section}</span>
+          </div>
+          <div style="display: flex; gap: 1.5rem; align-items: center;">
+            <span style="color: #666;">${section.total_clicks} 次點擊</span>
+            <span style="color: #999; font-size: 0.9rem;">${section.languages_used} 種語言</span>
+          </div>
+        </div>
+      `).join('');
+
+      document.getElementById('topSections').innerHTML = topSectionsHTML || '<p style="text-align: center; color: #999; padding: 2rem;">暫無數據</p>';
+
+      // Daily trend chart
+      const dailyChartHTML = renderDailyChart(data.daily, 'clicks', 'unique_sections');
+      document.getElementById('sectionDailyChart').innerHTML = dailyChartHTML;
+
+      // Language distribution
+      const languageHTML = data.by_language.map(lang => `
+        <div class="provider-row">
+          <div style="display: flex; align-items: center; gap: 0.5rem;">
+            <span style="font-weight: 600;">${LANGUAGE_LABELS[lang.language] || lang.language}</span>
+          </div>
+          <div style="display: flex; gap: 1.5rem; align-items: center;">
+            <span style="color: #666;">${lang.clicks} 次點擊</span>
+            <span style="color: #999; font-size: 0.9rem;">${lang.unique_sections} 個分類</span>
+          </div>
+        </div>
+      `).join('');
+
+      document.getElementById('sectionLanguageDistribution').innerHTML = languageHTML || '<p style="text-align: center; color: #999; padding: 2rem;">暫無數據</p>';
+
+      // Local data
+      displayLocalSectionData();
+    }
+
+    function displayLocalSectionData() {
+      try {
+        const sectionClicks = JSON.parse(localStorage.getItem('sectionClicks') || '[]');
+
+        if (sectionClicks.length === 0) {
+          document.getElementById('localSectionClicks').innerHTML = '<p style="text-align: center; color: #999; padding: 2rem;">暫無本地記錄</p>';
+          return;
+        }
+
+        const recent = sectionClicks.slice(-20).reverse();
+
+        const html = recent.map(click => {
+          const time = new Date(click.timestamp).toLocaleString('zh-TW', {
+            month: '2-digit',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit'
+          });
+
+          return `
+            <div class="query-row">
+              <div style="flex: 1;">
+                <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
+                  <strong style="color: #2D395C;">${click.section}</strong>
+                </div>
+                <div style="color: #999; font-size: 0.85rem;">
+                  ${click.language || 'zh'}
+                </div>
+              </div>
+              <div class="query-timestamp">${time}</div>
+            </div>
+          `;
+        }).join('');
+
+        document.getElementById('localSectionClicks').innerHTML = html;
+      } catch (error) {
+        console.error('[Section Analytics] Error displaying local data:', error);
+        document.getElementById('localSectionClicks').innerHTML = '<p style="text-align: center; color: #999; padding: 2rem;">載入失敗</p>';
+      }
+    }
+
+    // Load Resort analytics data
+    async function loadResortData() {
+      const clickType = document.getElementById('resortClickTypeFilter').value;
+      const languageFilter = document.getElementById('resortLanguageFilter').value;
+      const days = document.getElementById('resortDaysFilter').value;
+
+      try {
+        const params = new URLSearchParams();
+        if (clickType) params.append('click_type', clickType);
+        if (languageFilter) params.append('language', languageFilter);
+        params.append('days', days);
+        params.append('limit', 50);
+
+        const response = await fetch(`${API_BASE}/analytics/resort-stats?${params}`);
+
+        if (response.ok) {
+          const data = await response.json();
+          if (data.success) {
+            displayResortStats(data.data);
+          } else {
+            console.warn('[Resort Analytics] API returned error:', data.error);
+            displayLocalResortData();
+          }
+        } else {
+          console.warn('[Resort Analytics] API unavailable, using localStorage');
+          displayLocalResortData();
+        }
+      } catch (error) {
+        console.warn('[Resort Analytics] Error loading from API:', error);
+        displayLocalResortData();
+      }
+    }
+
+    function displayResortStats(data) {
+      // Overall statistics
+      const totalClicks = data.by_type.reduce((sum, t) => sum + t.total_clicks, 0);
+      document.getElementById('resortTotalClicks').textContent = totalClicks.toLocaleString();
+
+      // By type
+      const regionStats = data.by_type.find(t => t.click_type === 'region') || { total_clicks: 0 };
+      const cardStats = data.by_type.find(t => t.click_type === 'resort_card') || { total_clicks: 0 };
+
+      document.getElementById('resortRegionClicks').textContent = regionStats.total_clicks.toLocaleString();
+      document.getElementById('resortUniqueRegions').textContent = data.top_regions.length;
+      document.getElementById('resortCardClicks').textContent = cardStats.total_clicks.toLocaleString();
+      document.getElementById('resortUniqueResorts').textContent = data.top_resorts.length;
+
+      // Top region
+      if (data.top_regions.length > 0) {
+        const topRegion = data.top_regions[0];
+        document.getElementById('resortTopRegion').textContent = topRegion.region || '-';
+        document.getElementById('resortTopRegionClicks').textContent = topRegion.clicks.toLocaleString();
+      }
+
+      // Top regions ranking
+      const topRegionsHTML = data.top_regions.map((region, index) => `
+        <div class="provider-row">
+          <div style="display: flex; align-items: center; gap: 0.5rem;">
+            <span style="font-weight: 600; color: ${index < 3 ? '#f59e0b' : '#666'}; min-width: 2rem;">
+              ${index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : (index + 1) + '.'}
+            </span>
+            <span style="font-weight: 600;">${region.region}</span>
+          </div>
+          <div style="display: flex; gap: 1.5rem; align-items: center;">
+            <span style="color: #666;">${region.clicks} 次點擊</span>
+          </div>
+        </div>
+      `).join('');
+
+      document.getElementById('topRegions').innerHTML = topRegionsHTML || '<p style="text-align: center; color: #999; padding: 2rem;">暫無數據</p>';
+
+      // Top resorts ranking
+      const topResortsHTML = data.top_resorts.map((resort, index) => `
+        <div class="provider-row">
+          <div style="display: flex; align-items: center; gap: 0.5rem;">
+            <span style="font-weight: 600; color: ${index < 3 ? '#f59e0b' : '#666'}; min-width: 2rem;">
+              ${index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : (index + 1) + '.'}
+            </span>
+            <span style="font-weight: 600;">${resort.resort_id}</span>
+          </div>
+          <div style="display: flex; gap: 1.5rem; align-items: center;">
+            <span style="color: #666;">${resort.clicks} 次點擊</span>
+          </div>
+        </div>
+      `).join('');
+
+      document.getElementById('topResorts').innerHTML = topResortsHTML || '<p style="text-align: center; color: #999; padding: 2rem;">暫無數據</p>';
+
+      // Daily trend chart
+      const dailyChartHTML = renderDailyChart(data.daily, 'clicks', 'unique_clicks');
+      document.getElementById('resortDailyChart').innerHTML = dailyChartHTML;
+
+      // Language distribution
+      const languageHTML = data.by_language.map(lang => `
+        <div class="provider-row">
+          <div style="display: flex; align-items: center; gap: 0.5rem;">
+            <span style="font-weight: 600;">${LANGUAGE_LABELS[lang.language] || lang.language}</span>
+          </div>
+          <div style="display: flex; gap: 1.5rem; align-items: center;">
+            <span style="color: #666;">${lang.clicks} 次點擊</span>
+          </div>
+        </div>
+      `).join('');
+
+      document.getElementById('resortLanguageDistribution').innerHTML = languageHTML || '<p style="text-align: center; color: #999; padding: 2rem;">暫無數據</p>';
+
+      // Local data
+      displayLocalResortData();
+    }
+
+    function displayLocalResortData() {
+      try {
+        const resortClicks = JSON.parse(localStorage.getItem('resortClicks') || '[]');
+
+        if (resortClicks.length === 0) {
+          document.getElementById('localResortClicks').innerHTML = '<p style="text-align: center; color: #999; padding: 2rem;">暫無本地記錄</p>';
+          return;
+        }
+
+        const recent = resortClicks.slice(-20).reverse();
+
+        const html = recent.map(click => {
+          const time = new Date(click.timestamp).toLocaleString('zh-TW', {
+            month: '2-digit',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit'
+          });
+
+          const typeColor = click.click_type === 'region' ? '#667eea' : '#10b981';
+          const typeLabel = click.click_type === 'region' ? '地區' : '雪場';
+          const name = click.region || click.resort_id || '-';
+
+          return `
+            <div class="query-row">
+              <div style="flex: 1;">
+                <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
+                  <span style="background: ${typeColor}; color: white; padding: 0.1rem 0.5rem; border-radius: 4px; font-size: 0.75rem; font-weight: 600;">${typeLabel}</span>
+                  <strong style="color: #2D395C;">${name}</strong>
+                </div>
+                <div style="color: #999; font-size: 0.85rem;">
+                  ${click.language || 'zh'}
+                </div>
+              </div>
+              <div class="query-timestamp">${time}</div>
+            </div>
+          `;
+        }).join('');
+
+        document.getElementById('localResortClicks').innerHTML = html;
+      } catch (error) {
+        console.error('[Resort Analytics] Error displaying local data:', error);
+        document.getElementById('localResortClicks').innerHTML = '<p style="text-align: center; color: #999; padding: 2rem;">載入失敗</p>';
+      }
+    }
+
     // Initial load
     document.addEventListener('DOMContentLoaded', () => {
       const languageSelect = document.getElementById('analyticsLanguageSelect');
@@ -1448,6 +1913,14 @@
 
           if (document.getElementById('tag-tab').classList.contains('active')) {
             loadTagData();
+          }
+
+          if (document.getElementById('section-tab').classList.contains('active')) {
+            loadSectionData();
+          }
+
+          if (document.getElementById('resort-tab').classList.contains('active')) {
+            loadResortData();
           }
         });
       }

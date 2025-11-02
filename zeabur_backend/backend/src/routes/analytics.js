@@ -1399,4 +1399,120 @@ router.get('/resort-stats', async (req, res, next) => {
   }
 });
 
+/**
+ * POST /api/v1/analytics/track-section-click
+ * Track FAQ section/category click
+ */
+router.post('/track-section-click', async (req, res, next) => {
+  try {
+    const { section, language } = req.body;
+
+    if (!section) {
+      throw new AppError('VALIDATION_ERROR', 'section 為必填欄位', 400);
+    }
+
+    const db = analyticsService.db;
+    const stmt = db.prepare(`
+      INSERT INTO section_views (section, language)
+      VALUES (?, ?)
+    `);
+
+    stmt.run(section, language || 'zh');
+
+    sendSuccess(res, {
+      tracked: true,
+      section,
+      language: language || 'zh'
+    }, 201);
+  } catch (error) {
+    next(error);
+  }
+});
+
+/**
+ * GET /api/v1/analytics/section-stats
+ * Get section/category click statistics
+ */
+router.get('/section-stats', async (req, res, next) => {
+  try {
+    const days = parseInt(req.query.days) || 7;
+    const limit = parseInt(req.query.limit) || 20;
+    const languageFilter = req.query.language;
+
+    const db = analyticsService.db;
+    const cutoffDate = new Date();
+    cutoffDate.setDate(cutoffDate.getDate() - days);
+    const cutoffISO = cutoffDate.toISOString();
+
+    // Build WHERE clause for language filtering
+    const whereClause = languageFilter && languageFilter !== 'all'
+      ? 'WHERE timestamp >= ? AND language = ?'
+      : 'WHERE timestamp >= ?';
+    const params = languageFilter && languageFilter !== 'all'
+      ? [cutoffISO, languageFilter]
+      : [cutoffISO];
+
+    // Top sections by clicks
+    const topSections = db.prepare(`
+      SELECT section, COUNT(*) as clicks, language
+      FROM section_views
+      ${whereClause}
+      GROUP BY section, language
+      ORDER BY clicks DESC
+      LIMIT ?
+    `).all(...params, limit);
+
+    // Total clicks per section (all languages)
+    const bySection = db.prepare(`
+      SELECT section, COUNT(*) as total_clicks,
+             COUNT(DISTINCT language) as languages_used
+      FROM section_views
+      ${whereClause}
+      GROUP BY section
+      ORDER BY total_clicks DESC
+      LIMIT ?
+    `).all(...params, limit);
+
+    // Daily trend
+    const daily = db.prepare(`
+      SELECT DATE(timestamp) as date,
+             COUNT(*) as clicks,
+             COUNT(DISTINCT section) as unique_sections
+      FROM section_views
+      ${whereClause}
+      GROUP BY DATE(timestamp)
+      ORDER BY date DESC
+      LIMIT 30
+    `).all(...params);
+
+    // By language
+    const byLanguageParams = languageFilter && languageFilter !== 'all'
+      ? [cutoffISO, languageFilter]
+      : [cutoffISO];
+
+    const byLanguage = db.prepare(`
+      SELECT language, COUNT(*) as clicks,
+             COUNT(DISTINCT section) as unique_sections
+      FROM section_views
+      WHERE timestamp >= ?
+      ${languageFilter && languageFilter !== 'all' ? 'AND language = ?' : ''}
+      GROUP BY language
+      ORDER BY clicks DESC
+    `).all(...byLanguageParams);
+
+    sendSuccess(res, {
+      top_sections: topSections,
+      by_section: bySection,
+      daily,
+      by_language: byLanguage,
+      period_days: days,
+      language: languageFilter || 'all'
+    }, 200, {
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
 module.exports = router;
