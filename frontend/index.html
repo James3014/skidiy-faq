@@ -1,176 +1,2207 @@
 <!DOCTYPE html>
-<html lang="zh-Hant">
+<html lang="zh-TW">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>FAQ 系統首頁</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FAQ 智慧搜尋系統</title>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, "Microsoft JhengHei", sans-serif;
-      background: #f5f7fa;
+      font-family: Roboto, "微軟正黑體", -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+      background: #F0F0F0;
       min-height: 100vh;
+      color: #47596C;
     }
 
+    /* Header with language selector */
     .header {
       background: #2D395C;
-      color: white;
-      padding: 1.5rem 2rem;
+      padding: 1rem 2rem;
       box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    }
-
-    .header-content {
-      max-width: 960px;
-      margin: 0 auto;
-      text-align: center;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: none;
     }
 
     .logo {
-      font-size: 2rem;
+      font-size: 1.5rem;
       font-weight: 700;
-      margin-bottom: 10px;
+      color: white;
       display: flex;
       align-items: center;
-      justify-content: center;
-      gap: 10px;
+      gap: 0.5rem;
     }
 
-    .logo img {
-      height: 3rem;
-      width: auto;
-    }
-
-    .subtitle {
-      font-size: 1rem;
-      opacity: 0.9;
-      font-weight: 300;
-    }
-
-    .container {
-      max-width: 960px;
-      margin: 0 auto;
-      padding: 40px 24px;
-    }
-
-    .intro {
-      text-align: center;
-      margin-bottom: 40px;
-    }
-
-    .intro h2 {
-      font-size: 1.5rem;
-      color: #333;
-      margin-bottom: 12px;
-    }
-
-    .intro p {
-      color: #666;
-      line-height: 1.7;
-    }
-
-    .links {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 20px;
-      margin-bottom: 40px;
-    }
-
-    a.card {
-      display: block;
-      padding: 28px 24px;
+    .ai-badge {
+      background: #4A5F8C;
+      color: white;
+      padding: 0.25rem 0.75rem;
       border-radius: 12px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    .language-selector select {
+      padding: 0.375rem 1rem;
+      border: 1px solid #d1d5db;
+      border-radius: 6px;
+      font-size: 0.875rem;
+      cursor: pointer;
       background: white;
-      color: #333;
+      color: #374151;
+      min-width: 140px;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3E%3Cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3E%3C/svg%3E");
+      background-position: right 0.5rem center;
+      background-repeat: no-repeat;
+      background-size: 1.5em 1.5em;
+      padding-right: 2.5rem;
+    }
+
+    .language-selector select:focus {
+      outline: none;
+      ring: 2px solid #4A5F8C;
+      border-color: #4A5F8C;
+    }
+
+    /* Footer */
+    .footer {
+      background: #2D395C;
+      color: white;
+      margin-top: 4rem;
+    }
+
+    .footer-content {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0.75rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer-info {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    .company-name {
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: white;
+      line-height: 1.5;
+    }
+
+    .company-details {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.75rem;
+      color: #d1d5db;
+      line-height: 1.5;
+      margin-top: 0.125rem;
+    }
+
+    .company-details span {
+      color: #d1d5db;
+    }
+
+    .company-details span:nth-child(2) {
+      color: #d1d5db;
+    }
+
+    .company-details a {
+      color: #93c5fd;
       text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .company-details a:hover {
+      color: white;
+    }
+
+    .social-links {
+      display: flex;
+      align-items: center;
+    }
+
+    .social-links a {
+      color: #d1d5db;
+      padding: 0.375rem;
+      transition: color 0.2s;
+    }
+
+    .social-links a:hover {
+      color: white;
+    }
+
+    .social-links svg {
+      width: 1.25rem;
+      height: 1.25rem;
+    }
+
+    @media (max-width: 768px) {
+      .footer-content {
+        flex-direction: row;
+        padding: 0.5rem 1rem;
+      }
+
+      .footer-info {
+        flex: 1;
+      }
+
+      .company-name {
+        font-size: 0.7rem;
+      }
+
+      .company-details {
+        font-size: 0.7rem;
+        flex-wrap: wrap;
+      }
+    }
+
+    /* Main layout with sidebar */
+    .main-layout {
+      display: flex;
+      max-width: 1400px;
+      margin: 2rem auto;
+      gap: 2rem;
+      padding: 0 2rem;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 280px;
+      background: white;
+      border-radius: 12px;
+      padding: 1.5rem;
+      height: fit-content;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    }
+
+    .sidebar h3 {
+      margin-bottom: 1rem;
+      color: #333;
+      font-size: 1.1rem;
+    }
+
+    .collapsible-header {
+      cursor: pointer;
+      user-select: none;
       transition: all 0.3s ease;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
     }
 
-    a.card:hover {
-      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-      transform: translateY(-3px);
+    .collapsible-header:hover {
+      color: #4A5F8C;
     }
 
-    a.card h2 {
-      margin: 0 0 12px;
-      font-size: 1.3rem;
-      color: #2D395C;
+    .collapse-icon {
+      display: inline-block;
+      transition: transform 0.3s ease;
+      font-size: 0.8rem;
     }
 
-    a.card p {
+    .collapsible-header.collapsed .collapse-icon {
+      transform: rotate(-90deg);
+    }
+
+    .collapsible-content {
+      max-height: 2000px;
+      overflow: hidden;
+      transition: max-height 0.3s ease, opacity 0.3s ease;
+      opacity: 1;
+    }
+
+    .collapsible-content.collapsed {
+      max-height: 0;
+      opacity: 0;
+    }
+
+    .sidebar-section {
+      padding: 0.75rem 1rem;
+      margin: 0.5rem 0;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .sidebar-section:hover {
+      background: #f0f0f0;
+    }
+
+    .sidebar-section.active {
+      background: #4A5F8C;
+      color: white;
+    }
+
+    .section-count {
+      font-size: 0.9rem;
+      opacity: 0.7;
+    }
+
+    /* Content area */
+    .content {
+      flex: 1;
+      background: white;
+      border-radius: 12px;
+      padding: 2rem;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      min-height: 600px;
+    }
+
+    /* Search box */
+    .search-box {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .search-input {
+      flex: 1;
+      padding: 1rem;
+      border: 2px solid #4A5F8C;
+      border-radius: 20px;
+      font-size: 1rem;
+      transition: border-color 0.3s;
+      color: #47596C;
+    }
+
+    .search-input:focus {
+      outline: none;
+      border-color: #3A4D73;
+      box-shadow: 0 1px 0 0 #4A5F8C;
+    }
+
+    .search-btn {
+      padding: 1rem 2rem;
+      background: #4A5F8C;
+      color: white;
+      border: none;
+      border-radius: 20px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .search-btn:hover {
+      background: #3A4D73;
+    }
+
+    /* Intent Detection Panel */
+    .intent-panel {
+      background: #f8f9fa;
+      border: 2px solid #e0e0e0;
+      border-radius: 12px;
+      padding: 1rem;
+      margin-bottom: 1.5rem;
+      display: none;
+    }
+
+    .intent-panel.show {
+      display: block;
+      animation: slideIn 0.3s ease;
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .intent-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.75rem;
+    }
+
+    .intent-title {
+      font-weight: 600;
+      color: #333;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .intent-badge {
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      background: #4A5F8C;
+      color: white;
+    }
+
+    .intent-confidence {
+      font-size: 0.9rem;
       color: #666;
-      font-size: 0.95rem;
-      line-height: 1.6;
-      margin: 0;
     }
 
-    footer {
-      text-align: center;
-      padding: 20px;
+    .slot-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 0.5rem;
+    }
+
+    .slot-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      padding: 0.4rem 0.75rem;
+      background: white;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 0.85rem;
+    }
+
+    .slot-label {
       color: #999;
+      font-weight: 600;
+    }
+
+    .slot-value {
+      color: #333;
+    }
+
+    /* Recommendations */
+    .recommendations {
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid #e0e0e0;
+    }
+
+    .recommendations h4 {
+      font-size: 0.9rem;
+      color: #666;
+      margin-bottom: 0.5rem;
+    }
+
+    .recommendation-item {
+      padding: 0.5rem;
+      background: white;
+      border-radius: 6px;
+      margin-bottom: 0.5rem;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .recommendation-item:hover {
+      background: #f0f0f0;
+    }
+
+    /* Hot FAQs */
+    .hot-faqs {
+      margin-bottom: 2rem;
+    }
+
+    .hot-faqs h2 {
+      margin-bottom: 1rem;
+      color: #333;
+    }
+
+    .hot-faq-item {
+      padding: 1rem;
+      border-bottom: 1px solid #eee;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .hot-faq-item:hover {
+      background: #f8f9fa;
+    }
+
+    /* Resort Regions */
+    .resort-region {
+      padding: 0.6rem 1rem;
+      margin: 0.4rem 0;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       font-size: 0.9rem;
     }
 
-    footer a {
-      color: #619AEC;
-      text-decoration: none;
+    .resort-region:hover {
+      background: #f0f0f0;
     }
 
-    footer a:hover {
-      text-decoration: underline;
+    .resort-region.active {
+      background: #4A5F8C;
+      color: white;
+    }
+
+    .resort-count {
+      font-size: 0.85rem;
+      opacity: 0.7;
+    }
+
+    /* Resort Card */
+    .resort-card {
+      background: white;
+      border: 2px solid #4A5F8C;
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+      transition: all 0.3s;
+    }
+
+    .resort-card:hover {
+      border-color: #3A4D73;
+      box-shadow: 0 4px 16px rgba(74, 95, 140, 0.15);
+      transform: translateY(-2px);
+    }
+
+    .resort-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 1rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid #f0f0f0;
+    }
+
+    .resort-name {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #2D395C;
+    }
+
+    .resort-name-en {
+      font-size: 0.9rem;
+      color: #666;
+      margin-top: 0.25rem;
+    }
+
+    .resort-region-tag {
+      background: #4A5F8C;
+      color: white;
+      padding: 0.25rem 0.75rem;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      white-space: nowrap;
+    }
+
+    .resort-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .resort-stat {
+      text-align: center;
+    }
+
+    .resort-stat-value {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #4A5F8C;
+    }
+
+    .resort-stat-label {
+      font-size: 0.85rem;
+      color: #666;
+      margin-top: 0.25rem;
+    }
+
+    .resort-info {
+      margin-top: 1rem;
+    }
+
+    .resort-info-row {
+      display: flex;
+      gap: 0.5rem;
+      margin: 0.75rem 0;
+      font-size: 0.95rem;
+    }
+
+    .resort-info-label {
+      font-weight: 600;
+      color: #333;
+      min-width: 80px;
+    }
+
+    .resort-info-value {
+      color: #666;
+      flex: 1;
+    }
+
+    .resort-amenities {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+
+    .resort-amenity {
+      background: #f0f0f0;
+      padding: 0.25rem 0.75rem;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      color: #666;
+      transition: all 0.2s ease;
+    }
+
+    .resort-amenity.clickable {
+      cursor: pointer;
+    }
+
+    .resort-amenity.clickable:hover {
+      background: #4A5F8C;
+      color: white;
+      transform: translateY(-1px);
+    }
+
+    .resort-link {
+      display: inline-block;
+      margin-top: 1rem;
+      padding: 0.75rem 1.5rem;
+      background: #4A5F8C;
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: 600;
+      transition: background 0.2s;
+    }
+
+    .resort-link:hover {
+      background: #3A4D73;
+    }
+
+    @media (max-width: 768px) {
+      .resort-stats {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .resort-stat-value {
+        font-size: 1.2rem;
+      }
+    }
+
+    /* FAQ Results */
+    .results-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid #eee;
+    }
+
+    .faq-item {
+      background: white;
+      border: 2px solid #4A5F8C;
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+      cursor: pointer;
+      transition: all 0.3s;
+      overflow: hidden;
+    }
+
+    .faq-item:hover {
+      border-color: #3A4D73;
+      box-shadow: 0 4px 16px rgba(97, 154, 236, 0.15);
+      transform: translateY(-2px);
+    }
+
+    .faq-item.expanded {
+      border-color: #3A4D73;
+      background: #eaf1fc;
+    }
+
+    .faq-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .faq-question {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #333;
+      margin: 0;
+      flex: 1;
+    }
+
+    .faq-toggle-icon {
+      font-size: 1.5rem;
+      color: #4A5F8C;
+      transition: transform 0.3s;
+      flex-shrink: 0;
+    }
+
+    .faq-item.expanded .faq-toggle-icon {
+      transform: rotate(180deg);
+    }
+
+    .faq-answer {
+      color: #666;
+      line-height: 1.6;
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid #e0e0e0;
+      max-height: 0;
+      overflow: hidden;
+      opacity: 0;
+      transition: max-height 0.4s ease, opacity 0.3s ease, margin-top 0.3s ease, padding-top 0.3s ease;
+    }
+
+    .faq-item.expanded .faq-answer {
+      max-height: 1000px;
+      opacity: 1;
+    }
+
+    .faq-answer .faq-postscript {
+      margin-top: 0.75rem;
+      padding-top: 0.75rem;
+      border-top: 1px dashed rgba(148, 163, 184, 0.4);
+      font-size: 0.95rem;
+      color: #64748b;
+    }
+
+    .confidence-badge {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 12px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-left: 0.5rem;
+    }
+
+    .confidence-high { background: #d4edda; color: #155724; }
+    .confidence-medium { background: #fff3cd; color: #856404; }
+    .confidence-low { background: #f8d7da; color: #721c24; }
+
+    .loading { text-align: center; padding: 3rem; color: #999; }
+    .hidden { display: none; }
+
+    /* AI Chat Widget - Floating bottom-right */
+    .ai-chat-widget {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      z-index: 1000;
+    }
+
+    .ai-chat-button {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: #4A5F8C;
+      color: white;
+      border: none;
+      font-size: 1.8rem;
+      cursor: pointer;
+      box-shadow: 0 4px 20px rgba(97, 154, 236, 0.4);
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .ai-chat-button:hover {
+      transform: scale(1.1);
+      box-shadow: 0 6px 30px rgba(97, 154, 236, 0.6);
+    }
+
+    .ai-chat-button.active {
+      background: #f44336;
+    }
+
+    .ai-chat-window {
+      position: absolute;
+      bottom: 80px;
+      right: 0;
+      width: 380px;
+      height: 500px;
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.2);
+      display: none;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .ai-chat-window.open {
+      display: flex;
+    }
+
+    .ai-chat-header {
+      background: #4A5F8C;
+      color: white;
+      padding: 1rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .ai-chat-messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 1rem;
+      background: #f5f5f5;
+    }
+
+    .ai-chat-message {
+      margin-bottom: 1rem;
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .ai-chat-message.user {
+      flex-direction: row-reverse;
+    }
+
+    .ai-chat-message .avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      flex-shrink: 0;
+    }
+
+    .ai-chat-message.assistant .avatar {
+      background: #4A5F8C;
+    }
+
+    .ai-chat-message.user .avatar {
+      background: #e0e0e0;
+    }
+
+    .ai-chat-message .bubble {
+      padding: 0.75rem 1rem;
+      border-radius: 12px;
+      max-width: 70%;
+      word-wrap: break-word;
+    }
+
+    .ai-chat-message.assistant .bubble {
+      background: white;
+      color: #333;
+    }
+
+    .ai-chat-message.user .bubble {
+      background: #4A5F8C;
+      color: white;
+    }
+
+    .ai-chat-input-area {
+      padding: 1rem;
+      background: white;
+      border-top: 1px solid #e0e0e0;
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .ai-chat-input {
+      flex: 1;
+      padding: 0.75rem;
+      border: 2px solid #4A5F8C;
+      border-radius: 20px;
+      font-size: 0.95rem;
+      outline: none;
+      color: #47596C;
+    }
+
+    .ai-chat-input:focus {
+      border-color: #3A4D73;
+      box-shadow: 0 1px 0 0 #4A5F8C;
+    }
+
+    .ai-chat-send {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #4A5F8C;
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-size: 1.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .ai-chat-send:hover {
+      transform: scale(1.05);
+      background: #3A4D73;
+    }
+
+    .ai-chat-send:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* Results Modal */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 100;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .modal-overlay.show {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-content {
+      background: white;
+      border-radius: 12px;
+      padding: 2rem;
+      max-height: 90vh;
+      overflow-y: auto;
+      max-width: 800px;
+      width: 90%;
+      position: relative;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+      animation: slideUp 0.3s ease;
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid #4A5F8C;
+    }
+
+    .modal-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #4A5F8C;
+      margin: 0;
+    }
+
+    .modal-close {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: #999;
+      cursor: pointer;
+      padding: 0;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      transition: background 0.2s;
+    }
+
+    .modal-close:hover {
+      background: #f0f0f0;
+      color: #4A5F8C;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .main-layout { flex-direction: column; }
+      .sidebar { width: 100%; }
+    }
+
+    @media (max-width: 768px) {
+      /* Header responsive adjustments */
+      .header {
+        padding: 0.75rem 1rem;
+        gap: 0.5rem;
+      }
+
+      .logo {
+        font-size: 1.2rem;
+        gap: 0.3rem;
+      }
+
+      .logo img {
+        height: 2rem !important;
+      }
+
+      .language-selector select {
+        padding: 0.375rem 0.75rem;
+        font-size: 0.8rem;
+        min-width: 120px;
+        padding-right: 2rem;
+      }
+
+      /* Search box adjustments */
+      .search-box {
+        gap: 0.5rem;
+        margin-bottom: 0.75rem;
+      }
+
+      .search-input {
+        padding: 0.75rem;
+        font-size: 0.9rem;
+      }
+
+      .search-input::placeholder {
+        font-size: 0.85rem;
+      }
+
+      .search-btn {
+        padding: 0.75rem 1rem;
+        font-size: 0.9rem;
+        white-space: nowrap;
+      }
+
+      /* Modal adjustments */
+      .modal-content {
+        width: 95%;
+        padding: 1.5rem;
+        border-radius: 8px;
+      }
+
+      .modal-title {
+        font-size: 1.2rem;
+      }
     }
   </style>
 </head>
 <body>
+  <!-- Header -->
   <div class="header">
-    <div class="header-content">
-      <div class="logo">
-        <img src="assets/logo.png" alt="SkiDIY">
-        FAQ 系統
+    <div class="logo">
+      <img src="assets/logo.png" alt="SkiDIY" style="height: 2.5rem; width: auto; margin-right: 0.5rem;">
+      <span>FAQ</span>
+    </div>
+    <div style="display: flex; gap: 1rem; align-items: center;">
+      <a href="menu.html" style="color: white; text-decoration: none; font-size: 0.9rem; padding: 0.5rem 1rem; background: rgba(255,255,255,0.15); border-radius: 8px; transition: all 0.3s; white-space: nowrap;" onmouseover="this.style.background='rgba(255,255,255,0.25)'" onmouseout="this.style.background='rgba(255,255,255,0.15)'">
+        ☰ 所有功能
+      </a>
+      <div class="language-selector">
+        <select id="languageSelect">
+          <option value="zh">繁體中文</option>
+          <option value="en">English</option>
+          <option value="th">ภาษาไทย</option>
+        </select>
       </div>
-      <p class="subtitle">滑雪教學常見問題知識庫</p>
     </div>
   </div>
 
-  <div class="container">
-    <div class="intro">
-      <h2>功能入口</h2>
-      <p>選擇想進入的功能入口，快速開始操作或查看分析資訊。</p>
+  <!-- Main Layout -->
+  <div class="main-layout">
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <h3 class="collapsible-header" data-target="sidebarSections">
+        <span class="collapse-icon">▼</span> 📂 FAQ分類
+      </h3>
+      <div id="sidebarSections" class="collapsible-content"></div>
+
+      <h3 class="collapsible-header" data-target="resortRegions" style="margin-top: 2rem;">
+        <span class="collapse-icon">▼</span> 🏔️ 雪場資訊
+      </h3>
+      <div id="resortRegions" class="collapsible-content"></div>
+
+      <h3 style="margin-top: 2rem;">🔥 熱門問題</h3>
+      <div id="hotFAQs"></div>
     </div>
-    <div class="links">
-      <a class="card" href="index-intent.html">
-        <h2>智慧搜尋首頁</h2>
-        <p>面向客服與訪客的 FAQ 搜尋體驗，支援多語言與意圖分析。</p>
-      </a>
-      <a class="card" href="index-llm.html">
-        <h2>LLM 助理</h2>
-        <p>測試最新的 LLM 整合，檢視模型回應與 FAQ 上下文注入。</p>
-      </a>
-      <a class="card" href="analytics.html">
-        <h2>分析儀表板</h2>
-        <p>追蹤使用者查詢、LLM 成本與 FAQ 使用狀況，支援成本警示。</p>
-      </a>
-      <a class="card" href="admin.html">
-        <h2>管理後台</h2>
-        <p>維護 FAQ / 雪場資料、檢視 CRM 標籤與匯入匯出工具。</p>
-      </a>
-      <a class="card" href="docs.html">
-        <h2>開發者指南</h2>
-        <p>查閱 API 規格、元件說明與二次開發的完整文檔。</p>
-      </a>
-      <a class="card" href="faq-search-i18n.html">
-        <h2>多語言 FAQ 搜尋</h2>
-        <p>示範 Fuse.js 搜尋設定，快速體驗 i18n 支援與 UI 變換。</p>
-      </a>
+
+    <!-- Content -->
+    <div class="content">
+      <!-- Search Box -->
+      <div class="search-box">
+        <input
+          type="text"
+          id="searchInput"
+          class="search-input"
+          placeholder="輸入問題，AI 自動分析..."
+        >
+        <button id="searchBtn" class="search-btn">🔍 智慧搜尋</button>
+      </div>
+
+      <!-- Intent Detection Panel -->
+      <div id="intentPanel" class="intent-panel">
+        <div class="intent-header">
+          <div class="intent-title">
+            <span>🤖 AI 分析結果</span>
+            <span id="intentBadge" class="intent-badge"></span>
+          </div>
+          <span id="intentConfidence" class="intent-confidence"></span>
+        </div>
+
+        <div id="slotTags" class="slot-tags"></div>
+
+        <div id="recommendations" class="recommendations hidden">
+          <h4>💡 相關推薦</h4>
+          <div id="recommendationsList"></div>
+        </div>
+      </div>
+
+      <!-- Loading -->
+      <div id="loadingState" class="loading hidden">載入中...</div>
+
+      <!-- Results -->
+      <div id="resultsSection" class="hidden">
+        <div class="results-header">
+          <div id="resultCount"></div>
+          <div id="responseTime"></div>
+        </div>
+        <div id="resultsList"></div>
+      </div>
     </div>
-    <footer>
-      © 2025 FAQ 系統 | 若要查看開發者入口請前往 <a href="dev.html">dev.html</a>
-    </footer>
   </div>
+
+  <!-- Results Modal (for mobile optimization) -->
+  <div id="resultsModal" class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="modalTitle" class="modal-title">分類結果</h2>
+        <button class="modal-close" id="modalClose" aria-label="關閉">✕</button>
+      </div>
+      <div id="modalResultsList"></div>
+    </div>
+  </div>
+
+  <!-- AI Chat Widget -->
+  <div class="ai-chat-widget">
+    <button class="ai-chat-button" id="aiChatToggle">💬</button>
+    <div class="ai-chat-window" id="aiChatWindow">
+      <div class="ai-chat-header">
+        <span>🤖</span>
+        <span>AI 智慧助手</span>
+      </div>
+      <div class="ai-chat-messages" id="aiChatMessages">
+        <div class="ai-chat-message assistant">
+          <div class="avatar">🤖</div>
+          <div class="bubble">您好！我是您的 AI 助手。有什麼滑雪相關的問題想要詢問嗎？</div>
+        </div>
+      </div>
+      <div class="ai-chat-input-area">
+        <input type="text" class="ai-chat-input" id="aiChatInput" placeholder="輸入您的問題...">
+        <button class="ai-chat-send" id="aiChatSend">➤</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="assets/env.js"></script>
+  <script src="lib/config.js"></script>
+  <script src="lib/fuse.min.js"></script>
+  <script src="lib/purify.min.js"></script>
+  <script src="lib/i18n.js"></script>
+  <script src="lib/faq-engine.js"></script>
+
+  <script>
+    let faqEngine = null;
+    let i18n = null;
+    let allFAQs = [];
+    let currentSection = null;
+    let searchDebounce = null;
+    let currentLanguage = 'zh';
+
+    // API base configuration
+    const API_BASE = window.API_BASE || '/api/v1';
+
+    // Intent name mapping (中文)
+    const intentNames = {
+      ITINERARY: '行程規劃',
+      SERVICE: '服務範圍',
+      COURSE: '課程內容',
+      GROUPING: '同堂安排',
+      KIDS_SAFETY: '兒童安全',
+      INSTRUCTOR: '教練資訊',
+      BOOKING: '預約變更',
+      PAYMENT: '付款方式',
+      INSURANCE: '保險提問',
+      GEAR: '裝備租借',
+      REFUND_POLICY: '退費規則',
+      GENERAL: '一般查詢'
+    };
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', async () => {
+      try {
+        console.log('[Init] Starting initialization...');
+
+        // Initialize i18n (optional - don't fail if it errors)
+        try {
+          i18n = new I18n();
+          await i18n.initialize();
+          console.log('[Init] i18n initialized successfully');
+        } catch (i18nError) {
+          console.warn('[Init] i18n initialization failed, continuing without i18n:', i18nError);
+          // Create dummy i18n object
+          i18n = { currentLanguage: 'zh', t: (key) => key };
+        }
+
+        // Initialize FAQ engine (critical)
+        faqEngine = new FAQEngine();
+        await faqEngine.initialize();
+        currentLanguage = i18n?.currentLanguage || 'zh';
+        allFAQs = faqEngine.getAllFAQs();
+        console.log(`[Init] FAQ engine initialized with ${allFAQs.length} FAQs`);
+
+        // Render UI components
+        renderSidebar();
+        console.log('[Init] Sidebar rendered');
+
+        renderResortRegions();
+        console.log('[Init] Resort regions rendered');
+
+        renderHotFAQs();
+        console.log('[Init] Hot FAQs rendered');
+
+        setupEventListeners();
+        console.log('[Init] Event listeners setup');
+
+        // Update UI language (only if i18n is available)
+        if (typeof updateUILanguage === 'function') {
+          try {
+            updateUILanguage();
+          } catch (langError) {
+            console.warn('[Init] Language update failed:', langError);
+          }
+        }
+
+        console.log('[Init] Initialization complete!');
+
+        // Initialize AI chat widget
+        initAIChatWidget();
+      } catch (error) {
+        console.error('Initialization failed:', error);
+        alert('初始化失敗: ' + error.message + '\n\n請檢查瀏覽器控制台以獲取更多資訊。');
+      }
+    });
+
+    function getSectionLabel(rawSection) {
+      if (!rawSection) return '';
+      if (!i18n || typeof i18n.t !== 'function') {
+        return rawSection;
+      }
+      const key = `section_mapping.${rawSection}`;
+      const translated = i18n.t(key);
+      return translated && translated !== key ? translated : rawSection;
+    }
+
+    // Render sidebar sections
+    function renderSidebar() {
+      console.log('[Sidebar] Rendering sidebar with', allFAQs.length, 'FAQs');
+
+      const sections = {};
+      allFAQs.forEach(faq => {
+        const section = faq.section || '其他';
+        sections[section] = (sections[section] || 0) + 1;
+      });
+
+      console.log('[Sidebar] Sections found:', Object.keys(sections));
+      console.log('[Sidebar] Section counts:', sections);
+
+      const sidebarHTML = Object.entries(sections)
+        .map(([name, count]) => `
+          <div class="sidebar-section" data-section="${name}">
+            <span>${getSectionLabel(name)}</span>
+            <span class="section-count">(${count})</span>
+          </div>
+        `).join('');
+
+      const sidebarElement = document.getElementById('sidebarSections');
+      if (!sidebarElement) {
+        console.error('[Sidebar] Element #sidebarSections not found!');
+        return;
+      }
+
+      sidebarElement.innerHTML = sidebarHTML;
+      console.log('[Sidebar] HTML rendered, length:', sidebarHTML.length);
+
+      // Section click handlers
+      document.querySelectorAll('.sidebar-section').forEach(el => {
+        el.addEventListener('click', () => {
+          document.querySelectorAll('.sidebar-section').forEach(e => e.classList.remove('active'));
+          el.classList.add('active');
+
+          const section = el.dataset.section;
+          currentSection = section;
+
+          // Track section click for analytics
+          trackSectionClick(section);
+
+          filterBySection(section);
+        });
+      });
+
+      if (currentSection) {
+        const activeEl = document.querySelector(`.sidebar-section[data-section="${currentSection}"]`);
+        if (activeEl) {
+          activeEl.classList.add('active');
+        }
+      }
+
+      console.log('[Sidebar] Click handlers attached to', document.querySelectorAll('.sidebar-section').length, 'sections');
+    }
+
+    // Track FAQ views and clicks for analytics
+    async function trackFAQView(faqId, clicked = false) {
+      try {
+        await fetch(`${API_BASE}/analytics/track-faq-view`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            faq_id: faqId,
+            clicked: clicked,
+            timestamp: new Date().toISOString()
+          })
+        });
+        console.log(`[Analytics] Tracked ${clicked ? 'click' : 'view'} for ${faqId}`);
+      } catch (error) {
+        console.warn('[Analytics] Failed to track FAQ view:', error);
+        // Fail silently - analytics should not block user experience
+      }
+    }
+
+    // Track section clicks for analytics
+    async function trackSectionClick(section) {
+      try {
+        await fetch(`${API_BASE}/analytics/track-section-view`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            section: section,
+            language: currentLanguage,
+            timestamp: new Date().toISOString()
+          })
+        });
+        console.log(`[Analytics] Tracked section click: ${section}`);
+      } catch (error) {
+        console.warn('[Analytics] Failed to track section click:', error);
+        // Fail silently - analytics should not block user experience
+      }
+    }
+
+    // ==================== Resort Functions ====================
+
+    // Render resort regions in sidebar
+    async function renderResortRegions() {
+      try {
+        const response = await fetch(`${API_BASE}/resort/list`);
+        if (!response.ok) {
+          console.warn('[Resorts] Failed to load resort list');
+          return;
+        }
+
+        const data = await response.json();
+        if (!data.success || !data.data.by_region) {
+          console.warn('[Resorts] Invalid resort data');
+          return;
+        }
+
+        const byRegion = data.data.by_region;
+
+        // 地區名稱對應（簡化顯示）
+        const regionNames = {
+          'Hokkaido': '北海道',
+          'Niigata Prefecture': '新潟',
+          'Nagano Prefecture': '長野',
+          'Gunma Prefecture': '群馬',
+          'Fukushima Prefecture': '福島',
+          'Iwate Prefecture': '岩手',
+          'Tochigi Prefecture': '栃木',
+          'Yamagata Prefecture': '山形'
+        };
+
+        const regionsHTML = Object.entries(byRegion)
+          .sort((a, b) => b[1].length - a[1].length) // 依雪場數量排序
+          .map(([region, resorts]) => {
+            const displayName = regionNames[region] || region;
+            return `
+              <div class="resort-region" data-region="${region}">
+                <span>${displayName}</span>
+                <span class="resort-count">(${resorts.length})</span>
+              </div>
+            `;
+          }).join('');
+
+        document.getElementById('resortRegions').innerHTML = regionsHTML;
+
+        // 點擊地區顯示雪場列表
+        document.querySelectorAll('.resort-region').forEach(el => {
+          el.addEventListener('click', () => {
+            document.querySelectorAll('.resort-region').forEach(e => e.classList.remove('active'));
+            el.classList.add('active');
+
+            const region = el.dataset.region;
+            showResortsByRegion(region, byRegion[region]);
+          });
+        });
+
+        console.log(`[Resorts] Rendered ${Object.keys(byRegion).length} regions`);
+      } catch (error) {
+        console.error('[Resorts] Error loading resorts:', error);
+      }
+    }
+
+    // Show resorts for a specific region
+    async function showResortsByRegion(regionName, resorts) {
+      const regionNames = {
+        'Hokkaido': '北海道',
+        'Niigata Prefecture': '新潟',
+        'Nagano Prefecture': '長野',
+        'Gunma Prefecture': '群馬',
+        'Fukushima Prefecture': '福島',
+        'Iwate Prefecture': '岩手',
+        'Tochigi Prefecture': '栃木',
+        'Yamagata Prefecture': '山形'
+      };
+
+      const displayName = regionNames[regionName] || regionName;
+      const title = `🏔️ ${displayName} 雪場 (${resorts.length})`;
+
+      // 取得雪場詳細資訊
+      const resortsWithDetails = await Promise.all(
+        resorts.slice(0, 10).map(async (resort) => {
+          try {
+            const response = await fetch(`${API_BASE}/resort/${resort.resort_id}`);
+            if (response.ok) {
+              const data = await response.json();
+              return data.success ? data.data : resort;
+            }
+          } catch (error) {
+            console.warn(`Failed to load details for ${resort.resort_id}:`, error);
+          }
+          return resort;
+        })
+      );
+
+      const resortsHTML = resortsWithDetails.map(resort => createResortCard(resort)).join('');
+
+      displayResortsInModal(resortsHTML, title);
+      hideIntentPanel();
+    }
+
+    // Create resort card HTML
+    function createResortCard(resort) {
+      const name = resort.names?.zh || resort.name || '';
+      const nameEn = resort.names?.en || resort.name_en || '';
+      const region = resort.region || '';
+
+      const lifts = resort.snow_stats?.lifts || resort.lifts || 0;
+      const courses = resort.snow_stats?.courses_total || resort.courses || 0;
+      const nightSki = resort.snow_stats?.night_ski || resort.night_ski || false;
+
+      const pricing = resort.pricing;
+      const transportation = resort.transportation;
+      const amenities = resort.amenities || [];
+      const officialSite = resort.official_site || '';
+
+      return `
+        <div class="resort-card">
+          <div class="resort-header">
+            <div>
+              <div class="resort-name">${DOMPurify.sanitize(name)}</div>
+              <div class="resort-name-en">${DOMPurify.sanitize(nameEn)}</div>
+            </div>
+            <div class="resort-region-tag">${DOMPurify.sanitize(region.replace(' Prefecture', ''))}</div>
+          </div>
+
+          <div class="resort-stats">
+            <div class="resort-stat">
+              <div class="resort-stat-value">${lifts}</div>
+              <div class="resort-stat-label">纜車</div>
+            </div>
+            <div class="resort-stat">
+              <div class="resort-stat-value">${courses}</div>
+              <div class="resort-stat-label">雪道</div>
+            </div>
+            <div class="resort-stat">
+              <div class="resort-stat-value">${nightSki ? '✓' : '✕'}</div>
+              <div class="resort-stat-label">夜滑</div>
+            </div>
+          </div>
+
+          ${pricing ? `
+            <div class="resort-info">
+              <div class="resort-info-row">
+                <span class="resort-info-label">💴 一日券:</span>
+                <span class="resort-info-value">
+                  成人 ¥${pricing.one_day_adult?.toLocaleString() || 'N/A'} /
+                  兒童 ¥${pricing.one_day_child?.toLocaleString() || 'N/A'}
+                </span>
+              </div>
+            </div>
+          ` : ''}
+
+          ${transportation ? `
+            <div class="resort-info">
+              <div class="resort-info-row">
+                <span class="resort-info-label">🚌 交通:</span>
+                <span class="resort-info-value">${DOMPurify.sanitize(transportation.route || 'N/A')}
+                  ${transportation.duration_minutes ? `(${transportation.duration_minutes}分鐘)` : ''}</span>
+              </div>
+            </div>
+          ` : ''}
+
+          ${amenities.length > 0 ? `
+            <div class="resort-amenities">
+              ${amenities.slice(0, 5).map(a => `<span class="resort-amenity clickable" data-amenity="${DOMPurify.sanitize(a)}">${DOMPurify.sanitize(a)}</span>`).join('')}
+            </div>
+          ` : ''}
+
+          ${officialSite ? `
+            <a href="${DOMPurify.sanitize(officialSite)}" target="_blank" class="resort-link">
+              查看官網 →
+            </a>
+          ` : ''}
+        </div>
+      `;
+    }
+
+    // Display resorts in modal
+    function displayResortsInModal(resortsHTML, title) {
+      document.getElementById('modalTitle').textContent = title;
+      document.getElementById('modalResultsList').innerHTML = resortsHTML;
+      document.getElementById('resultsModal').classList.add('show');
+
+      // Add click event to amenity tags
+      setTimeout(() => {
+        document.querySelectorAll('.resort-amenity.clickable').forEach(tag => {
+          tag.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const amenity = tag.dataset.amenity;
+            filterResortsByAmenity(amenity);
+          });
+        });
+      }, 100);
+    }
+
+    // Filter resorts by amenity tag
+    async function filterResortsByAmenity(amenity) {
+      try {
+        const response = await fetch(`${API_BASE}/resort/list`);
+        if (!response.ok) {
+          console.warn('[Resorts] Failed to load resort list for filtering');
+          return;
+        }
+
+        const data = await response.json();
+        if (!data.success || !data.data.by_region) {
+          console.warn('[Resorts] Invalid resort data');
+          return;
+        }
+
+        // Flatten all resorts and filter by amenity
+        const allResorts = Object.values(data.data.by_region).flat();
+        const filtered = allResorts.filter(resort =>
+          resort.amenities && resort.amenities.includes(amenity)
+        );
+
+        if (filtered.length === 0) {
+          alert(`沒有找到包含「${amenity}」的雪場`);
+          return;
+        }
+
+        // Get detailed info for filtered resorts
+        const resortsWithDetails = await Promise.all(
+          filtered.slice(0, 15).map(async (resort) => {
+            try {
+              const response = await fetch(`${API_BASE}/resort/${resort.resort_id}`);
+              if (response.ok) {
+                const data = await response.json();
+                return data.success ? data.data : resort;
+              }
+            } catch (error) {
+              console.warn(`Failed to load details for ${resort.resort_id}:`, error);
+            }
+            return resort;
+          })
+        );
+
+        const resortsHTML = resortsWithDetails.map(resort => createResortCard(resort)).join('');
+        const title = `🏔️ 包含「${amenity}」的雪場 (${filtered.length})`;
+
+        displayResortsInModal(resortsHTML, title);
+      } catch (error) {
+        console.error('[Resorts] Error filtering by amenity:', error);
+      }
+    }
+
+    // Show single resort detail
+    async function showResortDetail(resortId) {
+      try {
+        const response = await fetch(`${API_BASE}/resort/${resortId}`);
+        if (!response.ok) {
+          console.warn(`Failed to load resort ${resortId}`);
+          return;
+        }
+
+        const data = await response.json();
+        if (!data.success) {
+          console.warn('Invalid resort data');
+          return;
+        }
+
+        const resort = data.data;
+        const resortHTML = createResortCard(resort);
+        const title = `🏔️ ${resort.names?.zh || resort.name}`;
+
+        displayResortsInModal(resortHTML, title);
+      } catch (error) {
+        console.error('Error loading resort detail:', error);
+      }
+    }
+
+    // ==================== End Resort Functions ====================
+
+    // Render hot FAQs (fetch from analytics API, fallback to manually marked)
+    async function renderHotFAQs() {
+      let hotFAQs = [];
+
+      // Try to fetch hot FAQs from analytics API
+      try {
+        const response = await fetch(`${API_BASE}/analytics/hot-faqs?limit=5&days=30`);
+        if (response.ok) {
+          const data = await response.json();
+          if (data.success && data.data.hot_faqs && data.data.hot_faqs.length > 0) {
+            // Map analytics data to FAQ objects
+            const hotFaqIds = data.data.hot_faqs.map(item => item.faq_id);
+            hotFAQs = allFAQs.filter(faq => hotFaqIds.includes(faq.id));
+            // Sort by analytics ranking
+            hotFAQs.sort((a, b) => hotFaqIds.indexOf(a.id) - hotFaqIds.indexOf(b.id));
+            console.log(`[Hot FAQs] Loaded ${hotFAQs.length} FAQs from analytics (30 days)`);
+          }
+        } else {
+          console.warn('[Hot FAQs] Analytics API returned status:', response.status);
+        }
+      } catch (error) {
+        console.warn('[Hot FAQs] Failed to fetch from analytics, using fallback:', error);
+      }
+
+      // Fallback: Use manually marked hot FAQs
+      if (hotFAQs.length === 0) {
+        hotFAQs = allFAQs.filter(faq => faq.hot === true);
+        console.log(`[Hot FAQs] Using ${hotFAQs.length} manually marked hot FAQs`);
+      }
+
+      // If still empty, use first 5 FAQs
+      if (hotFAQs.length === 0) {
+        hotFAQs = allFAQs.slice(0, 5);
+        console.log('[Hot FAQs] No hot FAQs found, using first 5 FAQs');
+      }
+
+      // Limit to 5
+      hotFAQs = hotFAQs.slice(0, 5);
+
+      const hotHTML = hotFAQs.map(faq => {
+        const localized = faqEngine.getLocalizedContent(faq, currentLanguage);
+        const question = DOMPurify.sanitize(localized.question || faq.canonical_question || '');
+        return `
+        <div class="hot-faq-item" onclick="showFAQDetail('${faq.id}')">
+          ${question}
+        </div>
+      `;
+      }).join('');
+
+      // Render to both sidebar and initial view
+      document.getElementById('hotFAQs').innerHTML = hotHTML;
+      document.getElementById('initialHotFAQs').innerHTML = hotHTML;
+
+      console.log(`[Hot FAQs] Rendered ${hotFAQs.length} hot questions to sidebar and initial view`);
+    }
+
+    // Filter by section
+    function filterBySection(section) {
+      const filtered = allFAQs.filter(faq => faq.section === section);
+      const categoryLabel = i18n ? i18n.t('category') : '分類';
+      const title = `${categoryLabel}：${getSectionLabel(section)}`;
+
+      // Show results in Modal (mobile-friendly)
+      displayFAQsInModal(filtered, title);
+      hideIntentPanel();
+    }
+
+    function displayFAQsInModal(faqs, title) {
+      // Update modal title
+      document.getElementById('modalTitle').textContent = title;
+
+      // Generate FAQ items HTML
+      const faqsHtml = faqs.map(faq => {
+        const confidence = faq.score ? Math.round((1 - faq.score) * 100) : 100;
+        const confidenceClass = confidence >= 80 ? 'confidence-high' :
+                               confidence >= 60 ? 'confidence-medium' : 'confidence-low';
+
+        // Get localized content
+        const localized = faqEngine.getLocalizedContent(faq, currentLanguage);
+        const question = DOMPurify.sanitize(localized.question || faq.canonical_question || '');
+        const answer = DOMPurify.sanitize(localized.answer || faq.answer_template?.text || (i18n ? i18n.t('no_answer_content') : '無答案內容'));
+        const confidenceLabel = i18n ? i18n.t('confidence') : '信心度';
+
+        return `
+          <div class="faq-item" data-faq-id="${faq.id}">
+            <div class="faq-header">
+              <div class="faq-question">
+                ${question}
+                <span class="confidence-badge ${confidenceClass}">
+                  ${confidenceLabel} ${confidence}%
+                </span>
+              </div>
+              <span class="faq-toggle-icon">▼</span>
+            </div>
+            <div class="faq-answer">
+              ${answer}
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      document.getElementById('modalResultsList').innerHTML = faqsHtml;
+
+      // Add click handlers for accordion
+      document.querySelectorAll('#resultsModal .faq-item').forEach(item => {
+        item.addEventListener('click', (e) => {
+          toggleFAQItem(item);
+        });
+      });
+
+      // Show modal
+      document.getElementById('resultsModal').classList.add('show');
+    }
+
+    function closeResultsModal() {
+      document.getElementById('resultsModal').classList.remove('show');
+    }
+
+    // Search with Intent Detection
+    async function performSearch() {
+      const query = document.getElementById('searchInput').value.trim();
+      if (!query) return;
+
+      document.getElementById('loadingState').classList.remove('hidden');
+      document.getElementById('initialView').classList.add('hidden');
+      hideIntentPanel();
+
+      try {
+        const startTime = performance.now();
+        let intentData = null;
+
+        // Try to call Intent Detection API (optional)
+        try {
+          const intentResponse = await fetch(`${API_BASE}/intent/analyze`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ query, contextual: true })
+          });
+
+          if (intentResponse.ok) {
+            intentData = await intentResponse.json();
+            console.log('[Search] Intent detection succeeded');
+          } else {
+            console.warn('[Search] Intent API returned status:', intentResponse.status);
+          }
+        } catch (intentError) {
+          console.warn('[Search] Intent API unavailable:', intentError.message);
+        }
+
+        // Perform FAQ search (always required)
+        const results = await faqEngine.search(query, { limit: 10 });
+        const searchTime = Math.round(performance.now() - startTime);
+
+        // Search resorts in parallel
+        let resortResults = [];
+        try {
+          const resortResponse = await fetch(`${API_BASE}/resort/search?q=${encodeURIComponent(query)}`);
+          if (resortResponse.ok) {
+            const resortData = await resortResponse.json();
+            if (resortData.success && resortData.data.results) {
+              resortResults = resortData.data.results;
+              console.log(`[Search] Found ${resortResults.length} matching resorts`);
+            }
+          }
+        } catch (resortError) {
+          console.warn('[Search] Resort search failed:', resortError);
+        }
+
+        // Display intent detection results if available
+        if (intentData && intentData.data) {
+          displayIntentResults(intentData.data);
+        }
+
+        // Display FAQ results (always)
+        const faqs = results.map(r => ({...r.item, score: r.score}));
+        displayFAQs(faqs, '搜尋結果', searchTime, resortResults);
+
+      } catch (error) {
+        console.error('Search failed:', error);
+        document.getElementById('loadingState').classList.add('hidden');
+        alert('搜尋失敗: ' + error.message);
+      }
+    }
+
+    // Display Intent Detection Results
+    function displayIntentResults(data) {
+      const panel = document.getElementById('intentPanel');
+      const { intent, slots, recommendations } = data;
+
+      // Update intent badge
+      const intentName = intentNames[intent.primary] || intent.primary;
+      document.getElementById('intentBadge').textContent = intentName;
+
+      // Update confidence
+      const confidence = Math.round(intent.confidence * 100);
+      document.getElementById('intentConfidence').textContent = `信心度 ${confidence}%`;
+
+      // Display slots
+      const slotTags = document.getElementById('slotTags');
+      const slotHTML = Object.entries(slots).map(([key, value]) => {
+        const labels = {
+          resort: '雪場',
+          date: '日期',
+          people_total: '人數',
+          board_type: '板型',
+          children_ages: '孩童年齡'
+        };
+        const displayValue = Array.isArray(value) ? value.join(', ') + '歲' : value;
+        return `
+          <div class="slot-tag">
+            <span class="slot-label">${labels[key] || key}:</span>
+            <span class="slot-value">${displayValue}</span>
+          </div>
+        `;
+      }).join('');
+      slotTags.innerHTML = slotHTML;
+
+      // Display recommendations
+      if (recommendations && recommendations.length > 0) {
+        const recList = document.getElementById('recommendationsList');
+        recList.innerHTML = recommendations.map(rec => `
+          <div class="recommendation-item" onclick="showFAQDetail('${rec.faq_id}')">
+            ${rec.question} <span style="color: #999;">(${Math.round(rec.confidence * 100)}%)</span>
+          </div>
+        `).join('');
+        document.getElementById('recommendations').classList.remove('hidden');
+      } else {
+        document.getElementById('recommendations').classList.add('hidden');
+      }
+
+      // Show panel
+      panel.classList.add('show');
+    }
+
+    function hideIntentPanel() {
+      document.getElementById('intentPanel').classList.remove('show');
+    }
+
+    // Display FAQs
+    function displayFAQs(faqs, title, searchTime = null, resortResults = []) {
+      document.getElementById('loadingState').classList.add('hidden');
+      document.getElementById('initialView').classList.add('hidden');
+      document.getElementById('resultsSection').classList.remove('hidden');
+
+      const totalResults = faqs.length + resortResults.length;
+      document.getElementById('resultCount').textContent =
+        `${title}: 找到 ${totalResults} 筆結果 (FAQ: ${faqs.length}, 雪場: ${resortResults.length})`;
+
+      if (searchTime) {
+        document.getElementById('responseTime').textContent =
+          `搜尋耗時: ${searchTime}ms`;
+      }
+
+      // Render resort results first if any
+      let resortsHTML = '';
+      if (resortResults.length > 0) {
+        resortsHTML = `
+          <div style="margin-bottom: 2rem;">
+            <h3 style="color: #2D395C; margin-bottom: 1rem; font-size: 1.2rem;">🏔️ 相關雪場</h3>
+            ${resortResults.map(resort => {
+              return `
+                <div class="resort-region" style="cursor: pointer; margin: 0.5rem 0;"
+                     onclick="showResortDetail('${resort.resort_id}')">
+                  <span><strong>${DOMPurify.sanitize(resort.name)}</strong></span>
+                  <span class="resort-count">${DOMPurify.sanitize(resort.region)}</span>
+                </div>
+              `;
+            }).join('')}
+          </div>
+        `;
+      }
+
+      const resultsHTML = faqs.map(faq => {
+        const confidence = faq.score ? Math.round((1 - faq.score) * 100) : 100;
+        const confidenceClass = confidence >= 80 ? 'confidence-high' :
+                               confidence >= 60 ? 'confidence-medium' : 'confidence-low';
+
+        const localized = faqEngine.getLocalizedContent(faq, currentLanguage);
+        const question = DOMPurify.sanitize(localized.question || faq.canonical_question || '');
+        const answer = DOMPurify.sanitize(localized.answer || '無答案內容');
+        const postscript = localized.postscript
+          ? `<div class="faq-postscript">${DOMPurify.sanitize(localized.postscript)}</div>`
+          : '';
+
+        return `
+          <div class="faq-item" data-faq-id="${faq.id}">
+            <div class="faq-header">
+              <div class="faq-question">
+                ${question}
+                <span class="confidence-badge ${confidenceClass}">
+                  信心度 ${confidence}%
+                </span>
+              </div>
+              <span class="faq-toggle-icon">▼</span>
+            </div>
+            <div class="faq-answer">
+              ${answer}
+              ${postscript}
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      document.getElementById('resultsList').innerHTML = resortsHTML + resultsHTML;
+
+      // Add click handlers for accordion
+      document.querySelectorAll('.faq-item').forEach(item => {
+        item.addEventListener('click', (e) => {
+          toggleFAQItem(item);
+        });
+      });
+    }
+
+    // Toggle FAQ item (accordion style)
+    function toggleFAQItem(item) {
+      const wasExpanded = item.classList.contains('expanded');
+
+      // Optional: Close all other items (uncomment if you want only one open at a time)
+      // document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('expanded'));
+
+      // Toggle this item
+      if (wasExpanded) {
+        item.classList.remove('expanded');
+      } else {
+        item.classList.add('expanded');
+
+        // Track FAQ click when expanding
+        const faqId = item.dataset.faqId;
+        if (faqId) {
+          trackFAQView(faqId, true);
+        }
+      }
+    }
+
+    // Show FAQ detail (hot FAQ click or recommendation click)
+    function showFAQDetail(faqId) {
+      console.log('[showFAQDetail] Called with faqId:', faqId);
+
+      // Track the hot FAQ click
+      trackFAQView(faqId, true);
+
+      // First check if the FAQ is already in the results
+      const item = document.querySelector(`.faq-item[data-faq-id="${faqId}"]`);
+      if (item) {
+        console.log('[showFAQDetail] FAQ already in results, expanding and scrolling');
+        // If already in results, just expand it and scroll to it
+        if (!item.classList.contains('expanded')) {
+          toggleFAQItem(item);
+        }
+        item.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        return;
+      }
+
+      // If not in results, find the FAQ and display it
+      console.log('[showFAQDetail] FAQ not in results, searching in allFAQs');
+      const faq = allFAQs.find(f => f.id === faqId);
+      if (faq) {
+        console.log('[showFAQDetail] Found FAQ, calling displayFAQs');
+        // Display this single FAQ
+        displayFAQs([faq], '熱門問題');
+        hideIntentPanel();
+
+        // Expand it automatically after a short delay to allow rendering
+        setTimeout(() => {
+          const newItem = document.querySelector(`.faq-item[data-faq-id="${faqId}"]`);
+          if (newItem && !newItem.classList.contains('expanded')) {
+            console.log('[showFAQDetail] Expanding newly rendered FAQ');
+            toggleFAQItem(newItem);
+          }
+        }, 100);
+      } else {
+        console.error('[showFAQDetail] FAQ not found:', faqId);
+      }
+    }
+
+    // Event listeners
+    function setupEventListeners() {
+      // Modal close button
+      document.getElementById('modalClose').addEventListener('click', closeResultsModal);
+
+      // Close modal when clicking on overlay (outside the modal)
+      document.getElementById('resultsModal').addEventListener('click', (e) => {
+        if (e.target.id === 'resultsModal') {
+          closeResultsModal();
+        }
+      });
+
+      // Real-time intent detection (debounced)
+      document.getElementById('searchInput').addEventListener('input', (e) => {
+        clearTimeout(searchDebounce);
+        const query = e.target.value.trim();
+
+        if (query.length >= 3) {
+          searchDebounce = setTimeout(() => {
+            // Could call intent detection here for real-time feedback
+          }, 500);
+        } else {
+          hideIntentPanel();
+        }
+      });
+
+      document.getElementById('searchInput').addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') performSearch();
+      });
+
+      document.getElementById('searchBtn').addEventListener('click', performSearch);
+
+      // Language selector
+      document.getElementById('languageSelect').addEventListener('change', async (e) => {
+        const newLanguage = e.target.value;
+        try {
+          await i18n.setLanguage(newLanguage);
+          currentLanguage = newLanguage;
+          updateUILanguage();
+
+          // Re-render category sidebar and hot list for new language
+          renderSidebar();
+          renderHotFAQs();
+
+          const query = document.getElementById('searchInput').value.trim();
+          if (query) {
+            performSearch();
+          } else if (currentSection) {
+            filterBySection(currentSection);
+          }
+        } catch (error) {
+          console.error('Language switch failed:', error);
+          alert('切換語言失敗: ' + error.message);
+        }
+      });
+
+      // Collapsible headers
+      document.querySelectorAll('.collapsible-header').forEach(header => {
+        header.addEventListener('click', () => {
+          const targetId = header.getAttribute('data-target');
+          const content = document.getElementById(targetId);
+
+          if (content) {
+            header.classList.toggle('collapsed');
+            content.classList.toggle('collapsed');
+          }
+        });
+      });
+    }
+
+    // Update UI language
+    function updateUILanguage() {
+      document.title = i18n.t('app_title');
+
+      const currentLang = i18n.currentLanguage;
+      const sidebarHeaders = document.querySelectorAll('.sidebar h3');
+
+      // Update FAQ分類 header (collapsible)
+      if (sidebarHeaders[0]) {
+        const icon = sidebarHeaders[0].querySelector('.collapse-icon');
+        const iconHTML = icon ? icon.outerHTML : '';
+        const text = currentLang === 'en' ? 'FAQ Categories' :
+                     currentLang === 'th' ? 'หมวดหมู่ FAQ' :
+                     'FAQ分類';
+        sidebarHeaders[0].innerHTML = iconHTML + ' 📂 ' + text;
+      }
+
+      // Update 雪場資訊 header (collapsible)
+      if (sidebarHeaders[1]) {
+        const icon = sidebarHeaders[1].querySelector('.collapse-icon');
+        const iconHTML = icon ? icon.outerHTML : '';
+        const text = currentLang === 'en' ? 'Resort Information' :
+                     currentLang === 'th' ? 'ข้อมูลสกีรีสอร์ท' :
+                     '雪場資訊';
+        sidebarHeaders[1].innerHTML = iconHTML + ' 🏔️ ' + text;
+      }
+
+      // Update 熱門問題 header
+      if (sidebarHeaders[2]) {
+        sidebarHeaders[2].textContent = currentLang === 'en' ? '🔥 Popular Questions' :
+                                         currentLang === 'th' ? '🔥 คำถามยอดนิยม' :
+                                         '🔥 熱門問題';
+      }
+
+      document.getElementById('loadingState').textContent = i18n.t('loading');
+    }
+
+    // ==================== AI Chat Widget ====================
+
+    function initAIChatWidget() {
+      console.log('[AI Chat] Initializing AI chat widget...');
+
+      const toggleBtn = document.getElementById('aiChatToggle');
+      const chatWindow = document.getElementById('aiChatWindow');
+      const chatInput = document.getElementById('aiChatInput');
+      const sendBtn = document.getElementById('aiChatSend');
+      const messagesContainer = document.getElementById('aiChatMessages');
+
+      // Toggle chat window
+      toggleBtn.addEventListener('click', () => {
+        chatWindow.classList.toggle('open');
+        toggleBtn.classList.toggle('active');
+
+        if (chatWindow.classList.contains('open')) {
+          toggleBtn.textContent = '✕';
+          chatInput.focus();
+        } else {
+          toggleBtn.textContent = '💬';
+        }
+      });
+
+      // Send message on button click
+      sendBtn.addEventListener('click', sendMessage);
+
+      // Send message on Enter key
+      chatInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter' && !e.shiftKey) {
+          e.preventDefault();
+          sendMessage();
+        }
+      });
+
+      async function sendMessage() {
+        const message = chatInput.value.trim();
+        if (!message) return;
+
+        // Add user message to chat
+        addMessageToChat('user', message);
+        chatInput.value = '';
+        sendBtn.disabled = true;
+
+        // Scroll to bottom
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+
+        try {
+          // Search FAQ for relevant answers
+          const results = await faqEngine.search(message);
+
+          // Generate AI response
+          let response = '';
+
+          if (results.length > 0) {
+            const topResult = results[0];
+            const confidence = Math.round((1 - topResult.score) * 100);
+
+            if (confidence >= 70) {
+              // High confidence - provide direct answer
+              response = `我找到了相關答案（信心度 ${confidence}%）：\n\n${topResult.item.answer_template.text}`;
+
+              if (topResult.item.answer_template.postscript) {
+                response += `\n\n${topResult.item.answer_template.postscript}`;
+              }
+            } else {
+              // Lower confidence - suggest FAQs
+              response = `我找到了一些可能相關的問題：\n\n`;
+              results.slice(0, 3).forEach((result, index) => {
+                const conf = Math.round((1 - result.score) * 100);
+                response += `${index + 1}. ${result.item.canonical_question} (${conf}%)\n`;
+              });
+              response += `\n您可以點選左側搜尋來查看詳細答案。`;
+            }
+          } else {
+            // No results found
+            response = '抱歉，我沒有找到直接相關的答案。您可以嘗試：\n\n1. 換個方式描述您的問題\n2. 瀏覽左側的分類清單\n3. 查看熱門問題\n4. 聯繫我們的客服團隊：service@diy.ski';
+          }
+
+          // Add AI response to chat
+          setTimeout(() => {
+            addMessageToChat('assistant', response);
+            sendBtn.disabled = false;
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+          }, 500);
+
+        } catch (error) {
+          console.error('[AI Chat] Error:', error);
+          addMessageToChat('assistant', '抱歉，處理您的問題時發生錯誤。請稍後再試。');
+          sendBtn.disabled = false;
+        }
+      }
+
+      function addMessageToChat(role, text) {
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `ai-chat-message ${role}`;
+
+        const avatar = document.createElement('div');
+        avatar.className = 'avatar';
+        avatar.textContent = role === 'user' ? '👤' : '🤖';
+
+        const bubble = document.createElement('div');
+        bubble.className = 'bubble';
+        bubble.textContent = text;
+
+        messageDiv.appendChild(avatar);
+        messageDiv.appendChild(bubble);
+
+        messagesContainer.appendChild(messageDiv);
+      }
+
+      console.log('[AI Chat] AI chat widget initialized');
+    }
+  </script>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-info">
+        <div class="company-name">智雪創旅股份有限公司</div>
+        <div class="company-details">
+          <span>統編：60550088</span>
+          <span>|</span>
+          <a href="mailto:service@diy.ski">客服信箱：service@diy.ski</a>
+        </div>
+      </div>
+      <div class="social-links">
+        <a href="https://www.facebook.com/skidiy" target="_blank" rel="noopener noreferrer" title="Facebook">
+          <svg fill="currentColor" viewBox="0 0 24 24">
+            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"></path>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </footer>
 </body>
 </html>

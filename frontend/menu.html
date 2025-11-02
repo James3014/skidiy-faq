@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FAQ 系統首頁</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, "Microsoft JhengHei", sans-serif;
+      background: #f5f7fa;
+      min-height: 100vh;
+    }
+
+    .header {
+      background: #2D395C;
+      color: white;
+      padding: 1.5rem 2rem;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    .header-content {
+      max-width: 960px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .logo {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .logo img {
+      height: 3rem;
+      width: auto;
+    }
+
+    .subtitle {
+      font-size: 1rem;
+      opacity: 0.9;
+      font-weight: 300;
+    }
+
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 40px 24px;
+    }
+
+    .intro {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .intro h2 {
+      font-size: 1.5rem;
+      color: #333;
+      margin-bottom: 12px;
+    }
+
+    .intro p {
+      color: #666;
+      line-height: 1.7;
+    }
+
+    .links {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+      margin-bottom: 40px;
+    }
+
+    a.card {
+      display: block;
+      padding: 28px 24px;
+      border-radius: 12px;
+      background: white;
+      color: #333;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    }
+
+    a.card:hover {
+      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+      transform: translateY(-3px);
+    }
+
+    a.card h2 {
+      margin: 0 0 12px;
+      font-size: 1.3rem;
+      color: #2D395C;
+    }
+
+    a.card p {
+      color: #666;
+      font-size: 0.95rem;
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      color: #999;
+      font-size: 0.9rem;
+    }
+
+    footer a {
+      color: #619AEC;
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="header-content">
+      <div class="logo">
+        <img src="assets/logo.png" alt="SkiDIY">
+        FAQ 系統
+      </div>
+      <p class="subtitle">滑雪教學常見問題知識庫</p>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="intro">
+      <h2>功能入口</h2>
+      <p>選擇想進入的功能入口，快速開始操作或查看分析資訊。</p>
+    </div>
+    <div class="links">
+      <a class="card" href="index.html">
+        <h2>智慧搜尋首頁</h2>
+        <p>面向客服與訪客的 FAQ 搜尋體驗，支援多語言與意圖分析。</p>
+      </a>
+      <a class="card" href="index-llm.html">
+        <h2>LLM 助理</h2>
+        <p>測試最新的 LLM 整合，檢視模型回應與 FAQ 上下文注入。</p>
+      </a>
+      <a class="card" href="analytics.html">
+        <h2>分析儀表板</h2>
+        <p>追蹤使用者查詢、LLM 成本與 FAQ 使用狀況，支援成本警示。</p>
+      </a>
+      <a class="card" href="admin.html">
+        <h2>管理後台</h2>
+        <p>維護 FAQ / 雪場資料、檢視 CRM 標籤與匯入匯出工具。</p>
+      </a>
+      <a class="card" href="docs.html">
+        <h2>開發者指南</h2>
+        <p>查閱 API 規格、元件說明與二次開發的完整文檔。</p>
+      </a>
+      <a class="card" href="faq-search-i18n.html">
+        <h2>多語言 FAQ 搜尋</h2>
+        <p>示範 Fuse.js 搜尋設定，快速體驗 i18n 支援與 UI 變換。</p>
+      </a>
+    </div>
+    <footer>
+      © 2025 FAQ 系統 | 若要查看開發者入口請前往 <a href="dev.html">dev.html</a>
+    </footer>
+  </div>
+</body>
+</html>
