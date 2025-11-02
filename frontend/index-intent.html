@@ -1919,7 +1919,12 @@
                                          '📂 依分類瀏覽';
       }
       if (sidebarHeaders[1]) {
-        sidebarHeaders[1].textContent = currentLang === 'en' ? '🔥 Popular Questions' :
+        sidebarHeaders[1].textContent = currentLang === 'en' ? '🏔️ Resort Information' :
+                                         currentLang === 'th' ? '🏔️ ข้อมูลสกีรีสอร์ท' :
+                                         '🏔️ 雪場資訊';
+      }
+      if (sidebarHeaders[2]) {
+        sidebarHeaders[2].textContent = currentLang === 'en' ? '🔥 Popular Questions' :
                                          currentLang === 'th' ? '🔥 คำถามยอดนิยม' :
                                          '🔥 熱門問題';
       }
