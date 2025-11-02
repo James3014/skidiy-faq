@@ -1440,6 +1440,45 @@
       renderResortPage(displayName, resorts, newPage, totalPages);
     };
 
+    // 展開/收合更多 amenities
+    window.toggleMoreAmenities = function(resortId, allAmenities) {
+      const container = document.getElementById(`amenities-${resortId}`);
+      const isExpanded = container.dataset.expanded === 'true';
+
+      if (isExpanded) {
+        // 收合：只顯示前 15 個
+        container.innerHTML = allAmenities.slice(0, 15).map(a =>
+          `<span class="resort-amenity clickable" data-amenity="${DOMPurify.sanitize(a)}">${DOMPurify.sanitize(a)}</span>`
+        ).join('') + `
+          <button onclick="toggleMoreAmenities('${resortId}', ${JSON.stringify(allAmenities).replace(/"/g, '&quot;')})"
+            style="background: #4A5F8C; color: white; border: none; padding: 0.25rem 0.75rem; border-radius: 6px; cursor: pointer; font-size: 0.8rem;">
+            +${allAmenities.length - 15} 更多
+          </button>
+        `;
+        container.dataset.expanded = 'false';
+      } else {
+        // 展開：顯示全部
+        container.innerHTML = allAmenities.map(a =>
+          `<span class="resort-amenity clickable" data-amenity="${DOMPurify.sanitize(a)}">${DOMPurify.sanitize(a)}</span>`
+        ).join('') + `
+          <button onclick="toggleMoreAmenities('${resortId}', ${JSON.stringify(allAmenities).replace(/"/g, '&quot;')})"
+            style="background: #666; color: white; border: none; padding: 0.25rem 0.75rem; border-radius: 6px; cursor: pointer; font-size: 0.8rem;">
+            收合
+          </button>
+        `;
+        container.dataset.expanded = 'true';
+      }
+
+      // 重新綁定 click 事件
+      container.querySelectorAll('.resort-amenity.clickable').forEach(tag => {
+        tag.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const amenity = tag.dataset.amenity;
+          filterResortsByAmenity(amenity);
+        });
+      });
+    };
+
     // Create resort card HTML
     function createResortCard(resort) {
       const name = resort.names?.zh || resort.name || '';
@@ -1503,8 +1542,14 @@
           ` : ''}
 
           ${amenities.length > 0 ? `
-            <div class="resort-amenities">
-              ${amenities.slice(0, 5).map(a => `<span class="resort-amenity clickable" data-amenity="${DOMPurify.sanitize(a)}">${DOMPurify.sanitize(a)}</span>`).join('')}
+            <div class="resort-amenities" id="amenities-${resort.resort_id}">
+              ${amenities.slice(0, 15).map(a => `<span class="resort-amenity clickable" data-amenity="${DOMPurify.sanitize(a)}">${DOMPurify.sanitize(a)}</span>`).join('')}
+              ${amenities.length > 15 ? `
+                <button onclick="toggleMoreAmenities('${resort.resort_id}', ${JSON.stringify(amenities).replace(/"/g, '&quot;')})"
+                  style="background: #4A5F8C; color: white; border: none; padding: 0.25rem 0.75rem; border-radius: 6px; cursor: pointer; font-size: 0.8rem;">
+                  +${amenities.length - 15} 更多
+                </button>
+              ` : ''}
             </div>
           ` : ''}
 
@@ -1538,21 +1583,21 @@
     // Filter resorts by amenity tag
     async function filterResortsByAmenity(amenity) {
       try {
-        const response = await fetch(`${API_BASE}/resort/list`);
+        // 使用靜態 JSON 檔案
+        const response = await fetch('resort_kb.json');
         if (!response.ok) {
           console.warn('[Resorts] Failed to load resort list for filtering');
           return;
         }
 
         const data = await response.json();
-        if (!data.success || !data.data.by_region) {
+        if (!data.resorts) {
           console.warn('[Resorts] Invalid resort data');
           return;
         }
 
-        // Flatten all resorts and filter by amenity
-        const allResorts = Object.values(data.data.by_region).flat();
-        const filtered = allResorts.filter(resort =>
+        // Filter resorts by amenity
+        const filtered = data.resorts.filter(resort =>
           resort.amenities && resort.amenities.includes(amenity)
         );
 
@@ -1561,30 +1606,53 @@
           return;
         }
 
-        // Get detailed info for filtered resorts
-        const resortsWithDetails = await Promise.all(
-          filtered.slice(0, 15).map(async (resort) => {
-            try {
-              const response = await fetch(`${API_BASE}/resort/${resort.resort_id}`);
-              if (response.ok) {
-                const data = await response.json();
-                return data.success ? data.data : resort;
-              }
-            } catch (error) {
-              console.warn(`Failed to load details for ${resort.resort_id}:`, error);
-            }
-            return resort;
-          })
-        );
+        console.log(`[Resorts] Found ${filtered.length} resorts with amenity: ${amenity}`);
 
-        const resortsHTML = resortsWithDetails.map(resort => createResortCard(resort)).join('');
-        const title = `🏔️ 包含「${amenity}」的雪場 (${filtered.length})`;
+        // 使用分頁顯示
+        const totalPages = Math.ceil(filtered.length / RESORTS_PER_PAGE);
+        renderFilteredResortsPage(amenity, filtered, 1, totalPages);
 
-        displayResortsInModal(resortsHTML, title);
       } catch (error) {
         console.error('[Resorts] Error filtering by amenity:', error);
+        alert('載入雪場資料時發生錯誤');
       }
     }
+
+    // Render filtered resorts with pagination
+    function renderFilteredResortsPage(amenity, resorts, page, totalPages) {
+      const startIdx = (page - 1) * RESORTS_PER_PAGE;
+      const endIdx = startIdx + RESORTS_PER_PAGE;
+      const pageResorts = resorts.slice(startIdx, endIdx);
+
+      const title = `🏔️ 包含「${amenity}」的雪場 (第 ${page}/${totalPages} 頁，共 ${resorts.length} 個)`;
+      const resortsHTML = pageResorts.map(resort => createResortCard(resort)).join('');
+
+      // 分頁控制按鈕
+      const paginationHTML = totalPages > 1 ? `
+        <div style="display: flex; justify-content: center; align-items: center; gap: 1rem; margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid #e5e7eb;">
+          <button
+            onclick="changeFilteredPage(${page - 1}, '${amenity}', ${JSON.stringify(resorts).replace(/"/g, '&quot;')}, ${totalPages})"
+            ${page === 1 ? 'disabled' : ''}
+            style="padding: 0.5rem 1rem; background: ${page === 1 ? '#ccc' : '#4A5F8C'}; color: white; border: none; border-radius: 8px; cursor: ${page === 1 ? 'not-allowed' : 'pointer'};">
+            ← 上一頁
+          </button>
+          <span style="color: #666;">第 ${page} / ${totalPages} 頁</span>
+          <button
+            onclick="changeFilteredPage(${page + 1}, '${amenity}', ${JSON.stringify(resorts).replace(/"/g, '&quot;')}, ${totalPages})"
+            ${page === totalPages ? 'disabled' : ''}
+            style="padding: 0.5rem 1rem; background: ${page === totalPages ? '#ccc' : '#4A5F8C'}; color: white; border: none; border-radius: 8px; cursor: ${page === totalPages ? 'not-allowed' : 'pointer'};">
+            下一頁 →
+          </button>
+        </div>
+      ` : '';
+
+      displayResortsInModal(resortsHTML + paginationHTML, title);
+    }
+
+    // Global function for filtered pagination
+    window.changeFilteredPage = function(newPage, amenity, resorts, totalPages) {
+      renderFilteredResortsPage(amenity, resorts, newPage, totalPages);
+    };
 
     // Show single resort detail
     async function showResortDetail(resortId) {
