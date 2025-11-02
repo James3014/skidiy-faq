@@ -391,6 +391,165 @@
       background: #f8f9fa;
     }
 
+    /* Resort Regions */
+    .resort-region {
+      padding: 0.6rem 1rem;
+      margin: 0.4rem 0;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.9rem;
+    }
+
+    .resort-region:hover {
+      background: #f0f0f0;
+    }
+
+    .resort-region.active {
+      background: #4A5F8C;
+      color: white;
+    }
+
+    .resort-count {
+      font-size: 0.85rem;
+      opacity: 0.7;
+    }
+
+    /* Resort Card */
+    .resort-card {
+      background: white;
+      border: 2px solid #4A5F8C;
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+      transition: all 0.3s;
+    }
+
+    .resort-card:hover {
+      border-color: #3A4D73;
+      box-shadow: 0 4px 16px rgba(74, 95, 140, 0.15);
+      transform: translateY(-2px);
+    }
+
+    .resort-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 1rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid #f0f0f0;
+    }
+
+    .resort-name {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #2D395C;
+    }
+
+    .resort-name-en {
+      font-size: 0.9rem;
+      color: #666;
+      margin-top: 0.25rem;
+    }
+
+    .resort-region-tag {
+      background: #4A5F8C;
+      color: white;
+      padding: 0.25rem 0.75rem;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      white-space: nowrap;
+    }
+
+    .resort-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .resort-stat {
+      text-align: center;
+    }
+
+    .resort-stat-value {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #4A5F8C;
+    }
+
+    .resort-stat-label {
+      font-size: 0.85rem;
+      color: #666;
+      margin-top: 0.25rem;
+    }
+
+    .resort-info {
+      margin-top: 1rem;
+    }
+
+    .resort-info-row {
+      display: flex;
+      gap: 0.5rem;
+      margin: 0.75rem 0;
+      font-size: 0.95rem;
+    }
+
+    .resort-info-label {
+      font-weight: 600;
+      color: #333;
+      min-width: 80px;
+    }
+
+    .resort-info-value {
+      color: #666;
+      flex: 1;
+    }
+
+    .resort-amenities {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+
+    .resort-amenity {
+      background: #f0f0f0;
+      padding: 0.25rem 0.75rem;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      color: #666;
+    }
+
+    .resort-link {
+      display: inline-block;
+      margin-top: 1rem;
+      padding: 0.75rem 1.5rem;
+      background: #4A5F8C;
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: 600;
+      transition: background 0.2s;
+    }
+
+    .resort-link:hover {
+      background: #3A4D73;
+    }
+
+    @media (max-width: 768px) {
+      .resort-stats {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .resort-stat-value {
+        font-size: 1.2rem;
+      }
+    }
+
     /* FAQ Results */
     .results-header {
       display: flex;
@@ -822,6 +981,9 @@
       <h3>📂 依分類瀏覽</h3>
       <div id="sidebarSections"></div>
 
+      <h3 style="margin-top: 2rem;">🏔️ 雪場資訊</h3>
+      <div id="resortRegions"></div>
+
       <h3 style="margin-top: 2rem;">🔥 熱門問題</h3>
       <div id="hotFAQs"></div>
     </div>
@@ -970,6 +1132,9 @@
         renderSidebar();
         console.log('[Init] Sidebar rendered');
 
+        renderResortRegions();
+        console.log('[Init] Resort regions rendered');
+
         renderHotFAQs();
         console.log('[Init] Hot FAQs rendered');
 
@@ -1098,6 +1263,217 @@
         // Fail silently - analytics should not block user experience
       }
     }
+
+    // ==================== Resort Functions ====================
+
+    // Render resort regions in sidebar
+    async function renderResortRegions() {
+      try {
+        const response = await fetch(`${API_BASE}/resort/list`);
+        if (!response.ok) {
+          console.warn('[Resorts] Failed to load resort list');
+          return;
+        }
+
+        const data = await response.json();
+        if (!data.success || !data.data.by_region) {
+          console.warn('[Resorts] Invalid resort data');
+          return;
+        }
+
+        const byRegion = data.data.by_region;
+
+        // 地區名稱對應（簡化顯示）
+        const regionNames = {
+          'Hokkaido': '北海道',
+          'Niigata Prefecture': '新潟',
+          'Nagano Prefecture': '長野',
+          'Gunma Prefecture': '群馬',
+          'Fukushima Prefecture': '福島',
+          'Iwate Prefecture': '岩手',
+          'Tochigi Prefecture': '栃木',
+          'Yamagata Prefecture': '山形'
+        };
+
+        const regionsHTML = Object.entries(byRegion)
+          .sort((a, b) => b[1].length - a[1].length) // 依雪場數量排序
+          .map(([region, resorts]) => {
+            const displayName = regionNames[region] || region;
+            return `
+              <div class="resort-region" data-region="${region}">
+                <span>${displayName}</span>
+                <span class="resort-count">(${resorts.length})</span>
+              </div>
+            `;
+          }).join('');
+
+        document.getElementById('resortRegions').innerHTML = regionsHTML;
+
+        // 點擊地區顯示雪場列表
+        document.querySelectorAll('.resort-region').forEach(el => {
+          el.addEventListener('click', () => {
+            document.querySelectorAll('.resort-region').forEach(e => e.classList.remove('active'));
+            el.classList.add('active');
+
+            const region = el.dataset.region;
+            showResortsByRegion(region, byRegion[region]);
+          });
+        });
+
+        console.log(`[Resorts] Rendered ${Object.keys(byRegion).length} regions`);
+      } catch (error) {
+        console.error('[Resorts] Error loading resorts:', error);
+      }
+    }
+
+    // Show resorts for a specific region
+    async function showResortsByRegion(regionName, resorts) {
+      const regionNames = {
+        'Hokkaido': '北海道',
+        'Niigata Prefecture': '新潟',
+        'Nagano Prefecture': '長野',
+        'Gunma Prefecture': '群馬',
+        'Fukushima Prefecture': '福島',
+        'Iwate Prefecture': '岩手',
+        'Tochigi Prefecture': '栃木',
+        'Yamagata Prefecture': '山形'
+      };
+
+      const displayName = regionNames[regionName] || regionName;
+      const title = `🏔️ ${displayName} 雪場 (${resorts.length})`;
+
+      // 取得雪場詳細資訊
+      const resortsWithDetails = await Promise.all(
+        resorts.slice(0, 10).map(async (resort) => {
+          try {
+            const response = await fetch(`${API_BASE}/resort/${resort.resort_id}`);
+            if (response.ok) {
+              const data = await response.json();
+              return data.success ? data.data : resort;
+            }
+          } catch (error) {
+            console.warn(`Failed to load details for ${resort.resort_id}:`, error);
+          }
+          return resort;
+        })
+      );
+
+      const resortsHTML = resortsWithDetails.map(resort => createResortCard(resort)).join('');
+
+      displayResortsInModal(resortsHTML, title);
+      hideIntentPanel();
+    }
+
+    // Create resort card HTML
+    function createResortCard(resort) {
+      const name = resort.names?.zh || resort.name || '';
+      const nameEn = resort.names?.en || resort.name_en || '';
+      const region = resort.region || '';
+
+      const lifts = resort.snow_stats?.lifts || resort.lifts || 0;
+      const courses = resort.snow_stats?.courses_total || resort.courses || 0;
+      const nightSki = resort.snow_stats?.night_ski || resort.night_ski || false;
+
+      const pricing = resort.pricing;
+      const transportation = resort.transportation;
+      const amenities = resort.amenities || [];
+      const officialSite = resort.official_site || '';
+
+      return `
+        <div class="resort-card">
+          <div class="resort-header">
+            <div>
+              <div class="resort-name">${DOMPurify.sanitize(name)}</div>
+              <div class="resort-name-en">${DOMPurify.sanitize(nameEn)}</div>
+            </div>
+            <div class="resort-region-tag">${DOMPurify.sanitize(region.replace(' Prefecture', ''))}</div>
+          </div>
+
+          <div class="resort-stats">
+            <div class="resort-stat">
+              <div class="resort-stat-value">${lifts}</div>
+              <div class="resort-stat-label">纜車</div>
+            </div>
+            <div class="resort-stat">
+              <div class="resort-stat-value">${courses}</div>
+              <div class="resort-stat-label">雪道</div>
+            </div>
+            <div class="resort-stat">
+              <div class="resort-stat-value">${nightSki ? '✓' : '✕'}</div>
+              <div class="resort-stat-label">夜滑</div>
+            </div>
+          </div>
+
+          ${pricing ? `
+            <div class="resort-info">
+              <div class="resort-info-row">
+                <span class="resort-info-label">💴 一日券:</span>
+                <span class="resort-info-value">
+                  成人 ¥${pricing.one_day_adult?.toLocaleString() || 'N/A'} /
+                  兒童 ¥${pricing.one_day_child?.toLocaleString() || 'N/A'}
+                </span>
+              </div>
+            </div>
+          ` : ''}
+
+          ${transportation ? `
+            <div class="resort-info">
+              <div class="resort-info-row">
+                <span class="resort-info-label">🚌 交通:</span>
+                <span class="resort-info-value">${DOMPurify.sanitize(transportation.route || 'N/A')}
+                  ${transportation.duration_minutes ? `(${transportation.duration_minutes}分鐘)` : ''}</span>
+              </div>
+            </div>
+          ` : ''}
+
+          ${amenities.length > 0 ? `
+            <div class="resort-amenities">
+              ${amenities.slice(0, 5).map(a => `<span class="resort-amenity">${DOMPurify.sanitize(a)}</span>`).join('')}
+            </div>
+          ` : ''}
+
+          ${officialSite ? `
+            <a href="${DOMPurify.sanitize(officialSite)}" target="_blank" class="resort-link">
+              查看官網 →
+            </a>
+          ` : ''}
+        </div>
+      `;
+    }
+
+    // Display resorts in modal
+    function displayResortsInModal(resortsHTML, title) {
+      document.getElementById('modalTitle').textContent = title;
+      document.getElementById('modalFAQs').innerHTML = resortsHTML;
+      document.getElementById('faqModal').classList.add('open');
+    }
+
+    // Show single resort detail
+    async function showResortDetail(resortId) {
+      try {
+        const response = await fetch(`${API_BASE}/resort/${resortId}`);
+        if (!response.ok) {
+          console.warn(`Failed to load resort ${resortId}`);
+          return;
+        }
+
+        const data = await response.json();
+        if (!data.success) {
+          console.warn('Invalid resort data');
+          return;
+        }
+
+        const resort = data.data;
+        const resortHTML = createResortCard(resort);
+        const title = `🏔️ ${resort.names?.zh || resort.name}`;
+
+        displayResortsInModal(resortHTML, title);
+      } catch (error) {
+        console.error('Error loading resort detail:', error);
+      }
+    }
+
+    // ==================== End Resort Functions ====================
 
     // Render hot FAQs (fetch from analytics API, fallback to manually marked)
     async function renderHotFAQs() {
@@ -1252,6 +1628,21 @@
         const results = await faqEngine.search(query, { limit: 10 });
         const searchTime = Math.round(performance.now() - startTime);
 
+        // Search resorts in parallel
+        let resortResults = [];
+        try {
+          const resortResponse = await fetch(`${API_BASE}/resort/search?q=${encodeURIComponent(query)}`);
+          if (resortResponse.ok) {
+            const resortData = await resortResponse.json();
+            if (resortData.success && resortData.data.results) {
+              resortResults = resortData.data.results;
+              console.log(`[Search] Found ${resortResults.length} matching resorts`);
+            }
+          }
+        } catch (resortError) {
+          console.warn('[Search] Resort search failed:', resortError);
+        }
+
         // Display intent detection results if available
         if (intentData && intentData.data) {
           displayIntentResults(intentData.data);
@@ -1259,7 +1650,7 @@
 
         // Display FAQ results (always)
         const faqs = results.map(r => ({...r.item, score: r.score}));
-        displayFAQs(faqs, '搜尋結果', searchTime);
+        displayFAQs(faqs, '搜尋結果', searchTime, resortResults);
 
       } catch (error) {
         console.error('Search failed:', error);
@@ -1323,17 +1714,37 @@
     }
 
     // Display FAQs
-    function displayFAQs(faqs, title, searchTime = null) {
+    function displayFAQs(faqs, title, searchTime = null, resortResults = []) {
       document.getElementById('loadingState').classList.add('hidden');
       document.getElementById('initialView').classList.add('hidden');
       document.getElementById('resultsSection').classList.remove('hidden');
 
+      const totalResults = faqs.length + resortResults.length;
       document.getElementById('resultCount').textContent =
-        `${title}: 找到 ${faqs.length} 筆結果`;
+        `${title}: 找到 ${totalResults} 筆結果 (FAQ: ${faqs.length}, 雪場: ${resortResults.length})`;
 
       if (searchTime) {
         document.getElementById('responseTime').textContent =
           `搜尋耗時: ${searchTime}ms`;
+      }
+
+      // Render resort results first if any
+      let resortsHTML = '';
+      if (resortResults.length > 0) {
+        resortsHTML = `
+          <div style="margin-bottom: 2rem;">
+            <h3 style="color: #2D395C; margin-bottom: 1rem; font-size: 1.2rem;">🏔️ 相關雪場</h3>
+            ${resortResults.map(resort => {
+              return `
+                <div class="resort-region" style="cursor: pointer; margin: 0.5rem 0;"
+                     onclick="showResortDetail('${resort.resort_id}')">
+                  <span><strong>${DOMPurify.sanitize(resort.name)}</strong></span>
+                  <span class="resort-count">${DOMPurify.sanitize(resort.region)}</span>
+                </div>
+              `;
+            }).join('')}
+          </div>
+        `;
       }
 
       const resultsHTML = faqs.map(faq => {
@@ -1367,7 +1778,7 @@
         `;
       }).join('');
 
-      document.getElementById('resultsList').innerHTML = resultsHTML;
+      document.getElementById('resultsList').innerHTML = resortsHTML + resultsHTML;
 
       // Add click handlers for accordion
       document.querySelectorAll('.faq-item').forEach(item => {

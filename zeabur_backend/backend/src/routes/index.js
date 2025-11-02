@@ -13,6 +13,7 @@ const faqRoutes = require('./faq');
 const faqAdminRoutes = require('./faq-admin');
 const adminAuth = require('../middleware/admin-auth');
 const resortAdminRoutes = require('./resort-admin');
+const resortRoutes = require('./resort');
 const intentRoutes = require('./intent');
 const llmRoutes = require('./llm');
 const analyticsRoutes = require('./analytics');
@@ -30,6 +31,7 @@ const authRoutes = require('./auth');
 router.use('/faq', faqRoutes);           // FAQ search and retrieval
 router.use('/admin/faq', adminAuth, faqAdminRoutes); // FAQ admin CRUD operations
 router.use('/admin/resort', adminAuth, resortAdminRoutes); // Resort admin CRUD operations
+router.use('/resort', resortRoutes);     // Resort information and search
 router.use('/intent', intentRoutes);     // Intent detection and slot extraction (Phase 5)
 router.use('/llm', llmRoutes);           // LLM chat and RAG (Phase 6)
 router.use('/analytics', analyticsRoutes); // Analytics and statistics (Phase 7)
