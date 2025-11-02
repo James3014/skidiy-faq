@@ -6,11 +6,30 @@
 
 const Database = require('better-sqlite3');
 const path = require('path');
+const fs = require('fs');
 
 class AnalyticsService {
   constructor(dbPath = null) {
-    const defaultPath = path.join(__dirname, '../../../data/analytics.db');
-    this.db = new Database(dbPath || process.env.SQLITE_DB_PATH || defaultPath);
+    // Use /tmp for Zeabur deployment, fallback to local data directory
+    let finalPath;
+    if (dbPath) {
+      finalPath = dbPath;
+    } else if (process.env.SQLITE_DB_PATH) {
+      finalPath = process.env.SQLITE_DB_PATH;
+    } else if (process.env.NODE_ENV === 'production') {
+      // For production (Zeabur), use /tmp which is writable
+      finalPath = '/tmp/analytics.db';
+    } else {
+      // For local development, use data directory
+      const dataDir = path.join(__dirname, '../../../data');
+      if (!fs.existsSync(dataDir)) {
+        fs.mkdirSync(dataDir, { recursive: true });
+      }
+      finalPath = path.join(dataDir, 'analytics.db');
+    }
+
+    console.log('[Analytics Service] Using database path:', finalPath);
+    this.db = new Database(finalPath);
     this.initializeTables();
   }
 
