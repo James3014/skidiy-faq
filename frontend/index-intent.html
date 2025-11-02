@@ -44,13 +44,109 @@
     }
 
     .language-selector select {
-      padding: 0.5rem 1rem;
-      border: 2px solid #619AEC;
-      border-radius: 20px;
-      font-size: 1rem;
+      padding: 0.375rem 1rem;
+      border: 1px solid #d1d5db;
+      border-radius: 6px;
+      font-size: 0.875rem;
       cursor: pointer;
       background: white;
-      color: #619AEC;
+      color: #374151;
+      min-width: 140px;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3E%3Cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3E%3C/svg%3E");
+      background-position: right 0.5rem center;
+      background-repeat: no-repeat;
+      background-size: 1.5em 1.5em;
+      padding-right: 2.5rem;
+    }
+
+    .language-selector select:focus {
+      outline: none;
+      ring: 2px solid #619AEC;
+      border-color: #619AEC;
+    }
+
+    /* Footer */
+    .footer {
+      background: #2D395C;
+      color: white;
+      margin-top: 4rem;
+    }
+
+    .footer-content {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer-info {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    .company-name {
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: white;
+    }
+
+    .company-details {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.75rem;
+      color: #d1d5db;
+    }
+
+    .company-details a {
+      color: #93c5fd;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .company-details a:hover {
+      color: white;
+    }
+
+    .social-links {
+      display: flex;
+      align-items: center;
+    }
+
+    .social-links a {
+      color: #d1d5db;
+      padding: 0.375rem;
+      transition: color 0.2s;
+    }
+
+    .social-links a:hover {
+      color: white;
+    }
+
+    .social-links svg {
+      width: 1.25rem;
+      height: 1.25rem;
+    }
+
+    @media (max-width: 768px) {
+      .footer-content {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+      }
+
+      .company-details {
+        flex-direction: column;
+        gap: 0.25rem;
+      }
+
+      .company-details span:nth-child(2) {
+        display: none;
+      }
     }
 
     /* Main layout with sidebar */
@@ -649,9 +745,10 @@
       }
 
       .language-selector select {
-        padding: 0.4rem 0.6rem;
-        font-size: 0.85rem;
-        border-width: 1px;
+        padding: 0.375rem 0.75rem;
+        font-size: 0.8rem;
+        min-width: 120px;
+        padding-right: 2rem;
       }
 
       /* Search box adjustments */
@@ -1496,5 +1593,26 @@
       console.log('[AI Chat] AI chat widget initialized');
     }
   </script>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-info">
+        <div class="company-name">智雪創旅股份有限公司</div>
+        <div class="company-details">
+          <span>統編：60550088</span>
+          <span>|</span>
+          <a href="mailto:service@diy.ski">客服信箱：service@diy.ski</a>
+        </div>
+      </div>
+      <div class="social-links">
+        <a href="https://www.facebook.com/skidiy" target="_blank" rel="noopener noreferrer" title="Facebook">
+          <svg fill="currentColor" viewBox="0 0 24 24">
+            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"></path>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </footer>
 </body>
 </html>
