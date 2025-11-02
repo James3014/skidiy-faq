@@ -1,0 +1,7 @@
+{
+  "service": {
+    "type": "static",
+    "root": "frontend",
+    "outputDirectory": "frontend"
+  }
+}
