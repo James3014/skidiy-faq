@@ -910,4 +910,360 @@ router.get('/faq-stats', async (req, res, next) => {
   }
 });
 
+/**
+ * POST /api/v1/analytics/track-tag-click
+ *
+ * Track tag click event (FAQ tags or Resort amenity tags)
+ *
+ * Body:
+ * {
+ *   "tag_type": "faq" | "resort",
+ *   "tag_name": "#課程預約",
+ *   "item_id": "faq.booking.001",
+ *   "language": "zh"
+ * }
+ *
+ * Response:
+ * {
+ *   "success": true,
+ *   "data": { "tracked": true }
+ * }
+ */
+router.post('/track-tag-click', async (req, res, next) => {
+  try {
+    if (!analyticsService) {
+      throw new AppError('SERVICE_UNAVAILABLE', 'Analytics 服務尚未初始化', 503);
+    }
+
+    const { tag_type, tag_name, item_id, language } = req.body;
+
+    if (!tag_type || !tag_name || !item_id) {
+      throw new AppError('VALIDATION_ERROR', 'tag_type, tag_name, item_id 為必填欄位', 400);
+    }
+
+    if (!['faq', 'resort'].includes(tag_type)) {
+      throw new AppError('VALIDATION_ERROR', 'tag_type 必須為 "faq" 或 "resort"', 400);
+    }
+
+    const db = analyticsService.db;
+
+    // Insert tag click record
+    const stmt = db.prepare(`
+      INSERT INTO tag_clicks (tag_type, tag_name, item_id, language)
+      VALUES (?, ?, ?, ?)
+    `);
+
+    stmt.run(
+      tag_type,
+      tag_name,
+      item_id,
+      language || 'zh'
+    );
+
+    sendSuccess(res, {
+      tracked: true,
+      tag_type,
+      tag_name,
+      item_id
+    }, 201, {
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
+/**
+ * GET /api/v1/analytics/tag-stats
+ *
+ * Get tag click statistics
+ *
+ * Query params:
+ * - tag_type: Filter by tag type ('faq' or 'resort')
+ * - days: Number of days to look back (default: 7)
+ * - limit: Number of top tags to return (default: 20)
+ *
+ * Response:
+ * {
+ *   "success": true,
+ *   "data": {
+ *     "by_tag": [
+ *       {
+ *         "tag_name": "#課程預約",
+ *         "tag_type": "faq",
+ *         "clicks": 45,
+ *         "unique_items": 12
+ *       }
+ *     ],
+ *     "by_type": [
+ *       { "tag_type": "faq", "total_clicks": 150 },
+ *       { "tag_type": "resort", "total_clicks": 80 }
+ *     ],
+ *     "daily": [...],
+ *     "period_days": 7
+ *   }
+ * }
+ */
+router.get('/tag-stats', async (req, res, next) => {
+  try {
+    if (!analyticsService) {
+      throw new AppError('SERVICE_UNAVAILABLE', 'Analytics 服務尚未初始化', 503);
+    }
+
+    const tagType = req.query.tag_type;
+    const days = parseInt(req.query.days) || 7;
+    const limit = parseInt(req.query.limit) || 20;
+
+    const db = analyticsService.db;
+    const cutoffDate = new Date();
+    cutoffDate.setDate(cutoffDate.getDate() - days);
+
+    // Get tag click statistics
+    let byTagQuery = `
+      SELECT
+        tag_name,
+        tag_type,
+        COUNT(*) as clicks,
+        COUNT(DISTINCT item_id) as unique_items
+      FROM tag_clicks
+      WHERE timestamp >= ?
+    `;
+
+    const params = [cutoffDate.toISOString()];
+
+    if (tagType) {
+      byTagQuery += ` AND tag_type = ?`;
+      params.push(tagType);
+    }
+
+    byTagQuery += `
+      GROUP BY tag_name, tag_type
+      ORDER BY clicks DESC
+      LIMIT ?
+    `;
+    params.push(limit);
+
+    const byTag = db.prepare(byTagQuery).all(...params);
+
+    // Get statistics by tag type
+    const byType = db.prepare(`
+      SELECT
+        tag_type,
+        COUNT(*) as total_clicks,
+        COUNT(DISTINCT tag_name) as unique_tags,
+        COUNT(DISTINCT item_id) as unique_items
+      FROM tag_clicks
+      WHERE timestamp >= ?
+      ${tagType ? 'AND tag_type = ?' : ''}
+      GROUP BY tag_type
+      ORDER BY total_clicks DESC
+    `).all(tagType ? [cutoffDate.toISOString(), tagType] : [cutoffDate.toISOString()]);
+
+    // Get daily statistics
+    const daily = db.prepare(`
+      SELECT
+        DATE(timestamp) as date,
+        tag_type,
+        COUNT(*) as clicks
+      FROM tag_clicks
+      WHERE timestamp >= ?
+      ${tagType ? 'AND tag_type = ?' : ''}
+      GROUP BY DATE(timestamp), tag_type
+      ORDER BY date DESC
+    `).all(tagType ? [cutoffDate.toISOString(), tagType] : [cutoffDate.toISOString()]);
+
+    sendSuccess(res, {
+      by_tag: byTag,
+      by_type: byType,
+      daily,
+      period_days: days
+    }, 200, {
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
+/**
+ * POST /api/v1/analytics/track-resort-click
+ *
+ * Track resort region or card click event
+ *
+ * Body:
+ * {
+ *   "click_type": "region" | "resort_card",
+ *   "region": "Hokkaido Prefecture",  // for region clicks
+ *   "resort_id": "resort_id",          // for resort_card clicks
+ *   "language": "zh"
+ * }
+ *
+ * Response:
+ * {
+ *   "success": true,
+ *   "data": { "tracked": true }
+ * }
+ */
+router.post('/track-resort-click', async (req, res, next) => {
+  try {
+    if (!analyticsService) {
+      throw new AppError('SERVICE_UNAVAILABLE', 'Analytics 服務尚未初始化', 503);
+    }
+
+    const { click_type, region, resort_id, language } = req.body;
+
+    if (!click_type) {
+      throw new AppError('VALIDATION_ERROR', 'click_type 為必填欄位', 400);
+    }
+
+    if (!['region', 'resort_card'].includes(click_type)) {
+      throw new AppError('VALIDATION_ERROR', 'click_type 必須為 "region" 或 "resort_card"', 400);
+    }
+
+    if (click_type === 'region' && !region) {
+      throw new AppError('VALIDATION_ERROR', 'region 為必填欄位 (當 click_type 為 region 時)', 400);
+    }
+
+    if (click_type === 'resort_card' && !resort_id) {
+      throw new AppError('VALIDATION_ERROR', 'resort_id 為必填欄位 (當 click_type 為 resort_card 時)', 400);
+    }
+
+    const db = analyticsService.db;
+
+    // Insert resort click record
+    const stmt = db.prepare(`
+      INSERT INTO resort_clicks (click_type, region, resort_id, language)
+      VALUES (?, ?, ?, ?)
+    `);
+
+    stmt.run(
+      click_type,
+      region || null,
+      resort_id || null,
+      language || 'zh'
+    );
+
+    sendSuccess(res, {
+      tracked: true,
+      click_type,
+      region: region || null,
+      resort_id: resort_id || null
+    }, 201, {
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
+/**
+ * GET /api/v1/analytics/resort-stats
+ *
+ * Get resort click statistics
+ *
+ * Query params:
+ * - click_type: Filter by click type ('region' or 'resort_card')
+ * - days: Number of days to look back (default: 7)
+ * - limit: Number of top items to return (default: 20)
+ *
+ * Response:
+ * {
+ *   "success": true,
+ *   "data": {
+ *     "by_type": [
+ *       { "click_type": "region", "total_clicks": 145 },
+ *       { "click_type": "resort_card", "total_clicks": 98 }
+ *     ],
+ *     "top_regions": [
+ *       { "region": "Hokkaido Prefecture", "clicks": 45 }
+ *     ],
+ *     "top_resorts": [
+ *       { "resort_id": "niseko_grand_hirafu", "clicks": 28 }
+ *     ],
+ *     "daily": [...],
+ *     "period_days": 7
+ *   }
+ * }
+ */
+router.get('/resort-stats', async (req, res, next) => {
+  try {
+    if (!analyticsService) {
+      throw new AppError('SERVICE_UNAVAILABLE', 'Analytics 服務尚未初始化', 503);
+    }
+
+    const clickType = req.query.click_type;
+    const days = parseInt(req.query.days) || 7;
+    const limit = parseInt(req.query.limit) || 20;
+
+    const db = analyticsService.db;
+    const cutoffDate = new Date();
+    cutoffDate.setDate(cutoffDate.getDate() - days);
+
+    // Statistics by type
+    const byType = db.prepare(`
+      SELECT
+        click_type,
+        COUNT(*) as total_clicks
+      FROM resort_clicks
+      WHERE timestamp >= ?
+      ${clickType ? 'AND click_type = ?' : ''}
+      GROUP BY click_type
+      ORDER BY total_clicks DESC
+    `).all(clickType ? [cutoffDate.toISOString(), clickType] : [cutoffDate.toISOString()]);
+
+    // Top regions
+    const topRegions = db.prepare(`
+      SELECT
+        region,
+        COUNT(*) as clicks
+      FROM resort_clicks
+      WHERE timestamp >= ?
+        AND click_type = 'region'
+        AND region IS NOT NULL
+      GROUP BY region
+      ORDER BY clicks DESC
+      LIMIT ?
+    `).all(cutoffDate.toISOString(), limit);
+
+    // Top resorts
+    const topResorts = db.prepare(`
+      SELECT
+        resort_id,
+        COUNT(*) as clicks
+      FROM resort_clicks
+      WHERE timestamp >= ?
+        AND click_type = 'resort_card'
+        AND resort_id IS NOT NULL
+      GROUP BY resort_id
+      ORDER BY clicks DESC
+      LIMIT ?
+    `).all(cutoffDate.toISOString(), limit);
+
+    // Daily statistics
+    const daily = db.prepare(`
+      SELECT
+        DATE(timestamp) as date,
+        click_type,
+        COUNT(*) as clicks
+      FROM resort_clicks
+      WHERE timestamp >= ?
+      ${clickType ? 'AND click_type = ?' : ''}
+      GROUP BY DATE(timestamp), click_type
+      ORDER BY date DESC
+    `).all(clickType ? [cutoffDate.toISOString(), clickType] : [cutoffDate.toISOString()]);
+
+    sendSuccess(res, {
+      by_type: byType,
+      top_regions: topRegions,
+      top_resorts: topResorts,
+      daily,
+      period_days: days
+    }, 200, {
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
 module.exports = router;

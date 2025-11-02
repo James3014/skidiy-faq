@@ -691,6 +691,33 @@
     .confidence-medium { background: #fff3cd; color: #856404; }
     .confidence-low { background: #f8d7da; color: #721c24; }
 
+    .faq-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 0.5rem;
+    }
+
+    .faq-tag {
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
+      background: #e8eaf6;
+      color: #4A5F8C;
+      border-radius: 12px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      border: 1px solid transparent;
+    }
+
+    .faq-tag:hover {
+      background: #4A5F8C;
+      color: white;
+      transform: translateY(-1px);
+      box-shadow: 0 2px 4px rgba(74, 95, 140, 0.3);
+    }
+
     .loading { text-align: center; padding: 3rem; color: #999; }
     .hidden { display: none; }
 
@@ -1369,6 +1396,10 @@
             el.classList.add('active');
 
             const region = el.dataset.region;
+
+            // Track region click
+            trackRegionClick(region);
+
             showResortsByRegion(region, byRegion[region]);
           });
         });
@@ -1448,7 +1479,7 @@
       if (isExpanded) {
         // 收合：只顯示前 15 個
         container.innerHTML = allAmenities.slice(0, 15).map(a =>
-          `<span class="resort-amenity clickable" data-amenity="${DOMPurify.sanitize(a)}">${DOMPurify.sanitize(a)}</span>`
+          `<span class="resort-amenity clickable" onclick="trackTagClick(event, 'resort', '${DOMPurify.sanitize(a)}', '${resortId}')">${DOMPurify.sanitize(a)}</span>`
         ).join('') + `
           <button onclick="toggleMoreAmenities('${resortId}', ${JSON.stringify(allAmenities).replace(/"/g, '&quot;')})"
             style="background: #4A5F8C; color: white; border: none; padding: 0.25rem 0.75rem; border-radius: 6px; cursor: pointer; font-size: 0.8rem;">
@@ -1459,7 +1490,7 @@
       } else {
         // 展開：顯示全部
         container.innerHTML = allAmenities.map(a =>
-          `<span class="resort-amenity clickable" data-amenity="${DOMPurify.sanitize(a)}">${DOMPurify.sanitize(a)}</span>`
+          `<span class="resort-amenity clickable" onclick="trackTagClick(event, 'resort', '${DOMPurify.sanitize(a)}', '${resortId}')">${DOMPurify.sanitize(a)}</span>`
         ).join('') + `
           <button onclick="toggleMoreAmenities('${resortId}', ${JSON.stringify(allAmenities).replace(/"/g, '&quot;')})"
             style="background: #666; color: white; border: none; padding: 0.25rem 0.75rem; border-radius: 6px; cursor: pointer; font-size: 0.8rem;">
@@ -1468,15 +1499,6 @@
         `;
         container.dataset.expanded = 'true';
       }
-
-      // 重新綁定 click 事件
-      container.querySelectorAll('.resort-amenity.clickable').forEach(tag => {
-        tag.addEventListener('click', (e) => {
-          e.stopPropagation();
-          const amenity = tag.dataset.amenity;
-          filterResortsByAmenity(amenity);
-        });
-      });
     };
 
     // Create resort card HTML
@@ -1543,7 +1565,7 @@
 
           ${amenities.length > 0 ? `
             <div class="resort-amenities" id="amenities-${resort.resort_id}">
-              ${amenities.slice(0, 15).map(a => `<span class="resort-amenity clickable" data-amenity="${DOMPurify.sanitize(a)}">${DOMPurify.sanitize(a)}</span>`).join('')}
+              ${amenities.slice(0, 15).map(a => `<span class="resort-amenity clickable" onclick="trackTagClick(event, 'resort', '${DOMPurify.sanitize(a)}', '${resort.resort_id}')">${DOMPurify.sanitize(a)}</span>`).join('')}
               ${amenities.length > 15 ? `
                 <button onclick="toggleMoreAmenities('${resort.resort_id}', ${JSON.stringify(amenities).replace(/"/g, '&quot;')})"
                   style="background: #4A5F8C; color: white; border: none; padding: 0.25rem 0.75rem; border-radius: 6px; cursor: pointer; font-size: 0.8rem;">
@@ -1568,16 +1590,7 @@
       document.getElementById('modalResultsList').innerHTML = resortsHTML;
       document.getElementById('resultsModal').classList.add('show');
 
-      // Add click event to amenity tags
-      setTimeout(() => {
-        document.querySelectorAll('.resort-amenity.clickable').forEach(tag => {
-          tag.addEventListener('click', (e) => {
-            e.stopPropagation();
-            const amenity = tag.dataset.amenity;
-            filterResortsByAmenity(amenity);
-          });
-        });
-      }, 100);
+      // Click events now handled by onclick attribute with trackTagClick
     }
 
     // Filter resorts by amenity tag
@@ -1657,6 +1670,9 @@
     // Show single resort detail
     async function showResortDetail(resortId) {
       try {
+        // Track resort card click
+        trackResortClick(resortId);
+
         const response = await fetch(`${API_BASE}/resort/${resortId}`);
         if (!response.ok) {
           console.warn(`Failed to load resort ${resortId}`);
@@ -1837,16 +1853,32 @@
         const results = await faqEngine.search(query, { limit: 10 });
         const searchTime = Math.round(performance.now() - startTime);
 
-        // Search resorts in parallel
+        // Search resorts in parallel using local JSON
         let resortResults = [];
         try {
-          const resortResponse = await fetch(`${API_BASE}/resort/search?q=${encodeURIComponent(query)}`);
+          const resortResponse = await fetch('resort_kb.json');
           if (resortResponse.ok) {
             const resortData = await resortResponse.json();
-            if (resortData.success && resortData.data.results) {
-              resortResults = resortData.data.results;
-              console.log(`[Search] Found ${resortResults.length} matching resorts`);
-            }
+            // Search through resorts by name or amenities
+            const queryLower = query.toLowerCase();
+            resortResults = resortData.resorts.filter(resort => {
+              // Search in Chinese, English, Japanese names
+              const nameMatch =
+                resort.names.zh.toLowerCase().includes(queryLower) ||
+                resort.names.en.toLowerCase().includes(queryLower) ||
+                resort.names.ja.toLowerCase().includes(queryLower);
+
+              // Search in amenities
+              const amenityMatch = resort.amenities &&
+                resort.amenities.some(a => a.toLowerCase().includes(queryLower));
+
+              // Search in region
+              const regionMatch = resort.region.toLowerCase().includes(queryLower);
+
+              return nameMatch || amenityMatch || regionMatch;
+            });
+
+            console.log(`[Search] Found ${resortResults.length} matching resorts for "${query}"`);
           }
         } catch (resortError) {
           console.warn('[Search] Resort search failed:', resortError);
@@ -1967,6 +1999,15 @@
           ? `<div class="faq-postscript">${DOMPurify.sanitize(localized.postscript)}</div>`
           : '';
 
+        // Render tags if available
+        const tagsHTML = faq.crm_tags && faq.crm_tags.length > 0
+          ? `<div class="faq-tags">
+              ${faq.crm_tags.map(tag =>
+                `<span class="faq-tag" onclick="trackTagClick(event, 'faq', '${DOMPurify.sanitize(tag)}', '${faq.id}')">${DOMPurify.sanitize(tag)}</span>`
+              ).join('')}
+            </div>`
+          : '';
+
         return `
           <div class="faq-item" data-faq-id="${faq.id}">
             <div class="faq-header">
@@ -1978,6 +2019,7 @@
               </div>
               <span class="faq-toggle-icon">▼</span>
             </div>
+            ${tagsHTML}
             <div class="faq-answer">
               ${answer}
               ${postscript}
@@ -1994,6 +2036,145 @@
           toggleFAQItem(item);
         });
       });
+    }
+
+    // Track tag click (FAQ tags or Resort amenity tags)
+    window.trackTagClick = async function(event, tagType, tagName, itemId) {
+      event.stopPropagation(); // Prevent FAQ accordion from toggling
+
+      console.log(`[Tag Click] Type: ${tagType}, Tag: ${tagName}, Item: ${itemId}`);
+
+      // Track to analytics (will create endpoint later)
+      try {
+        // For now, just log to console and localStorage
+        const tagClick = {
+          timestamp: new Date().toISOString(),
+          tag_type: tagType,  // 'faq' or 'resort'
+          tag_name: tagName,
+          item_id: itemId,
+          language: currentLanguage
+        };
+
+        // Store in localStorage for now
+        const tagClicks = JSON.parse(localStorage.getItem('tagClicks') || '[]');
+        tagClicks.push(tagClick);
+        // Keep only last 100 clicks
+        if (tagClicks.length > 100) {
+          tagClicks.shift();
+        }
+        localStorage.setItem('tagClicks', JSON.stringify(tagClicks));
+
+        console.log('[Tag Click] Tracked successfully:', tagClick);
+
+        // Try to send to backend if available
+        try {
+          await fetch(`${API_BASE}/analytics/track-tag-click`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(tagClick)
+          });
+        } catch (err) {
+          console.warn('[Tag Click] Backend tracking unavailable:', err.message);
+        }
+
+        // Filter by this tag
+        if (tagType === 'faq') {
+          filterFAQsByTag(tagName);
+        } else if (tagType === 'resort') {
+          filterResortsByAmenity(tagName);
+        }
+      } catch (error) {
+        console.error('[Tag Click] Error tracking:', error);
+      }
+    };
+
+    // Filter FAQs by tag
+    async function filterFAQsByTag(tagName) {
+      try {
+        console.log(`[Filter] Filtering FAQs by tag: ${tagName}`);
+
+        const allFAQs = await faqEngine.getAllFAQs();
+        const filtered = allFAQs.filter(faq =>
+          faq.crm_tags && faq.crm_tags.includes(tagName)
+        );
+
+        console.log(`[Filter] Found ${filtered.length} FAQs with tag ${tagName}`);
+
+        if (filtered.length === 0) {
+          alert(`沒有找到標籤「${tagName}」的 FAQ`);
+          return;
+        }
+
+        displayFAQs(filtered, `標籤篩選: ${tagName}`, null, []);
+      } catch (error) {
+        console.error('[Filter] Error filtering by tag:', error);
+      }
+    }
+
+    // Track resort region click
+    async function trackRegionClick(region) {
+      try {
+        console.log(`[Region Click] Region: ${region}`);
+
+        const regionClick = {
+          timestamp: new Date().toISOString(),
+          click_type: 'region',
+          region: region,
+          language: currentLanguage
+        };
+
+        // Store in localStorage
+        const clicks = JSON.parse(localStorage.getItem('resortClicks') || '[]');
+        clicks.push(regionClick);
+        if (clicks.length > 100) clicks.shift();
+        localStorage.setItem('resortClicks', JSON.stringify(clicks));
+
+        // Try to send to backend
+        try {
+          await fetch(`${API_BASE}/analytics/track-resort-click`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(regionClick)
+          });
+        } catch (err) {
+          console.warn('[Region Click] Backend tracking unavailable:', err.message);
+        }
+      } catch (error) {
+        console.error('[Region Click] Error tracking:', error);
+      }
+    }
+
+    // Track resort card click
+    async function trackResortClick(resortId) {
+      try {
+        console.log(`[Resort Click] Resort ID: ${resortId}`);
+
+        const resortClick = {
+          timestamp: new Date().toISOString(),
+          click_type: 'resort_card',
+          resort_id: resortId,
+          language: currentLanguage
+        };
+
+        // Store in localStorage
+        const clicks = JSON.parse(localStorage.getItem('resortClicks') || '[]');
+        clicks.push(resortClick);
+        if (clicks.length > 100) clicks.shift();
+        localStorage.setItem('resortClicks', JSON.stringify(clicks));
+
+        // Try to send to backend
+        try {
+          await fetch(`${API_BASE}/analytics/track-resort-click`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(resortClick)
+          });
+        } catch (err) {
+          console.warn('[Resort Click] Backend tracking unavailable:', err.message);
+        }
+      } catch (error) {
+        console.error('[Resort Click] Error tracking:', error);
+      }
     }
 
     // Toggle FAQ item (accordion style)

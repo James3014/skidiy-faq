@@ -101,6 +101,33 @@ class AnalyticsService {
 
       CREATE INDEX IF NOT EXISTS idx_section_views_section ON section_views(section);
       CREATE INDEX IF NOT EXISTS idx_section_views_timestamp ON section_views(timestamp);
+
+      CREATE TABLE IF NOT EXISTS tag_clicks (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        tag_type TEXT NOT NULL,
+        tag_name TEXT NOT NULL,
+        item_id TEXT NOT NULL,
+        language TEXT DEFAULT 'zh',
+        timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
+      );
+
+      CREATE INDEX IF NOT EXISTS idx_tag_clicks_tag_name ON tag_clicks(tag_name);
+      CREATE INDEX IF NOT EXISTS idx_tag_clicks_tag_type ON tag_clicks(tag_type);
+      CREATE INDEX IF NOT EXISTS idx_tag_clicks_timestamp ON tag_clicks(timestamp);
+
+      CREATE TABLE IF NOT EXISTS resort_clicks (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        click_type TEXT NOT NULL,
+        resort_id TEXT,
+        region TEXT,
+        language TEXT DEFAULT 'zh',
+        timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
+      );
+
+      CREATE INDEX IF NOT EXISTS idx_resort_clicks_click_type ON resort_clicks(click_type);
+      CREATE INDEX IF NOT EXISTS idx_resort_clicks_resort_id ON resort_clicks(resort_id);
+      CREATE INDEX IF NOT EXISTS idx_resort_clicks_region ON resort_clicks(region);
+      CREATE INDEX IF NOT EXISTS idx_resort_clicks_timestamp ON resort_clicks(timestamp);
     `);
 
     console.log('[Analytics Service] Tables initialized');

@@ -541,6 +541,7 @@
     <div class="tabs">
       <button class="tab active" onclick="switchTab('llm')">📊 LLM 使用統計</button>
       <button class="tab" onclick="switchTab('faq')">❓ FAQ 點擊分析</button>
+      <button class="tab" onclick="switchTab('tag')">🏷️ Tag 點擊分析</button>
     </div>
 
     <!-- LLM Statistics Tab -->
@@ -685,6 +686,75 @@
         </div>
       </div>
     </div> <!-- End FAQ Tab -->
+
+    <!-- Tag Statistics Tab -->
+    <div id="tag-tab" class="tab-content">
+      <!-- Overall Tag Statistics -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="label">總 Tag 點擊數</div>
+          <div class="value" id="tagTotalClicks">-</div>
+        </div>
+        <div class="stat-card primary">
+          <div class="label">FAQ Tags</div>
+          <div class="value" id="tagFaqClicks">-</div>
+          <div class="subvalue"><span id="tagFaqUnique">-</span> 種不同 tags</div>
+        </div>
+        <div class="stat-card success">
+          <div class="label">Resort Tags</div>
+          <div class="value" id="tagResortClicks">-</div>
+          <div class="subvalue"><span id="tagResortUnique">-</span> 種不同 tags</div>
+        </div>
+        <div class="stat-card">
+          <div class="label">最熱門 Tag</div>
+          <div class="value" id="tagTopClicks">-</div>
+          <div class="subvalue" id="tagTopName">-</div>
+        </div>
+      </div>
+
+      <!-- Filters -->
+      <div style="display: flex; gap: 1rem; margin-bottom: 1.5rem; align-items: center;">
+        <label style="font-weight: 600;">Tag 類型:</label>
+        <select id="tagTypeFilter" onchange="loadTagData()" style="padding: 0.5rem; border: 1px solid #d1d5db; border-radius: 6px;">
+          <option value="">全部</option>
+          <option value="faq">FAQ Tags</option>
+          <option value="resort">Resort Tags</option>
+        </select>
+        <label style="font-weight: 600; margin-left: 1rem;">時間範圍:</label>
+        <select id="tagDaysFilter" onchange="loadTagData()" style="padding: 0.5rem; border: 1px solid #d1d5db; border-radius: 6px;">
+          <option value="7">最近 7 天</option>
+          <option value="14">最近 14 天</option>
+          <option value="30" selected>最近 30 天</option>
+          <option value="90">最近 90 天</option>
+        </select>
+      </div>
+
+      <!-- Top Tags -->
+      <div class="chart-section">
+        <h3 style="margin-bottom: 1rem; color: #2D395C;">🏆 熱門 Tags 排行</h3>
+        <div class="provider-comparison" id="topTags">
+          <p style="text-align: center; color: #999; padding: 2rem;">載入中...</p>
+        </div>
+      </div>
+
+      <!-- Daily Trend -->
+      <div class="chart-section" style="margin-top: 1.5rem;">
+        <h3 style="margin-bottom: 1rem; color: #2D395C;">📈 每日 Tag 點擊趨勢</h3>
+        <div class="chart-container">
+          <div class="chart-bars" id="tagDailyChart">
+            <p style="text-align: center; color: #999; padding: 2rem;">載入中...</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tag Click Details from localStorage -->
+      <div class="chart-section" style="margin-top: 1.5rem;">
+        <h3 style="margin-bottom: 1rem; color: #2D395C;">🗂️ 本地 Tag 點擊記錄 (最近 100 筆)</h3>
+        <div class="recent-queries" id="localTagClicks">
+          <p style="text-align: center; color: #999; padding: 2rem;">載入中...</p>
+        </div>
+      </div>
+    </div> <!-- End Tag Tab -->
   </div>
 
   <script src="assets/env.js"></script>
@@ -874,6 +944,10 @@
         document.getElementById('faq-tab').classList.add('active');
         // Load FAQ data when switching to FAQ tab
         loadFAQData();
+      } else if (tab === 'tag') {
+        document.getElementById('tag-tab').classList.add('active');
+        // Load Tag data when switching to Tag tab
+        loadTagData();
       }
     }
 
@@ -1067,6 +1141,170 @@
       container.insertBefore(errorDiv, container.firstChild);
 
       setTimeout(() => errorDiv.remove(), 5000);
+    }
+
+    // Load Tag analytics data
+    async function loadTagData() {
+      const tagType = document.getElementById('tagTypeFilter').value;
+      const days = document.getElementById('tagDaysFilter').value;
+
+      try {
+        // Load from backend API
+        const params = new URLSearchParams();
+        if (tagType) params.append('tag_type', tagType);
+        params.append('days', days);
+        params.append('limit', 50);
+
+        const response = await fetch(`${API_BASE}/analytics/tag-stats?${params}`);
+
+        if (response.ok) {
+          const data = await response.json();
+          if (data.success) {
+            displayTagStats(data.data);
+          } else {
+            console.warn('[Tag Analytics] API returned error:', data.error);
+            displayLocalTagData();
+          }
+        } else {
+          console.warn('[Tag Analytics] API unavailable, using localStorage');
+          displayLocalTagData();
+        }
+      } catch (error) {
+        console.warn('[Tag Analytics] Error loading from API:', error);
+        displayLocalTagData();
+      }
+    }
+
+    // Display tag statistics from API
+    function displayTagStats(data) {
+      // Update overall statistics
+      const totalClicks = data.by_type.reduce((sum, t) => sum + t.total_clicks, 0);
+      document.getElementById('tagTotalClicks').textContent = totalClicks.toLocaleString();
+
+      // FAQ vs Resort stats
+      const faqStats = data.by_type.find(t => t.tag_type === 'faq') || { total_clicks: 0, unique_tags: 0 };
+      const resortStats = data.by_type.find(t => t.tag_type === 'resort') || { total_clicks: 0, unique_tags: 0 };
+
+      document.getElementById('tagFaqClicks').textContent = faqStats.total_clicks.toLocaleString();
+      document.getElementById('tagFaqUnique').textContent = faqStats.unique_tags;
+      document.getElementById('tagResortClicks').textContent = resortStats.total_clicks.toLocaleString();
+      document.getElementById('tagResortUnique').textContent = resortStats.unique_tags;
+
+      // Top tag
+      if (data.by_tag.length > 0) {
+        const topTag = data.by_tag[0];
+        document.getElementById('tagTopClicks').textContent = topTag.clicks.toLocaleString();
+        document.getElementById('tagTopName').textContent = topTag.tag_name;
+      }
+
+      // Top Tags ranking
+      const topTagsHTML = data.by_tag.map((tag, index) => `
+        <div class="provider-row">
+          <div style="display: flex; align-items: center; gap: 0.5rem;">
+            <span style="font-weight: 600; color: ${index < 3 ? '#f59e0b' : '#666'}; min-width: 2rem;">
+              ${index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : (index + 1) + '.'}
+            </span>
+            <span style="font-weight: 600;">${tag.tag_name}</span>
+            <span style="color: #666; font-size: 0.85rem;">(${tag.tag_type})</span>
+          </div>
+          <div style="display: flex; gap: 1.5rem; align-items: center;">
+            <span style="color: #666;">${tag.clicks} 次點擊</span>
+            <span style="color: #999; font-size: 0.9rem;">${tag.unique_items} 個項目</span>
+          </div>
+        </div>
+      `).join('');
+
+      document.getElementById('topTags').innerHTML = topTagsHTML || '<p style="text-align: center; color: #999; padding: 2rem;">暫無數據</p>';
+
+      // Daily trend chart
+      const dailyChartHTML = renderTagDailyChart(data.daily);
+      document.getElementById('tagDailyChart').innerHTML = dailyChartHTML;
+
+      // Also display local data
+      displayLocalTagData();
+    }
+
+    // Render daily tag chart
+    function renderTagDailyChart(daily) {
+      if (!daily || daily.length === 0) {
+        return '<p style="text-align: center; color: #999; padding: 2rem;">暫無數據</p>';
+      }
+
+      // Group by date
+      const byDate = {};
+      daily.forEach(d => {
+        if (!byDate[d.date]) byDate[d.date] = { faq: 0, resort: 0 };
+        byDate[d.date][d.tag_type] = d.clicks;
+      });
+
+      const dates = Object.keys(byDate).sort().reverse().slice(0, 14); // Last 14 days
+      const maxClicks = Math.max(...dates.map(d => byDate[d].faq + byDate[d].resort));
+
+      return dates.map(date => {
+        const faqClicks = byDate[date].faq || 0;
+        const resortClicks = byDate[date].resort || 0;
+        const total = faqClicks + resortClicks;
+        const faqPercent = total > 0 ? (faqClicks / maxClicks) * 100 : 0;
+        const resortPercent = total > 0 ? (resortClicks / maxClicks) * 100 : 0;
+
+        return `
+          <div class="chart-bar-row">
+            <div class="chart-label" style="width: 120px; font-size: 0.85rem;">${date}</div>
+            <div class="chart-bar-container" style="flex: 1;">
+              <div class="chart-bar" style="width: ${faqPercent}%; background: #667eea;" title="FAQ: ${faqClicks}"></div>
+              <div class="chart-bar" style="width: ${resortPercent}%; background: #10b981;" title="Resort: ${resortClicks}"></div>
+            </div>
+            <div class="chart-value">${total}</div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // Display local tag clicks from localStorage
+    function displayLocalTagData() {
+      try {
+        const tagClicks = JSON.parse(localStorage.getItem('tagClicks') || '[]');
+
+        if (tagClicks.length === 0) {
+          document.getElementById('localTagClicks').innerHTML = '<p style="text-align: center; color: #999; padding: 2rem;">暫無本地記錄</p>';
+          return;
+        }
+
+        // Show last 20
+        const recent = tagClicks.slice(-20).reverse();
+
+        const html = recent.map(click => {
+          const time = new Date(click.timestamp).toLocaleString('zh-TW', {
+            month: '2-digit',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit'
+          });
+
+          const typeColor = click.tag_type === 'faq' ? '#667eea' : '#10b981';
+          const typeLabel = click.tag_type === 'faq' ? 'FAQ' : 'Resort';
+
+          return `
+            <div class="query-row">
+              <div style="flex: 1;">
+                <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
+                  <span style="background: ${typeColor}; color: white; padding: 0.1rem 0.5rem; border-radius: 4px; font-size: 0.75rem; font-weight: 600;">${typeLabel}</span>
+                  <strong style="color: #2D395C;">${click.tag_name}</strong>
+                </div>
+                <div style="color: #999; font-size: 0.85rem;">
+                  ${click.item_id} · ${click.language || 'zh'}
+                </div>
+              </div>
+              <div class="query-timestamp">${time}</div>
+            </div>
+          `;
+        }).join('');
+
+        document.getElementById('localTagClicks').innerHTML = html;
+      } catch (error) {
+        console.error('[Tag Analytics] Error displaying local data:', error);
+        document.getElementById('localTagClicks').innerHTML = '<p style="text-align: center; color: #999; padding: 2rem;">載入失敗</p>';
+      }
     }
 
     // Initial load
