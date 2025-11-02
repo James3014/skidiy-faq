@@ -103,6 +103,45 @@
       color: #ef4444;
     }
 
+    /* Tabs */
+    .tabs {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 2rem;
+      border-bottom: 2px solid #e5e7eb;
+    }
+
+    .tab {
+      padding: 0.75rem 1.5rem;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 500;
+      color: #6b7280;
+      border-bottom: 3px solid transparent;
+      transition: all 0.2s;
+      position: relative;
+      bottom: -2px;
+    }
+
+    .tab:hover {
+      color: #4A5F8C;
+    }
+
+    .tab.active {
+      color: #4A5F8C;
+      border-bottom-color: #4A5F8C;
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
     .stat-card.primary .value {
       color: #667eea;
     }
@@ -375,8 +414,16 @@
       </div>
     </div>
 
-    <!-- Overall Statistics -->
-    <div class="stats-grid" id="statsGrid">
+    <!-- Tabs -->
+    <div class="tabs">
+      <button class="tab active" onclick="switchTab('llm')">📊 LLM 使用統計</button>
+      <button class="tab" onclick="switchTab('faq')">❓ FAQ 點擊分析</button>
+    </div>
+
+    <!-- LLM Statistics Tab -->
+    <div id="llm-tab" class="tab-content active">
+      <!-- Overall Statistics -->
+      <div class="stats-grid" id="statsGrid">
       <div class="stat-card primary">
         <div class="label">總請求數</div>
         <div class="value" id="totalRequests">-</div>
@@ -458,6 +505,63 @@
         <div class="loading">載入最近查詢中...</div>
       </div>
     </div>
+    </div> <!-- End LLM Tab -->
+
+    <!-- FAQ Statistics Tab -->
+    <div id="faq-tab" class="tab-content">
+      <!-- FAQ Overall Statistics -->
+      <div class="stats-grid">
+        <div class="stat-card primary">
+          <div class="label">總瀏覽次數</div>
+          <div class="value" id="faqTotalViews">-</div>
+          <div class="subvalue">最近 30 天</div>
+        </div>
+        <div class="stat-card success">
+          <div class="label">總點擊次數</div>
+          <div class="value" id="faqTotalClicks">-</div>
+          <div class="subvalue"><span id="faqClickRate">-</span>% 點擊率</div>
+        </div>
+        <div class="stat-card">
+          <div class="label">分類點擊</div>
+          <div class="value" id="sectionTotalClicks">-</div>
+          <div class="subvalue">側邊欄分類</div>
+        </div>
+        <div class="stat-card">
+          <div class="label">最熱門 FAQ</div>
+          <div class="value" id="topFaqClicks">-</div>
+          <div class="subvalue" id="topFaqId">-</div>
+        </div>
+      </div>
+
+      <!-- Section Click Statistics -->
+      <div class="chart-section">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+          <h2>分類點擊統計（最近 30 天）</h2>
+          <button class="refresh-btn" onclick="loadFAQData()">重新整理</button>
+        </div>
+        <div class="provider-comparison" id="sectionStats">
+          <div class="loading">載入分類統計中...</div>
+        </div>
+      </div>
+
+      <!-- Top Clicked FAQs -->
+      <div class="chart-section">
+        <h2>最常點擊的 FAQ（前 20 名）</h2>
+        <div class="recent-queries" id="topFAQs">
+          <div class="loading">載入 FAQ 統計中...</div>
+        </div>
+      </div>
+
+      <!-- Daily FAQ Stats -->
+      <div class="chart-section">
+        <h2>每日 FAQ 點擊趨勢</h2>
+        <div class="daily-chart">
+          <div class="chart-bars" id="faqDailyChart">
+            <div class="loading">載入每日資料中...</div>
+          </div>
+        </div>
+      </div>
+    </div> <!-- End FAQ Tab -->
   </div>
 
   <script src="assets/env.js"></script>
@@ -630,6 +734,190 @@
       } catch (error) {
         showError('Failed to export data: ' + error.message);
       }
+    }
+
+    // Tab switching
+    function switchTab(tab) {
+      // Update tab buttons
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      event.target.classList.add('active');
+
+      // Update tab content
+      document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+
+      if (tab === 'llm') {
+        document.getElementById('llm-tab').classList.add('active');
+      } else if (tab === 'faq') {
+        document.getElementById('faq-tab').classList.add('active');
+        // Load FAQ data when switching to FAQ tab
+        loadFAQData();
+      }
+    }
+
+    // Load FAQ analytics data
+    async function loadFAQData() {
+      try {
+        await Promise.all([
+          loadFAQStats(),
+          loadSectionStats()
+        ]);
+      } catch (error) {
+        console.error('Failed to load FAQ data:', error);
+        showError('Failed to load FAQ analytics: ' + error.message);
+      }
+    }
+
+    // Load FAQ statistics
+    async function loadFAQStats() {
+      try {
+        const response = await fetch(`${API_BASE}/analytics/faq-stats?days=30`);
+        const result = await response.json();
+
+        if (!result.success) {
+          throw new Error(result.error?.message || 'Failed to load FAQ stats');
+        }
+
+        const data = result.data;
+
+        // Update overall stats
+        document.getElementById('faqTotalViews').textContent = data.total_views?.toLocaleString() || '0';
+        document.getElementById('faqTotalClicks').textContent = data.total_clicks?.toLocaleString() || '0';
+        document.getElementById('faqClickRate').textContent = data.click_through_rate || '0.00';
+
+        // Top FAQ
+        if (data.by_faq && data.by_faq.length > 0) {
+          document.getElementById('topFaqClicks').textContent = data.by_faq[0].clicks?.toLocaleString() || '0';
+          document.getElementById('topFaqId').textContent = data.by_faq[0].faq_id || '-';
+        }
+
+        // Render top FAQs table
+        renderTopFAQs(data.by_faq || []);
+
+        // Render daily chart
+        renderFAQDailyChart(data.daily || []);
+
+      } catch (error) {
+        console.error('Failed to load FAQ stats:', error);
+        document.getElementById('topFAQs').innerHTML = '<div class="error">無法載入 FAQ 統計數據</div>';
+      }
+    }
+
+    // Load section statistics
+    async function loadSectionStats() {
+      try {
+        const response = await fetch(`${API_BASE}/analytics/section-stats?days=30`);
+        const result = await response.json();
+
+        if (!result.success) {
+          throw new Error(result.error?.message || 'Failed to load section stats');
+        }
+
+        const data = result.data;
+
+        // Update overall section clicks
+        document.getElementById('sectionTotalClicks').textContent = data.total?.toLocaleString() || '0';
+
+        // Render section stats
+        renderSectionStats(data.by_section || []);
+
+      } catch (error) {
+        console.error('Failed to load section stats:', error);
+        document.getElementById('sectionStats').innerHTML = '<div class="error">無法載入分類統計數據</div>';
+      }
+    }
+
+    // Render top FAQs table
+    function renderTopFAQs(faqs) {
+      const container = document.getElementById('topFAQs');
+      if (!faqs || faqs.length === 0) {
+        container.innerHTML = '<div class="no-data">暫無 FAQ 點擊數據</div>';
+        return;
+      }
+
+      const html = `
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>排名</th>
+              <th>FAQ ID</th>
+              <th>瀏覽次數</th>
+              <th>點擊次數</th>
+              <th>點擊率</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${faqs.slice(0, 20).map((faq, index) => `
+              <tr>
+                <td>${index + 1}</td>
+                <td><code>${faq.faq_id}</code></td>
+                <td>${faq.views?.toLocaleString() || 0}</td>
+                <td><strong>${faq.clicks?.toLocaleString() || 0}</strong></td>
+                <td>${faq.ctr || 0}%</td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      `;
+
+      container.innerHTML = html;
+    }
+
+    // Render section stats
+    function renderSectionStats(sections) {
+      const container = document.getElementById('sectionStats');
+      if (!sections || sections.length === 0) {
+        container.innerHTML = '<div class="no-data">暫無分類點擊數據</div>';
+        return;
+      }
+
+      const html = sections.map(section => {
+        const widthPercent = parseFloat(section.percentage) || 0;
+        return `
+          <div class="provider-row">
+            <div class="provider-info">
+              <div class="provider-name">${section.section}</div>
+              <div class="provider-stats">
+                <span>${section.clicks?.toLocaleString() || 0} 次點擊</span>
+                <span>${section.percentage}%</span>
+              </div>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill" style="width: ${widthPercent}%"></div>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      container.innerHTML = html;
+    }
+
+    // Render FAQ daily chart
+    function renderFAQDailyChart(dailyData) {
+      const container = document.getElementById('faqDailyChart');
+      if (!dailyData || dailyData.length === 0) {
+        container.innerHTML = '<div class="no-data">暫無每日數據</div>';
+        return;
+      }
+
+      const maxClicks = Math.max(...dailyData.map(d => d.clicks || 0));
+
+      // Reverse to show oldest to newest
+      const sortedData = [...dailyData].reverse();
+
+      container.innerHTML = sortedData.map(day => {
+        const heightPercent = maxClicks > 0 ? ((day.clicks || 0) / maxClicks) * 100 : 0;
+        const date = new Date(day.date);
+        const label = `${date.getMonth() + 1}/${date.getDate()}`;
+
+        return `
+          <div class="bar-item">
+            <div class="bar" style="height: ${heightPercent}%">
+              <div class="bar-value">${day.clicks || 0}</div>
+            </div>
+            <div class="bar-label">${label}</div>
+          </div>
+        `;
+      }).join('');
     }
 
     // Utility functions
