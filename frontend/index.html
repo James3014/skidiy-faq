@@ -1011,17 +1011,12 @@
       <img src="assets/logo.png" alt="SkiDIY" style="height: 2.5rem; width: auto; margin-right: 0.5rem;">
       <span>FAQ</span>
     </div>
-    <div style="display: flex; gap: 1rem; align-items: center;">
-      <a href="menu.html" style="color: white; text-decoration: none; font-size: 0.9rem; padding: 0.5rem 1rem; background: rgba(255,255,255,0.15); border-radius: 8px; transition: all 0.3s; white-space: nowrap;" onmouseover="this.style.background='rgba(255,255,255,0.25)'" onmouseout="this.style.background='rgba(255,255,255,0.15)'">
-        ☰ 所有功能
-      </a>
-      <div class="language-selector">
-        <select id="languageSelect">
-          <option value="zh">繁體中文</option>
-          <option value="en">English</option>
-          <option value="th">ภาษาไทย</option>
-        </select>
-      </div>
+    <div class="language-selector">
+      <select id="languageSelect">
+        <option value="zh">繁體中文</option>
+        <option value="en">English</option>
+        <option value="th">ภาษาไทย</option>
+      </select>
     </div>
   </div>
 
@@ -1318,19 +1313,28 @@
     // Render resort regions in sidebar
     async function renderResortRegions() {
       try {
-        const response = await fetch(`${API_BASE}/resort/list`);
+        // 使用靜態 JSON 檔案而不是 API
+        const response = await fetch('resort_kb.json');
         if (!response.ok) {
           console.warn('[Resorts] Failed to load resort list');
           return;
         }
 
         const data = await response.json();
-        if (!data.success || !data.data.by_region) {
+        if (!data.resorts) {
           console.warn('[Resorts] Invalid resort data');
           return;
         }
 
-        const byRegion = data.data.by_region;
+        // 按地區分組雪場
+        const byRegion = {};
+        data.resorts.forEach(resort => {
+          const region = resort.region;
+          if (!byRegion[region]) {
+            byRegion[region] = [];
+          }
+          byRegion[region].push(resort);
+        });
 
         // 地區名稱對應（簡化顯示）
         const regionNames = {
@@ -1375,8 +1379,13 @@
       }
     }
 
-    // Show resorts for a specific region
+    // Show resorts for a specific region (with pagination)
+    let currentResortPage = 1;
+    const RESORTS_PER_PAGE = 15;
+
     async function showResortsByRegion(regionName, resorts) {
+      currentResortPage = 1; // 重置頁碼
+
       const regionNames = {
         'Hokkaido': '北海道',
         'Niigata Prefecture': '新潟',
@@ -1389,29 +1398,47 @@
       };
 
       const displayName = regionNames[regionName] || regionName;
-      const title = `🏔️ ${displayName} 雪場 (${resorts.length})`;
+      const totalPages = Math.ceil(resorts.length / RESORTS_PER_PAGE);
 
-      // 取得雪場詳細資訊
-      const resortsWithDetails = await Promise.all(
-        resorts.slice(0, 10).map(async (resort) => {
-          try {
-            const response = await fetch(`${API_BASE}/resort/${resort.resort_id}`);
-            if (response.ok) {
-              const data = await response.json();
-              return data.success ? data.data : resort;
-            }
-          } catch (error) {
-            console.warn(`Failed to load details for ${resort.resort_id}:`, error);
-          }
-          return resort;
-        })
-      );
-
-      const resortsHTML = resortsWithDetails.map(resort => createResortCard(resort)).join('');
-
-      displayResortsInModal(resortsHTML, title);
+      renderResortPage(displayName, resorts, currentResortPage, totalPages);
       hideIntentPanel();
     }
+
+    function renderResortPage(displayName, resorts, page, totalPages) {
+      const startIdx = (page - 1) * RESORTS_PER_PAGE;
+      const endIdx = startIdx + RESORTS_PER_PAGE;
+      const pageResorts = resorts.slice(startIdx, endIdx);
+
+      const title = `🏔️ ${displayName} 雪場 (第 ${page}/${totalPages} 頁，共 ${resorts.length} 個)`;
+      const resortsHTML = pageResorts.map(resort => createResortCard(resort)).join('');
+
+      // 分頁控制按鈕
+      const paginationHTML = totalPages > 1 ? `
+        <div style="display: flex; justify-content: center; align-items: center; gap: 1rem; margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid #e5e7eb;">
+          <button
+            onclick="changePage(${page - 1}, '${displayName}', ${JSON.stringify(resorts).replace(/"/g, '&quot;')}, ${totalPages})"
+            ${page === 1 ? 'disabled' : ''}
+            style="padding: 0.5rem 1rem; background: ${page === 1 ? '#ccc' : '#4A5F8C'}; color: white; border: none; border-radius: 8px; cursor: ${page === 1 ? 'not-allowed' : 'pointer'};">
+            ← 上一頁
+          </button>
+          <span style="color: #666;">第 ${page} / ${totalPages} 頁</span>
+          <button
+            onclick="changePage(${page + 1}, '${displayName}', ${JSON.stringify(resorts).replace(/"/g, '&quot;')}, ${totalPages})"
+            ${page === totalPages ? 'disabled' : ''}
+            style="padding: 0.5rem 1rem; background: ${page === totalPages ? '#ccc' : '#4A5F8C'}; color: white; border: none; border-radius: 8px; cursor: ${page === totalPages ? 'not-allowed' : 'pointer'};">
+            下一頁 →
+          </button>
+        </div>
+      ` : '';
+
+      displayResortsInModal(resortsHTML + paginationHTML, title);
+    }
+
+    // 全域函數供 onclick 使用
+    window.changePage = function(newPage, displayName, resorts, totalPages) {
+      currentResortPage = newPage;
+      renderResortPage(displayName, resorts, newPage, totalPages);
+    };
 
     // Create resort card HTML
     function createResortCard(resort) {
