@@ -1156,6 +1156,8 @@
     let currentSection = null;
     let searchDebounce = null;
     let currentLanguage = 'zh';
+    let resortDataCache = null;
+    let activeResortRegion = null;
 
     // API base configuration
     const API_BASE = window.API_BASE || '/api/v1';
@@ -1175,6 +1177,190 @@
       REFUND_POLICY: '退費規則',
       GENERAL: '一般查詢'
     };
+
+    const RESORT_LOCALE = {
+      zh: {
+        regionNames: {
+          'Hokkaido': '北海道',
+          'Niigata Prefecture': '新潟',
+          'Nagano Prefecture': '長野',
+          'Gunma Prefecture': '群馬',
+          'Fukushima Prefecture': '福島',
+          'Iwate Prefecture': '岩手',
+          'Tochigi Prefecture': '栃木',
+          'Yamagata Prefecture': '山形'
+        },
+        stats: {
+          lifts: '纜車',
+          courses: '雪道',
+          nightSki: '夜滑'
+        },
+        nightSkiValue: (enabled) => enabled ? '✓' : '✕',
+        pricing: {
+          title: '💴 一日券',
+          adult: '成人',
+          child: '兒童',
+          unavailable: '暫無'
+        },
+        transportationLabel: '🚌 交通',
+        viewOfficialSite: '查看官網 →',
+        toggles: {
+          more: (count) => `+${count} 更多`,
+          less: '收合'
+        },
+        pagination: {
+          prev: '← 上一頁',
+          next: '下一頁 →',
+          pageStatus: (page, total) => `第 ${page} / ${total} 頁`,
+          regionTitle: (region, page, total, count) => `🏔️ ${region} 雪場 (第 ${page}/${total} 頁，共 ${count} 個)`,
+          amenityTitle: (amenity, page, total, count) => `🏔️ 包含「${amenity}」的雪場 (第 ${page}/${total} 頁，共 ${count} 個)`
+        },
+        alerts: {
+          amenityNotFound: (amenity) => `沒有找到包含「${amenity}」的雪場`,
+          loadError: '載入雪場資料時發生錯誤'
+        },
+        search: {
+          relatedTitle: '🏔️ 相關雪場',
+          breakdown: (faqCount, resortCount) => `FAQ: ${faqCount}, 雪場: ${resortCount}`
+        },
+        modalTitle: (name) => `🏔️ ${name}`,
+        tagAlert: (tag) => `沒有找到標籤「${tag}」的雪場`
+      },
+      en: {
+        regionNames: {
+          'Hokkaido': 'Hokkaido',
+          'Niigata Prefecture': 'Niigata',
+          'Nagano Prefecture': 'Nagano',
+          'Gunma Prefecture': 'Gunma',
+          'Fukushima Prefecture': 'Fukushima',
+          'Iwate Prefecture': 'Iwate',
+          'Tochigi Prefecture': 'Tochigi',
+          'Yamagata Prefecture': 'Yamagata'
+        },
+        stats: {
+          lifts: 'Lifts',
+          courses: 'Runs',
+          nightSki: 'Night Ski'
+        },
+        nightSkiValue: (enabled) => enabled ? 'Yes' : 'No',
+        pricing: {
+          title: '💴 Day Pass',
+          adult: 'Adult',
+          child: 'Child',
+          unavailable: 'N/A'
+        },
+        transportationLabel: '🚌 Transportation',
+        viewOfficialSite: 'Visit Official Site →',
+        toggles: {
+          more: (count) => `+${count} more`,
+          less: 'Collapse'
+        },
+        pagination: {
+          prev: '← Prev',
+          next: 'Next →',
+          pageStatus: (page, total) => `Page ${page} / ${total}`,
+          regionTitle: (region, page, total, count) => `🏔️ ${region} Resorts (Page ${page}/${total}, Total ${count})`,
+          amenityTitle: (amenity, page, total, count) => `🏔️ Resorts with "${amenity}" (Page ${page}/${total}, Total ${count})`
+        },
+        alerts: {
+          amenityNotFound: (amenity) => `No resorts found with "${amenity}"`,
+          loadError: 'Failed to load resort data'
+        },
+        search: {
+          relatedTitle: '🏔️ Related Resorts',
+          breakdown: (faqCount, resortCount) => `FAQ: ${faqCount}, Resorts: ${resortCount}`
+        },
+        modalTitle: (name) => `🏔️ ${name}`,
+        tagAlert: (tag) => `No resorts found for tag "${tag}"`
+      },
+      th: {
+        regionNames: {
+          'Hokkaido': 'ฮอกไกโด',
+          'Niigata Prefecture': 'นีงาตะ',
+          'Nagano Prefecture': 'นากาโนะ',
+          'Gunma Prefecture': 'กุนมะ',
+          'Fukushima Prefecture': 'ฟุคุชิมะ',
+          'Iwate Prefecture': 'อิวาเตะ',
+          'Tochigi Prefecture': 'โทจิงิ',
+          'Yamagata Prefecture': 'ยามากาตะ'
+        },
+        stats: {
+          lifts: 'กระเช้าลอยฟ้า',
+          courses: 'เส้นทางสกี',
+          nightSki: 'สกีตอนกลางคืน'
+        },
+        nightSkiValue: (enabled) => enabled ? 'มี' : 'ไม่มี',
+        pricing: {
+          title: '💴 บัตรรายวัน',
+          adult: 'ผู้ใหญ่',
+          child: 'เด็ก',
+          unavailable: 'ไม่มีข้อมูล'
+        },
+        transportationLabel: '🚌 การเดินทาง',
+        viewOfficialSite: 'ดูเว็บไซต์ทางการ →',
+        toggles: {
+          more: (count) => `+${count} เพิ่มเติม`,
+          less: 'ย่อ'
+        },
+        pagination: {
+          prev: '← ก่อนหน้า',
+          next: 'ถัดไป →',
+          pageStatus: (page, total) => `หน้า ${page} / ${total}`,
+          regionTitle: (region, page, total, count) => `🏔️ รีสอร์ต${region} (หน้า ${page}/${total}, ทั้งหมด ${count})`,
+          amenityTitle: (amenity, page, total, count) => `🏔️ รีสอร์ตที่มี "${amenity}" (หน้า ${page}/${total}, ทั้งหมด ${count})`
+        },
+        alerts: {
+          amenityNotFound: (amenity) => `ไม่พบรีสอร์ตที่มี "${amenity}"`,
+          loadError: 'เกิดข้อผิดพลาดระหว่างโหลดข้อมูลรีสอร์ต'
+        },
+        search: {
+          relatedTitle: '🏔️ รีสอร์ตที่เกี่ยวข้อง',
+          breakdown: (faqCount, resortCount) => `FAQ: ${faqCount}, รีสอร์ต: ${resortCount}`
+        },
+        modalTitle: (name) => `🏔️ ${name}`,
+        tagAlert: (tag) => `ไม่พบรีสอร์ตที่ติดแท็ก "${tag}"`
+      }
+    };
+
+    function getResortLocale(language) {
+      const lang = language || currentLanguage || 'zh';
+      return RESORT_LOCALE[lang] || RESORT_LOCALE.zh;
+    }
+
+    function getRegionDisplayName(region, language) {
+      const locale = getResortLocale(language);
+      return locale.regionNames[region] || region;
+    }
+
+    function getResortDisplayNames(resort, language) {
+      const localeOrder = {
+        zh: ['zh', 'en', 'th', 'ja'],
+        en: ['en', 'zh', 'th', 'ja'],
+        th: ['th', 'en', 'zh', 'ja']
+      };
+      const fallback = localeOrder[language] || ['zh', 'en', 'th', 'ja'];
+      const names = resort.names || {};
+      const primary = fallback.map(code => names[code]).find(Boolean) || names.zh || names.en || names.ja || resort.name || '';
+
+      const secondaryFallback = {
+        zh: ['en', 'th', 'ja'],
+        en: ['zh', 'th', 'ja'],
+        th: ['en', 'zh', 'ja']
+      };
+      const secondary = (secondaryFallback[language] || ['en', 'zh', 'ja'])
+        .map(code => names[code])
+        .find(name => name && name !== primary) || '';
+
+      return { primary, secondary };
+    }
+
+    function formatDuration(minutes, language) {
+      if (minutes === undefined || minutes === null) return '';
+      const lang = language || currentLanguage || 'zh';
+      if (lang === 'en') return `${minutes} min`;
+      if (lang === 'th') return `${minutes} นาที`;
+      return `${minutes}分鐘`;
+    }
 
     // Initialize
     document.addEventListener('DOMContentLoaded', async () => {
@@ -1198,6 +1384,11 @@
         currentLanguage = i18n?.currentLanguage || 'zh';
         allFAQs = faqEngine.getAllFAQs();
         console.log(`[Init] FAQ engine initialized with ${allFAQs.length} FAQs`);
+
+        const languageSelect = document.getElementById('languageSelect');
+        if (languageSelect) {
+          languageSelect.value = currentLanguage;
+        }
 
         // Render UI components
         renderSidebar();
@@ -1306,6 +1497,7 @@
           body: JSON.stringify({
             faq_id: faqId,
             clicked: clicked,
+            language: currentLanguage,
             timestamp: new Date().toISOString()
           })
         });
@@ -1341,47 +1533,42 @@
     async function renderResortRegions() {
       try {
         // 使用靜態 JSON 檔案而不是 API
-        const response = await fetch('resort_kb.json');
-        if (!response.ok) {
-          console.warn('[Resorts] Failed to load resort list');
-          return;
+        let data = resortDataCache;
+        if (!data) {
+          const response = await fetch('resort_kb.json');
+          if (!response.ok) {
+            console.warn('[Resorts] Failed to load resort list');
+            return;
+          }
+
+          data = await response.json();
+          if (!data.resorts) {
+            console.warn('[Resorts] Invalid resort data');
+            return;
+          }
+
+          resortDataCache = data;
         }
 
-        const data = await response.json();
-        if (!data.resorts) {
-          console.warn('[Resorts] Invalid resort data');
-          return;
-        }
+        const locale = getResortLocale();
 
         // 按地區分組雪場
         const byRegion = {};
         data.resorts.forEach(resort => {
-          const region = resort.region;
+          const region = resort.region || 'Others';
           if (!byRegion[region]) {
             byRegion[region] = [];
           }
           byRegion[region].push(resort);
         });
 
-        // 地區名稱對應（簡化顯示）
-        const regionNames = {
-          'Hokkaido': '北海道',
-          'Niigata Prefecture': '新潟',
-          'Nagano Prefecture': '長野',
-          'Gunma Prefecture': '群馬',
-          'Fukushima Prefecture': '福島',
-          'Iwate Prefecture': '岩手',
-          'Tochigi Prefecture': '栃木',
-          'Yamagata Prefecture': '山形'
-        };
-
         const regionsHTML = Object.entries(byRegion)
           .sort((a, b) => b[1].length - a[1].length) // 依雪場數量排序
           .map(([region, resorts]) => {
-            const displayName = regionNames[region] || region;
+            const displayName = getRegionDisplayName(region);
             return `
               <div class="resort-region" data-region="${region}">
-                <span>${displayName}</span>
+                <span>${DOMPurify.sanitize(displayName)}</span>
                 <span class="resort-count">(${resorts.length})</span>
               </div>
             `;
@@ -1404,6 +1591,23 @@
           });
         });
 
+        if (activeResortRegion && byRegion[activeResortRegion]) {
+          const activeEl = document.querySelector(`.resort-region[data-region="${activeResortRegion}"]`);
+          if (activeEl) {
+            activeEl.classList.add('active');
+          }
+
+          const totalPages = Math.max(1, Math.ceil(byRegion[activeResortRegion].length / RESORTS_PER_PAGE));
+          const desiredPage = Math.min(currentResortPage || 1, totalPages);
+          const modal = document.getElementById('resultsModal');
+          if (modal && modal.classList.contains('show')) {
+            renderResortPage(activeResortRegion, byRegion[activeResortRegion], desiredPage, totalPages);
+            currentResortPage = desiredPage;
+          }
+        } else {
+          activeResortRegion = null;
+        }
+
         console.log(`[Resorts] Rendered ${Object.keys(byRegion).length} regions`);
       } catch (error) {
         console.error('[Resorts] Error loading resorts:', error);
@@ -1416,48 +1620,40 @@
 
     async function showResortsByRegion(regionName, resorts) {
       currentResortPage = 1; // 重置頁碼
-
-      const regionNames = {
-        'Hokkaido': '北海道',
-        'Niigata Prefecture': '新潟',
-        'Nagano Prefecture': '長野',
-        'Gunma Prefecture': '群馬',
-        'Fukushima Prefecture': '福島',
-        'Iwate Prefecture': '岩手',
-        'Tochigi Prefecture': '栃木',
-        'Yamagata Prefecture': '山形'
-      };
-
-      const displayName = regionNames[regionName] || regionName;
+      activeResortRegion = regionName;
       const totalPages = Math.ceil(resorts.length / RESORTS_PER_PAGE);
 
-      renderResortPage(displayName, resorts, currentResortPage, totalPages);
+      renderResortPage(regionName, resorts, currentResortPage, totalPages);
       hideIntentPanel();
     }
 
-    function renderResortPage(displayName, resorts, page, totalPages) {
+    function renderResortPage(regionName, resorts, page, totalPages) {
+      const locale = getResortLocale();
+      const displayName = getRegionDisplayName(regionName);
       const startIdx = (page - 1) * RESORTS_PER_PAGE;
       const endIdx = startIdx + RESORTS_PER_PAGE;
       const pageResorts = resorts.slice(startIdx, endIdx);
 
-      const title = `🏔️ ${displayName} 雪場 (第 ${page}/${totalPages} 頁，共 ${resorts.length} 個)`;
+      const title = locale.pagination.regionTitle(displayName, page, totalPages, resorts.length);
       const resortsHTML = pageResorts.map(resort => createResortCard(resort)).join('');
+
+      const escapedRegion = regionName.replace(/'/g, "\\'");
 
       // 分頁控制按鈕
       const paginationHTML = totalPages > 1 ? `
         <div style="display: flex; justify-content: center; align-items: center; gap: 1rem; margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid #e5e7eb;">
           <button
-            onclick="changePage(${page - 1}, '${displayName}', ${JSON.stringify(resorts).replace(/"/g, '&quot;')}, ${totalPages})"
+            onclick="changePage(${page - 1}, '${escapedRegion}', ${JSON.stringify(resorts).replace(/"/g, '&quot;')}, ${totalPages})"
             ${page === 1 ? 'disabled' : ''}
             style="padding: 0.5rem 1rem; background: ${page === 1 ? '#ccc' : '#4A5F8C'}; color: white; border: none; border-radius: 8px; cursor: ${page === 1 ? 'not-allowed' : 'pointer'};">
-            ← 上一頁
+            ${locale.pagination.prev}
           </button>
-          <span style="color: #666;">第 ${page} / ${totalPages} 頁</span>
+          <span style="color: #666;">${locale.pagination.pageStatus(page, totalPages)}</span>
           <button
-            onclick="changePage(${page + 1}, '${displayName}', ${JSON.stringify(resorts).replace(/"/g, '&quot;')}, ${totalPages})"
+            onclick="changePage(${page + 1}, '${escapedRegion}', ${JSON.stringify(resorts).replace(/"/g, '&quot;')}, ${totalPages})"
             ${page === totalPages ? 'disabled' : ''}
             style="padding: 0.5rem 1rem; background: ${page === totalPages ? '#ccc' : '#4A5F8C'}; color: white; border: none; border-radius: 8px; cursor: ${page === totalPages ? 'not-allowed' : 'pointer'};">
-            下一頁 →
+            ${locale.pagination.next}
           </button>
         </div>
       ` : '';
@@ -1466,15 +1662,16 @@
     }
 
     // 全域函數供 onclick 使用
-    window.changePage = function(newPage, displayName, resorts, totalPages) {
+    window.changePage = function(newPage, regionName, resorts, totalPages) {
       currentResortPage = newPage;
-      renderResortPage(displayName, resorts, newPage, totalPages);
+      renderResortPage(regionName, resorts, newPage, totalPages);
     };
 
     // 展開/收合更多 amenities
     window.toggleMoreAmenities = function(resortId, allAmenities) {
       const container = document.getElementById(`amenities-${resortId}`);
       const isExpanded = container.dataset.expanded === 'true';
+      const locale = getResortLocale();
 
       if (isExpanded) {
         // 收合：只顯示前 15 個
@@ -1483,7 +1680,7 @@
         ).join('') + `
           <button onclick="toggleMoreAmenities('${resortId}', ${JSON.stringify(allAmenities).replace(/"/g, '&quot;')})"
             style="background: #4A5F8C; color: white; border: none; padding: 0.25rem 0.75rem; border-radius: 6px; cursor: pointer; font-size: 0.8rem;">
-            +${allAmenities.length - 15} 更多
+            ${locale.toggles.more(allAmenities.length - 15)}
           </button>
         `;
         container.dataset.expanded = 'false';
@@ -1494,7 +1691,7 @@
         ).join('') + `
           <button onclick="toggleMoreAmenities('${resortId}', ${JSON.stringify(allAmenities).replace(/"/g, '&quot;')})"
             style="background: #666; color: white; border: none; padding: 0.25rem 0.75rem; border-radius: 6px; cursor: pointer; font-size: 0.8rem;">
-            收合
+            ${locale.toggles.less}
           </button>
         `;
         container.dataset.expanded = 'true';
@@ -1503,62 +1700,109 @@
 
     // Create resort card HTML
     function createResortCard(resort) {
-      const name = resort.names?.zh || resort.name || '';
-      const nameEn = resort.names?.en || resort.name_en || '';
-      const region = resort.region || '';
+      const locale = getResortLocale();
+      const { primary, secondary } = getResortDisplayNames(resort, currentLanguage);
+      const regionDisplay = getRegionDisplayName(resort.region || '');
 
-      const lifts = resort.snow_stats?.lifts || resort.lifts || 0;
-      const courses = resort.snow_stats?.courses_total || resort.courses || 0;
-      const nightSki = resort.snow_stats?.night_ski || resort.night_ski || false;
+      const lifts = resort.snow_stats?.lifts ?? resort.lifts ?? '—';
+      const courses = resort.snow_stats?.courses_total ?? resort.courses ?? '—';
+      const nightSki = Boolean(resort.snow_stats?.night_ski ?? resort.night_ski);
 
-      const pricing = resort.pricing;
-      const transportation = resort.transportation;
+      const pricing = resort.pricing || {};
       const amenities = resort.amenities || [];
       const officialSite = resort.official_site || '';
+      const transportation = resort.transportation || null;
+
+      let adultPrice = pricing.one_day_adult ?? null;
+      let childPrice = pricing.one_day_child ?? null;
+      let pricingTypeLabel = '';
+
+      if (Array.isArray(pricing.ticket_types)) {
+        const dayTicket = pricing.ticket_types.find(ticket => /1-day/i.test(ticket.type)) || pricing.ticket_types[0];
+        if (dayTicket) {
+          pricingTypeLabel = dayTicket.type || '';
+          if (adultPrice === null || adultPrice === undefined) {
+            adultPrice = dayTicket.adult ?? dayTicket.general ?? dayTicket.price ?? null;
+          }
+          if (childPrice === null || childPrice === undefined) {
+            childPrice = dayTicket.child ?? dayTicket.kid ?? dayTicket.junior ?? dayTicket.youth ?? null;
+          }
+        }
+      }
+
+      const priceParts = [];
+      if (adultPrice !== null && adultPrice !== undefined) {
+        priceParts.push(`${locale.pricing.adult} ¥${Number(adultPrice).toLocaleString()}`);
+      }
+      if (childPrice !== null && childPrice !== undefined) {
+        priceParts.push(`${locale.pricing.child} ¥${Number(childPrice).toLocaleString()}`);
+      }
+      const pricingValue = priceParts.length > 0 ? priceParts.join(' / ') : locale.pricing.unavailable;
+
+      let transportationSummary = '';
+      if (transportation) {
+        if (transportation.route) {
+          transportationSummary = transportation.route;
+          if (transportation.duration_minutes) {
+            transportationSummary += ` (${formatDuration(transportation.duration_minutes, currentLanguage)})`;
+          }
+        } else if (Array.isArray(transportation.domestic?.shinkansen) && transportation.domestic.shinkansen.length > 0) {
+          const first = transportation.domestic.shinkansen[0];
+          const route = `${first.from || ''} → ${first.to || ''}`.trim();
+          transportationSummary = route || transportationSummary;
+          if (first.duration_minutes) {
+            transportationSummary += ` (${formatDuration(first.duration_minutes, currentLanguage)})`;
+          }
+        } else if (Array.isArray(transportation.domestic?.bus) && transportation.domestic.bus.length > 0) {
+          const firstBus = transportation.domestic.bus[0];
+          transportationSummary = firstBus.route || '';
+          if (firstBus.duration_minutes) {
+            transportationSummary += ` (${formatDuration(firstBus.duration_minutes, currentLanguage)})`;
+          }
+        } else if (transportation.remarks) {
+          transportationSummary = transportation.remarks;
+        }
+      }
 
       return `
         <div class="resort-card">
           <div class="resort-header">
             <div>
-              <div class="resort-name">${DOMPurify.sanitize(name)}</div>
-              <div class="resort-name-en">${DOMPurify.sanitize(nameEn)}</div>
+              <div class="resort-name">${DOMPurify.sanitize(primary)}</div>
+              ${secondary ? `<div class="resort-name-en">${DOMPurify.sanitize(secondary)}</div>` : ''}
             </div>
-            <div class="resort-region-tag">${DOMPurify.sanitize(region.replace(' Prefecture', ''))}</div>
+            <div class="resort-region-tag">${DOMPurify.sanitize(regionDisplay)}</div>
           </div>
 
           <div class="resort-stats">
             <div class="resort-stat">
               <div class="resort-stat-value">${lifts}</div>
-              <div class="resort-stat-label">纜車</div>
+              <div class="resort-stat-label">${locale.stats.lifts}</div>
             </div>
             <div class="resort-stat">
               <div class="resort-stat-value">${courses}</div>
-              <div class="resort-stat-label">雪道</div>
+              <div class="resort-stat-label">${locale.stats.courses}</div>
             </div>
             <div class="resort-stat">
-              <div class="resort-stat-value">${nightSki ? '✓' : '✕'}</div>
-              <div class="resort-stat-label">夜滑</div>
+              <div class="resort-stat-value">${locale.nightSkiValue(nightSki)}</div>
+              <div class="resort-stat-label">${locale.stats.nightSki}</div>
             </div>
           </div>
 
-          ${pricing ? `
+          ${(priceParts.length > 0 || pricingTypeLabel) ? `
             <div class="resort-info">
               <div class="resort-info-row">
-                <span class="resort-info-label">💴 一日券:</span>
-                <span class="resort-info-value">
-                  成人 ¥${pricing.one_day_adult?.toLocaleString() || 'N/A'} /
-                  兒童 ¥${pricing.one_day_child?.toLocaleString() || 'N/A'}
-                </span>
+                <span class="resort-info-label">${locale.pricing.title}${pricingTypeLabel ? ` (${DOMPurify.sanitize(pricingTypeLabel)})` : ''}:</span>
+                <span class="resort-info-value">${DOMPurify.sanitize(pricingValue)}</span>
               </div>
             </div>
           ` : ''}
 
-          ${transportation ? `
+          ${transportationSummary ? `
             <div class="resort-info">
               <div class="resort-info-row">
-                <span class="resort-info-label">🚌 交通:</span>
-                <span class="resort-info-value">${DOMPurify.sanitize(transportation.route || 'N/A')}
-                  ${transportation.duration_minutes ? `(${transportation.duration_minutes}分鐘)` : ''}</span>
+                <span class="resort-info-label">${locale.transportationLabel}:</span>
+                <span class="resort-info-value">${DOMPurify.sanitize(transportationSummary || '')}</span>
               </div>
             </div>
           ` : ''}
@@ -1569,7 +1813,7 @@
               ${amenities.length > 15 ? `
                 <button onclick="toggleMoreAmenities('${resort.resort_id}', ${JSON.stringify(amenities).replace(/"/g, '&quot;')})"
                   style="background: #4A5F8C; color: white; border: none; padding: 0.25rem 0.75rem; border-radius: 6px; cursor: pointer; font-size: 0.8rem;">
-                  +${amenities.length - 15} 更多
+                  ${locale.toggles.more(amenities.length - 15)}
                 </button>
               ` : ''}
             </div>
@@ -1577,7 +1821,7 @@
 
           ${officialSite ? `
             <a href="${DOMPurify.sanitize(officialSite)}" target="_blank" class="resort-link">
-              查看官網 →
+              ${locale.viewOfficialSite}
             </a>
           ` : ''}
         </div>
@@ -1595,18 +1839,24 @@
 
     // Filter resorts by amenity tag
     async function filterResortsByAmenity(amenity) {
+      const locale = getResortLocale();
       try {
-        // 使用靜態 JSON 檔案
-        const response = await fetch('resort_kb.json');
-        if (!response.ok) {
-          console.warn('[Resorts] Failed to load resort list for filtering');
-          return;
-        }
+        let data = resortDataCache;
+        if (!data) {
+          const response = await fetch('resort_kb.json');
+          if (!response.ok) {
+            console.warn('[Resorts] Failed to load resort list for filtering');
+            alert(locale.alerts.loadError);
+            return;
+          }
 
-        const data = await response.json();
-        if (!data.resorts) {
-          console.warn('[Resorts] Invalid resort data');
-          return;
+          data = await response.json();
+          if (!data.resorts) {
+            console.warn('[Resorts] Invalid resort data');
+            alert(locale.alerts.loadError);
+            return;
+          }
+          resortDataCache = data;
         }
 
         // Filter resorts by amenity
@@ -1615,7 +1865,7 @@
         );
 
         if (filtered.length === 0) {
-          alert(`沒有找到包含「${amenity}」的雪場`);
+          alert(locale.alerts.amenityNotFound(amenity));
           return;
         }
 
@@ -1627,34 +1877,36 @@
 
       } catch (error) {
         console.error('[Resorts] Error filtering by amenity:', error);
-        alert('載入雪場資料時發生錯誤');
+        alert(locale.alerts.loadError);
       }
     }
 
     // Render filtered resorts with pagination
     function renderFilteredResortsPage(amenity, resorts, page, totalPages) {
+      const locale = getResortLocale();
       const startIdx = (page - 1) * RESORTS_PER_PAGE;
       const endIdx = startIdx + RESORTS_PER_PAGE;
       const pageResorts = resorts.slice(startIdx, endIdx);
 
-      const title = `🏔️ 包含「${amenity}」的雪場 (第 ${page}/${totalPages} 頁，共 ${resorts.length} 個)`;
+      const title = locale.pagination.amenityTitle(amenity, page, totalPages, resorts.length);
       const resortsHTML = pageResorts.map(resort => createResortCard(resort)).join('');
+      const escapedAmenity = amenity.replace(/'/g, "\\'");
 
       // 分頁控制按鈕
       const paginationHTML = totalPages > 1 ? `
         <div style="display: flex; justify-content: center; align-items: center; gap: 1rem; margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid #e5e7eb;">
           <button
-            onclick="changeFilteredPage(${page - 1}, '${amenity}', ${JSON.stringify(resorts).replace(/"/g, '&quot;')}, ${totalPages})"
+            onclick="changeFilteredPage(${page - 1}, '${escapedAmenity}', ${JSON.stringify(resorts).replace(/"/g, '&quot;')}, ${totalPages})"
             ${page === 1 ? 'disabled' : ''}
             style="padding: 0.5rem 1rem; background: ${page === 1 ? '#ccc' : '#4A5F8C'}; color: white; border: none; border-radius: 8px; cursor: ${page === 1 ? 'not-allowed' : 'pointer'};">
-            ← 上一頁
+            ${locale.pagination.prev}
           </button>
-          <span style="color: #666;">第 ${page} / ${totalPages} 頁</span>
+          <span style="color: #666;">${locale.pagination.pageStatus(page, totalPages)}</span>
           <button
-            onclick="changeFilteredPage(${page + 1}, '${amenity}', ${JSON.stringify(resorts).replace(/"/g, '&quot;')}, ${totalPages})"
+            onclick="changeFilteredPage(${page + 1}, '${escapedAmenity}', ${JSON.stringify(resorts).replace(/"/g, '&quot;')}, ${totalPages})"
             ${page === totalPages ? 'disabled' : ''}
             style="padding: 0.5rem 1rem; background: ${page === totalPages ? '#ccc' : '#4A5F8C'}; color: white; border: none; border-radius: 8px; cursor: ${page === totalPages ? 'not-allowed' : 'pointer'};">
-            下一頁 →
+            ${locale.pagination.next}
           </button>
         </div>
       ` : '';
@@ -1687,7 +1939,8 @@
 
         const resort = data.data;
         const resortHTML = createResortCard(resort);
-        const title = `🏔️ ${resort.names?.zh || resort.name}`;
+        const resortNames = getResortDisplayNames(resort, currentLanguage);
+        const title = getResortLocale().modalTitle(resortNames.primary || resort.names?.zh || resort.name || '');
 
         displayResortsInModal(resortHTML, title);
       } catch (error) {
@@ -1703,7 +1956,7 @@
 
       // Try to fetch hot FAQs from analytics API
       try {
-        const response = await fetch(`${API_BASE}/analytics/hot-faqs?limit=5&days=30`);
+        const response = await fetch(`${API_BASE}/analytics/hot-faqs?limit=5&days=30&language=${currentLanguage}`);
         if (response.ok) {
           const data = await response.json();
           if (data.success && data.data.hot_faqs && data.data.hot_faqs.length > 0) {
@@ -1757,7 +2010,10 @@
     }
 
     // Filter by section
-    function filterBySection(section) {
+    async function filterBySection(section) {
+      // Track section click
+      trackSectionClick(section);
+
       const filtered = allFAQs.filter(faq => faq.section === section);
       const categoryLabel = i18n ? i18n.t('category') : '分類';
       const title = `${categoryLabel}：${getSectionLabel(section)}`;
@@ -1765,6 +2021,34 @@
       // Show results in Modal (mobile-friendly)
       displayFAQsInModal(filtered, title);
       hideIntentPanel();
+    }
+
+    // Track section click
+    async function trackSectionClick(section) {
+      try {
+        console.log(`[Section Click] Section: ${section}`);
+
+        const sectionClick = {
+          timestamp: new Date().toISOString(),
+          section: section,
+          language: currentLanguage
+        };
+
+        // Store in localStorage
+        const clicks = JSON.parse(localStorage.getItem('sectionClicks') || '[]');
+        clicks.push(sectionClick);
+        if (clicks.length > 100) clicks.shift();
+        localStorage.setItem('sectionClicks', JSON.stringify(clicks));
+
+        // Try to send to backend
+        await fetch(`${API_BASE}/analytics/track-section-click`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(sectionClick)
+        });
+      } catch (error) {
+        console.error('[Section Click] Error tracking:', error);
+      }
     }
 
     function displayFAQsInModal(faqs, title) {
@@ -1866,26 +2150,48 @@
         // Search resorts in parallel using local JSON
         let resortResults = [];
         try {
-          const resortResponse = await fetch('resort_kb.json');
-          if (resortResponse.ok) {
-            const resortData = await resortResponse.json();
-            // Search through resorts by name or amenities
+          let resortData = resortDataCache;
+          if (!resortData) {
+            const resortResponse = await fetch('resort_kb.json');
+            if (resortResponse.ok) {
+              resortData = await resortResponse.json();
+              resortDataCache = resortData;
+            } else {
+              console.warn('[Search] Resort data request failed with status:', resortResponse.status);
+            }
+          }
+
+          if (resortData?.resorts) {
             const queryLower = query.toLowerCase();
+
             resortResults = resortData.resorts.filter(resort => {
-              // Search in Chinese, English, Japanese names
-              const nameMatch =
-                resort.names.zh.toLowerCase().includes(queryLower) ||
-                resort.names.en.toLowerCase().includes(queryLower) ||
-                resort.names.ja.toLowerCase().includes(queryLower);
+              const nameMatch = Object.values(resort.names || {})
+                .some(name => typeof name === 'string' && name.toLowerCase().includes(queryLower));
 
-              // Search in amenities
-              const amenityMatch = resort.amenities &&
-                resort.amenities.some(a => a.toLowerCase().includes(queryLower));
+              const amenityMatch = Array.isArray(resort.amenities) &&
+                resort.amenities.some(a => typeof a === 'string' && a.toLowerCase().includes(queryLower));
 
-              // Search in region
-              const regionMatch = resort.region.toLowerCase().includes(queryLower);
+              const regionCandidates = new Set();
+              if (resort.region) {
+                regionCandidates.add(resort.region);
+              }
+              Object.values(RESORT_LOCALE).forEach(locale => {
+                const regionLabel = locale.regionNames[resort.region];
+                if (regionLabel) {
+                  regionCandidates.add(regionLabel);
+                }
+              });
+              const regionMatch = Array.from(regionCandidates)
+                .some(label => typeof label === 'string' && label.toLowerCase().includes(queryLower));
 
               return nameMatch || amenityMatch || regionMatch;
+            }).map(resort => {
+              const names = getResortDisplayNames(resort, currentLanguage);
+              return {
+                resort_id: resort.resort_id,
+                name: names.primary,
+                region: getRegionDisplayName(resort.region || ''),
+              };
             });
 
             console.log(`[Search] Found ${resortResults.length} matching resorts for "${query}"`);
@@ -1901,7 +2207,8 @@
 
         // Display FAQ results (always)
         const faqs = results.map(r => ({...r.item, score: r.score}));
-        displayFAQs(faqs, '搜尋結果', searchTime, resortResults);
+        const searchTitle = i18n ? i18n.t('search_results') : '搜尋結果';
+        displayFAQs(faqs, searchTitle, searchTime, resortResults);
 
       } catch (error) {
         console.error('Search failed:', error);
@@ -1969,13 +2276,17 @@
       document.getElementById('loadingState').classList.add('hidden');
       document.getElementById('resultsSection').classList.remove('hidden');
 
+      const locale = getResortLocale();
       const totalResults = faqs.length + resortResults.length;
-      document.getElementById('resultCount').textContent =
-        `${title}: 找到 ${totalResults} 筆結果 (FAQ: ${faqs.length}, 雪場: ${resortResults.length})`;
+      const resultsLabel = i18n ? i18n.t('results_count', { count: totalResults }) : `找到 ${totalResults} 筆結果`;
+      const breakdownLabel = locale.search.breakdown(faqs.length, resortResults.length);
+      document.getElementById('resultCount').textContent = `${title}: ${resultsLabel} (${breakdownLabel})`;
 
-      if (searchTime) {
-        document.getElementById('responseTime').textContent =
-          `搜尋耗時: ${searchTime}ms`;
+      if (searchTime !== null && searchTime !== undefined) {
+        const timeLabel = i18n ? i18n.t('response_time', { time: searchTime }) : `搜尋耗時: ${searchTime}ms`;
+        document.getElementById('responseTime').textContent = timeLabel;
+      } else {
+        document.getElementById('responseTime').textContent = '';
       }
 
       // Render resort results first if any
@@ -1983,13 +2294,13 @@
       if (resortResults.length > 0) {
         resortsHTML = `
           <div style="margin-bottom: 2rem;">
-            <h3 style="color: #2D395C; margin-bottom: 1rem; font-size: 1.2rem;">🏔️ 相關雪場</h3>
+            <h3 style="color: #2D395C; margin-bottom: 1rem; font-size: 1.2rem;">${locale.search.relatedTitle}</h3>
             ${resortResults.map(resort => {
               return `
                 <div class="resort-region" style="cursor: pointer; margin: 0.5rem 0;"
                      onclick="showResortDetail('${resort.resort_id}')">
-                  <span><strong>${DOMPurify.sanitize(resort.name)}</strong></span>
-                  <span class="resort-count">${DOMPurify.sanitize(resort.region)}</span>
+                  <span><strong>${DOMPurify.sanitize(resort.name || '')}</strong></span>
+                  <span class="resort-count">${DOMPurify.sanitize(resort.region || '')}</span>
                 </div>
               `;
             }).join('')}
@@ -2111,12 +2422,22 @@
         console.log(`[Filter] Found ${filtered.length} FAQs with tag ${tagName}`);
 
         if (filtered.length === 0) {
-          alert(`沒有找到標籤「${tagName}」的 FAQ`);
+          const messages = {
+            zh: `沒有找到標籤「${tagName}」的 FAQ`,
+            en: `No FAQs found with tag "${tagName}"`,
+            th: `ไม่พบ FAQ ที่มีแท็ก "${tagName}"`
+          };
+          alert(messages[currentLanguage] || messages.zh);
           return;
         }
 
         // Use modal to display filtered results (consistent with category filtering)
-        const title = `🏷️ 標籤篩選: ${tagName} (${filtered.length} 個結果)`;
+        const titles = {
+          zh: `🏷️ 標籤篩選: ${tagName} (${filtered.length} 個結果)`,
+          en: `🏷️ Tag Filter: ${tagName} (${filtered.length} result(s))`,
+          th: `🏷️ ตัวกรองแท็ก: ${tagName} (${filtered.length} รายการ)`
+        };
+        const title = titles[currentLanguage] || titles.zh;
         displayFAQsInModal(filtered, title);
       } catch (error) {
         console.error('[Filter] Error filtering by tag:', error);
@@ -2232,10 +2553,15 @@
       // If not in results, find the FAQ and display it
       console.log('[showFAQDetail] FAQ not in results, searching in allFAQs');
       const faq = allFAQs.find(f => f.id === faqId);
-      if (faq) {
-        console.log('[showFAQDetail] Found FAQ, calling displayFAQs');
-        // Display this single FAQ
-        displayFAQs([faq], '熱門問題');
+        if (faq) {
+          console.log('[showFAQDetail] Found FAQ, calling displayFAQs');
+          // Display this single FAQ
+          const hotTitle = currentLanguage === 'en'
+            ? 'Popular Questions'
+            : currentLanguage === 'th'
+              ? 'คำถามยอดนิยม'
+              : '熱門問題';
+          displayFAQs([faq], hotTitle);
         hideIntentPanel();
 
         // Expand it automatically after a short delay to allow rendering
@@ -2293,6 +2619,7 @@
 
           // Re-render category sidebar and hot list for new language
           renderSidebar();
+          renderResortRegions();
           renderHotFAQs();
 
           const query = document.getElementById('searchInput').value.trim();
@@ -2356,6 +2683,31 @@
       }
 
       document.getElementById('loadingState').textContent = i18n.t('loading');
+
+      const searchInput = document.getElementById('searchInput');
+      if (searchInput) {
+        searchInput.placeholder = i18n.t('search_placeholder');
+      }
+
+      const searchBtn = document.getElementById('searchBtn');
+      if (searchBtn) {
+        searchBtn.textContent = i18n.t('search_button');
+      }
+
+      const languageSelect = document.getElementById('languageSelect');
+      if (languageSelect && i18n.languageSelectorValuesUpdated !== currentLang) {
+        const labelMap = {
+          zh: i18n.t('language_selector.zh'),
+          en: i18n.t('language_selector.en'),
+          th: i18n.t('language_selector.th')
+        };
+        Array.from(languageSelect.options).forEach(option => {
+          if (labelMap[option.value]) {
+            option.textContent = labelMap[option.value];
+          }
+        });
+        i18n.languageSelectorValuesUpdated = currentLang;
+      }
     }
 
     // ==================== AI Chat Widget ====================
