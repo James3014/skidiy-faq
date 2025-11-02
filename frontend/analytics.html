@@ -401,6 +401,80 @@
       color: #666;
       margin-right: 5px;
     }
+
+    /* Mobile/Desktop visibility toggles */
+    .mobile-only {
+      display: inline;
+    }
+
+    .desktop-only {
+      display: none;
+    }
+
+    @media (min-width: 768px) {
+      .mobile-only {
+        display: none;
+      }
+
+      .desktop-only {
+        display: inline;
+      }
+
+      th.desktop-only,
+      td.desktop-only {
+        display: table-cell;
+      }
+
+      th.mobile-only,
+      td.mobile-only {
+        display: none;
+      }
+    }
+
+    /* Data table styles */
+    .recent-queries table,
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .recent-queries table th,
+    .recent-queries table td,
+    table th,
+    table td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    .recent-queries table th,
+    table th {
+      background: #f9fafb;
+      font-weight: 600;
+      color: #374151;
+      font-size: 14px;
+    }
+
+    .recent-queries table td,
+    table td {
+      font-size: 14px;
+      color: #4b5563;
+    }
+
+    .recent-queries table tbody tr:hover,
+    table tbody tr:hover {
+      background: #f9fafb;
+    }
+
+    @media (max-width: 767px) {
+      .recent-queries table th,
+      .recent-queries table td,
+      table th,
+      table td {
+        padding: 8px 6px;
+        font-size: 12px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -834,25 +908,34 @@
         return;
       }
 
+      // Truncate title for mobile display
+      function truncateTitle(title, maxLength = 30) {
+        if (title.length <= maxLength) return title;
+        return title.substring(0, maxLength) + '...';
+      }
+
       const html = `
         <table class="data-table">
           <thead>
             <tr>
               <th>排名</th>
-              <th>FAQ ID</th>
-              <th>瀏覽次數</th>
+              <th>FAQ 標題</th>
+              <th class="desktop-only">分類</th>
               <th>點擊次數</th>
-              <th>點擊率</th>
+              <th class="desktop-only">點擊率</th>
             </tr>
           </thead>
           <tbody>
             ${faqs.slice(0, 20).map((faq, index) => `
               <tr>
                 <td>${index + 1}</td>
-                <td><code>${faq.faq_id}</code></td>
-                <td>${faq.views?.toLocaleString() || 0}</td>
+                <td title="${escapeHtml(faq.title || faq.faq_id)}">
+                  <span class="mobile-only">${escapeHtml(truncateTitle(faq.title || faq.faq_id, 20))}</span>
+                  <span class="desktop-only">${escapeHtml(truncateTitle(faq.title || faq.faq_id, 40))}</span>
+                </td>
+                <td class="desktop-only"><small>${escapeHtml(faq.section || '-')}</small></td>
                 <td><strong>${faq.clicks?.toLocaleString() || 0}</strong></td>
-                <td>${faq.ctr || 0}%</td>
+                <td class="desktop-only">${faq.ctr || 0}%</td>
               </tr>
             `).join('')}
           </tbody>

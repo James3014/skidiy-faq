@@ -863,6 +863,25 @@ router.get('/faq-stats', async (req, res, next) => {
 
     const byFaq = db.prepare(byFaqQuery).all(dateFilter);
 
+    // Enrich FAQ data with titles from faq_kb.js
+    const faqKB = require('../data/faq_kb.js');
+    const faqMap = {};
+    if (faqKB && faqKB.items) {
+      faqKB.items.forEach(item => {
+        faqMap[item.id] = {
+          title: item.canonical_question || item.id,
+          section: item.section || ''
+        };
+      });
+    }
+
+    // Add titles to FAQ stats
+    const enrichedByFaq = byFaq.map(faq => ({
+      ...faq,
+      title: faqMap[faq.faq_id]?.title || faq.faq_id,
+      section: faqMap[faq.faq_id]?.section || ''
+    }));
+
     // Daily stats
     const dailyQuery = `
       SELECT
@@ -880,7 +899,7 @@ router.get('/faq-stats', async (req, res, next) => {
       total_views: totals.total_views,
       total_clicks: totals.total_clicks,
       click_through_rate: clickThroughRate,
-      by_faq: byFaq,
+      by_faq: enrichedByFaq,
       daily,
       period_days: parseInt(days, 10)
     }, 200, {
