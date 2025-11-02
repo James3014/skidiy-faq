@@ -84,15 +84,15 @@
 
     .footer-info {
       display: flex;
-      align-items: center;
-      gap: 1rem;
+      flex-direction: column;
+      gap: 0.25rem;
     }
 
     .company-name {
       font-size: 0.75rem;
       font-weight: 500;
       color: white;
-      line-height: 1.2;
+      line-height: 1.5;
     }
 
     .company-details {
@@ -101,7 +101,16 @@
       gap: 0.5rem;
       font-size: 0.75rem;
       color: #d1d5db;
-      line-height: 1.2;
+      line-height: 1.5;
+      margin-top: 0.125rem;
+    }
+
+    .company-details span {
+      color: #d1d5db;
+    }
+
+    .company-details span:nth-child(2) {
+      color: #d1d5db;
     }
 
     .company-details a {
@@ -136,18 +145,21 @@
 
     @media (max-width: 768px) {
       .footer-content {
-        flex-direction: column;
-        gap: 1rem;
-        text-align: center;
+        flex-direction: row;
+        padding: 0.5rem 1rem;
+      }
+
+      .footer-info {
+        flex: 1;
+      }
+
+      .company-name {
+        font-size: 0.7rem;
       }
 
       .company-details {
-        flex-direction: column;
-        gap: 0.25rem;
-      }
-
-      .company-details span:nth-child(2) {
-        display: none;
+        font-size: 0.7rem;
+        flex-wrap: wrap;
       }
     }
 
