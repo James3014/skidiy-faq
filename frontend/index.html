@@ -1730,11 +1730,14 @@
       `;
       }).join('');
 
-      // Render to both sidebar and initial view
-      document.getElementById('hotFAQs').innerHTML = hotHTML;
-      document.getElementById('initialHotFAQs').innerHTML = hotHTML;
-
-      console.log(`[Hot FAQs] Rendered ${hotFAQs.length} hot questions to sidebar and initial view`);
+      // Render to sidebar
+      const hotFAQsEl = document.getElementById('hotFAQs');
+      if (hotFAQsEl) {
+        hotFAQsEl.innerHTML = hotHTML;
+        console.log(`[Hot FAQs] Rendered ${hotFAQs.length} hot questions to sidebar`);
+      } else {
+        console.warn('[Hot FAQs] hotFAQs element not found');
+      }
     }
 
     // Filter by section
@@ -1805,7 +1808,7 @@
       if (!query) return;
 
       document.getElementById('loadingState').classList.remove('hidden');
-      document.getElementById('initialView').classList.add('hidden');
+      document.getElementById('resultsSection').classList.add('hidden');
       hideIntentPanel();
 
       try {
