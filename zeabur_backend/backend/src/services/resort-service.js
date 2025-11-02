@@ -41,11 +41,27 @@ class ResortService {
         throw new Error('Invalid resort data structure: missing resorts array');
       }
 
-      console.log(`[Resort Service] Loaded ${this.cache.resorts.length} resorts`);
+      console.log(`[Resort Service] Loaded ${this.cache.resorts.length} resorts from JSON file`);
       return this.cache;
     } catch (error) {
-      console.error('[Resort Service] Failed to load resort data:', error);
-      throw new AppError('RESORT_LOAD_ERROR', '無法載入雪場資料', 500);
+      // Fallback: try to load from bundled JS module (for Zeabur deployment)
+      console.warn(`[Resort Service] Failed to load from ${this.dataPath}, trying fallback module...`);
+      try {
+        const fallbackPath = path.join(__dirname, '../data/resort_kb.js');
+        delete require.cache[require.resolve(fallbackPath)]; // Clear cache
+        this.cache = require(fallbackPath);
+        this.cacheTime = Date.now();
+
+        if (!this.cache.resorts || !Array.isArray(this.cache.resorts)) {
+          throw new Error('Invalid fallback resort data structure');
+        }
+
+        console.log(`[Resort Service] Loaded ${this.cache.resorts.length} resorts from fallback module`);
+        return this.cache;
+      } catch (fallbackError) {
+        console.error('[Resort Service] Both load attempts failed:', error, fallbackError);
+        throw new AppError('RESORT_LOAD_ERROR', '無法載入雪場資料', 500);
+      }
     }
   }
 

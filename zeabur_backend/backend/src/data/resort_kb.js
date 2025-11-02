@@ -1,0 +1,6283 @@
+module.exports = 
+{
+  "meta": {
+    "version": "1.0.0",
+    "generated_at": "2025-10-14T13:08:09.220Z",
+    "source_directory": "faq/resorts",
+    "total_resorts": 42,
+    "statistics": {
+      "total": 42,
+      "by_region": {
+        "fukushima": 2,
+        "gunma": 4,
+        "hokkaido": 4,
+        "iwate": 2,
+        "nagano": 11,
+        "niigata": 16,
+        "tochigi": 2,
+        "yamagata": 1
+      },
+      "by_prefecture": {
+        "Fukushima Prefecture": 2,
+        "Gunma Prefecture": 4,
+        "Hokkaido": 4,
+        "Iwate Prefecture": 2,
+        "Nagano Prefecture": 11,
+        "Niigata Prefecture": 16,
+        "Tochigi Prefecture": 2,
+        "Yamagata Prefecture": 1
+      },
+      "with_pricing": 42,
+      "with_transportation": 42,
+      "with_night_ski": 25
+    }
+  },
+  "resorts": [
+    {
+      "resort_id": "fukushima_nekoma_mountain",
+      "names": {
+        "zh": "星野集團 NEKOMA MOUNTAIN",
+        "en": "Hoshino Resorts NEKOMA MOUNTAIN",
+        "ja": "星野リゾート ネコマ マウンテン"
+      },
+      "country_code": "JP",
+      "region": "Fukushima Prefecture",
+      "timezone": "Asia/Tokyo",
+      "coordinates": {
+        "lat": 37.6,
+        "lng": 140.04
+      },
+      "season": {
+        "estimated_open": "2024-12-01",
+        "estimated_close": "2025-05-06"
+      },
+      "official_site": "https://www.nekoma.co.jp/",
+      "description": {
+        "highlights": [
+          "雙峰合一",
+          "超微細雪",
+          "磐梯山溫泉飯店",
+          "地形公園"
+        ],
+        "tagline": "在磐梯山體驗兩種截然不同的滑雪樂趣，從陽光巡航到極致粉雪。"
+      },
+      "amenities": [
+        "Onsen",
+        "Ski-in/Ski-out Hotel",
+        "Kids Park",
+        "Terrain Park",
+        "Night Skiing"
+      ],
+      "snow_stats": {
+        "lifts": 13,
+        "courses_total": 33,
+        "beginner_ratio": 0.35,
+        "intermediate_ratio": 0.4,
+        "advanced_ratio": 0.25,
+        "longest_run": 4,
+        "vertical_drop": 586,
+        "night_ski": true,
+        "notes": "由原Alts磐梯(南區)和貓魔(北區)兩個雪場合併而成。"
+      },
+      "courses": [
+        {
+          "name": "Deep 1",
+          "level": "advanced",
+          "tags": [
+            "powder",
+            "un-groomed",
+            "steep"
+          ],
+          "description": "北區的標誌性雪道，長達1200公尺的粉雪天堂，最大坡度33度。",
+          "notes": ""
+        },
+        {
+          "name": "White Valley 2",
+          "level": "advanced",
+          "tags": [
+            "powder",
+            "un-groomed",
+            "moguls"
+          ],
+          "description": "南區的非壓雪雪道，坡度適中，適合高速粉雪滑行與練習饅頭。",
+          "notes": ""
+        },
+        {
+          "name": "Frozen 2",
+          "level": "advanced",
+          "tags": [
+            "powder",
+            "un-groomed",
+            "scenic-view"
+          ],
+          "description": "降雪後的晴天景色絕美，起點坡度較大，可長距離暢快滑行。",
+          "notes": ""
+        }
+      ],
+      "pricing": {
+        "last_verified": "2025-10-14",
+        "ticket_types": [
+          {
+            "type": "1-day (online)",
+            "adult": 5200,
+            "student": 3800,
+            "child": 2500,
+            "notes": ""
+          },
+          {
+            "type": "1-day (window)",
+            "adult": 5700,
+            "student": 4100,
+            "child": 2700,
+            "senior": 5200,
+            "notes": ""
+          }
+        ]
+      },
+      "rental": {
+        "last_verified": "2025-10-14",
+        "items": [
+          {
+            "item": "Standard Ski/Snowboard Set",
+            "adult_price": 4700,
+            "child_price": 3100,
+            "notes": ""
+          },
+          {
+            "item": "Premium Ski/Snowboard Set",
+            "adult_price": 6300,
+            "child_price": 4200,
+            "notes": ""
+          }
+        ],
+        "notes": ""
+      },
+      "transportation": {
+        "domestic": {
+          "bus": [
+            {
+              "route": "Koriyama Station → Nekoma Mountain South Area",
+              "duration_minutes": 90,
+              "notes": "需預約的收費接駁巴士。"
+            },
+            {
+              "route": "Bandaimachi Station → Nekoma Mountain South Area",
+              "duration_minutes": 15,
+              "notes": "免費接駁巴士，服務於磐梯山溫泉飯店住客。"
+            },
+            {
+              "route": "Inawashiro Station → Nekoma Mountain North Area",
+              "duration_minutes": 40,
+              "notes": "免費接駁巴士，需預約。"
+            }
+          ]
+        },
+        "international": {
+          "airports": []
+        },
+        "remarks": ""
+      },
+      "content_sources": [
+        "project/specs/resort-services/skiarea.md",
+        "https://www.nekoma.co.jp/"
+      ],
+      "notes": "南區適合家庭與中級者，北區以其『超微細雪』成為粉雪聖地。",
+      "_metadata": {
+        "source_file": "faq/resorts/fukushima/fukushima_nekoma_mountain.yaml",
+        "region": "fukushima",
+        "area": "fukushima",
+        "last_converted": "2025-10-14T13:08:09.191Z"
+      }
+    },
+    {
+      "resort_id": "fukushima_inawashiro",
+      "names": {
+        "zh": "猪苗代滑雪場",
+        "en": "Inawashiro Ski Resort",
+        "ja": "猪苗代スキー場"
+      },
+      "country_code": "JP",
+      "region": "Fukushima Prefecture",
+      "timezone": "Asia/Tokyo",
+      "coordinates": {
+        "lat": 37.58139,
+        "lng": 140.0925
+      },
+      "season": {
+        "estimated_open": "2024-12-20",
+        "estimated_close": "2025-03-23"
+      },
+      "official_site": "https://www.inawashiro-ski.com/",
+      "description": {
+        "highlights": [
+          "絕景滑雪場",
+          "猪苗代湖景",
+          "高CP值",
+          "平日免費"
+        ],
+        "tagline": "在壯麗的猪苗代湖全景下，享受無與倫比的高性價比滑雪體驗。"
+      },
+      "amenities": [
+        "Ski-in/Ski-out Hotel",
+        "Night Skiing"
+      ],
+      "snow_stats": {
+        "lifts": 9,
+        "courses_total": 18,
+        "beginner_ratio": 0.4,
+        "intermediate_ratio": 0.3,
+        "advanced_ratio": 0.3,
+        "longest_run": 3,
+        "vertical_drop": 650,
+        "night_ski": true,
+        "notes": "以其獨創的『いなスキ！クラブ』會員平日纜車免費政策聞名。"
+      },
+      "courses": [
+        {
+          "name": "Chuo Line (中央ライン)",
+          "level": "intermediate",
+          "tags": [
+            "cruising"
+          ],
+          "description": "適合中級滑雪者享受長距離巡航樂趣的雪道。",
+          "notes": ""
+        },
+        {
+          "name": "Akahani Giant Slalom Course (赤埴大回転コース)",
+          "level": "advanced",
+          "tags": [
+            "moguls",
+            "un-groomed",
+            "steep"
+          ],
+          "description": "位於ミネロ區的王牌雪道，以其大面積、不規則的天然饅頭地形聞名。",
+          "notes": ""
+        },
+        {
+          "name": "Hayama Course (葉山コース)",
+          "level": "beginner",
+          "tags": [
+            "beginner-friendly",
+            "gentle-slope"
+          ],
+          "description": "坡度僅8-12度的平緩雪道，適合初學者練習。",
+          "notes": ""
+        }
+      ],
+      "pricing": {
+        "last_verified": "2025-10-14",
+        "ticket_types": [
+          {
+            "type": "1-day (Weekday, Member)",
+            "adult": 0,
+            "child": 0,
+            "notes": "需加入免費的『いなスキ！クラブ』會員。"
+          },
+          {
+            "type": "1-day (Weekend, Member)",
+            "adult": 2800,
+            "child": 1400,
+            "notes": "需加入免費的『いなスキ！クラブ』會員。"
+          },
+          {
+            "type": "1-day (Non-Member)",
+            "adult": 5600,
+            "child": 2800,
+            "notes": ""
+          }
+        ]
+      },
+      "rental": {
+        "last_verified": "2025-10-14",
+        "items": [
+          {
+            "item": "Ski/Snowboard Set",
+            "adult_price": 4500,
+            "child_price": 3600,
+            "notes": ""
+          },
+          {
+            "item": "Wear Set",
+            "adult_price": 3500,
+            "child_price": 2500,
+            "notes": ""
+          }
+        ],
+        "notes": "建議提前線上預約以享折扣。"
+      },
+      "transportation": {
+        "domestic": {
+          "bus": [
+            {
+              "route": "Inawashiro Station → Inawashiro Ski Resort",
+              "duration_minutes": 15,
+              "notes": "免費接駁巴士，無需預約。"
+            },
+            {
+              "route": "Koriyama Station → Inawashiro Ski Resort",
+              "duration_minutes": 80,
+              "notes": "免費接駁巴士，必須提前一日預約。"
+            }
+          ],
+          "self_drive": [
+            {
+              "route": "Ban-etsu Expressway → Inawashiro-Bandaikogen IC",
+              "duration_minutes": 10,
+              "notes": "交流道出口後約10分鐘車程，有2000個免費停車位。"
+            }
+          ]
+        },
+        "international": {
+          "airports": []
+        },
+        "remarks": ""
+      },
+      "content_sources": [
+        "project/specs/resort-services/skiarea.md",
+        "https://www.inawashiro-ski.com/"
+      ],
+      "notes": "南向坡面，晴天率高，但午後雪況可能變差。晨間滑雪是體驗最佳雪質的好時機。",
+      "_metadata": {
+        "source_file": "faq/resorts/fukushima/fukushima_inawashiro.yaml",
+        "region": "fukushima",
+        "area": "fukushima",
+        "last_converted": "2025-10-14T13:08:09.189Z"
+      }
+    },
+    {
+      "resort_id": "gunma_marunuma_kogen",
+      "names": {
+        "zh": "丸沼高原滑雪場",
+        "en": "Marunuma Kogen Ski Resort",
+        "ja": "丸沼高原スキー場"
+      },
+      "country_code": "JP",
+      "region": "Gunma Prefecture",
+      "timezone": "Asia/Tokyo",
+      "coordinates": {
+        "lat": 36.81389,
+        "lng": 139.33333
+      },
+      "season": {
+        "estimated_open": "2024-11-29",
+        "estimated_close": "2025-05-06"
+      },
+      "official_site": "https://www.marunuma.jp/winter/en/",
+      "description": {
+        "highlights": [
+          "高海拔粉雪",
+          "4公里長滑道",
+          "超長雪季",
+          "地形公園"
+        ],
+        "tagline": "在關東地區體驗可與北海道相媲美的頂級高山雪況。"
+      },
+      "amenities": [
+        "Onsen",
+        "Ski-in/Ski-out Hotel",
+        "Kids Park",
+        "Terrain Park"
+      ],
+      "snow_stats": {
+        "lifts": 8,
+        "courses_total": 20,
+        "beginner_ratio": 0.45,
+        "intermediate_ratio": 0.45,
+        "advanced_ratio": 0.1,
+        "longest_run": 4,
+        "vertical_drop": 600,
+        "night_ski": false,
+        "notes": "以其高達2,000米的山頂海拔和優質的『超細粉雪』聞名。"
+      },
+      "courses": [
+        {
+          "name": "Karakura Course (からくらコース)",
+          "level": "intermediate",
+          "tags": [
+            "cruising",
+            "scenic-view"
+          ],
+          "description": "從山頂出發的初始雪道，視野開闊，雪質極佳。",
+          "notes": ""
+        },
+        {
+          "name": "Silver Course (シルバーコース)",
+          "level": "advanced",
+          "tags": [
+            "steep",
+            "un-groomed",
+            "moguls"
+          ],
+          "description": "長755公尺、最大坡度32度的未壓雪猛獸級雪道。",
+          "notes": ""
+        },
+        {
+          "name": "Blue Course (ブルーコース)",
+          "level": "beginner",
+          "tags": [
+            "beginner-friendly",
+            "wide"
+          ],
+          "description": "位於山腳的寬闊練習雪道，坡度穩定在9度。",
+          "notes": ""
+        }
+      ],
+      "pricing": {
+        "last_verified": "2025-10-14",
+        "ticket_types": [
+          {
+            "type": "1-day (weekday)",
+            "adult": 5500,
+            "student": 5500,
+            "senior": 5500,
+            "child": 2500,
+            "notes": ""
+          },
+          {
+            "type": "1-day (holiday)",
+            "adult": 6000,
+            "student": 5500,
+            "senior": 5500,
+            "child": 2500,
+            "notes": ""
+          }
+        ]
+      },
+      "rental": {
+        "last_verified": "2025-10-14",
+        "items": [
+          {
+            "item": "Ski/Snowboard Set",
+            "adult_price": 5500,
+            "child_price": 4500,
+            "notes": ""
+          },
+          {
+            "item": "Wear Set",
+            "adult_price": 4000,
+            "child_price": 2500,
+            "notes": ""
+          }
+        ],
+        "notes": "場內及周邊皆有租賃店。"
+      },
+      "transportation": {
+        "domestic": {
+          "bus": [
+            {
+              "route": "Shinjuku → Marunuma Kogen",
+              "duration_minutes": null,
+              "notes": "季節性直達巴士『かたしなスノーエクスプレス号』。"
+            }
+          ],
+          "shinkansen": [
+            {
+              "from": "Tokyo",
+              "to": "Jomo-Kogen Station",
+              "duration_minutes": 75,
+              "notes": "搭乘上越新幹線後需轉乘當地巴士。"
+            }
+          ],
+          "self_drive": [
+            {
+              "route": "Kan-Etsu Expressway → Numata IC",
+              "duration_minutes": 50,
+              "notes": "交流道出口後需行駛約50分鐘山路，冬季路況具挑戰性。"
+            }
+          ]
+        },
+        "international": {
+          "airports": []
+        },
+        "remarks": ""
+      },
+      "content_sources": [
+        "project/specs/resort-services/skiarea.md",
+        "https://www.marunuma.jp/winter/en/"
+      ],
+      "notes": "交通是其最大挑戰，但回報是卓越的雪質和相對不擁擠的環境。",
+      "_metadata": {
+        "source_file": "faq/resorts/gunma/gunma_marunuma_kogen.yaml",
+        "region": "gunma",
+        "area": "gunma",
+        "last_converted": "2025-10-14T13:08:09.192Z"
+      }
+    },
+    {
+      "resort_id": "gunma_minakami_kogen",
+      "names": {
+        "zh": "水上高原滑雪度假村",
+        "en": "Minakami Kogen Ski Resort",
+        "ja": "水上高原スキーリゾート"
+      },
+      "country_code": "JP",
+      "region": "Gunma Prefecture",
+      "timezone": "Asia/Tokyo",
+      "coordinates": {
+        "lat": 36.854654,
+        "lng": 139.076318
+      },
+      "season": {
+        "estimated_open": "2024-12-19",
+        "estimated_close": "2025-03-27"
+      },
+      "official_site": "https://www.minakami-ski.jp/",
+      "description": {
+        "highlights": [
+          "家庭樂園",
+          "狗拉雪橇",
+          "寶可夢雪祭",
+          "溫泉"
+        ],
+        "tagline": "專為家庭打造的日本雪國冬季仙境，提供豐富的非滑雪活動。"
+      },
+      "amenities": [
+        "Onsen",
+        "Ski-in/Ski-out Hotel",
+        "Kids Park",
+        "Dog Sledding",
+        "Snowmobiling",
+        "Night Skiing"
+      ],
+      "snow_stats": {
+        "lifts": 4,
+        "courses_total": 12,
+        "beginner_ratio": 0.4,
+        "intermediate_ratio": 0.3,
+        "advanced_ratio": 0.3,
+        "longest_run": 3,
+        "vertical_drop": 398,
+        "night_ski": true,
+        "notes": "以其豐富的雪上活動聞名，是家庭度假的首選。"
+      },
+      "courses": [
+        {
+          "name": "Sui Sui Family Course (すいすいファミリーコース)",
+          "level": "beginner",
+          "tags": [
+            "beginner-friendly",
+            "family-friendly"
+          ],
+          "description": "專為新手設計的練習坡道。",
+          "notes": ""
+        },
+        {
+          "name": "Kumabokkosu Course (熊ぼっこすコース)",
+          "level": "advanced",
+          "tags": [
+            "un-groomed",
+            "powder",
+            "moguls"
+          ],
+          "description": "一條未經壓雪的滑雪道，上面有天然形成的雪丘和粉雪。",
+          "notes": ""
+        },
+        {
+          "name": "Forest Exploration Course (林間きらめきコース)",
+          "level": "intermediate",
+          "tags": [
+            "tree-lined",
+            "cruising"
+          ],
+          "description": "穿梭於落葉松和白樺林之間的林間雪道。",
+          "notes": ""
+        }
+      ],
+      "pricing": {
+        "last_verified": "2025-10-14",
+        "ticket_types": [
+          {
+            "type": "1-day",
+            "adult": 5200,
+            "student": 4600,
+            "senior": 4600,
+            "child": 3300,
+            "notes": ""
+          },
+          {
+            "type": "Family 1-day",
+            "adult": 6000,
+            "child": 7900,
+            "notes": "包含成人1名+兒童1名或成人1名+兒童2名等多種組合。"
+          }
+        ]
+      },
+      "rental": {
+        "last_verified": "2025-10-14",
+        "items": [
+          {
+            "item": "Full Set (Gear + Wear)",
+            "adult_price": 7000,
+            "child_price": 5000,
+            "notes": ""
+          },
+          {
+            "item": "Gear Set (Skis/Board + Boots)",
+            "adult_price": 4500,
+            "child_price": 3000,
+            "notes": ""
+          }
+        ],
+        "notes": "安全帽免費租借（需押金）。"
+      },
+      "transportation": {
+        "domestic": {
+          "shinkansen": [
+            {
+              "from": "Tokyo",
+              "to": "Jomo-Kogen Station",
+              "duration_minutes": 80,
+              "notes": "搭乘上越新幹線。"
+            }
+          ],
+          "bus": [
+            {
+              "route": "Jomo-Kogen Station → Minakami Kogen Hotel 200",
+              "duration_minutes": 60,
+              "notes": "免費接駁巴士，必須提前預約。"
+            }
+          ],
+          "self_drive": [
+            {
+              "route": "Kan-Etsu Expressway → Minakami IC",
+              "duration_minutes": null,
+              "notes": ""
+            }
+          ]
+        },
+        "international": {
+          "airports": []
+        },
+        "remarks": ""
+      },
+      "content_sources": [
+        "project/specs/resort-services/skiarea.md",
+        "https://www.minakami-ski.jp/"
+      ],
+      "notes": "以其寶可夢主題兒童樂園和本州唯一的狗拉雪橇體驗為特色。",
+      "_metadata": {
+        "source_file": "faq/resorts/gunma/gunma_minakami_kogen.yaml",
+        "region": "gunma",
+        "area": "gunma",
+        "last_converted": "2025-10-14T13:08:09.192Z"
+      }
+    },
+    {
+      "resort_id": "gunma_oze_iwakura",
+      "names": {
+        "zh": "尾瀨岩鞍滑雪場",
+        "en": "White World Oze Iwakura",
+        "ja": "ホワイトワールド尾瀬岩鞍"
+      },
+      "country_code": "JP",
+      "region": "Gunma Prefecture",
+      "timezone": "Asia/Tokyo",
+      "coordinates": {
+        "lat": 36.81833,
+        "lng": 139.21111
+      },
+      "season": {
+        "estimated_open": "2024-12-14",
+        "estimated_close": "2025-04-06"
+      },
+      "official_site": "http://www.oze-iwakura.co.jp/",
+      "description": {
+        "highlights": [
+          "關東最大級",
+          "Gun-Powder",
+          "家庭友善",
+          "溫泉"
+        ],
+        "tagline": "群馬的粉雪天堂，關東地區規模最大的滑雪場之一。"
+      },
+      "amenities": [
+        "Onsen",
+        "Ski-in/Ski-out Hotel",
+        "Kids Park",
+        "Night Skiing"
+      ],
+      "snow_stats": {
+        "lifts": 10,
+        "courses_total": 18,
+        "beginner_ratio": 0.3,
+        "intermediate_ratio": 0.4,
+        "advanced_ratio": 0.3,
+        "longest_run": 3.2,
+        "vertical_drop": 697,
+        "night_ski": true,
+        "notes": "以其優質的『Gun-Powder』(群馬粉雪)聞名。"
+      },
+      "courses": [
+        {
+          "name": "Family Course (ファミリーコース)",
+          "level": "beginner",
+          "tags": [
+            "beginner-friendly",
+            "wide",
+            "gentle-slope"
+          ],
+          "description": "極其寬闊的初級雪道，平均坡度僅7度。",
+          "notes": ""
+        },
+        {
+          "name": "Milky Way (ミルキーウェイ)",
+          "level": "intermediate",
+          "tags": [
+            "long-run",
+            "cruising"
+          ],
+          "description": "長達3,200米的標誌性中級雪道，從山頂蜿蜒而下。",
+          "notes": ""
+        },
+        {
+          "name": "Expert Course",
+          "level": "advanced",
+          "tags": [
+            "steep"
+          ],
+          "description": "最大坡度達到40度的專家級雪道。",
+          "notes": ""
+        }
+      ],
+      "pricing": {
+        "last_verified": "2025-10-14",
+        "ticket_types": [
+          {
+            "type": "1-day (weekday)",
+            "adult": 5500,
+            "student": 4500,
+            "senior": 5000,
+            "child": 3500,
+            "notes": ""
+          },
+          {
+            "type": "1-day (holiday)",
+            "adult": 6000,
+            "student": 5000,
+            "senior": 5500,
+            "child": 4000,
+            "notes": ""
+          }
+        ]
+      },
+      "rental": {
+        "last_verified": "2025-10-14",
+        "items": [],
+        "notes": "雪場內設有官方租賃店，提供標準及特殊裝備如胖雪板。"
+      },
+      "transportation": {
+        "domestic": {
+          "bus": [
+            {
+              "route": "Shinjuku → Katashina",
+              "duration_minutes": null,
+              "notes": "季節性直達巴士『かたしなスノーエクスプレス号』，需轉乘免費接駁車。"
+            }
+          ],
+          "shinkansen": [
+            {
+              "from": "Tokyo",
+              "to": "Jomo-Kogen Station",
+              "duration_minutes": 75,
+              "notes": "搭乘上越新幹線後需轉乘當地巴士。"
+            }
+          ],
+          "self_drive": [
+            {
+              "route": "Kan-Etsu Expressway → Numata IC",
+              "duration_minutes": 50,
+              "notes": "交流道出口後約40-50分鐘車程。"
+            }
+          ]
+        },
+        "international": {
+          "airports": []
+        },
+        "remarks": ""
+      },
+      "content_sources": [
+        "project/specs/resort-services/skiarea.md",
+        "http://www.oze-iwakura.co.jp/"
+      ],
+      "notes": "雪場佈局為碗狀，所有雪道最終匯集至山腳，不易走散。",
+      "_metadata": {
+        "source_file": "faq/resorts/gunma/gunma_oze_iwakura.yaml",
+        "region": "gunma",
+        "area": "gunma",
+        "last_converted": "2025-10-14T13:08:09.194Z"
+      }
+    },
+    {
+      "resort_id": "gunma_white_valley",
+      "names": {
+        "zh": "群馬White Valley滑雪場",
+        "en": "Gunma White Valley Ski Resort",
+        "ja": "群馬みなかみホワイトバレースキー場"
+      },
+      "country_code": "JP",
+      "region": "Gunma Prefecture",
+      "timezone": "Asia/Tokyo",
+      "coordinates": {
+        "lat": 36.79639,
+        "lng": 138.96111
+      },
+      "season": {
+        "estimated_open": "2024-12-21",
+        "estimated_close": "2025-03-20"
+      },
+      "official_site": "https://www.whitevalley.jp/",
+      "description": {
+        "highlights": [
+          "粉雪愛好者的私房景點",
+          "非壓雪",
+          "人潮稀少",
+          "在地感"
+        ],
+        "tagline": "水上地區的粉雪秘密基地，享受無人打擾的滑雪時光。"
+      },
+      "amenities": [
+        "Onsen (nearby)"
+      ],
+      "snow_stats": {
+        "lifts": 2,
+        "courses_total": 5,
+        "beginner_ratio": 0.2,
+        "intermediate_ratio": 0.4,
+        "advanced_ratio": 0.4,
+        "longest_run": 1,
+        "vertical_drop": 380,
+        "night_ski": false,
+        "notes": "雪場大部分上半部區域在降雪後刻意不壓雪。"
+      },
+      "courses": [
+        {
+          "name": "Fantasy Course",
+          "level": "beginner",
+          "tags": [
+            "beginner-friendly",
+            "wide"
+          ],
+          "description": "位於第1纜車旁的寬闊初學者雪道。",
+          "notes": ""
+        },
+        {
+          "name": "White Heaven Course",
+          "level": "intermediate",
+          "tags": [
+            "long-run",
+            "scenic-view"
+          ],
+          "description": "從山頂延伸而下，是雪場最長的雪道，可欣賞壯麗雪景。",
+          "notes": ""
+        }
+      ],
+      "pricing": {
+        "last_verified": "2025-10-14",
+        "ticket_types": [
+          {
+            "type": "1-day",
+            "adult": 5200,
+            "child": 2700,
+            "notes": ""
+          }
+        ]
+      },
+      "rental": {
+        "last_verified": "2025-10-14",
+        "items": [
+          {
+            "item": "Full Set (Gear + Wear)",
+            "adult_price": 7000,
+            "notes": ""
+          }
+        ],
+        "notes": ""
+      },
+      "transportation": {
+        "domestic": {
+          "shinkansen": [
+            {
+              "from": "Tokyo",
+              "to": "Jomo-Kogen Station",
+              "duration_minutes": 75,
+              "notes": "搭乘上越新幹線後需轉乘當地巴士。"
+            }
+          ],
+          "bus": [
+            {
+              "route": "Minakami Station → White Valley",
+              "duration_minutes": 10,
+              "notes": "有免費接駁巴士，但班次有限。"
+            }
+          ],
+          "self_drive": [
+            {
+              "route": "Kan-Etsu Expressway → Minakami IC",
+              "duration_minutes": 15,
+              "notes": "交流道出口後約7公里。"
+            }
+          ]
+        },
+        "international": {
+          "airports": []
+        },
+        "remarks": "每週三、四為固定休息日。"
+      },
+      "content_sources": [
+        "project/specs/resort-services/skiarea.md",
+        "https://www.whitevalley.jp/"
+      ],
+      "notes": "以其非壓雪的粉雪道和人潮稀少的特點，成為在地滑雪高手的私房景點。",
+      "_metadata": {
+        "source_file": "faq/resorts/gunma/gunma_white_valley.yaml",
+        "region": "gunma",
+        "area": "gunma",
+        "last_converted": "2025-10-14T13:08:09.194Z"
+      }
+    },
+    {
+      "resort_id": "hokkaido_niseko_moiwa",
+      "names": {
+        "zh": "二世谷Moiwa滑雪場",
+        "en": "Niseko Moiwa Ski Resort",
+        "ja": "ニセコモイワスキー場"
+      },
+      "country_code": "JP",
+      "region": "Hokkaido",
+      "timezone": "Asia/Tokyo",
+      "coordinates": {
+        "lat": 42.848039,
+        "lng": 140.629644
+      },
+      "season": {
+        "estimated_open": "2024-11-30",
+        "estimated_close": "2025-04-06"
+      },
+      "official_site": "https://niseko-moiwa.jp/",
+      "description": {
+        "highlights": [
+          "粉雪",
+          "人潮稀少",
+          "私人感",
+          "樹林滑雪"
+        ],
+        "tagline": "享受ニセコ的優質粉雪，體驗私人般的滑雪時光。"
+      },
+      "amenities": [
+        "Onsen (nearby)"
+      ],
+      "snow_stats": {
+        "lifts": 3,
+        "courses_total": 8,
+        "beginner_ratio": 0.3,
+        "intermediate_ratio": 0.4,
+        "advanced_ratio": 0.3,
+        "longest_run": 2,
+        "vertical_drop": 450,
+        "night_ski": false,
+        "notes": "相較於ニセコユナイテッド，人潮較少，更能享受粉雪。"
+      },
+      "courses": [
+        {
+          "name": "Giant Run (ジャイアントコース)",
+          "level": "advanced",
+          "tags": [
+            "powder",
+            "un-groomed",
+            "steep"
+          ],
+          "description": "平均斜度24度以上的上級者非壓雪區。",
+          "notes": ""
+        },
+        {
+          "name": "Shirakaba Slope (白樺コース)",
+          "level": "intermediate",
+          "tags": [
+            "tree-run",
+            "powder"
+          ],
+          "description": "穿梭於白樺樹林間的熱門樹林滑雪道。",
+          "notes": ""
+        },
+        {
+          "name": "Sky Slope (スカイコース)",
+          "level": "intermediate",
+          "tags": [
+            "scenic-view",
+            "long-run"
+          ],
+          "description": "可欣賞羊蹄山景色的2公里展望雪道。",
+          "notes": ""
+        }
+      ],
+      "pricing": {
+        "last_verified": "2025-10-14",
+        "ticket_types": [
+          {
+            "type": "1-day (regular season)",
+            "adult": 11000,
+            "notes": "網路預購價為9,900日圓。"
+          },
+          {
+            "type": "4-hour",
+            "adult": 10000,
+            "notes": ""
+          }
+        ]
+      },
+      "rental": {
+        "last_verified": "2025-10-14",
+        "items": [
+          {
+            "item": "Ski/Snowboard Set",
+            "adult_price": 5800,
+            "notes": ""
+          },
+          {
+            "item": "Wear Set",
+            "adult_price": 6300,
+            "notes": ""
+          }
+        ],
+        "notes": ""
+      },
+      "transportation": {
+        "domestic": {
+          "train": [
+            {
+              "from": "Sapporo",
+              "to": "Niseko Station",
+              "duration_minutes": 90,
+              "notes": "搭乘JR函館本線。"
+            }
+          ],
+          "bus": [
+            {
+              "route": "Niseko Station → Niseko Moiwa",
+              "duration_minutes": 15,
+              "notes": "有巴士服務。"
+            },
+            {
+              "route": "New Chitose Airport (CTS) → Niseko Moiwa",
+              "duration_minutes": 120,
+              "notes": "可搭乘リゾートライナー等機場巴士。"
+            }
+          ]
+        },
+        "international": {
+          "airports": []
+        },
+        "remarks": ""
+      },
+      "content_sources": [
+        "https://niseko-moiwa.jp/",
+        "https://en.wikipedia.org/wiki/Niseko_Moiwa_Ski_Resort"
+      ],
+      "notes": "獨立於Niseko United之外，因此人潮較少，更能享受粉雪。",
+      "_metadata": {
+        "source_file": "faq/resorts/hokkaido/hokkaido_niseko_moiwa.yaml",
+        "region": "hokkaido",
+        "area": "hokkaido",
+        "last_converted": "2025-10-14T13:08:09.195Z"
+      }
+    },
+    {
+      "resort_id": "hokkaido_tomamu",
+      "names": {
+        "zh": "星野集團TOMAMU度假村",
+        "en": "Hoshino Resorts TOMAMU",
+        "ja": "星野リゾート トマム"
+      },
+      "country_code": "JP",
+      "region": "Hokkaido",
+      "timezone": "Asia/Tokyo",
+      "coordinates": {
+        "lat": 43.066793,
+        "lng": 142.634809
+      },
+      "season": {
+        "estimated_open": "2024-12-01",
+        "estimated_close": "2025-04-06"
+      },
+      "official_site": "https://www.snowtomamu.jp/",
+      "description": {
+        "highlights": [
+          "自然奇觀度假村",
+          "愛絲冰城",
+          "微笑海灘",
+          "霧冰平台",
+          "粉雪"
+        ],
+        "tagline": "在佔地廣達1,000公頃的山林間，體驗全方位的北海道冬季奇觀。"
+      },
+      "amenities": [
+        "Onsen (nearby)",
+        "Ski-in/Ski-out Hotel",
+        "Kids Park",
+        "Indoor Wave Pool",
+        "Ice Village"
+      ],
+      "snow_stats": {
+        "lifts": 6,
+        "courses_total": 29,
+        "beginner_ratio": 0.35,
+        "intermediate_ratio": 0.5,
+        "advanced_ratio": 0.15,
+        "longest_run": 4.2,
+        "vertical_drop": 699,
+        "night_ski": true,
+        "notes": "以其多樣化的非滑雪設施聞名，是家庭度假的頂級選擇。"
+      },
+      "courses": [
+        {
+          "name": "Silver Bell",
+          "level": "beginner",
+          "tags": [
+            "long-run",
+            "beginner-friendly"
+          ],
+          "description": "長達3,500公尺的初級雪道，適合新手練習。",
+          "notes": ""
+        },
+        {
+          "name": "Glory",
+          "level": "advanced",
+          "tags": [
+            "powder",
+            "un-groomed"
+          ],
+          "description": "專家限定的非壓雪粉雪區。",
+          "notes": ""
+        }
+      ],
+      "pricing": {
+        "last_verified": "2025-10-14",
+        "ticket_types": [
+          {
+            "type": "1-day",
+            "adult": 7500,
+            "notes": "此為參考價格，實際價格請查詢官網。"
+          }
+        ]
+      },
+      "rental": {
+        "last_verified": "2025-10-14",
+        "items": [
+          {
+            "item": "Full Set (Gear + Wear)",
+            "adult_price": 9800,
+            "notes": "價格為美元換算，僅供參考。"
+          }
+        ],
+        "notes": "提供高品質的Atomic和Salomon雪具。"
+      },
+      "transportation": {
+        "domestic": {
+          "train": [
+            {
+              "from": "New Chitose Airport",
+              "to": "Tomamu Station",
+              "duration_minutes": 90,
+              "notes": "搭乘JR，需在南千歲站轉乘。"
+            }
+          ],
+          "bus": [
+            {
+              "route": "New Chitose Airport → Tomamu",
+              "duration_minutes": 120,
+              "notes": "有度假村直達巴士，需預約。"
+            }
+          ]
+        },
+        "international": {
+          "airports": []
+        },
+        "remarks": ""
+      },
+      "content_sources": [
+        "project/specs/resort-services/skiarea.md",
+        "https://www.snowtomamu.jp/"
+      ],
+      "notes": "以其愛絲冰城、微笑海灘、霧冰平台等獨特的非滑雪體驗而聞名。",
+      "_metadata": {
+        "source_file": "faq/resorts/hokkaido/hokkaido_tomamu.yaml",
+        "region": "hokkaido",
+        "area": "hokkaido",
+        "last_converted": "2025-10-14T13:08:09.196Z"
+      }
+    },
+    {
+      "resort_id": "hokkaido_rusutsu",
+      "names": {
+        "zh": "留壽都度假村",
+        "en": "Rusutsu Resort",
+        "ja": "ルスツリゾート"
+      },
+      "country_code": "JP",
+      "region": "Hokkaido",
+      "timezone": "Asia/Tokyo",
+      "coordinates": {
+        "lat": 42.7475,
+        "lng": 140.89639
+      },
+      "season": {
+        "estimated_open": "2024-11-30",
+        "estimated_close": "2025-03-31"
+      },
+      "official_site": "https://rusutsu.com/",
+      "description": {
+        "highlights": [
+          "北海道最大單一度假村",
+          "粉雪天堂",
+          "家庭友善",
+          "樹林滑雪"
+        ],
+        "tagline": "北海道規模最大的單一度假村，一個提供全年景點的大型多功能目的地。"
+      },
+      "amenities": [
+        "Onsen",
+        "Ski-in/Ski-out Hotel",
+        "Kids Park",
+        "Indoor Wave Pool",
+        "Night Skiing"
+      ],
+      "snow_stats": {
+        "lifts": 18,
+        "courses_total": 37,
+        "beginner_ratio": 0.3,
+        "intermediate_ratio": 0.4,
+        "advanced_ratio": 0.3,
+        "longest_run": 3.5,
+        "vertical_drop": 594,
+        "night_ski": true,
+        "notes": "以其極乾的『香檳粉雪』和寬鬆的林間滑雪政策聞名。"
+      },
+      "courses": [
+        {
+          "name": "West Mountain",
+          "level": "beginner",
+          "tags": [
+            "beginner-friendly",
+            "family-friendly"
+          ],
+          "description": "家庭和初學者的活動中心，擁有寬闊平緩的雪道。",
+          "notes": ""
+        },
+        {
+          "name": "East Mountain",
+          "level": "intermediate",
+          "tags": [
+            "cruising"
+          ],
+          "description": "作為通往伊索拉山的橋樑，為中級滑雪者提供了絕佳的地形。",
+          "notes": ""
+        },
+        {
+          "name": "Mt. Isola",
+          "level": "advanced",
+          "tags": [
+            "powder",
+            "tree-run",
+            "bowl"
+          ],
+          "description": "粉雪愛好者的聖地，擁有廣闊且易於進入的林間滑雪區和粉雪碗狀坡。",
+          "notes": ""
+        }
+      ],
+      "pricing": {
+        "last_verified": "2025-10-14",
+        "ticket_types": [
+          {
+            "type": "1-day",
+            "adult": 14500,
+            "notes": "此為旺季窗口售價，線上預購或淡季有折扣。"
+          },
+          {
+            "type": "25-hour",
+            "adult": 33000,
+            "notes": "可在雪季內不連續使用。"
+          }
+        ]
+      },
+      "rental": {
+        "last_verified": "2025-10-14",
+        "items": [],
+        "notes": "提供Salomon和Atomic品牌的裝備。"
+      },
+      "transportation": {
+        "domestic": {
+          "bus": [
+            {
+              "route": "New Chitose Airport (CTS) → Rusutsu Resort",
+              "duration_minutes": 120,
+              "notes": "有多家巴士公司提供直達服務，需預約。"
+            },
+            {
+              "route": "Sapporo → Rusutsu Resort",
+              "duration_minutes": 120,
+              "notes": "有免費接駁車，需預約。"
+            }
+          ]
+        },
+        "international": {
+          "airports": []
+        },
+        "remarks": ""
+      },
+      "content_sources": [
+        "project/specs/resort-services/skiarea.md",
+        "https://rusutsu.com/",
+        "https://en.wikipedia.org/wiki/Rusutsu_Resort"
+      ],
+      "notes": "Epic Pass合作夥伴，為持卡人提供連續5天的滑雪權益。",
+      "_metadata": {
+        "source_file": "faq/resorts/hokkaido/hokkaido_rusutsu.yaml",
+        "region": "hokkaido",
+        "area": "hokkaido",
+        "last_converted": "2025-10-14T13:08:09.195Z"
+      }
+    },
+    {
+      "resort_id": "hokkaido_furano",
+      "names": {
+        "zh": "富良野滑雪度假村",
+        "en": "Furano Ski Resort",
+        "ja": "富良野スキー場"
+      },
+      "country_code": "JP",
+      "region": "Hokkaido",
+      "timezone": "Asia/Tokyo",
+      "coordinates": {
+        "lat": 43.33278,
+        "lng": 142.33222
+      },
+      "season": {
+        "estimated_open": "2025-12-05",
+        "estimated_close": "2026-05-06"
+      },
+      "official_site": "https://www.princehotels.co.jp/ski/furano/",
+      "description": {
+        "highlights": [
+          "香檳粉雪",
+          "雙區域",
+          "家庭友善",
+          "森林精靈露台"
+        ],
+        "tagline": "在北海道的粉雪地帶，體驗頂級粉雪與極致自然美景。"
+      },
+      "amenities": [
+        "Onsen",
+        "Ski-in/Ski-out Hotel",
+        "Kids Park",
+        "Night Skiing"
+      ],
+      "snow_stats": {
+        "lifts": 9,
+        "courses_total": 28,
+        "beginner_ratio": 0.4,
+        "intermediate_ratio": 0.4,
+        "advanced_ratio": 0.2,
+        "longest_run": 4,
+        "vertical_drop": 839,
+        "night_ski": true,
+        "notes": "以其極度乾燥輕盈的『富良野盆地粉雪』聞名。"
+      },
+      "courses": [
+        {
+          "name": "Kitanomine Zone",
+          "level": "beginner",
+          "tags": [
+            "beginner-friendly",
+            "family-friendly"
+          ],
+          "description": "溫馨的門戶區域，擁有寬闊平緩的雪道，適合初學者與家庭。",
+          "notes": ""
+        },
+        {
+          "name": "Furano Zone",
+          "level": "intermediate",
+          "tags": [
+            "cruising",
+            "advanced"
+          ],
+          "description": "活動的核心區域，雪道更具挑戰性，適合經驗豐富的滑雪者。",
+          "notes": ""
+        }
+      ],
+      "pricing": {
+        "last_verified": "2025-10-14",
+        "ticket_types": [
+          {
+            "type": "1-day (regular season)",
+            "adult": 7500,
+            "senior": 6900,
+            "child": 0,
+            "notes": "12歲及以下兒童免費。"
+          },
+          {
+            "type": "Night Ski",
+            "adult": 3300,
+            "senior": 3100,
+            "notes": ""
+          }
+        ]
+      },
+      "rental": {
+        "last_verified": "2025-10-14",
+        "items": [],
+        "notes": "王子大飯店在兩個區域的山腳下都提供全面的租賃服務。"
+      },
+      "transportation": {
+        "domestic": {
+          "bus": [
+            {
+              "route": "New Chitose Airport (CTS) → Furano",
+              "duration_minutes": 180,
+              "notes": "有直達巴士服務。"
+            },
+            {
+              "route": "Sapporo → Furano",
+              "duration_minutes": 180,
+              "notes": "有直達巴士服務。"
+            }
+          ]
+        },
+        "international": {
+          "airports": []
+        },
+        "remarks": ""
+      },
+      "content_sources": [
+        "project/specs/resort-services/skiarea.md",
+        "https://www.princehotels.co.jp/ski/furano/"
+      ],
+      "notes": "由富良野與北之峰兩大區域組成，各有特色。",
+      "_metadata": {
+        "source_file": "faq/resorts/hokkaido/hokkaido_furano.yaml",
+        "region": "hokkaido",
+        "area": "hokkaido",
+        "last_converted": "2025-10-14T13:08:09.195Z"
+      }
+    },
+    {
+      "resort_id": "iwate_appi_kogen",
+      "names": {
+        "zh": "安比高原滑雪場",
+        "en": "Appi Kogen Ski Resort",
+        "ja": "安比高原スキー場"
+      },
+      "country_code": "JP",
+      "region": "Iwate Prefecture",
+      "timezone": "Asia/Tokyo",
+      "coordinates": {
+        "lat": 40.002249,
+        "lng": 140.97061
+      },
+      "season": {
+        "estimated_open": "2024-12-01",
+        "estimated_close": "2025-04-06"
+      },
+      "official_site": "https://www.appi.co.jp/",
+      "description": {
+        "highlights": [
+          "阿斯匹靈粉雪",
+          "長距離巡航天堂",
+          "樹林滑雪",
+          "世界滑雪大獎"
+        ],
+        "tagline": "在日本東北的頂級滑雪度假村，體驗傳說中的『阿斯匹靈粉雪』。"
+      },
+      "amenities": [
+        "Onsen",
+        "Ski-in/Ski-out Hotel",
+        "Night Skiing",
+        "Kids Park"
+      ],
+      "snow_stats": {
+        "lifts": 11,
+        "courses_total": 21,
+        "beginner_ratio": 0.3,
+        "intermediate_ratio": 0.4,
+        "advanced_ratio": 0.3,
+        "longest_run": 5.5,
+        "vertical_drop": 805,
+        "night_ski": true,
+        "notes": "以其極度乾爽、細緻的『阿斯匹靈粉雪』聞名。"
+      },
+      "courses": [
+        {
+          "name": "Yamabato Course (山鳩雪道)",
+          "level": "beginner",
+          "tags": [
+            "long-run",
+            "beginner-friendly",
+            "scenic-view"
+          ],
+          "description": "長達5.5公里的標誌性雪道，讓新手也能體驗從山頂滑至山麓的完整旅程。",
+          "notes": ""
+        },
+        {
+          "name": "Hayabusa Course (隼雪道)",
+          "level": "intermediate",
+          "tags": [
+            "long-run",
+            "wide",
+            "cruising"
+          ],
+          "description": "長3公里的寬闊壓雪道，是進行高速大迴轉滑行的理想場所。",
+          "notes": ""
+        },
+        {
+          "name": "Daini Sailer A (第二ザイラーA)",
+          "level": "advanced",
+          "tags": [
+            "steep",
+            "un-groomed",
+            "moguls"
+          ],
+          "description": "雪場最陡峭的雪道之一，最大斜度34度，充滿挑戰性的貓跳地形。",
+          "notes": ""
+        },
+        {
+          "name": "Attack (Tree Run Zone)",
+          "level": "advanced",
+          "tags": [
+            "tree-run",
+            "powder",
+            "off-piste"
+          ],
+          "description": "官方開放的六個樹林滑雪區中最大、最具挑戰性的一個。",
+          "notes": "進入需登記並佩戴安全帽。"
+        }
+      ],
+      "pricing": {
+        "last_verified": "2025-10-14",
+        "ticket_types": [
+          {
+            "type": "1-day (Blue Pass)",
+            "adult": 7000,
+            "notes": "標準全山纜車票。"
+          },
+          {
+            "type": "1-day (Gold Pass)",
+            "adult": 9000,
+            "notes": "增加主要纜車的優先搭乘權。"
+          },
+          {
+            "type": "1-day (Black Pass)",
+            "adult": 33000,
+            "notes": "頂級VIP通行證，包含雪貓滑雪等特權。"
+          }
+        ]
+      },
+      "rental": {
+        "last_verified": "2025-10-14",
+        "items": [
+          {
+            "item": "Standard Ski/Snowboard Set",
+            "adult_price": 7000,
+            "child_price": 4500,
+            "notes": "住宿客可享折扣。"
+          },
+          {
+            "item": "Premium Ski/Snowboard Set",
+            "adult_price": 10000,
+            "notes": ""
+          }
+        ],
+        "notes": "由Salomon及Atomic合作的Mountain Station提供。"
+      },
+      "transportation": {
+        "domestic": {
+          "shinkansen": [
+            {
+              "from": "Tokyo",
+              "to": "Morioka Station",
+              "duration_minutes": 130,
+              "notes": "搭乘東北新幹線。"
+            }
+          ],
+          "bus": [
+            {
+              "route": "Morioka Station → Appi Kogen",
+              "duration_minutes": 60,
+              "notes": "有頻繁的接駁巴士服務。"
+            }
+          ]
+        },
+        "international": {
+          "airports": []
+        },
+        "remarks": ""
+      },
+      "content_sources": [
+        "project/specs/resort-services/skiarea.md",
+        "https://www.appi.co.jp/"
+      ],
+      "notes": "由IHG洲際酒店集團管理，提供從ANA假日到ANA洲際的多層次頂級住宿體驗。",
+      "_metadata": {
+        "source_file": "faq/resorts/iwate/iwate_appi_kogen.yaml",
+        "region": "iwate",
+        "area": "iwate",
+        "last_converted": "2025-10-14T13:08:09.196Z"
+      }
+    },
+    {
+      "resort_id": "iwate_shizukuishi",
+      "names": {
+        "zh": "雫石滑雪場",
+        "en": "Shizukuishi Ski Resort",
+        "ja": "雫石スキー場"
+      },
+      "country_code": "JP",
+      "region": "Iwate Prefecture",
+      "timezone": "Asia/Tokyo",
+      "coordinates": {
+        "lat": 39.78556,
+        "lng": 140.90833
+      },
+      "season": {
+        "estimated_open": "2025-12-20",
+        "estimated_close": "2026-03-22"
+      },
+      "official_site": "https://www.princehotels.co.jp/ski/shizukuishi/",
+      "description": {
+        "highlights": [
+          "阿斯匹靈粉雪",
+          "世界錦標賽遺產",
+          "CAT Skiing",
+          "高倉溫泉"
+        ],
+        "tagline": "在1993年世界錦標賽的傳奇賽道上，體驗日本東北的頂級粉雪。"
+      },
+      "amenities": [
+        "Onsen",
+        "Ski-in/Ski-out Hotel",
+        "CAT Skiing"
+      ],
+      "snow_stats": {
+        "lifts": 6,
+        "courses_total": 20,
+        "beginner_ratio": 0.3,
+        "intermediate_ratio": 0.25,
+        "advanced_ratio": 0.45,
+        "longest_run": 2.6,
+        "vertical_drop": 721,
+        "night_ski": false,
+        "notes": "以其極乾的『阿斯匹靈粉雪』聞名，雪質卓越。"
+      },
+      "courses": [
+        {
+          "name": "Joyful",
+          "level": "intermediate",
+          "tags": [
+            "cruising",
+            "long-run"
+          ],
+          "description": "長而寬闊的中級雪道，適合享受高速巡航的樂趣。",
+          "notes": ""
+        },
+        {
+          "name": "Daini Sailer A (第二ザイラーA)",
+          "level": "advanced",
+          "tags": [
+            "steep",
+            "un-groomed",
+            "moguls"
+          ],
+          "description": "雪場最陡峭的雪道之一，最大斜度34度，充滿挑戰性的貓跳地形。",
+          "notes": ""
+        }
+      ],
+      "pricing": {
+        "last_verified": "2025-10-14",
+        "ticket_types": [
+          {
+            "type": "1-day",
+            "adult": 6100,
+            "student": 5500,
+            "senior": 5500,
+            "child": 0,
+            "notes": "小學生(12歲及以下)免費。"
+          },
+          {
+            "type": "4-hour",
+            "adult": 5500,
+            "student": 4900,
+            "senior": 4900,
+            "child": 0,
+            "notes": ""
+          }
+        ]
+      },
+      "rental": {
+        "last_verified": "2025-10-14",
+        "items": [
+          {
+            "item": "Ski/Snowboard Set",
+            "adult_price": 6000,
+            "child_price": 4500,
+            "notes": ""
+          },
+          {
+            "item": "Wear Set",
+            "adult_price": 5850,
+            "child_price": 4500,
+            "notes": ""
+          }
+        ],
+        "notes": "提供『自由更換』服務，可在雙板和單板之間更換一次。"
+      },
+      "transportation": {
+        "domestic": {
+          "shinkansen": [
+            {
+              "from": "Tokyo",
+              "to": "Morioka Station",
+              "duration_minutes": 130,
+              "notes": "搭乘東北新幹線。"
+            }
+          ],
+          "bus": [
+            {
+              "route": "Morioka Station → Shizukuishi Ski Resort",
+              "duration_minutes": 50,
+              "notes": "有接駁巴士服務。"
+            }
+          ],
+          "self_drive": [
+            {
+              "route": "Tohoku Expressway → Morioka IC",
+              "duration_minutes": 40,
+              "notes": "交流道出口後約30-40分鐘車程。"
+            }
+          ]
+        },
+        "international": {
+          "airports": []
+        },
+        "remarks": ""
+      },
+      "content_sources": [
+        "project/specs/resort-services/skiarea.md",
+        "https://www.princehotels.co.jp/ski/shizukuishi/"
+      ],
+      "notes": "曾為1993年高山滑雪世界錦標賽的舉辦地，擁有獨特的CAT Skiing體驗。",
+      "_metadata": {
+        "source_file": "faq/resorts/iwate/iwate_shizukuishi.yaml",
+        "region": "iwate",
+        "area": "iwate",
+        "last_converted": "2025-10-14T13:08:09.197Z"
+      }
+    },
+    {
+      "resort_id": "hakuba_happo_one",
+      "names": {
+        "zh": "白馬八方尾根滑雪場",
+        "en": "Hakuba Happo-one Ski Resort",
+        "ja": "白馬八方尾根スキー場"
+      },
+      "country_code": "JP",
+      "region": "Nagano Prefecture",
+      "timezone": "Asia/Tokyo",
+      "coordinates": {
+        "lat": 36.702528,
+        "lng": 137.836806
+      },
+      "season": {
+        "estimated_open": "2024-12-01",
+        "estimated_close": "2025-05-06"
+      },
+      "official_site": "https://www.happo-one.jp/",
+      "description": {
+        "highlights": [
+          "奧運級挑戰",
+          "Japow粉雪",
+          "國際化氛圍",
+          "長距離滑道"
+        ],
+        "tagline": "在1998年長野奧運賽道上，體驗世界級的挑戰與壯麗。"
+      },
+      "amenities": [
+        "Onsen",
+        "Kids Park",
+        "Night Skiing"
+      ],
+      "snow_stats": {
+        "lifts": 27,
+        "courses_total": 16,
+        "beginner_ratio": 0.2,
+        "intermediate_ratio": 0.5,
+        "advanced_ratio": 0.3,
+        "longest_run": 8,
+        "vertical_drop": 1071,
+        "night_ski": true,
+        "notes": "曾為1998年長野冬奧會高山速降賽主辦地。"
+      },
+      "courses": [
+        {
+          "name": "Sakka Slope (咲花ゲレンデ)",
+          "level": "beginner",
+          "tags": [
+            "beginner-friendly",
+            "wide",
+            "gentle-slope",
+            "family-friendly"
+          ],
+          "description": "公認的最佳新手天堂，擁有寬闊、平緩的雪道和兒童公園。",
+          "notes": ""
+        },
+        {
+          "name": "Nakiyama Slope (名木山ゲレンデ)",
+          "level": "beginner",
+          "tags": [
+            "beginner-friendly",
+            "night-skiing"
+          ],
+          "description": "另一個重要的初級區，設有名木山雪地樂園，也是夜間滑雪的場地。",
+          "notes": ""
+        },
+        {
+          "name": "Riesen Slalom Course (リーゼンスラローム)",
+          "level": "intermediate",
+          "tags": [
+            "long-run",
+            "wide",
+            "cruising"
+          ],
+          "description": "雪場的招牌路線，全長超過3公里，地形豐富多變，道面寬闊。",
+          "notes": ""
+        },
+        {
+          "name": "Skyline Course (スカイラインコース)",
+          "level": "intermediate",
+          "tags": [
+            "long-run",
+            "scenic-view"
+          ],
+          "description": "風景優美的長距離巡航雪道，雪質通常保持得很好。",
+          "notes": ""
+        }
+      ],
+      "pricing": {
+        "last_verified": "2025-10-14",
+        "ticket_types": [
+          {
+            "type": "1-day (online)",
+            "adult": 7700,
+            "child": 3850,
+            "notes": "兒童為6-17歲。"
+          },
+          {
+            "type": "2-day (online)",
+            "adult": 15300,
+            "child": 7700,
+            "notes": ""
+          },
+          {
+            "type": "Debut Ticket (1-day)",
+            "adult": 4500,
+            "child": 2200,
+            "notes": "僅限名木山和咲花區域的特定纜車。"
+          }
+        ]
+      },
+      "rental": {
+        "last_verified": "2025-10-14",
+        "items": [
+          {
+            "item": "Standard Ski/Snowboard Set",
+            "adult_price": 6500,
+            "notes": "價格參考自Spicy Rentals。"
+          },
+          {
+            "item": "Premium Ski/Snowboard Set",
+            "adult_price": 9000,
+            "notes": "價格參考自Spicy Rentals。"
+          }
+        ],
+        "notes": "白馬村有多家大型連鎖租賃店如Rhythm Japan, Central Snowsports, Spicy Rentals。"
+      },
+      "transportation": {
+        "domestic": {
+          "shinkansen": [
+            {
+              "from": "Tokyo",
+              "to": "Nagano Station",
+              "duration_minutes": 100,
+              "notes": "搭乘北陸新幹線。"
+            }
+          ],
+          "bus": [
+            {
+              "route": "Nagano Station → Hakuba Happo Bus Terminal",
+              "duration_minutes": 90,
+              "notes": "搭乘Alpico特快巴士。"
+            },
+            {
+              "route": "Shinjuku → Hakuba Happo Bus Terminal",
+              "duration_minutes": 300,
+              "notes": "有直達高速巴士。"
+            }
+          ]
+        },
+        "international": {
+          "airports": []
+        },
+        "remarks": "白馬谷內有免費接駁巴士（需持白馬谷通票）。"
+      },
+      "content_sources": [
+        "project/specs/resort-services/skiarea.md",
+        "https://www.happo-one.jp/",
+        "https://en.wikipedia.org/wiki/Hakuba_Happo-one_Winter_Resort"
+      ],
+      "notes": "白馬谷的核心滑雪場，以其奧運歷史、巨大規模和挑戰性地形聞名。",
+      "_metadata": {
+        "source_file": "faq/resorts/nagano/hakuba/hakuba_happo_one.yaml",
+        "region": "nagano",
+        "area": "hakuba",
+        "last_converted": "2025-10-14T13:08:09.198Z"
+      }
+    },
+    {
+      "resort_id": "hakuba_goryu_47",
+      "names": {
+        "zh": "白馬五龍 & Hakuba47 滑雪場",
+        "en": "Hakuba Goryu & Hakuba47 Winter Sports Park",
+        "ja": "エイブル白馬五竜 & Hakuba47"
+      },
+      "country_code": "JP",
+      "region": "Nagano Prefecture",
+      "timezone": "Asia/Tokyo",
+      "coordinates": {
+        "lat": 36.662937,
+        "lng": 137.836664
+      },
+      "season": {
+        "estimated_open": "2024-11-30",
+        "estimated_close": "2025-05-06"
+      },
+      "official_site": "https://www.hakubaescal.com/goryu/",
+      "description": {
+        "highlights": [
+          "雙子星結構",
+          "初學者完美搖籃",
+          "頂級地形公園",
+          "溫泉"
+        ],
+        "tagline": "一張纜車票，暢遊兩座風格互補的山脈，從初學者的樂園到公園玩家的聖地。"
+      },
+      "amenities": [
+        "Onsen",
+        "Kids Park",
+        "Night Skiing",
+        "Terrain Park"
+      ],
+      "snow_stats": {
+        "lifts": 12,
+        "courses_total": 24,
+        "beginner_ratio": 0.35,
+        "intermediate_ratio": 0.4,
+        "advanced_ratio": 0.25,
+        "longest_run": 6.4,
+        "vertical_drop": 926,
+        "night_ski": true,
+        "notes": "由白馬五龍與Hakuba47兩個雪場組成，山頂相連，使用共通票。"
+      },
+      "courses": [
+        {
+          "name": "Toomi Zone (とおみゲレンデ)",
+          "level": "beginner",
+          "tags": [
+            "beginner-friendly",
+            "wide",
+            "long-run",
+            "night-skiing"
+          ],
+          "description": "位於Escal Plaza正前方的極其寬闊、綿長且坡度平緩的雪道，也是夜滑場地。",
+          "notes": "Toomi第一纜車對單板初學者非常友好。"
+        },
+        {
+          "name": "Iimori Zone (いいもりゲレンデ)",
+          "level": "beginner",
+          "tags": [
+            "beginner-friendly",
+            "ski-school"
+          ],
+          "description": "另一個主要的初學者天堂，Hakuba Snow Sports School的大本營所在地。",
+          "notes": ""
+        },
+        {
+          "name": "Alps-daira (アルプス平ゲレンデ)",
+          "level": "intermediate",
+          "tags": [
+            "scenic-view",
+            "powder"
+          ],
+          "description": "位於五龍山頂的區域，雪質優良，可欣賞壯麗山景。",
+          "notes": "從此處可連接至Hakuba47。"
+        },
+        {
+          "name": "47 PARKS",
+          "level": "advanced",
+          "tags": [
+            "terrain-park",
+            "half-pipe",
+            "freestyle"
+          ],
+          "description": "日本最頂級的滑雪地形公園之一，設有大型U型槽和各級別的跳台、道具。",
+          "notes": "位於Hakuba47區域。"
+        }
+      ],
+      "pricing": {
+        "last_verified": "2025-10-14",
+        "ticket_types": [
+          {
+            "type": "1-day (online)",
+            "adult": 8000,
+            "notes": "此為線上購買新卡的價格，包含500日圓押金。"
+          },
+          {
+            "type": "1-day (window)",
+            "adult": 8500,
+            "notes": "現場窗口購買價格。"
+          },
+          {
+            "type": "Night Ski",
+            "adult": 5500,
+            "notes": "夜滑需另外購票。"
+          }
+        ]
+      },
+      "rental": {
+        "last_verified": "2025-10-14",
+        "items": [],
+        "notes": "Goryu Rentals提供專為初學者設計的Burton LTR雪板和創新的Step On®系統。"
+      },
+      "transportation": {
+        "domestic": {
+          "shinkansen": [
+            {
+              "from": "Tokyo",
+              "to": "Nagano Station",
+              "duration_minutes": 100,
+              "notes": "搭乘北陸新幹線。"
+            }
+          ],
+          "bus": [
+            {
+              "route": "Nagano Station → Hakuba Goryu",
+              "duration_minutes": 75,
+              "notes": "搭乘Alpico特快巴士。"
+            }
+          ]
+        },
+        "international": {
+          "airports": []
+        },
+        "remarks": "白馬谷內有接駁巴士，持有白馬通票可免費搭乘。"
+      },
+      "content_sources": [
+        "project/specs/resort-services/skiarea.md",
+        "https://www.hakubaescal.com/goryu/"
+      ],
+      "notes": "對初學者極為友善，同時擁有日本頂級的地形公園，是混合能力團體的絕佳選擇。",
+      "_metadata": {
+        "source_file": "faq/resorts/nagano/hakuba/hakuba_goryu_47.yaml",
+        "region": "nagano",
+        "area": "hakuba",
+        "last_converted": "2025-10-14T13:08:09.198Z"
+      }
+    },
+    {
+      "resort_id": "hakuba_iwatake",
+      "names": {
+        "zh": "白馬岩岳滑雪場",
+        "en": "Hakuba Iwatake Snow Field",
+        "ja": "白馬岩岳スノーフィールド"
+      },
+      "country_code": "JP",
+      "region": "Nagano Prefecture",
+      "timezone": "Asia/Tokyo",
+      "coordinates": {
+        "lat": 36.716652,
+        "lng": 137.859097
+      },
+      "season": {
+        "estimated_open": "2024-12-13",
+        "estimated_close": "2025-03-30"
+      },
+      "official_site": "https://iwatake-mountain-resort.com/",
+      "description": {
+        "highlights": [
+          "360度全景",
+          "山岳度假村",
+          "HAKUBA MOUNTAIN HARBOR",
+          "THE CITY BAKERY"
+        ],
+        "tagline": "坐擁白馬谷靈魂的360度全景視野。"
+      },
+      "amenities": [
+        "Onsen",
+        "Kids Park",
+        "Yoo-Hoo! SWING"
+      ],
+      "snow_stats": {
+        "lifts": 12,
+        "courses_total": 26,
+        "beginner_ratio": 0.3,
+        "intermediate_ratio": 0.5,
+        "advanced_ratio": 0.2,
+        "longest_run": 3.3,
+        "vertical_drop": 539,
+        "night_ski": false,
+        "notes": "以其山頂的360度全景視野和HAKUBA MOUNTAIN HARBOR而聞名。"
+      },
+      "courses": [
+        {
+          "name": "South Slope",
+          "level": "beginner",
+          "tags": [
+            "beginner-friendly",
+            "wide",
+            "scenic-view"
+          ],
+          "description": "位於山頂的極致寬闊緩坡，被譽為白馬地區初學者的首選。",
+          "notes": ""
+        },
+        {
+          "name": "Sunny Valley Course",
+          "level": "intermediate",
+          "tags": [
+            "long-run",
+            "cruising"
+          ],
+          "description": "全長3,300米的長距離雪道，提供了持久而愉悅的滑行體驗。",
+          "notes": ""
+        },
+        {
+          "name": "DANGAN",
+          "level": "advanced",
+          "tags": [
+            "steep"
+          ],
+          "description": "雪場最陡峭的壓雪道，最大坡度35度。",
+          "notes": ""
+        },
+        {
+          "name": "VIEW A",
+          "level": "advanced",
+          "tags": [
+            "powder",
+            "un-groomed",
+            "bowl"
+          ],
+          "description": "位於岩岳後山碗型雪區的非壓雪粉雪道，以其劇烈的地形起伏和溝壑地形著稱。",
+          "notes": ""
+        }
+      ],
+      "pricing": {
+        "last_verified": "2025-10-14",
+        "ticket_types": [
+          {
+            "type": "1-day (online)",
+            "adult": 5900,
+            "child": 3600,
+            "notes": ""
+          },
+          {
+            "type": "2-day (online)",
+            "adult": 10500,
+            "child": 6200,
+            "notes": ""
+          }
+        ]
+      },
+      "rental": {
+        "last_verified": "2025-10-14",
+        "items": [],
+        "notes": "山麓區域有多家雪具店，如Spicy Rentals和Woody Rental。"
+      },
+      "transportation": {
+        "domestic": {
+          "shinkansen": [
+            {
+              "from": "Tokyo",
+              "to": "Nagano Station",
+              "duration_minutes": 100,
+              "notes": "搭乘北陸新幹線。"
+            }
+          ],
+          "bus": [
+            {
+              "route": "Nagano Station → Hakuba Iwatake",
+              "duration_minutes": 90,
+              "notes": "搭乘Alpico特快巴士。"
+            }
+          ]
+        },
+        "international": {
+          "airports": []
+        },
+        "remarks": "白馬谷內有接駁巴士，持有白馬谷通票可免費搭乘。"
+      },
+      "content_sources": [
+        "project/specs/resort-services/skiarea.md",
+        "https://iwatake-mountain-resort.com/"
+      ],
+      "notes": "以其山頂的HAKUBA MOUNTAIN HARBOR和THE CITY BAKERY成為四季皆宜的山岳度假村。",
+      "_metadata": {
+        "source_file": "faq/resorts/nagano/hakuba/hakuba_iwatake.yaml",
+        "region": "nagano",
+        "area": "hakuba",
+        "last_converted": "2025-10-14T13:08:09.198Z"
+      }
+    },
+    {
+      "resort_id": "hakuba_norikura",
+      "names": {
+        "zh": "白馬乗鞍溫泉滑雪場",
+        "en": "Hakuba Norikura Onsen Ski Resort",
+        "ja": "白馬乗鞍温泉スキー場"
+      },
+      "country_code": "JP",
+      "region": "Nagano Prefecture",
+      "timezone": "Asia/Tokyo",
+      "coordinates": {
+        "lat": 36.763616,
+        "lng": 137.876077
+      },
+      "season": {
+        "estimated_open": "2024-12-14",
+        "estimated_close": "2025-04-06"
+      },
+      "official_site": "https://www.hakunori.com/",
+      "description": {
+        "highlights": [
+          "100%自然降雪",
+          "家庭友善",
+          "粉雪秘境",
+          "寵物友善"
+        ],
+        "tagline": "白馬山谷北端的粉雪秘境，享受100%純天然雪。"
+      },
+      "amenities": [
+        "Onsen",
+        "Ski-in/Ski-out Hotel",
+        "Kids Park",
+        "Dog-friendly"
+      ],
+      "snow_stats": {
+        "lifts": 9,
+        "courses_total": 14,
+        "beginner_ratio": 0.3,
+        "intermediate_ratio": 0.5,
+        "advanced_ratio": 0.2,
+        "longest_run": 2.5,
+        "vertical_drop": 600,
+        "night_ski": false,
+        "notes": "與白馬Cortina滑雪場緊密相連，可購買共通券。"
+      },
+      "courses": [
+        {
+          "name": "Hakunori Family Course (はくのりファミリーコース)",
+          "level": "beginner",
+          "tags": [
+            "beginner-friendly",
+            "gentle-slope"
+          ],
+          "description": "平均斜度僅5度的平緩坡道，適合家庭和初學者。",
+          "notes": ""
+        },
+        {
+          "name": "Expert Course",
+          "level": "advanced",
+          "tags": [
+            "steep",
+            "un-groomed"
+          ],
+          "description": "最大斜度38度的黑線雪道，充滿挑戰。",
+          "notes": ""
+        }
+      ],
+      "pricing": {
+        "last_verified": "2025-10-14",
+        "ticket_types": [
+          {
+            "type": "1-day (Joint with Cortina)",
+            "adult": 5800,
+            "child": 3500,
+            "senior": 5200,
+            "notes": "此為與白馬Cortina滑雪場的共通券價格。小學生以下免費。"
+          }
+        ]
+      },
+      "rental": {
+        "last_verified": "2025-10-14",
+        "items": [],
+        "notes": "飯店內設有租賃店，也可使用周邊獨立店家。"
+      },
+      "transportation": {
+        "domestic": {
+          "shinkansen": [
+            {
+              "from": "Tokyo",
+              "to": "Nagano Station",
+              "duration_minutes": 100,
+              "notes": "搭乘北陸新幹線。"
+            }
+          ],
+          "bus": [
+            {
+              "route": "Nagano Station → Hakuba Norikura",
+              "duration_minutes": 90,
+              "notes": "搭乘Alpico特快巴士。"
+            }
+          ]
+        },
+        "international": {
+          "airports": []
+        },
+        "remarks": "白馬谷內有接駁巴士，可連接其他雪場。"
+      },
+      "content_sources": [
+        "project/specs/resort-services/skiarea.md",
+        "https://www.hakunori.com/"
+      ],
+      "notes": "以其寧靜的氛圍和優質的粉雪著稱，是白馬谷內相對不擁擠的選擇。",
+      "_metadata": {
+        "source_file": "faq/resorts/nagano/hakuba/hakuba_norikura.yaml",
+        "region": "nagano",
+        "area": "hakuba",
+        "last_converted": "2025-10-14T13:08:09.199Z"
+      }
+    },
+    {
+      "resort_id": "hakuba_tsugaike_kogen",
+      "names": {
+        "zh": "白馬栂池高原滑雪場",
+        "en": "Hakuba Tsugaike Kogen Ski Resort",
+        "ja": "栂池高原スキー場"
+      },
+      "country_code": "JP",
+      "region": "Nagano Prefecture",
+      "timezone": "Asia/Tokyo",
+      "coordinates": {
+        "lat": 36.75056,
+        "lng": 137.86444
+      },
+      "season": {
+        "estimated_open": "2024-12-01",
+        "estimated_close": "2025-05-06"
+      },
+      "official_site": "https://www.tsugaike.gr.jp/",
+      "description": {
+        "highlights": [
+          "初學者天堂",
+          "友善巨人",
+          "超寬闊雪道",
+          "家庭友善"
+        ],
+        "tagline": "在北阿爾卑斯的友善巨人上，體驗日本最寬闊的初學者雪道。"
+      },
+      "amenities": [
+        "Onsen",
+        "Kids Park",
+        "Night Skiing"
+      ],
+      "snow_stats": {
+        "lifts": 19,
+        "courses_total": 10,
+        "beginner_ratio": 0.8,
+        "intermediate_ratio": 0,
+        "advanced_ratio": 0.2,
+        "longest_run": 4.9,
+        "vertical_drop": 904,
+        "night_ski": true,
+        "notes": "雪道80%為初中級，對初學者極為友善。"
+      },
+      "courses": [
+        {
+          "name": "Kane-no-naru-oka Slopes (鐘鳴之丘)",
+          "level": "beginner",
+          "tags": [
+            "beginner-friendly",
+            "wide",
+            "gentle-slope"
+          ],
+          "description": "度假村標誌性的初學者天堂，以其驚人的1,200米寬度和平均僅8度的平緩坡度而聞名。",
+          "notes": ""
+        },
+        {
+          "name": "Han-no-ki (榿木)",
+          "level": "intermediate",
+          "tags": [
+            "long-run",
+            "cruising"
+          ],
+          "description": "長達3公里的雪道，坡度變化豐富，適合進階中的滑雪者。",
+          "notes": ""
+        },
+        {
+          "name": "Uma-no-se (馬之背)",
+          "level": "advanced",
+          "tags": [
+            "steep",
+            "moguls"
+          ],
+          "description": "地形如馬背般狹窄，最大坡度達到32度，佈滿了巨大的天然雪丘。",
+          "notes": ""
+        }
+      ],
+      "pricing": {
+        "last_verified": "2025-10-14",
+        "ticket_types": [
+          {
+            "type": "1-day",
+            "adult": 7500,
+            "child": 4400,
+            "notes": "此為常規雪季價格。"
+          },
+          {
+            "type": "2-day",
+            "adult": 13200,
+            "child": 8000,
+            "notes": ""
+          }
+        ]
+      },
+      "rental": {
+        "last_verified": "2025-10-14",
+        "items": [
+          {
+            "item": "Standard Ski/Snowboard Set",
+            "adult_price": 5000,
+            "child_price": 3500,
+            "notes": "價格參考自Rental Sports Arai。"
+          },
+          {
+            "item": "Premium Ski/Snowboard Set",
+            "adult_price": 7000,
+            "notes": "價格參考自Rental Sports Arai。"
+          }
+        ],
+        "notes": "村內有多家租賃店可供選擇。"
+      },
+      "transportation": {
+        "domestic": {
+          "shinkansen": [
+            {
+              "from": "Tokyo",
+              "to": "Nagano Station",
+              "duration_minutes": 100,
+              "notes": "搭乘北陸新幹線。"
+            }
+          ],
+          "bus": [
+            {
+              "route": "Nagano Station → Tsugaike Kogen",
+              "duration_minutes": 90,
+              "notes": "搭乘Alpico特快巴士。"
+            },
+            {
+              "route": "Shinjuku → Tsugaike Kogen",
+              "duration_minutes": 330,
+              "notes": "有直達高速巴士。"
+            }
+          ]
+        },
+        "international": {
+          "airports": []
+        },
+        "remarks": "白馬谷內有接駁巴士，持有白馬谷通票可免費搭乘。"
+      },
+      "content_sources": [
+        "project/specs/resort-services/skiarea.md",
+        "https://www.tsugaike.gr.jp/",
+        "https://en.wikipedia.org/wiki/Tsugaike_Kogen_Ski_Resort"
+      ],
+      "notes": "以其極度寬闊的初學者雪道聞名，是家庭滑雪的首選之一。",
+      "_metadata": {
+        "source_file": "faq/resorts/nagano/hakuba/hakuba_tsugaike_kogen.yaml",
+        "region": "nagano",
+        "area": "hakuba",
+        "last_converted": "2025-10-14T13:08:09.199Z"
+      }
+    },
+    {
+      "resort_id": "hakuba_cortina",
+      "names": {
+        "zh": "白馬Cortina滑雪場",
+        "en": "Hakuba Cortina Ski Resort",
+        "ja": "白馬コルチナスキー場"
+      },
+      "country_code": "JP",
+      "region": "Nagano Prefecture",
+      "timezone": "Asia/Tokyo",
+      "coordinates": {
+        "lat": 36.776543,
+        "lng": 137.888657
+      },
+      "season": {
+        "estimated_open": "2024-12-14",
+        "estimated_close": "2025-03-30"
+      },
+      "official_site": "https://www.hgp.co.jp/cortina/ski/",
+      "description": {
+        "highlights": [
+          "粉雪天堂",
+          "樹林滑雪聖地",
+          "100%純天然雪",
+          "自由滑行"
+        ],
+        "tagline": "白馬山谷最北端的粉雪天堂與樹林滑雪聖地。"
+      },
+      "amenities": [
+        "Onsen",
+        "Ski-in/Ski-out Hotel",
+        "Kids Park",
+        "Night Skiing"
+      ],
+      "snow_stats": {
+        "lifts": 7,
+        "courses_total": 16,
+        "beginner_ratio": 0.4,
+        "intermediate_ratio": 0.3,
+        "advanced_ratio": 0.3,
+        "longest_run": 3.5,
+        "vertical_drop": 530,
+        "night_ski": true,
+        "notes": "以其極為開放的非壓雪(off-piste)樹林滑行政策聞名。"
+      },
+      "courses": [
+        {
+          "name": "Ikenota Gelande (池の田ゲレンデ)",
+          "level": "beginner",
+          "tags": [
+            "beginner-friendly",
+            "wide",
+            "gentle-slope"
+          ],
+          "description": "位於飯店正前方的寬闊緩坡，是理想的初學者區域。",
+          "notes": ""
+        },
+        {
+          "name": "Hiedayama Course 2 (稗田山コース2)",
+          "level": "advanced",
+          "tags": [
+            "steep",
+            "powder",
+            "un-groomed"
+          ],
+          "description": "雪場的王牌雪道，最大斜度42度，是粉雪愛好者的聖地。",
+          "notes": ""
+        },
+        {
+          "name": "Giant Course (ジャイアントコース)",
+          "level": "advanced",
+          "tags": [
+            "steep",
+            "un-groomed"
+          ],
+          "description": "僅在最佳雪況時開放的夢幻雪道，最大斜度37度。",
+          "notes": ""
+        },
+        {
+          "name": "Itadaira Course (板平コース)",
+          "level": "advanced",
+          "tags": [
+            "moguls",
+            "un-groomed"
+          ],
+          "description": "坡度穩定的非壓雪雪道，適合進行充滿力量感的滑行。",
+          "notes": ""
+        }
+      ],
+      "pricing": {
+        "last_verified": "2025-10-14",
+        "ticket_types": [
+          {
+            "type": "1-day (Joint with Norikura)",
+            "adult": 5800,
+            "child": 3500,
+            "senior": 5200,
+            "notes": "此為與白馬乗鞍溫泉滑雪場的共通券價格。"
+          },
+          {
+            "type": "4-hour",
+            "adult": 5000,
+            "child": 3000,
+            "notes": ""
+          }
+        ]
+      },
+      "rental": {
+        "last_verified": "2025-10-14",
+        "items": [
+          {
+            "item": "Ski/Snowboard Set",
+            "adult_price": 5000,
+            "child_price": 3500,
+            "notes": ""
+          },
+          {
+            "item": "Wear Set",
+            "adult_price": 6250,
+            "child_price": 4750,
+            "notes": ""
+          }
+        ],
+        "notes": "飯店內設有租賃中心。"
+      },
+      "transportation": {
+        "domestic": {
+          "shinkansen": [
+            {
+              "from": "Tokyo",
+              "to": "Nagano Station",
+              "duration_minutes": 100,
+              "notes": "搭乘北陸新幹線。"
+            }
+          ],
+          "bus": [
+            {
+              "route": "Nagano Station → Hakuba Cortina",
+              "duration_minutes": 120,
+              "notes": "搭乘Alpico特快巴士。"
+            }
+          ]
+        },
+        "international": {
+          "airports": []
+        },
+        "remarks": "白馬谷內有接駁巴士，可連接其他雪場。"
+      },
+      "content_sources": [
+        "project/specs/resort-services/skiarea.md",
+        "https://www.hgp.co.jp/cortina/ski/"
+      ],
+      "notes": "以其極致的粉雪和自由的樹林滑雪政策聞名，是中高級滑雪者的天堂。",
+      "_metadata": {
+        "source_file": "faq/resorts/nagano/hakuba/hakuba_cortina.yaml",
+        "region": "nagano",
+        "area": "hakuba",
+        "last_converted": "2025-10-14T13:08:09.197Z"
+      }
+    },
+    {
+      "resort_id": "nagano_ryuoo_ski_park",
+      "names": {
+        "zh": "竜王滑雪公園",
+        "en": "Ryuoo Ski Park",
+        "ja": "竜王スキーパーク"
+      },
+      "country_code": "JP",
+      "region": "Nagano Prefecture",
+      "timezone": "Asia/Tokyo",
+      "coordinates": {
+        "lat": 36.787377,
+        "lng": 138.448212
+      },
+      "season": {
+        "estimated_open": "2024-12-07",
+        "estimated_close": "2025-03-30"
+      },
+      "official_site": "http://www.ryuoo.com/",
+      "description": {
+        "highlights": [
+          "雲海",
+          "SORA terrace",
+          "粉雪",
+          "木落しコース"
+        ],
+        "tagline": "在海拔1,770公尺的雲端奇景中，體驗極致粉雪。"
+      },
+      "amenities": [
+        "Onsen",
+        "Ski-in/Ski-out Hotel",
+        "SORA terrace"
+      ],
+      "snow_stats": {
+        "lifts": 8,
+        "courses_total": 12,
+        "beginner_ratio": 0.3,
+        "intermediate_ratio": 0.4,
+        "advanced_ratio": 0.3,
+        "longest_run": 1.37,
+        "vertical_drop": 1080,
+        "night_ski": true,
+        "notes": "以其山頂的SORA terrace觀景台和壯麗的雲海聞名。"
+      },
+      "courses": [
+        {
+          "name": "Kiotoshi Course (木落しコース)",
+          "level": "advanced",
+          "tags": [
+            "powder",
+            "un-groomed",
+            "steep",
+            "tree-run"
+          ],
+          "description": "雪場的傳奇非壓雪粉雪道，最大斜度36度，充滿挑戰。",
+          "notes": "必須佩戴安全帽方可進入。"
+        },
+        {
+          "name": "A Course",
+          "level": "beginner",
+          "tags": [
+            "long-run",
+            "beginner-friendly"
+          ],
+          "description": "長達1,370公尺的初級雪道，位於Skyland區域。",
+          "notes": ""
+        },
+        {
+          "name": "Green Course",
+          "level": "intermediate",
+          "tags": [
+            "cruising"
+          ],
+          "description": "位於中腹的中級雪道，適合練習轉彎。",
+          "notes": ""
+        }
+      ],
+      "pricing": {
+        "last_verified": "2025-10-14",
+        "ticket_types": [
+          {
+            "type": "1-day",
+            "adult": 5500,
+            "child": 2500,
+            "notes": "通常期間 (12/21 - 3/23) 價格。"
+          },
+          {
+            "type": "Half-day",
+            "adult": 4400,
+            "child": 1800,
+            "notes": ""
+          },
+          {
+            "type": "Night Ski",
+            "adult": 2200,
+            "child": 1200,
+            "notes": ""
+          }
+        ]
+      },
+      "rental": {
+        "last_verified": "2025-10-14",
+        "items": [
+          {
+            "item": "Ski/Snowboard Set",
+            "adult_price": 5500,
+            "child_price": 4000,
+            "notes": ""
+          },
+          {
+            "item": "Wear Set",
+            "adult_price": 5000,
+            "child_price": 3500,
+            "notes": ""
+          }
+        ],
+        "notes": "SPICY Rental提供安全帽租借。"
+      },
+      "transportation": {
+        "domestic": {
+          "shinkansen": [
+            {
+              "from": "Tokyo",
+              "to": "Iiyama Station",
+              "duration_minutes": 110,
+              "notes": "搭乘北陸新幹線。"
+            }
+          ],
+          "bus": [
+            {
+              "route": "Iiyama Station → Ryuoo Ski Park",
+              "duration_minutes": 35,
+              "notes": "需預約的接駁巴士。"
+            },
+            {
+              "route": "Yudanaka Station → Ryuoo Ski Park",
+              "duration_minutes": 30,
+              "notes": "有免費接駁巴士。"
+            }
+          ]
+        },
+        "international": {
+          "airports": []
+        },
+        "remarks": ""
+      },
+      "content_sources": [
+        "project/specs/resort-services/skiarea.md",
+        "http://www.ryuoo.com/"
+      ],
+      "notes": "雪場分為三個區域，山頂的Skyland區雪質最佳，風景壯麗。",
+      "_metadata": {
+        "source_file": "faq/resorts/nagano/ryuoo_ski_park.yaml",
+        "region": "nagano",
+        "area": "nagano",
+        "last_converted": "2025-10-14T13:08:09.201Z"
+      }
+    },
+    {
+      "resort_id": "nagano_nozawa_onsen",
+      "names": {
+        "zh": "野澤溫泉滑雪場",
+        "en": "Nozawa Onsen Snow Resort",
+        "ja": "野沢温泉スキー場"
+      },
+      "country_code": "JP",
+      "region": "Nagano Prefecture",
+      "timezone": "Asia/Tokyo",
+      "coordinates": {
+        "lat": 36.920031,
+        "lng": 138.451976
+      },
+      "season": {
+        "estimated_open": "2024-12-01",
+        "estimated_close": "2025-05-06"
+      },
+      "official_site": "http://www.nozawaski.com/",
+      "description": {
+        "highlights": [
+          "雪國之魂",
+          "溫泉文化",
+          "道祖神火祭",
+          "粉雪"
+        ],
+        "tagline": "在擁有千年歷史的溫泉村落，體驗最地道的日本滑雪文化。"
+      },
+      "amenities": [
+        "Onsen",
+        "Kids Park",
+        "Night Skiing"
+      ],
+      "snow_stats": {
+        "lifts": 20,
+        "courses_total": 36,
+        "beginner_ratio": 0.4,
+        "intermediate_ratio": 0.3,
+        "advanced_ratio": 0.3,
+        "longest_run": 10,
+        "vertical_drop": 1085,
+        "night_ski": true,
+        "notes": "以其廣闊多樣的地形和豐富的天然降雪聞名。"
+      },
+      "courses": [
+        {
+          "name": "Skyline Course",
+          "level": "intermediate",
+          "tags": [
+            "long-run",
+            "scenic-view",
+            "ridge"
+          ],
+          "description": "長達4,500米的傳奇山脊雪道，沿途風景令人嘆為觀止。",
+          "notes": ""
+        },
+        {
+          "name": "Challenge 39° Wall",
+          "level": "advanced",
+          "tags": [
+            "steep",
+            "moguls",
+            "un-groomed"
+          ],
+          "description": "雪場最著名的挑戰，最大坡度達39度的陡峭雪牆。",
+          "notes": ""
+        },
+        {
+          "name": "Uenotaira",
+          "level": "beginner",
+          "tags": [
+            "beginner-friendly",
+            "wide",
+            "plateau"
+          ],
+          "description": "位於半山的寬闊平緩高原區，是初學者練習的理想場所。",
+          "notes": ""
+        }
+      ],
+      "pricing": {
+        "last_verified": "2025-10-14",
+        "ticket_types": [
+          {
+            "type": "1-day",
+            "adult": 7300,
+            "child": 4400,
+            "senior": 5900,
+            "notes": ""
+          },
+          {
+            "type": "2-day",
+            "adult": 13500,
+            "child": 8100,
+            "senior": 10900,
+            "notes": ""
+          }
+        ]
+      },
+      "rental": {
+        "last_verified": "2025-10-14",
+        "items": [
+          {
+            "item": "Standard Ski/Snowboard Set",
+            "adult_price": 5500,
+            "child_price": 4100,
+            "notes": "價格參考自Salomon Station。"
+          }
+        ],
+        "notes": "村莊內有多家獨立租賃店可供選擇。"
+      },
+      "transportation": {
+        "domestic": {
+          "shinkansen": [
+            {
+              "from": "Tokyo",
+              "to": "Iiyama Station",
+              "duration_minutes": 100,
+              "notes": "搭乘北陸新幹線。"
+            }
+          ],
+          "bus": [
+            {
+              "route": "Iiyama Station → Nozawa Onsen",
+              "duration_minutes": 25,
+              "notes": "搭乘野澤溫泉Liner巴士。"
+            }
+          ]
+        },
+        "international": {
+          "airports": []
+        },
+        "remarks": "村內有免費接駁巴士。"
+      },
+      "content_sources": [
+        "project/specs/resort-services/skiarea.md",
+        "http://www.nozawaski.com/"
+      ],
+      "notes": "以其13座免費的公共溫泉『外湯』和每年1月15日的道祖神火祭聞名。",
+      "_metadata": {
+        "source_file": "faq/resorts/nagano/nagano_nozawa_onsen.yaml",
+        "region": "nagano",
+        "area": "nagano",
+        "last_converted": "2025-10-14T13:08:09.201Z"
+      }
+    },
+    {
+      "resort_id": "nagano_madarao_kogen",
+      "names": {
+        "zh": "斑尾高原滑雪場",
+        "en": "Madarao Mountain Resort",
+        "ja": "斑尾高原スキー場"
+      },
+      "country_code": "JP",
+      "region": "Nagano Prefecture",
+      "timezone": "Asia/Tokyo",
+      "coordinates": {
+        "lat": 36.8525,
+        "lng": 138.28972
+      },
+      "season": {
+        "estimated_open": "2024-12-14",
+        "estimated_close": "2025-03-30"
+      },
+      "official_site": "http://www.madarao.jp/",
+      "description": {
+        "highlights": [
+          "Madapow粉雪",
+          "樹林滑雪",
+          "非壓雪",
+          "家庭友善"
+        ],
+        "tagline": "日本樹林滑道數量第一的粉雪聖地，60%的區域為非壓雪。"
+      },
+      "amenities": [
+        "Onsen",
+        "Ski-in/Ski-out Hotel",
+        "Kids Park",
+        "Night Skiing"
+      ],
+      "snow_stats": {
+        "lifts": 11,
+        "courses_total": 31,
+        "beginner_ratio": 0.3,
+        "intermediate_ratio": 0.35,
+        "advanced_ratio": 0.35,
+        "longest_run": 2.5,
+        "vertical_drop": 440,
+        "night_ski": true,
+        "notes": "與Tangram Ski Circus相連，可購買共通券。"
+      },
+      "courses": [
+        {
+          "name": "SAWA - Natural Pipe",
+          "level": "advanced",
+          "tags": [
+            "powder",
+            "tree-run",
+            "natural-pipe"
+          ],
+          "description": "利用天然沢狀地形形成的U型管，可在兩側雪牆上進行各種動作。",
+          "notes": ""
+        },
+        {
+          "name": "NINJA",
+          "level": "advanced",
+          "tags": [
+            "powder",
+            "tree-run",
+            "jump"
+          ],
+          "description": "設有高達7公尺的木製跳台，是高手展現技巧的舞台。",
+          "notes": ""
+        },
+        {
+          "name": "Powder Wave II",
+          "level": "advanced",
+          "tags": [
+            "powder",
+            "long-run"
+          ],
+          "description": "長達1,500公尺的長距離粉雪道，充滿自然起伏的地形。",
+          "notes": ""
+        },
+        {
+          "name": "Crystal Bowl",
+          "level": "advanced",
+          "tags": [
+            "powder",
+            "steep",
+            "bowl"
+          ],
+          "description": "位於雪場中央的碗狀地形，雪質極佳，是體驗『沒頂』感覺的絕佳地點。",
+          "notes": ""
+        },
+        {
+          "name": "Kamoshika Course",
+          "level": "beginner",
+          "tags": [
+            "tree-run",
+            "family-friendly",
+            "beginner-friendly"
+          ],
+          "description": "家庭冒險區的一部分，坡度平緩，是樹林滑雪新手的理想入門之選。",
+          "notes": ""
+        }
+      ],
+      "pricing": {
+        "last_verified": "2025-10-14",
+        "ticket_types": [
+          {
+            "type": "1-day",
+            "adult": 6500,
+            "child": 3500,
+            "senior": 6000,
+            "notes": "此為斑尾單山票價，另有與Tangram的共通券。"
+          },
+          {
+            "type": "2-day",
+            "adult": 11500,
+            "child": 6000,
+            "senior": 10500,
+            "notes": ""
+          }
+        ]
+      },
+      "rental": {
+        "last_verified": "2025-10-14",
+        "items": [
+          {
+            "item": "Standard Ski/Snowboard Set",
+            "adult_price": 7400,
+            "child_price": 5900,
+            "notes": ""
+          },
+          {
+            "item": "Wear Set",
+            "adult_price": 5200,
+            "child_price": 4400,
+            "notes": ""
+          }
+        ],
+        "notes": "由Shirakaba Rental提供，設有專門的Powder Station。"
+      },
+      "transportation": {
+        "domestic": {
+          "shinkansen": [
+            {
+              "from": "Tokyo",
+              "to": "Iiyama Station",
+              "duration_minutes": 110,
+              "notes": "搭乘北陸新幹線。"
+            }
+          ],
+          "bus": [
+            {
+              "route": "Iiyama Station → Madarao Kogen",
+              "duration_minutes": 30,
+              "notes": "有接駁巴士服務。"
+            }
+          ]
+        },
+        "international": {
+          "airports": []
+        },
+        "remarks": ""
+      },
+      "content_sources": [
+        "project/specs/resort-services/skiarea.md",
+        "http://www.madarao.jp/",
+        "https://en.wikipedia.org/wiki/Madarao_Mountain_Resort"
+      ],
+      "notes": "以其豐富的樹林滑雪道和非壓雪區域聞名，是粉雪愛好者的天堂。",
+      "_metadata": {
+        "source_file": "faq/resorts/nagano/nagano_madarao_kogen.yaml",
+        "region": "nagano",
+        "area": "nagano",
+        "last_converted": "2025-10-14T13:08:09.200Z"
+      }
+    },
+    {
+      "resort_id": "nagano_kurohime_kogen",
+      "names": {
+        "zh": "黑姬高原滑雪公園",
+        "en": "Kurohime Kogen Snow Park",
+        "ja": "黒姫高原スノーパーク"
+      },
+      "country_code": "JP",
+      "region": "Nagano Prefecture",
+      "timezone": "Asia/Tokyo",
+      "coordinates": {
+        "lat": 36.82583,
+        "lng": 138.15778
+      },
+      "season": {
+        "estimated_open": "2024-12-21",
+        "estimated_close": "2025-03-23"
+      },
+      "official_site": "https://kurohime-kogen.co.jp/",
+      "description": {
+        "highlights": [
+          "家庭友善",
+          "兒童公園",
+          "狗狗友善",
+          "100%天然雪"
+        ],
+        "tagline": "長野首屈一指的家庭冰雪聖地，設有專為犬隻設計的滑雪區。"
+      },
+      "amenities": [
+        "Kids Park",
+        "Dog-friendly Area"
+      ],
+      "snow_stats": {
+        "lifts": 6,
+        "courses_total": 11,
+        "beginner_ratio": 0.45,
+        "intermediate_ratio": 0.35,
+        "advanced_ratio": 0.2,
+        "longest_run": 2.6,
+        "night_ski": true,
+        "notes": "夜間滑雪為完全預約制。"
+      },
+      "courses": [],
+      "pricing": {
+        "last_verified": "2025-10-14",
+        "ticket_types": [
+          {
+            "type": "1-day (weekend/holiday)",
+            "adult": 5800,
+            "child": 3100,
+            "senior": 5200,
+            "notes": ""
+          },
+          {
+            "type": "1-day (weekday)",
+            "adult": 5100,
+            "child": 2800,
+            "senior": 4600,
+            "notes": ""
+          },
+          {
+            "type": "Family Park 1-day",
+            "adult": 2800,
+            "child": 2800,
+            "senior": 2800,
+            "notes": "3歲以上統一票價。"
+          }
+        ]
+      },
+      "rental": {
+        "last_verified": "2025-10-14",
+        "items": [
+          {
+            "item": "Ski/Snowboard Set",
+            "adult_price": 4200,
+            "child_price": 4000,
+            "notes": ""
+          },
+          {
+            "item": "Wear Set",
+            "adult_price": 4200,
+            "child_price": 4000,
+            "notes": ""
+          }
+        ],
+        "notes": "價格參考自skiarea.md內的2024-2025雪季租賃費用表。"
+      },
+      "transportation": {
+        "domestic": {
+          "shinkansen": [
+            {
+              "from": "Tokyo",
+              "to": "Nagano Station → Kurohime Station",
+              "duration_minutes": 150,
+              "notes": "搭乘北陸新幹線至長野後轉信濃鐵道北信濃線。"
+            }
+          ],
+          "self_drive": [
+            {
+              "route": "Joshinetsu Expressway → Shinano-machi IC",
+              "duration_minutes": null,
+              "notes": "交流道出口後約6分鐘車程。"
+            }
+          ]
+        },
+        "international": {
+          "airports": []
+        },
+        "remarks": "從黑姬站出發的當地巴士已停運，需依賴計程車或租車。"
+      },
+      "content_sources": [
+        "project/specs/resort-services/skiarea.md",
+        "https://kurohime-kogen.co.jp/",
+        "https://en.wikipedia.org/wiki/Kurohime_Kogen_Snow_Park"
+      ],
+      "notes": "以其家庭公園和狗狗友善區域為主要特色。",
+      "_metadata": {
+        "source_file": "faq/resorts/nagano/nagano_kurohime_kogen.yaml",
+        "region": "nagano",
+        "area": "nagano",
+        "last_converted": "2025-10-14T13:08:09.200Z"
+      }
+    },
+    {
+      "resort_id": "nagano_karuizawa_prince",
+      "names": {
+        "zh": "輕井澤王子大飯店滑雪場",
+        "en": "Karuizawa Prince Hotel Ski Resort",
+        "ja": "軽井沢プリンスホテルスキー場"
+      },
+      "country_code": "JP",
+      "region": "Nagano Prefecture",
+      "timezone": "Asia/Tokyo",
+      "coordinates": {
+        "lat": 36.33611,
+        "lng": 138.64611
+      },
+      "season": {
+        "estimated_open": "2024-11-01",
+        "estimated_close": "2025-03-31"
+      },
+      "official_site": "https://www.princehotels.co.jp/ski/karuizawa/",
+      "description": {
+        "highlights": [
+          "交通便利",
+          "人工造雪",
+          "家庭友善",
+          "Outlet購物",
+          "晴天率高"
+        ],
+        "tagline": "從東京搭乘新幹線約1小時，享受購物與滑雪樂趣的便利型滑雪場。"
+      },
+      "amenities": [
+        "Kids Park",
+        "Night Skiing",
+        "Shopping Outlet"
+      ],
+      "snow_stats": {
+        "lifts": 9,
+        "courses_total": 14,
+        "beginner_ratio": 0.58,
+        "intermediate_ratio": 0.21,
+        "advanced_ratio": 0.21,
+        "longest_run": 1.5,
+        "vertical_drop": 215,
+        "night_ski": true,
+        "notes": "擁有強大的人工造雪能力，是日本每年最早開放的滑雪場之一。"
+      },
+      "courses": [
+        {
+          "name": "Panorama Course",
+          "level": "intermediate",
+          "tags": [
+            "cruising",
+            "scenic-view"
+          ],
+          "description": "從山頂滑下，可欣賞淺間山的壯麗景色。",
+          "notes": ""
+        },
+        {
+          "name": "Family Course",
+          "level": "beginner",
+          "tags": [
+            "beginner-friendly",
+            "wide"
+          ],
+          "description": "寬闊且滑行舒適的初級雪道。",
+          "notes": ""
+        },
+        {
+          "name": "Ariesuka Course",
+          "level": "advanced",
+          "tags": [
+            "steep"
+          ],
+          "description": "最大斜度31度的上級者挑戰雪道。",
+          "notes": ""
+        }
+      ],
+      "pricing": {
+        "last_verified": "2025-10-14",
+        "ticket_types": [
+          {
+            "type": "1-day (regular season)",
+            "adult": 8800,
+            "student": 8300,
+            "senior": 8300,
+            "child": 0,
+            "notes": "小學生及以下免費。此為旺季價格，淡季有折扣。"
+          }
+        ]
+      },
+      "rental": {
+        "last_verified": "2025-10-14",
+        "items": [
+          {
+            "item": "Ski/Snowboard Set",
+            "adult_price": 6000,
+            "child_price": 5000,
+            "notes": ""
+          },
+          {
+            "item": "Wear Set",
+            "adult_price": 4500,
+            "child_price": 3500,
+            "notes": ""
+          }
+        ],
+        "notes": ""
+      },
+      "transportation": {
+        "domestic": {
+          "shinkansen": [
+            {
+              "from": "Tokyo",
+              "to": "Karuizawa Station",
+              "duration_minutes": 60,
+              "notes": "搭乘北陸新幹線，車站旁即是滑雪場。"
+            }
+          ]
+        },
+        "international": {
+          "airports": []
+        },
+        "remarks": "交通極為便利，是首都圈一日滑雪的熱門選擇。"
+      },
+      "content_sources": [
+        "project/specs/resort-services/skiarea.md",
+        "https://www.princehotels.co.jp/ski/karuizawa/"
+      ],
+      "notes": "緊鄰輕井澤王子購物廣場，可同時享受滑雪與購物的樂趣。",
+      "_metadata": {
+        "source_file": "faq/resorts/nagano/nagano_karuizawa_prince.yaml",
+        "region": "nagano",
+        "area": "nagano",
+        "last_converted": "2025-10-14T13:08:09.200Z"
+      }
+    },
+    {
+      "resort_id": "yuzawa_joetsu_kokusai",
+      "names": {
+        "zh": "上越國際滑雪場",
+        "en": "Joetsu Kokusai Ski Resort",
+        "ja": "上越国際スキー場"
+      },
+      "country_code": "JP",
+      "region": "Niigata Prefecture",
+      "timezone": "Asia/Tokyo",
+      "coordinates": {
+        "lat": 37.025112,
+        "lng": 138.806549
+      },
+      "season": {
+        "estimated_open": "2024-12-07",
+        "estimated_close": "2025-04-06"
+      },
+      "official_site": "https://www.jkokusai.co.jp/",
+      "description": {
+        "highlights": [
+          "四山連峰",
+          "日本最大級別",
+          "家庭友善",
+          "車站直結"
+        ],
+        "tagline": "橫跨四座山的廣闊滑雪聯合體，適合所有人的雪國。"
+      },
+      "amenities": [
+        "Onsen",
+        "Ski-in/Ski-out Hotel",
+        "Kids Park",
+        "Night Skiing"
+      ],
+      "snow_stats": {
+        "lifts": 25,
+        "courses_total": 22,
+        "beginner_ratio": 0.3,
+        "intermediate_ratio": 0.5,
+        "advanced_ratio": 0.2,
+        "longest_run": 6,
+        "vertical_drop": 817,
+        "night_ski": true,
+        "notes": "雪場由四個主要區域組成，區域間的連接纜車有時較平坦，對單板滑雪者可能稍有不便。"
+      },
+      "courses": [
+        {
+          "name": "Panorama Course",
+          "level": "beginner",
+          "tags": [
+            "long-run",
+            "beginner-friendly"
+          ],
+          "description": "位於東區飯店前的寬闊緩坡，適合初學者。",
+          "notes": ""
+        },
+        {
+          "name": "大別当チャンピオンコース (Osawa Champion Course)",
+          "level": "advanced",
+          "tags": [
+            "steep",
+            "moguls"
+          ],
+          "description": "位於南區，是雪場官方標示中最陡峭的滑道之一，最大坡度38度。",
+          "notes": ""
+        },
+        {
+          "name": "長峰コース (Nagamine Course)",
+          "level": "intermediate",
+          "tags": [
+            "cruising"
+          ],
+          "description": "位於北區，以其優美的中級壓雪道而聞名，雪質佳且相對寧靜。",
+          "notes": ""
+        }
+      ],
+      "pricing": {
+        "last_verified": "2025-10-14",
+        "ticket_types": [
+          {
+            "type": "1-day",
+            "adult": 5500,
+            "child": 3500,
+            "senior": 4300,
+            "notes": ""
+          },
+          {
+            "type": "1-day + Night",
+            "adult": 5800,
+            "child": 3800,
+            "senior": 4600,
+            "notes": ""
+          },
+          {
+            "type": "Night Ski",
+            "adult": 2000,
+            "child": 1500,
+            "senior": 1500,
+            "notes": ""
+          }
+        ]
+      },
+      "rental": {
+        "last_verified": "2025-10-14",
+        "items": [
+          {
+            "item": "Ski/Snowboard Set",
+            "adult_price": 6000,
+            "child_price": 3500,
+            "notes": ""
+          },
+          {
+            "item": "Wear Set",
+            "adult_price": 8000,
+            "child_price": 6000,
+            "notes": ""
+          }
+        ],
+        "notes": "飯店內設有Salomon官方租賃店。"
+      },
+      "transportation": {
+        "domestic": {
+          "train": [
+            {
+              "from": "Echigo-Yuzawa Station",
+              "to": "Joetsu Kokusai Skiing Ground Mae Station",
+              "duration_minutes": 15,
+              "notes": "搭乘JR上越線，車站出口即是滑雪場。"
+            }
+          ],
+          "shinkansen": [
+            {
+              "from": "Tokyo",
+              "to": "Echigo-Yuzawa Station",
+              "duration_minutes": 80,
+              "notes": "搭乘上越新幹線後轉乘上越線。"
+            }
+          ],
+          "self_drive": [
+            {
+              "route": "Kan-Etsu Expressway → Shiozawa-Ishiuchi IC",
+              "duration_minutes": 7,
+              "notes": "交流道出口後約7分鐘車程。"
+            }
+          ]
+        },
+        "international": {
+          "airports": []
+        },
+        "remarks": "擁有專屬火車站是其最大交通優勢。"
+      },
+      "content_sources": [
+        "project/specs/resort-services/skiarea.md",
+        "https://www.jkokusai.co.jp/"
+      ],
+      "notes": "以其與Hotel Green Plaza Joetsu結合的歐洲風格建築聞名，是日本泡沫經濟時代滑雪度假村的代表之一。",
+      "_metadata": {
+        "source_file": "faq/resorts/niigata/yuzawa/yuzawa_joetsu_kokusai.yaml",
+        "region": "niigata",
+        "area": "yuzawa",
+        "last_converted": "2025-10-14T13:08:09.204Z"
+      }
+    },
+    {
+      "resort_id": "yuzawa_ishiuchi_maruyama",
+      "names": {
+        "zh": "石打丸山滑雪場",
+        "en": "Ishiuchi Maruyama Ski Resort",
+        "ja": "石打丸山スキー場"
+      },
+      "country_code": "JP",
+      "region": "Niigata Prefecture",
+      "timezone": "Asia/Tokyo",
+      "coordinates": {
+        "lat": 36.97611,
+        "lng": 138.79472
+      },
+      "season": {
+        "estimated_open": "2024-12-15",
+        "estimated_close": "2025-04-07"
+      },
+      "official_site": "https://www.ishiuchi.or.jp/",
+      "description": {
+        "highlights": [
+          "歷史悠久",
+          "美食天堂",
+          "夜滑",
+          "地形公園"
+        ],
+        "tagline": "擁有70年歷史的滑雪場，結合了傳統與現代的魅力。"
+      },
+      "amenities": [
+        "Onsen (nearby)",
+        "Night Skiing",
+        "Terrain Park"
+      ],
+      "snow_stats": {
+        "lifts": 13,
+        "courses_total": 23,
+        "beginner_ratio": 0.3,
+        "intermediate_ratio": 0.4,
+        "advanced_ratio": 0.3,
+        "longest_run": 4,
+        "vertical_drop": 664,
+        "night_ski": true,
+        "notes": "與GALA湯澤、湯澤高原相連，可購買三山共通券。"
+      },
+      "courses": [
+        {
+          "name": "山頂ゲレンデ (Summit Gelande)",
+          "level": "intermediate",
+          "tags": [
+            "cruising",
+            "scenic-view"
+          ],
+          "description": "位於山頂的寬闊雪道，可欣賞魚沼平原的壯麗景色。",
+          "notes": ""
+        },
+        {
+          "name": "ジャイアントコース (Giant Course)",
+          "level": "advanced",
+          "tags": [
+            "steep"
+          ],
+          "description": "最大斜度35度的挑戰性雪道。",
+          "notes": ""
+        },
+        {
+          "name": "サンライズエクスプレス (Sunrise Express)",
+          "level": "beginner",
+          "tags": [
+            "beginner-friendly",
+            "long-run"
+          ],
+          "description": "從中央口出發的長距離初級雪道。",
+          "notes": ""
+        }
+      ],
+      "pricing": {
+        "last_verified": "2025-10-14",
+        "ticket_types": [
+          {
+            "type": "1-day (online)",
+            "adult": 5200,
+            "notes": "此為網路預購價，現場購買價格較高。"
+          },
+          {
+            "type": "1-day (window)",
+            "adult": 7000,
+            "notes": "現場窗口購買價格。"
+          },
+          {
+            "type": "Night Ski",
+            "adult": 3800,
+            "notes": ""
+          }
+        ]
+      },
+      "rental": {
+        "last_verified": "2025-10-14",
+        "items": [
+          {
+            "item": "Standard Ski/Snowboard Set",
+            "adult_price": 5800,
+            "child_price": 3600,
+            "notes": ""
+          },
+          {
+            "item": "Full Set (Gear + Wear)",
+            "adult_price": 9500,
+            "child_price": 6000,
+            "notes": ""
+          }
+        ],
+        "notes": "度假中心及周邊有多家租賃店。"
+      },
+      "transportation": {
+        "domestic": {
+          "shinkansen": [
+            {
+              "from": "Tokyo",
+              "to": "Echigo-Yuzawa Station",
+              "duration_minutes": 80,
+              "notes": "搭乘上越新幹線。"
+            }
+          ],
+          "bus": [
+            {
+              "route": "Echigo-Yuzawa Station → Ishiuchi Maruyama",
+              "duration_minutes": 10,
+              "notes": "有免費接駁巴士。"
+            }
+          ],
+          "self_drive": [
+            {
+              "route": "Kan-Etsu Expressway → Shiozawa-Ishiuchi IC",
+              "duration_minutes": 5,
+              "notes": "交流道出口後約5分鐘車程。"
+            }
+          ]
+        },
+        "international": {
+          "airports": []
+        },
+        "remarks": ""
+      },
+      "content_sources": [
+        "https://www.ishiuchi.or.jp/",
+        "https://en.wikipedia.org/wiki/Ishiuchi_Maruyama_Ski_Resort"
+      ],
+      "notes": "以其豐富的餐飲選擇和大規模的夜間滑雪而聞名。",
+      "_metadata": {
+        "source_file": "faq/resorts/niigata/yuzawa/yuzawa_ishiuchi_maruyama.yaml",
+        "region": "niigata",
+        "area": "yuzawa",
+        "last_converted": "2025-10-14T13:08:09.203Z"
+      }
+    },
+    {
+      "resort_id": "myoko_ikenotaira",
+      "names": {
+        "zh": "妙高池之平溫泉滑雪場",
+        "en": "Ikenotaira Onsen Alpenblick Ski Resort",
+        "ja": "池の平温泉アルペンブリックスキー場"
+      },
+      "country_code": "JP",
+      "region": "Niigata Prefecture",
+      "timezone": "Asia/Tokyo",
+      "coordinates": {
+        "lat": 36.8725,
+        "lng": 138.17194
+      },
+      "season": {
+        "estimated_open": "2024-12-14",
+        "estimated_close": "2025-03-30"
+      },
+      "official_site": "https://alpenblick-resort.com/",
+      "description": {
+        "highlights": [
+          "新手天堂",
+          "超寬廣雪道",
+          "溫泉",
+          "家庭友善"
+        ],
+        "tagline": "專為建立滑雪信心而生的新手天堂，擁有全國頂級的超寬廣雪道。"
+      },
+      "amenities": [
+        "Onsen",
+        "Ski-in/Ski-out Hotel",
+        "Kids Park"
+      ],
+      "snow_stats": {
+        "lifts": 5,
+        "courses_total": 10,
+        "beginner_ratio": 0.5,
+        "intermediate_ratio": 0.4,
+        "advanced_ratio": 0.1,
+        "longest_run": 4,
+        "night_ski": false,
+        "notes": "雪道極度寬闊，部分區域達400米，非常適合初學者練習。"
+      },
+      "courses": [
+        {
+          "name": "Happy Gelande (ハッピーゲレンデ)",
+          "level": "beginner",
+          "tags": [
+            "beginner-friendly",
+            "wide"
+          ],
+          "description": "長約1,400公尺，平均坡度8度，寬敞的空間讓新手可以安心練習。",
+          "notes": ""
+        },
+        {
+          "name": "Dream Course (ドリームコース)",
+          "level": "beginner",
+          "tags": [
+            "beginner-friendly",
+            "gentle-slope"
+          ],
+          "description": "全長1,100公尺，平均坡度僅7度，是全雪場最平緩的雪道之一。",
+          "notes": ""
+        },
+        {
+          "name": "Yamabato Rinkan Course (やまばと林間コース)",
+          "level": "beginner",
+          "tags": [
+            "long-run",
+            "tree-lined"
+          ],
+          "description": "連接多條雪道，組成總長4公里的長程滑行路線，穿梭於寧靜的林間。",
+          "notes": ""
+        },
+        {
+          "name": "Kayaba Course (カヤバコース)",
+          "level": "intermediate",
+          "tags": [
+            "wide",
+            "cruising"
+          ],
+          "description": "位於雪場上半部的中級雪道，保持著非常寬闊的特點，適合練習S形轉彎。",
+          "notes": ""
+        }
+      ],
+      "pricing": {
+        "last_verified": "2025-10-14",
+        "ticket_types": [
+          {
+            "type": "1-day",
+            "adult": 5600,
+            "student": 4800,
+            "senior": 4800,
+            "child": 3400,
+            "notes": ""
+          },
+          {
+            "type": "4-hour",
+            "adult": 4500,
+            "student": 3900,
+            "senior": 3900,
+            "child": 2700,
+            "notes": ""
+          }
+        ]
+      },
+      "rental": {
+        "last_verified": "2025-10-14",
+        "items": [
+          {
+            "item": "Ski/Snowboard Set",
+            "adult_price": 5000,
+            "child_price": 3900,
+            "notes": ""
+          },
+          {
+            "item": "Wear Set",
+            "adult_price": 5000,
+            "child_price": 3900,
+            "notes": ""
+          }
+        ],
+        "notes": "價格參考自skiarea.md內的2024-2025雪季租賃費用表。"
+      },
+      "transportation": {
+        "domestic": {
+          "shinkansen": [
+            {
+              "from": "Tokyo",
+              "to": "Nagano Station → Myoko-Kogen Station",
+              "duration_minutes": 180,
+              "notes": "搭乘北陸新幹線至長野後轉地方列車。"
+            }
+          ],
+          "bus": [
+            {
+              "route": "Tokyo → Myoko area",
+              "duration_minutes": null,
+              "notes": "有直達夜間巴士。"
+            }
+          ],
+          "self_drive": [
+            {
+              "route": "Joshinetsu Expressway → Myoko-Kogen IC",
+              "duration_minutes": null,
+              "notes": "交流道出口後約5分鐘車程。"
+            }
+          ]
+        },
+        "international": {
+          "airports": []
+        },
+        "remarks": "從妙高高原站有接駁巴士或計程車，約10-15分鐘車程。"
+      },
+      "content_sources": [
+        "project/specs/resort-services/skiarea.md",
+        "https://alpenblick-resort.com/",
+        "https://en.wikipedia.org/wiki/Ikenotaira_Onsen_Ski_Resort"
+      ],
+      "notes": "以其極度寬闊的雪道聞名，對初學者非常友好。",
+      "_metadata": {
+        "source_file": "faq/resorts/niigata/myoko/myoko_ikenotaira.yaml",
+        "region": "niigata",
+        "area": "myoko",
+        "last_converted": "2025-10-14T13:08:09.202Z"
+      }
+    },
+    {
+      "resort_id": "myoko_suginohara",
+      "names": {
+        "zh": "妙高杉之原滑雪場",
+        "en": "Myoko Suginohara Ski Resort",
+        "ja": "妙高杉ノ原スキー場"
+      },
+      "country_code": "JP",
+      "region": "Niigata Prefecture",
+      "timezone": "Asia/Tokyo",
+      "coordinates": {
+        "lat": 36.86346,
+        "lng": 138.13715
+      },
+      "season": {
+        "estimated_open": "2024-12-21",
+        "estimated_close": "2025-03-23"
+      },
+      "official_site": "https://www.princehotels.co.jp/ski/myoko_suginohara/",
+      "description": {
+        "highlights": [
+          "日本最長雪道",
+          "中級者天堂",
+          "粉雪"
+        ],
+        "tagline": "無盡滑降的王國，體驗8.5公里的燃燒大腿直線滑降巡航路線"
+      },
+      "amenities": [
+        "Terrain Park"
+      ],
+      "snow_stats": {
+        "lifts": 5,
+        "courses_total": 17,
+        "beginner_ratio": 0.4,
+        "intermediate_ratio": 0.4,
+        "advanced_ratio": 0.2,
+        "longest_run": 8.5,
+        "night_ski": false,
+        "notes": "兒童12歲及以下纜車票免費。"
+      },
+      "courses": [
+        {
+          "name": "杜鵑花雪道 (Shakunage Trail, E1)",
+          "level": "intermediate",
+          "tags": [
+            "long-run-part"
+          ],
+          "description": "8.5公里長雪道的上段，擁有開闊的視野。",
+          "notes": ""
+        },
+        {
+          "name": "全景雪道 (Panorama Trail, D1/B2)",
+          "level": "beginner",
+          "tags": [
+            "long-run-part",
+            "cruising"
+          ],
+          "description": "8.5公里長雪道的中段，坡度平緩，適合享受速度與風景。",
+          "notes": ""
+        },
+        {
+          "name": "白樺雪道 (Shirakaba Trail, A1)",
+          "level": "beginner",
+          "tags": [
+            "long-run-part",
+            "tree-lined"
+          ],
+          "description": "8.5公里長雪道的下段，蜿蜒穿過優雅的白樺林。",
+          "notes": ""
+        },
+        {
+          "name": "家庭雪道 (Family R Trail, B1)",
+          "level": "beginner",
+          "tags": [
+            "long-run-part"
+          ],
+          "description": "8.5公里長雪道的終點，平緩地引導滑雪者回到基地。",
+          "notes": ""
+        },
+        {
+          "name": "超級巨人雪道 (Super Giant Trail)",
+          "level": "advanced",
+          "tags": [
+            "steep"
+          ],
+          "description": "最大坡度達38度的黑線挑戰。",
+          "notes": ""
+        }
+      ],
+      "pricing": {
+        "last_verified": "2025-10-14",
+        "ticket_types": [
+          {
+            "type": "1-day",
+            "adult": 7000,
+            "student": 6400,
+            "senior": 6400,
+            "child": 0,
+            "notes": "兒童12歲及以下免費。學生為13-18歲，長者為55歲以上。"
+          },
+          {
+            "type": "2-day",
+            "adult": 13000,
+            "student": 12000,
+            "senior": 12000,
+            "child": 0,
+            "notes": "需連續兩日使用。"
+          },
+          {
+            "type": "4-hour",
+            "adult": 6200,
+            "student": 5700,
+            "senior": 5700,
+            "child": 0,
+            "notes": "從首次通過票閘起計算4小時。"
+          }
+        ]
+      },
+      "rental": {
+        "last_verified": "2025-10-14",
+        "items": [
+          {
+            "item": "Ski/Snowboard Set",
+            "adult_price": 5500,
+            "child_price": 4000,
+            "notes": ""
+          },
+          {
+            "item": "Wear Set",
+            "adult_price": 4500,
+            "child_price": 3500,
+            "notes": ""
+          }
+        ],
+        "notes": "價格參考自skiarea.md內的2024-2025雪季租賃費用表。"
+      },
+      "transportation": {
+        "domestic": {
+          "shinkansen": [
+            {
+              "from": "Tokyo",
+              "to": "Nagano Station → Myoko-Kogen Station",
+              "duration_minutes": 180,
+              "notes": "搭乘北陸新幹線至長野後轉地方列車。"
+            }
+          ],
+          "bus": [
+            {
+              "route": "Tokyo (Shinjuku) → Myoko-Kogen Station",
+              "duration_minutes": null,
+              "notes": "有直達夜間巴士。"
+            }
+          ],
+          "self_drive": [
+            {
+              "route": "Joshinetsu Expressway → Myoko-Kogen IC",
+              "duration_minutes": null,
+              "notes": "交流道出口後約9分鐘車程。"
+            }
+          ]
+        },
+        "international": {
+          "airports": []
+        },
+        "remarks": ""
+      },
+      "content_sources": [
+        "project/specs/resort-services/skiarea.md",
+        "https://www.princehotels.co.jp/ski/myoko_suginohara/",
+        "https://mapcarta.com"
+      ],
+      "notes": "兒童12歲及以下纜車票免費是一大特色。",
+      "_metadata": {
+        "source_file": "faq/resorts/niigata/myoko/myoko_suginohara.yaml",
+        "region": "niigata",
+        "area": "myoko",
+        "last_converted": "2025-10-14T13:08:09.203Z"
+      }
+    },
+    {
+      "resort_id": "myoko_akakura_onsen",
+      "names": {
+        "zh": "赤倉溫泉滑雪場",
+        "en": "Akakura Onsen Ski Resort",
+        "ja": "赤倉温泉スキー場"
+      },
+      "country_code": "JP",
+      "region": "Niigata Prefecture",
+      "timezone": "Asia/Tokyo",
+      "coordinates": {
+        "lat": 36.89195179,
+        "lng": 138.16327333
+      },
+      "season": {
+        "estimated_open": "2024-12-14",
+        "estimated_close": "2025-03-30"
+      },
+      "official_site": "https://akakura-ski.com/",
+      "description": {
+        "highlights": [
+          "粉雪品質佳",
+          "適合新手與家庭",
+          "夜間滑雪",
+          "溫泉街體驗"
+        ],
+        "tagline": "新手與家庭的粉雪天堂，結合百年溫泉鄉與友善雪道"
+      },
+      "amenities": [
+        "Kids Park",
+        "Night Skiing",
+        "Onsen Town",
+        "Rental Shops",
+        "English-friendly Ski Schools"
+      ],
+      "snow_stats": {
+        "lifts": 14,
+        "courses_total": 17,
+        "beginner_ratio": 0.5,
+        "intermediate_ratio": 0.3,
+        "advanced_ratio": 0.2,
+        "night_ski": true,
+        "notes": "初級雪道比例高，適合練習；與赤倉觀光雪場有聯票。雪道比例為約略值。"
+      },
+      "courses": [
+        {
+          "name": "パノラマコース (Panorama Course)",
+          "level": "beginner",
+          "tags": [
+            "wide",
+            "long",
+            "night-skiing",
+            "beginner-friendly"
+          ],
+          "description": "寬闊且綿長的主雪道，提供充足空間練習全制動與S形轉彎",
+          "notes": "妙高地區唯一每日夜滑雪道"
+        },
+        {
+          "name": "エレガントコース (Elegant Course)",
+          "level": "beginner",
+          "tags": [
+            "tree-lined",
+            "family-friendly"
+          ],
+          "description": "被森林包圍的林間雪道，自山頂一路滑到山麓",
+          "notes": "適合家庭共同滑行"
+        },
+        {
+          "name": "関見ゲレンデ (Sekimi Gelande)",
+          "level": "beginner",
+          "tags": [
+            "gentle-slope",
+            "practice-area"
+          ],
+          "description": "坡度平緩的一枚バーン，纜車人潮較少",
+          "notes": "適合反覆練習基本技巧"
+        },
+        {
+          "name": "ユートピアAコース (Utopia A Course)",
+          "level": "intermediate",
+          "tags": [
+            "groomed",
+            "cruising",
+            "intermediate"
+          ],
+          "description": "壓雪品質佳的巡航雪道，適合提升轉彎節奏",
+          "notes": ""
+        },
+        {
+          "name": "モーグルチャレンジコース (Mogul Challenge Course)",
+          "level": "advanced",
+          "tags": [
+            "moguls",
+            "un-groomed",
+            "steep",
+            "powder",
+            "advanced"
+          ],
+          "description": "最大坡度約43度的未壓雪挑戰區，提供天然粉雪饅頭",
+          "notes": "需具備高級技巧"
+        }
+      ],
+      "pricing": {
+        "last_verified": "2025-10-14",
+        "ticket_types": [
+          {
+            "type": "1-day",
+            "adult": 7000,
+            "senior": 5600,
+            "child": 2500,
+            "notes": "價格單位為日圓 (JPY)"
+          }
+        ]
+      },
+      "rental": {
+        "last_verified": "2025-10-14",
+        "items": [],
+        "notes": "官網提供租借服務，但未列出詳細價格。"
+      },
+      "transportation": {
+        "domestic": {
+          "shinkansen": [
+            {
+              "from": "Tokyo",
+              "to": "Nagano Station → Myoko-Kogen Station",
+              "duration_minutes": 180,
+              "notes": "搭乘北陸新幹線至長野後轉地方列車前往妙高高原站"
+            }
+          ],
+          "bus": [
+            {
+              "route": "Tokyo (Shinjuku) → Myoko area",
+              "duration_minutes": null,
+              "notes": "夜間巴士可直達妙高地區，適合 maximizing 滑雪時間"
+            }
+          ],
+          "self_drive": [
+            {
+              "route": "Joshinetsu Expressway → Myoko-Kogen IC",
+              "duration_minutes": null,
+              "notes": "交流道出口後約9分鐘車程可達雪場"
+            }
+          ]
+        },
+        "international": {
+          "airports": []
+        },
+        "remarks": "交通資料需再補充更精確的班次與時間，含國際航點轉乘"
+      },
+      "content_sources": [
+        "project/specs/resort-services/skiarea.md",
+        "https://akakura-ski.com/",
+        "https://mapion.co.jp"
+      ],
+      "notes": "票價與租借價格易變動，待後續更新。雪道比例為約略值，待更精確資料。",
+      "_metadata": {
+        "source_file": "faq/resorts/niigata/myoko/myoko_akakura_onsen.yaml",
+        "region": "niigata",
+        "area": "myoko",
+        "last_converted": "2025-10-14T13:08:09.202Z"
+      }
+    },
+    {
+      "resort_id": "myoko_akakura_kanko",
+      "names": {
+        "zh": "赤倉觀光雪場",
+        "en": "Akakura Kanko Resort",
+        "ja": "赤倉観光リゾートスキー場"
+      },
+      "country_code": "JP",
+      "region": "Niigata Prefecture",
+      "timezone": "Asia/Tokyo",
+      "coordinates": {
+        "lat": 36.89519,
+        "lng": 138.17278
+      },
+      "season": {
+        "estimated_open": "2024-12-14",
+        "estimated_close": "2025-04-06"
+      },
+      "official_site": "https://www.akr-hotel.com/win/",
+      "description": {
+        "highlights": [
+          "Ski-in/Ski-out",
+          "粉雪",
+          "溫泉",
+          "適合家庭"
+        ],
+        "tagline": "歷史與革新交織的滑雪勝地，體驗100%天然粉雪。"
+      },
+      "amenities": [
+        "Onsen",
+        "Ski-in/Ski-out Hotel",
+        "English-friendly"
+      ],
+      "snow_stats": {
+        "lifts": 7,
+        "courses_total": 10,
+        "beginner_ratio": 0.4,
+        "intermediate_ratio": 0.3,
+        "advanced_ratio": 0.3,
+        "longest_run": 4.5,
+        "vertical_drop": 760,
+        "night_ski": false,
+        "notes": "與赤倉溫泉滑雪場有共通纜車票。"
+      },
+      "courses": [
+        {
+          "name": "Hotel Main Slope",
+          "level": "beginner",
+          "tags": [
+            "beginner-friendly",
+            "wide"
+          ],
+          "description": "直接從標誌性的赤倉觀光飯店門前延伸開來，地勢平緩開闊。",
+          "notes": ""
+        },
+        {
+          "name": "Hotel Beginner Course",
+          "level": "beginner",
+          "tags": [
+            "beginner-friendly"
+          ],
+          "description": "適合初學者進行熱身、練習基礎動作的理想場所。",
+          "notes": ""
+        },
+        {
+          "name": "Champion A Course",
+          "level": "intermediate",
+          "tags": [
+            "cruising"
+          ],
+          "description": "位於雪場中段，是典型的中級紅線雪道，寬度適中，坡度穩定。",
+          "notes": ""
+        },
+        {
+          "name": "Champion B Course",
+          "level": "intermediate",
+          "tags": [
+            "cruising"
+          ],
+          "description": "適合練習流暢的轉彎技巧。",
+          "notes": ""
+        }
+      ],
+      "pricing": {
+        "last_verified": "2025-10-14",
+        "ticket_types": [
+          {
+            "type": "1-day",
+            "adult": 6500,
+            "student": 5400,
+            "senior": 5400,
+            "child": 4800,
+            "notes": "此為赤倉觀光單獨票價，另有與赤倉溫泉的共通券。"
+          }
+        ]
+      },
+      "rental": {
+        "last_verified": "2025-10-14",
+        "items": [],
+        "notes": "雪場本身與飯店內有提供租賃服務，也可使用鄰近赤倉溫泉街上的店家。"
+      },
+      "transportation": {
+        "domestic": {
+          "shinkansen": [
+            {
+              "from": "Tokyo",
+              "to": "Nagano Station → Myoko-Kogen Station",
+              "duration_minutes": 180,
+              "notes": "搭乘北陸新幹線至長野後轉地方列車前往妙高高原站。"
+            }
+          ],
+          "bus": [
+            {
+              "route": "Tokyo (Shinjuku) → Myoko area",
+              "duration_minutes": null,
+              "notes": "夜間巴士可直達妙高地區。"
+            }
+          ],
+          "self_drive": [
+            {
+              "route": "Joshinetsu Expressway → Myoko-Kogen IC",
+              "duration_minutes": null,
+              "notes": "交流道出口後約10分鐘車程可達雪場。"
+            }
+          ]
+        },
+        "international": {
+          "airports": []
+        },
+        "remarks": "從妙高高原站有免費接駁巴士，需預約。"
+      },
+      "content_sources": [
+        "project/specs/resort-services/skiarea.md",
+        "https://www.akr-hotel.com/win/"
+      ],
+      "notes": "又稱Akakan。飯店歷史悠久，是日本高原度假飯店的先驅之一。",
+      "_metadata": {
+        "source_file": "faq/resorts/niigata/myoko/myoko_akakura_kanko.yaml",
+        "region": "niigata",
+        "area": "myoko",
+        "last_converted": "2025-10-14T13:08:09.202Z"
+      }
+    },
+    {
+      "resort_id": "yuzawa_iwappara",
+      "names": {
+        "zh": "岩原滑雪場",
+        "en": "Iwappara Ski Resort",
+        "ja": "岩原スキー場"
+      },
+      "country_code": "JP",
+      "region": "Niigata Prefecture",
+      "timezone": "Asia/Tokyo",
+      "coordinates": {
+        "lat": 36.93889,
+        "lng": 138.84444
+      },
+      "season": {
+        "estimated_open": "2024-12-21",
+        "estimated_close": "2025-03-30"
+      },
+      "official_site": "https://www.iwa-ppara.com/",
+      "description": {
+        "highlights": [
+          "初學者天堂",
+          "超寬闊雪道",
+          "家庭友善",
+          "夜滑"
+        ],
+        "tagline": "擁有高速公路般寬闊的主雪道，是日本最佳的滑雪學習場地之一。"
+      },
+      "amenities": [
+        "Onsen (nearby)",
+        "Kids Park",
+        "Night Skiing"
+      ],
+      "snow_stats": {
+        "lifts": 9,
+        "courses_total": 20,
+        "beginner_ratio": 0.4,
+        "intermediate_ratio": 0.4,
+        "advanced_ratio": 0.2,
+        "longest_run": 4,
+        "vertical_drop": 400,
+        "night_ski": true,
+        "notes": "以其極其寬闊平緩的主雪道聞名，對初學者非常友善。"
+      },
+      "courses": [
+        {
+          "name": "Main Slope",
+          "level": "beginner",
+          "tags": [
+            "beginner-friendly",
+            "wide",
+            "gentle-slope"
+          ],
+          "description": "傳奇性的『高速公路般寬闊』主雪道，是練習的理想場所。",
+          "notes": ""
+        },
+        {
+          "name": "Sledging Course",
+          "level": "beginner",
+          "tags": [
+            "family-friendly",
+            "sledging"
+          ],
+          "description": "日本最大的專用雪橇滑道之一，需搭乘纜車到達頂部。",
+          "notes": ""
+        }
+      ],
+      "pricing": {
+        "last_verified": "2025-10-14",
+        "ticket_types": [
+          {
+            "type": "1-day",
+            "adult": 5500,
+            "child": 3500,
+            "senior": 4300,
+            "notes": ""
+          },
+          {
+            "type": "1-day + Night",
+            "adult": 5800,
+            "child": 3800,
+            "senior": 4600,
+            "notes": ""
+          },
+          {
+            "type": "Night Ski",
+            "adult": 1500,
+            "child": 1000,
+            "senior": 1000,
+            "notes": ""
+          }
+        ]
+      },
+      "rental": {
+        "last_verified": "2025-10-14",
+        "items": [
+          {
+            "item": "Standard Ski/Snowboard Set",
+            "adult_price": 4500,
+            "child_price": 3500,
+            "notes": "價格參考自Salomon Station。"
+          }
+        ],
+        "notes": "周邊有多家獨立租賃店提供更具競爭力的價格。"
+      },
+      "transportation": {
+        "domestic": {
+          "shinkansen": [
+            {
+              "from": "Tokyo",
+              "to": "Echigo-Yuzawa Station",
+              "duration_minutes": 80,
+              "notes": "搭乘上越新幹線。"
+            }
+          ],
+          "bus": [
+            {
+              "route": "Echigo-Yuzawa Station → Iwappara",
+              "duration_minutes": 10,
+              "notes": "有免費接駁巴士。"
+            }
+          ],
+          "self_drive": [
+            {
+              "route": "Kan-Etsu Expressway → Yuzawa IC",
+              "duration_minutes": 5,
+              "notes": "交流道出口後約5-10分鐘車程，停車免費。"
+            }
+          ]
+        },
+        "international": {
+          "airports": []
+        },
+        "remarks": ""
+      },
+      "content_sources": [
+        "project/specs/resort-services/skiarea.md",
+        "https://www.iwa-ppara.com/"
+      ],
+      "notes": "南向坡面，晴天率高，但雪質可能受影響。平日人潮稀少。",
+      "_metadata": {
+        "source_file": "faq/resorts/niigata/yuzawa/yuzawa_iwappara.yaml",
+        "region": "niigata",
+        "area": "yuzawa",
+        "last_converted": "2025-10-14T13:08:09.204Z"
+      }
+    },
+    {
+      "resort_id": "yuzawa_naeba",
+      "names": {
+        "zh": "苗場滑雪場",
+        "en": "Naeba Ski Resort",
+        "ja": "苗場スキー場"
+      },
+      "country_code": "JP",
+      "region": "Niigata Prefecture",
+      "timezone": "Asia/Tokyo",
+      "coordinates": {
+        "lat": 36.791,
+        "lng": 138.785
+      },
+      "season": {
+        "estimated_open": "2024-12-07",
+        "estimated_close": "2025-04-06"
+      },
+      "official_site": "https://www.princehotels.co.jp/ski/naeba/",
+      "description": {
+        "highlights": [
+          "便捷巨擘",
+          "雙峰魅力",
+          "家庭樂園",
+          "龍之纜車"
+        ],
+        "tagline": "透過龍之纜車與神樂相連，體驗苗場的現代便利與神樂的原始壯麗。"
+      },
+      "amenities": [
+        "Onsen",
+        "Ski-in/Ski-out Hotel",
+        "Kids Park",
+        "Night Skiing"
+      ],
+      "snow_stats": {
+        "lifts": 13,
+        "courses_total": 24,
+        "beginner_ratio": 0.3,
+        "intermediate_ratio": 0.4,
+        "advanced_ratio": 0.3,
+        "longest_run": 4,
+        "vertical_drop": 889,
+        "night_ski": true,
+        "notes": "與神樂滑雪場由日本最長的『龍之纜車』相連。"
+      },
+      "courses": [
+        {
+          "name": "Takenokodaira Trail (筍平雪道)",
+          "level": "beginner",
+          "tags": [
+            "beginner-friendly",
+            "scenic-view"
+          ],
+          "description": "適合新手的熱門路線。",
+          "notes": ""
+        },
+        {
+          "name": "Men's Riesen Slalom Trail (男子大迴轉雪道)",
+          "level": "advanced",
+          "tags": [
+            "steep",
+            "olympic"
+          ],
+          "description": "曾舉辦世界盃比賽的傳奇賽道。",
+          "notes": ""
+        },
+        {
+          "name": "World Cup Mogul Trail",
+          "level": "advanced",
+          "tags": [
+            "moguls",
+            "un-groomed"
+          ],
+          "description": "充滿挑戰性的貓跳雪道。",
+          "notes": ""
+        }
+      ],
+      "pricing": {
+        "last_verified": "2025-10-14",
+        "ticket_types": [
+          {
+            "type": "1-day (Mt. Naeba Joint Ticket)",
+            "adult": 7200,
+            "child": 0,
+            "notes": "此為與神樂滑雪場的共通券價格。12歲及以下兒童免費。"
+          }
+        ]
+      },
+      "rental": {
+        "last_verified": "2025-10-14",
+        "items": [
+          {
+            "item": "Full Set (Gear + Wear)",
+            "adult_price": 6000,
+            "notes": ""
+          }
+        ],
+        "notes": "苗場王子大飯店內設有租賃服務。"
+      },
+      "transportation": {
+        "domestic": {
+          "shinkansen": [
+            {
+              "from": "Tokyo",
+              "to": "Echigo-Yuzawa Station",
+              "duration_minutes": 80,
+              "notes": "搭乘上越新幹線。"
+            }
+          ],
+          "bus": [
+            {
+              "route": "Echigo-Yuzawa Station → Naeba Prince Hotel",
+              "duration_minutes": 50,
+              "notes": "有付費路線巴士及飯店住客免費接駁車（需預約）。"
+            }
+          ]
+        },
+        "international": {
+          "airports": []
+        },
+        "remarks": ""
+      },
+      "content_sources": [
+        "project/specs/resort-services/skiarea.md",
+        "https://www.princehotels.co.jp/ski/naeba/"
+      ],
+      "notes": "以其巨大的王子大飯店和完善的設施聞名，是日本泡沫經濟時代滑雪度假村的代表。",
+      "_metadata": {
+        "source_file": "faq/resorts/niigata/yuzawa/yuzawa_naeba.yaml",
+        "region": "niigata",
+        "area": "yuzawa",
+        "last_converted": "2025-10-14T13:08:09.205Z"
+      }
+    },
+    {
+      "resort_id": "yuzawa_kandatsu",
+      "names": {
+        "zh": "神立高原滑雪場",
+        "en": "Kandatsu Snow Resort",
+        "ja": "神立スノーリゾート"
+      },
+      "country_code": "JP",
+      "region": "Niigata Prefecture",
+      "timezone": "Asia/Tokyo",
+      "coordinates": {
+        "lat": 36.91139,
+        "lng": 138.8125
+      },
+      "season": {
+        "estimated_open": "2025-12-12",
+        "estimated_close": "2026-04-19"
+      },
+      "official_site": "https://www.kandatsu.com/",
+      "description": {
+        "highlights": [
+          "日夜滑雪娛樂中心",
+          "交通便利",
+          "溫泉",
+          "地形公園"
+        ],
+        "tagline": "專為現代都市生活方式設計的24小時娛樂中心。"
+      },
+      "amenities": [
+        "Onsen",
+        "Night Skiing",
+        "Terrain Park"
+      ],
+      "snow_stats": {
+        "lifts": 5,
+        "courses_total": 16,
+        "beginner_ratio": 0.3,
+        "intermediate_ratio": 0.4,
+        "advanced_ratio": 0.3,
+        "longest_run": 3.5,
+        "vertical_drop": 440,
+        "night_ski": true,
+        "notes": "以其超長的夜間滑雪時間和完善的溫泉假眠設施聞名。"
+      },
+      "courses": [
+        {
+          "name": "Pollux",
+          "level": "beginner",
+          "tags": [
+            "beginner-friendly",
+            "wide"
+          ],
+          "description": "長1,100公尺，平均寬度達50公尺的寬敞主滑道。",
+          "notes": ""
+        },
+        {
+          "name": "Pegasus",
+          "level": "intermediate",
+          "tags": [
+            "cruising"
+          ],
+          "description": "坡度適中，適合希望展現技巧的中級滑雪者。",
+          "notes": ""
+        },
+        {
+          "name": "Orion",
+          "level": "advanced",
+          "tags": [
+            "steep",
+            "un-groomed"
+          ],
+          "description": "神立難度最高的雪道，最大坡度達到45度。",
+          "notes": ""
+        },
+        {
+          "name": "Hercules",
+          "level": "advanced",
+          "tags": [
+            "moguls",
+            "un-groomed"
+          ],
+          "description": "曾舉辦過貓跳滑雪比賽的知名饅頭坡。",
+          "notes": ""
+        }
+      ],
+      "pricing": {
+        "last_verified": "2025-10-14",
+        "ticket_types": [
+          {
+            "type": "1-day (online)",
+            "adult": 5200,
+            "notes": "此為網路預購價。"
+          },
+          {
+            "type": "Night Ski",
+            "adult": 3600,
+            "notes": ""
+          }
+        ]
+      },
+      "rental": {
+        "last_verified": "2025-10-14",
+        "items": [],
+        "notes": "官方租賃店『KSR Rental』提供Burton Step On®快速穿脫系統。"
+      },
+      "transportation": {
+        "domestic": {
+          "shinkansen": [
+            {
+              "from": "Tokyo",
+              "to": "Echigo-Yuzawa Station",
+              "duration_minutes": 70,
+              "notes": "搭乘上越新幹線。"
+            }
+          ],
+          "bus": [
+            {
+              "route": "Echigo-Yuzawa Station → Kandatsu Snow Resort",
+              "duration_minutes": 10,
+              "notes": "有免費接駁巴士。"
+            }
+          ],
+          "self_drive": [
+            {
+              "route": "Kan-Etsu Expressway → Yuzawa IC",
+              "duration_minutes": 3,
+              "notes": "交流道出口後僅需約3分鐘車程，停車免費。"
+            }
+          ]
+        },
+        "international": {
+          "airports": []
+        },
+        "remarks": ""
+      },
+      "content_sources": [
+        "project/specs/resort-services/skiarea.md",
+        "https://www.kandatsu.com/"
+      ],
+      "notes": "以其『零日住宿滑雪』模式聞名，提供溫泉與假眠設施，吸引大量首都圈遊客。",
+      "_metadata": {
+        "source_file": "faq/resorts/niigata/yuzawa/yuzawa_kandatsu.yaml",
+        "region": "niigata",
+        "area": "yuzawa",
+        "last_converted": "2025-10-14T13:08:09.204Z"
+      }
+    },
+    {
+      "resort_id": "yuzawa_kagura",
+      "names": {
+        "zh": "神樂滑雪場",
+        "en": "Kagura Ski Resort",
+        "ja": "かぐらスキー場"
+      },
+      "country_code": "JP",
+      "region": "Niigata Prefecture",
+      "timezone": "Asia/Tokyo",
+      "coordinates": {
+        "lat": 36.892908,
+        "lng": 138.775558
+      },
+      "season": {
+        "estimated_open": "2024-11-23",
+        "estimated_close": "2025-05-18"
+      },
+      "official_site": "https://www.princehotels.co.jp/ski/kagura/",
+      "description": {
+        "highlights": [
+          "粉雪天堂",
+          "超長雪季",
+          "野雪",
+          "三大區域"
+        ],
+        "tagline": "由三個區域組成的廣闊粉雪天堂，享受日本最長的雪季之一。"
+      },
+      "amenities": [
+        "Onsen (nearby)",
+        "Ski-in/Ski-out Hotel (Wada Goya)"
+      ],
+      "snow_stats": {
+        "lifts": 24,
+        "courses_total": 23,
+        "beginner_ratio": 0.35,
+        "intermediate_ratio": 0.35,
+        "advanced_ratio": 0.3,
+        "longest_run": 6,
+        "vertical_drop": 1225,
+        "night_ski": false,
+        "notes": "以其卓越的粉雪品質和超長的雪季聞名。"
+      },
+      "courses": [
+        {
+          "name": "Kagura Main Slope (かぐらメインゲレンデ)",
+          "level": "intermediate",
+          "tags": [
+            "powder",
+            "cruising"
+          ],
+          "description": "位於神樂區，是體驗優質粉雪的代表性中級雪道。",
+          "notes": ""
+        },
+        {
+          "name": "Tashiro Area",
+          "level": "beginner",
+          "tags": [
+            "beginner-friendly",
+            "scenic-view"
+          ],
+          "description": "田代區以風景如畫、坡度平緩著稱，適合初學者。",
+          "notes": ""
+        },
+        {
+          "name": "Mitsumata Area",
+          "level": "beginner",
+          "tags": [
+            "family-friendly"
+          ],
+          "description": "三俣區設有多樣化的設施，適合家庭活動。",
+          "notes": ""
+        }
+      ],
+      "pricing": {
+        "last_verified": "2025-10-14",
+        "ticket_types": [
+          {
+            "type": "1-day",
+            "adult": 7200,
+            "child": 0,
+            "notes": "小學生及以下免費。"
+          },
+          {
+            "type": "Half-day",
+            "adult": 5000,
+            "child": 0,
+            "notes": ""
+          }
+        ]
+      },
+      "rental": {
+        "last_verified": "2025-10-14",
+        "items": [],
+        "notes": "三俣站附近的Kagura Powder Station提供專業的粉雪裝備租賃。"
+      },
+      "transportation": {
+        "domestic": {
+          "shinkansen": [
+            {
+              "from": "Tokyo",
+              "to": "Echigo-Yuzawa Station",
+              "duration_minutes": 80,
+              "notes": "搭乘上越新幹線。"
+            }
+          ],
+          "bus": [
+            {
+              "route": "Echigo-Yuzawa Station → Kagura",
+              "duration_minutes": 20,
+              "notes": "有路線巴士前往三俣站。"
+            }
+          ]
+        },
+        "international": {
+          "airports": []
+        },
+        "remarks": "與苗場滑雪場由龍纜車相連。"
+      },
+      "content_sources": [
+        "project/specs/resort-services/skiarea.md",
+        "https://www.princehotels.co.jp/ski/kagura/"
+      ],
+      "notes": "由神樂、三俣、田代三個區域組成，是日本最大的滑雪場之一。",
+      "_metadata": {
+        "source_file": "faq/resorts/niigata/yuzawa/yuzawa_kagura.yaml",
+        "region": "niigata",
+        "area": "yuzawa",
+        "last_converted": "2025-10-14T13:08:09.204Z"
+      }
+    },
+    {
+      "resort_id": "yuzawa_nakazato",
+      "names": {
+        "zh": "湯澤中里滑雪度假村",
+        "en": "Yuzawa Nakazato Snow Resort",
+        "ja": "湯沢中里スノーリゾート"
+      },
+      "country_code": "JP",
+      "region": "Niigata Prefecture",
+      "timezone": "Asia/Tokyo",
+      "coordinates": {
+        "lat": 36.90972,
+        "lng": 138.84889
+      },
+      "season": {
+        "estimated_open": "2024-12-21",
+        "estimated_close": "2025-03-30"
+      },
+      "official_site": "https://yuzawa-nakazato.com/",
+      "description": {
+        "highlights": [
+          "家庭滑雪瑰寶",
+          "車站直結",
+          "藍色列車休息室",
+          "溫泉"
+        ],
+        "tagline": "將便利性、懷舊情懷與家庭同樂完美融合的滑雪勝地。"
+      },
+      "amenities": [
+        "Onsen",
+        "Ski-in/Ski-out Hotel",
+        "Kids Park",
+        "Train Station Access"
+      ],
+      "snow_stats": {
+        "lifts": 7,
+        "courses_total": 16,
+        "beginner_ratio": 0.4,
+        "intermediate_ratio": 0.4,
+        "advanced_ratio": 0.2,
+        "longest_run": 2,
+        "vertical_drop": 281,
+        "night_ski": false,
+        "notes": "以其極度家庭友善的設施和氛圍聞名。"
+      },
+      "courses": [
+        {
+          "name": "Angel Gelande",
+          "level": "beginner",
+          "tags": [
+            "beginner-friendly",
+            "magic-carpet"
+          ],
+          "description": "坡度極為平緩，配有100米長的雪上電扶梯，是初學者的理想起點。",
+          "notes": ""
+        },
+        {
+          "name": "Smile Course",
+          "level": "beginner",
+          "tags": [
+            "long-run"
+          ],
+          "description": "長達1,010米的平緩雪道，適合練習轉彎。",
+          "notes": ""
+        },
+        {
+          "name": "Giant Course",
+          "level": "advanced",
+          "tags": [
+            "moguls",
+            "un-groomed"
+          ],
+          "description": "充滿變化的饅頭地形和深厚的積雪，是高級者的挑戰。",
+          "notes": ""
+        },
+        {
+          "name": "THE WOODY",
+          "level": "beginner",
+          "tags": [
+            "tree-run",
+            "fun-ride"
+          ],
+          "description": "趣味滑行區之一，可以在樹林間穿梭，增添滑雪樂趣。",
+          "notes": ""
+        }
+      ],
+      "pricing": {
+        "last_verified": "2025-10-14",
+        "ticket_types": [
+          {
+            "type": "1-day",
+            "adult": 5800,
+            "student": 4700,
+            "senior": 4700,
+            "child": 2800,
+            "notes": "未就學兒童免費。"
+          },
+          {
+            "type": "5-hour",
+            "adult": 4800,
+            "student": 3900,
+            "senior": 3900,
+            "child": 2300,
+            "notes": ""
+          }
+        ]
+      },
+      "rental": {
+        "last_verified": "2025-10-14",
+        "items": [
+          {
+            "item": "Full Set (Gear + Wear)",
+            "adult_price": 8000,
+            "child_price": 5500,
+            "notes": ""
+          },
+          {
+            "item": "Gear Set (Skis/Board + Boots)",
+            "adult_price": 5000,
+            "child_price": 3500,
+            "notes": ""
+          }
+        ],
+        "notes": "連續租用兩天或以上有折扣。"
+      },
+      "transportation": {
+        "domestic": {
+          "train": [
+            {
+              "from": "Echigo-Yuzawa Station",
+              "to": "Echigo-Nakazato Station",
+              "duration_minutes": 10,
+              "notes": "搭乘JR上越線，車站與滑雪中心直結。"
+            }
+          ],
+          "shinkansen": [
+            {
+              "from": "Tokyo",
+              "to": "Echigo-Yuzawa Station",
+              "duration_minutes": 80,
+              "notes": "搭乘上越新幹線後轉乘上越線。"
+            }
+          ],
+          "bus": [
+            {
+              "route": "Echigo-Yuzawa Station → Yuzawa Nakazato",
+              "duration_minutes": 20,
+              "notes": "有免費接駁巴士。"
+            }
+          ],
+          "self_drive": [
+            {
+              "route": "Kan-Etsu Expressway → Yuzawa IC",
+              "duration_minutes": 10,
+              "notes": "交流道出口後約10分鐘車程。"
+            }
+          ]
+        },
+        "international": {
+          "airports": []
+        },
+        "remarks": "擁有專屬火車站是其最大交通優勢。"
+      },
+      "content_sources": [
+        "project/specs/resort-services/skiarea.md",
+        "https://yuzawa-nakazato.com/"
+      ],
+      "notes": "以其獨特的藍色列車車廂休息室而聞名，對家庭極具吸引力。",
+      "_metadata": {
+        "source_file": "faq/resorts/niigata/yuzawa/yuzawa_nakazato.yaml",
+        "region": "niigata",
+        "area": "yuzawa",
+        "last_converted": "2025-10-14T13:08:09.205Z"
+      }
+    },
+    {
+      "resort_id": "yuzawa_park",
+      "names": {
+        "zh": "湯澤公園滑雪場",
+        "en": "Yuzawa Park Resort",
+        "ja": "湯沢パークスキー場"
+      },
+      "country_code": "JP",
+      "region": "Niigata Prefecture",
+      "timezone": "Asia/Tokyo",
+      "coordinates": {
+        "lat": 36.926857,
+        "lng": 138.855754
+      },
+      "season": {
+        "estimated_open": "2024-12-21",
+        "estimated_close": "2025-03-31"
+      },
+      "official_site": "http://www.park-resort.com/",
+      "description": {
+        "highlights": [
+          "私房景點",
+          "人潮稀少",
+          "家庭友善",
+          "高CP值"
+        ],
+        "tagline": "越後湯澤靜謐角落的滑雪私房景點，享受無壓力的滑雪體驗。"
+      },
+      "amenities": [
+        "Onsen",
+        "Ski-in/Ski-out Hotel",
+        "Kids Park"
+      ],
+      "snow_stats": {
+        "lifts": 3,
+        "courses_total": 11,
+        "beginner_ratio": 0.4,
+        "intermediate_ratio": 0.4,
+        "advanced_ratio": 0.2,
+        "longest_run": 0.58,
+        "vertical_drop": 210,
+        "night_ski": false,
+        "notes": "雪道普遍不長，多數在500米左右，適合初學者反覆練習。"
+      },
+      "courses": [
+        {
+          "name": "Family Course (ファミリーコース)",
+          "level": "beginner",
+          "tags": [
+            "beginner-friendly",
+            "wide",
+            "gentle-slope"
+          ],
+          "description": "飯店正前方的寬闊緩坡，是初學者的理想練習場地。",
+          "notes": "由一座老式的單人纜車服務，對新手可能稍具挑戰。"
+        },
+        {
+          "name": "Skyline Course (スカイラインコース)",
+          "level": "beginner",
+          "tags": [
+            "cruising"
+          ],
+          "description": "適合已有初步基礎的初學者進階練習。",
+          "notes": ""
+        },
+        {
+          "name": "Galaxy Course (銀河コース)",
+          "level": "beginner",
+          "tags": [
+            "tree-lined"
+          ],
+          "description": "穿梭於美麗杉木林中的林間道，坡度平緩，適合悠閒滑行。",
+          "notes": ""
+        }
+      ],
+      "pricing": {
+        "last_verified": "2025-10-14",
+        "ticket_types": [
+          {
+            "type": "1-day",
+            "adult": 4500,
+            "student": 3500,
+            "senior": 3500,
+            "child": 2500,
+            "notes": ""
+          },
+          {
+            "type": "Half-day",
+            "adult": 3500,
+            "student": 2500,
+            "senior": 2500,
+            "child": 2000,
+            "notes": ""
+          }
+        ]
+      },
+      "rental": {
+        "last_verified": "2025-10-14",
+        "items": [
+          {
+            "item": "Ski/Snowboard Set",
+            "adult_price": 4500,
+            "child_price": 3500,
+            "notes": ""
+          },
+          {
+            "item": "Wear Set",
+            "adult_price": 4000,
+            "child_price": 3000,
+            "notes": ""
+          }
+        ],
+        "notes": ""
+      },
+      "transportation": {
+        "domestic": {
+          "shinkansen": [
+            {
+              "from": "Tokyo",
+              "to": "Echigo-Yuzawa Station",
+              "duration_minutes": 80,
+              "notes": "搭乘上越新幹線。"
+            }
+          ],
+          "bus": [
+            {
+              "route": "Echigo-Yuzawa Station → Yuzawa Park Hotel",
+              "duration_minutes": 10,
+              "notes": "有免費接駁巴士。"
+            }
+          ],
+          "self_drive": [
+            {
+              "route": "Kan-Etsu Expressway → Yuzawa IC",
+              "duration_minutes": 6,
+              "notes": "交流道出口後約6分鐘車程。"
+            }
+          ]
+        },
+        "international": {
+          "airports": []
+        },
+        "remarks": ""
+      },
+      "content_sources": [
+        "project/specs/resort-services/skiarea.md",
+        "http://www.park-resort.com/"
+      ],
+      "notes": "以其稀少的人潮和高性價比聞名，但部分纜車設施較為老舊。",
+      "_metadata": {
+        "source_file": "faq/resorts/niigata/yuzawa/yuzawa_park.yaml",
+        "region": "niigata",
+        "area": "yuzawa",
+        "last_converted": "2025-10-14T13:08:09.206Z"
+      }
+    },
+    {
+      "resort_id": "yuzawa_maiko_kogen",
+      "names": {
+        "zh": "舞子高原滑雪場",
+        "en": "Maiko Snow Resort",
+        "ja": "舞子スノーリゾート"
+      },
+      "country_code": "JP",
+      "region": "Niigata Prefecture",
+      "timezone": "Asia/Tokyo",
+      "coordinates": {
+        "lat": 36.97442,
+        "lng": 138.83576
+      },
+      "season": {
+        "estimated_open": "2024-12-28",
+        "estimated_close": "2025-03-08"
+      },
+      "official_site": "https://www.maiko-resort.com/",
+      "description": {
+        "highlights": [
+          "交通便利",
+          "家庭友善",
+          "長距離滑道",
+          "溫泉"
+        ],
+        "tagline": "馳騁新潟首屈一指的全能雪場。"
+      },
+      "amenities": [
+        "Onsen",
+        "Ski-in/Ski-out Hotel",
+        "Kids Park",
+        "Night Skiing"
+      ],
+      "snow_stats": {
+        "lifts": 10,
+        "courses_total": 26,
+        "beginner_ratio": 0.4,
+        "intermediate_ratio": 0.4,
+        "advanced_ratio": 0.2,
+        "longest_run": 6,
+        "vertical_drop": 660,
+        "night_ski": true,
+        "notes": "由舞子、長峰、奧添地三個區域組成，地形多樣。"
+      },
+      "courses": [
+        {
+          "name": "Maiko Area",
+          "level": "beginner",
+          "tags": [
+            "beginner-friendly",
+            "family-friendly",
+            "night-skiing"
+          ],
+          "description": "家庭與初學者的庇護所，擁有寬闊的初級坡和夜間滑雪。",
+          "notes": ""
+        },
+        {
+          "name": "Nagamine Area",
+          "level": "intermediate",
+          "tags": [
+            "long-run",
+            "cruising"
+          ],
+          "description": "度假村的交通樞紐，也是6公里長征的起點。",
+          "notes": ""
+        },
+        {
+          "name": "Okusoechi Area",
+          "level": "advanced",
+          "tags": [
+            "powder",
+            "tree-run",
+            "bowl"
+          ],
+          "description": "雪場的皇冠明珠，以其優越的雪質、碗狀地形和粉雪聞名。",
+          "notes": ""
+        }
+      ],
+      "pricing": {
+        "last_verified": "2025-10-14",
+        "ticket_types": [
+          {
+            "type": "1-day",
+            "adult": 6500,
+            "student": 6000,
+            "senior": 6000,
+            "child": 3500,
+            "notes": ""
+          },
+          {
+            "type": "Night Ski",
+            "adult": 2000,
+            "notes": ""
+          }
+        ]
+      },
+      "rental": {
+        "last_verified": "2025-10-14",
+        "items": [
+          {
+            "item": "Standard Ski/Snowboard Set",
+            "adult_price": 5500,
+            "child_price": 5000,
+            "notes": ""
+          }
+        ],
+        "notes": "提供獨特的『Brand Viking』系統，可在租賃期間更換品牌。"
+      },
+      "transportation": {
+        "domestic": {
+          "shinkansen": [
+            {
+              "from": "Tokyo",
+              "to": "Echigo-Yuzawa Station",
+              "duration_minutes": 75,
+              "notes": "搭乘上越新幹線。"
+            }
+          ],
+          "bus": [
+            {
+              "route": "Echigo-Yuzawa Station → Maiko Kogen",
+              "duration_minutes": 20,
+              "notes": "有免費接駁巴士。"
+            }
+          ],
+          "self_drive": [
+            {
+              "route": "Kan-Etsu Expressway → Shiozawa-Ishiuchi IC",
+              "duration_minutes": 1,
+              "notes": "交流道出口後僅需1分鐘車程。"
+            }
+          ]
+        },
+        "international": {
+          "airports": []
+        },
+        "remarks": ""
+      },
+      "content_sources": [
+        "project/specs/resort-services/skiarea.md",
+        "https://www.maiko-resort.com/"
+      ],
+      "notes": "以其極致的交通便利性和適合各級滑雪者的均衡地形而聞名。",
+      "_metadata": {
+        "source_file": "faq/resorts/niigata/yuzawa/yuzawa_maiko_kogen.yaml",
+        "region": "niigata",
+        "area": "yuzawa",
+        "last_converted": "2025-10-14T13:08:09.205Z"
+      }
+    },
+    {
+      "resort_id": "myoko_lotte_arai",
+      "names": {
+        "zh": "樂天新井度假村",
+        "en": "Lotte Arai Resort",
+        "ja": "ロッテアライリゾート"
+      },
+      "country_code": "JP",
+      "region": "Niigata Prefecture",
+      "timezone": "Asia/Tokyo",
+      "coordinates": {
+        "lat": 36.990889,
+        "lng": 138.18139
+      },
+      "season": {
+        "estimated_open": "2024-12-14",
+        "estimated_close": "2025-05-11"
+      },
+      "official_site": "https://www.lottehotel.com/arai-resort/ja.html",
+      "description": {
+        "highlights": [
+          "豪華粉雪勝地",
+          "五星級酒店體驗",
+          "自由滑雪",
+          "非壓雪區"
+        ],
+        "tagline": "奢華享受與極限自由滑雪的融合，一個重生後的豪華粉雪勝地。"
+      },
+      "amenities": [
+        "Onsen",
+        "Ski-in/Ski-out Hotel",
+        "Zipline",
+        "Tubing Park",
+        "Bouldering"
+      ],
+      "snow_stats": {
+        "lifts": 5,
+        "courses_total": 14,
+        "beginner_ratio": 0.36,
+        "intermediate_ratio": 0.36,
+        "advanced_ratio": 0.28,
+        "longest_run": 7,
+        "vertical_drop": 951,
+        "night_ski": false,
+        "notes": "雪場高達70-84%的區域為非壓雪區，是自由滑雪者的天堂。"
+      },
+      "courses": [
+        {
+          "name": "Myoko Long Run",
+          "level": "beginner",
+          "tags": [
+            "long-run",
+            "beginner-friendly"
+          ],
+          "description": "位於度假村底部的寬闊平緩雪道。",
+          "notes": ""
+        },
+        {
+          "name": "Be Free",
+          "level": "intermediate",
+          "tags": [
+            "cruising"
+          ],
+          "description": "富有變化的中等坡度壓雪道，適合提升技巧。",
+          "notes": ""
+        },
+        {
+          "name": "Mamushi Gaeshi",
+          "level": "advanced",
+          "tags": [
+            "steep",
+            "un-groomed"
+          ],
+          "description": "度假村內標示為黑線的挑戰雪道之一。",
+          "notes": ""
+        },
+        {
+          "name": "Zendana Bowl",
+          "level": "advanced",
+          "tags": [
+            "powder",
+            "off-piste",
+            "bowl"
+          ],
+          "description": "十個經過雪崩控制的指定自由滑雪區之一，提供開放式碗狀地形。",
+          "notes": "需具備相應技能和安全意識。"
+        }
+      ],
+      "pricing": {
+        "last_verified": "2025-10-14",
+        "ticket_types": [
+          {
+            "type": "1-day (Economy Class)",
+            "adult": 7500,
+            "child": 5000,
+            "senior": 7000,
+            "notes": "兒童為7-18歲，長者為60歲以上。"
+          },
+          {
+            "type": "1-day (First Class)",
+            "adult": 9500,
+            "child": 6000,
+            "senior": 9000,
+            "notes": "提供提前30分鐘搭乘纜車等優先權益。"
+          }
+        ]
+      },
+      "rental": {
+        "last_verified": "2025-10-14",
+        "items": [],
+        "notes": "主要的租賃店為Salomon Station，提供高品質的Salomon裝備，包括粉雪專用寬板。"
+      },
+      "transportation": {
+        "domestic": {
+          "shinkansen": [
+            {
+              "from": "Tokyo",
+              "to": "Joetsu-Myoko Station",
+              "duration_minutes": 120,
+              "notes": "搭乘北陸新幹線。"
+            }
+          ],
+          "bus": [
+            {
+              "route": "Joetsu-Myoko Station → Lotte Arai Resort",
+              "duration_minutes": 30,
+              "notes": "度假村提供免費接駁車，但必須提前預約。"
+            }
+          ]
+        },
+        "international": {
+          "airports": []
+        },
+        "remarks": ""
+      },
+      "content_sources": [
+        "project/specs/resort-services/skiarea.md",
+        "https://www.lottehotel.com/arai-resort/ja.html",
+        "https://en.wikipedia.org/wiki/Lotte_Arai_Resort"
+      ],
+      "notes": "由韓國樂天集團接手翻新，定位高端國際市場，以其豪華設施和廣闊的自由滑雪區聞名。",
+      "_metadata": {
+        "source_file": "faq/resorts/niigata/myoko/myoko_lotte_arai.yaml",
+        "region": "niigata",
+        "area": "myoko",
+        "last_converted": "2025-10-14T13:08:09.202Z"
+      }
+    },
+    {
+      "resort_id": "yuzawa_gala",
+      "names": {
+        "zh": "GALA湯澤滑雪場",
+        "en": "GALA Yuzawa Snow Resort",
+        "ja": "GALA湯沢スキー場"
+      },
+      "country_code": "JP",
+      "region": "Niigata Prefecture",
+      "timezone": "Asia/Tokyo",
+      "coordinates": {
+        "lat": 36.95072,
+        "lng": 138.799437
+      },
+      "season": {
+        "estimated_open": "2024-12-13",
+        "estimated_close": "2025-05-06"
+      },
+      "official_site": "https://gala.co.jp/winter/",
+      "description": {
+        "highlights": [
+          "新幹線直達",
+          "一日滑雪",
+          "交通便利",
+          "溫泉"
+        ],
+        "tagline": "與新幹線車站直接相連的終極一日滑雪目的地。"
+      },
+      "amenities": [
+        "Onsen",
+        "Kids Park"
+      ],
+      "snow_stats": {
+        "lifts": 11,
+        "courses_total": 16,
+        "beginner_ratio": 0.35,
+        "intermediate_ratio": 0.5,
+        "advanced_ratio": 0.15,
+        "longest_run": 2.5,
+        "vertical_drop": 358,
+        "night_ski": false,
+        "notes": "以其無與倫比的交通便利性聞名，新幹線車站直結滑雪中心。"
+      },
+      "courses": [
+        {
+          "name": "Entertainment Course",
+          "level": "intermediate",
+          "tags": [
+            "cruising"
+          ],
+          "description": "位於中央區，寬闊的中級雪道。",
+          "notes": ""
+        },
+        {
+          "name": "2.6 Million Dollar Course",
+          "level": "advanced",
+          "tags": [
+            "powder",
+            "un-groomed"
+          ],
+          "description": "位於北區，以其未經壓雪的粉雪路線而聞名。",
+          "notes": ""
+        },
+        {
+          "name": "Melody Course",
+          "level": "beginner",
+          "tags": [
+            "beginner-friendly",
+            "long-run",
+            "scenic-view"
+          ],
+          "description": "位於南區，長而平緩的初級雪道，風景優美。",
+          "notes": ""
+        }
+      ],
+      "pricing": {
+        "last_verified": "2025-10-14",
+        "ticket_types": [
+          {
+            "type": "1-day (online)",
+            "adult": 5900,
+            "child": 2800,
+            "notes": "此為網路預購價。"
+          },
+          {
+            "type": "1-day (window)",
+            "adult": 6800,
+            "child": 3000,
+            "notes": "現場窗口購買價格。"
+          }
+        ]
+      },
+      "rental": {
+        "last_verified": "2025-10-14",
+        "items": [],
+        "notes": "與Salomon合作，提供高品質的雪具租賃。建議線上預約。"
+      },
+      "transportation": {
+        "domestic": {
+          "shinkansen": [
+            {
+              "from": "Tokyo",
+              "to": "GALA Yuzawa Station",
+              "duration_minutes": 77,
+              "notes": "上越新幹線直達滑雪中心。"
+            }
+          ]
+        },
+        "international": {
+          "airports": []
+        },
+        "remarks": "與湯澤高原、石打丸山滑雪場相連，可購買三山共通券。"
+      },
+      "content_sources": [
+        "project/specs/resort-services/skiarea.md",
+        "https://gala.co.jp/winter/"
+      ],
+      "notes": "週末及假日人潮極為擁擠，建議平日前往。",
+      "_metadata": {
+        "source_file": "faq/resorts/niigata/yuzawa/yuzawa_gala.yaml",
+        "region": "niigata",
+        "area": "yuzawa",
+        "last_converted": "2025-10-14T13:08:09.203Z"
+      }
+    },
+    {
+      "resort_id": "yuzawa_naspa_ski_garden",
+      "names": {
+        "zh": "NASPA滑雪花園",
+        "en": "NASPA Ski Garden",
+        "ja": "NASPAスキーガーデン"
+      },
+      "country_code": "JP",
+      "region": "Niigata Prefecture",
+      "timezone": "Asia/Tokyo",
+      "coordinates": {
+        "lat": 36.926483,
+        "lng": 138.808487
+      },
+      "season": {
+        "estimated_open": "2024-12-20",
+        "estimated_close": "2025-04-06"
+      },
+      "official_site": "https://naspa.co.jp/ski/",
+      "description": {
+        "highlights": [
+          "僅限滑雪者 (Skiers-Only)",
+          "家庭友善",
+          "安全",
+          "Pingu合作"
+        ],
+        "tagline": "專為傳統滑雪者、家庭及重視寧靜和高品質服務體驗客群的專屬避風港。"
+      },
+      "amenities": [
+        "Onsen",
+        "Ski-in/Ski-out Hotel",
+        "Kids Park",
+        "Pool"
+      ],
+      "snow_stats": {
+        "lifts": 5,
+        "courses_total": 8,
+        "beginner_ratio": 0.4,
+        "intermediate_ratio": 0.5,
+        "advanced_ratio": 0.1,
+        "longest_run": 2.2,
+        "vertical_drop": 260,
+        "night_ski": false,
+        "notes": "雪場完全禁止單板滑雪，營造了更安全的滑雪環境。"
+      },
+      "courses": [
+        {
+          "name": "F Course",
+          "level": "beginner",
+          "tags": [
+            "beginner-friendly"
+          ],
+          "description": "坡度極為平緩，非常適合首次上板的滑雪者。",
+          "notes": ""
+        },
+        {
+          "name": "H Course",
+          "level": "beginner",
+          "tags": [
+            "long-run",
+            "cruising"
+          ],
+          "description": "長達1,600米的蜿蜒雪道，讓初學者也能享受到長距離滑行的樂趣。",
+          "notes": ""
+        },
+        {
+          "name": "G Course",
+          "level": "intermediate",
+          "tags": [
+            "wide",
+            "moguls"
+          ],
+          "description": "最為寬闊的中級雪道，並設有波浪地形增加趣味性。",
+          "notes": ""
+        },
+        {
+          "name": "C/D Courses",
+          "level": "advanced",
+          "tags": [
+            "un-groomed",
+            "steep",
+            "moguls"
+          ],
+          "description": "未經壓雪的高級雪道，最大坡度可達38度，充滿挑戰。",
+          "notes": ""
+        }
+      ],
+      "pricing": {
+        "last_verified": "2025-10-14",
+        "ticket_types": [
+          {
+            "type": "1-day",
+            "adult": 7000,
+            "child": 4800,
+            "notes": "成人為中學生以上，兒童為小學生以下。"
+          },
+          {
+            "type": "5-hour",
+            "adult": 5800,
+            "child": 3800,
+            "notes": ""
+          }
+        ]
+      },
+      "rental": {
+        "last_verified": "2025-10-14",
+        "items": [
+          {
+            "item": "Ski Set",
+            "adult_price": 6000,
+            "child_price": 5000,
+            "notes": ""
+          }
+        ],
+        "notes": "飯店住客可享折扣。"
+      },
+      "transportation": {
+        "domestic": {
+          "shinkansen": [
+            {
+              "from": "Tokyo",
+              "to": "Echigo-Yuzawa Station",
+              "duration_minutes": 80,
+              "notes": "搭乘上越新幹線。"
+            }
+          ],
+          "bus": [
+            {
+              "route": "Echigo-Yuzawa Station → NASPA New Otani Hotel",
+              "duration_minutes": 5,
+              "notes": "有免費接駁巴士。"
+            }
+          ],
+          "self_drive": [
+            {
+              "route": "Kan-Etsu Expressway → Yuzawa IC",
+              "duration_minutes": 5,
+              "notes": "交流道出口後約5分鐘車程。"
+            }
+          ]
+        },
+        "international": {
+          "airports": []
+        },
+        "remarks": ""
+      },
+      "content_sources": [
+        "project/specs/resort-services/skiarea.md",
+        "https://naspa.co.jp/ski/"
+      ],
+      "notes": "以其『僅限滑雪者』的政策而聞名，與NASPA新大谷飯店深度整合。",
+      "_metadata": {
+        "source_file": "faq/resorts/niigata/yuzawa/yuzawa_naspa_ski_garden.yaml",
+        "region": "niigata",
+        "area": "yuzawa",
+        "last_converted": "2025-10-14T13:08:09.206Z"
+      }
+    },
+    {
+      "resort_id": "tochigi_hunter_mountain_shiobara",
+      "names": {
+        "zh": "獵人山鹽原滑雪場",
+        "en": "Hunter Mountain Shiobara",
+        "ja": "ハンターマウンテン塩原"
+      },
+      "country_code": "JP",
+      "region": "Tochigi Prefecture",
+      "timezone": "Asia/Tokyo",
+      "coordinates": {
+        "lat": 36.93806,
+        "lng": 139.75278
+      },
+      "season": {
+        "estimated_open": "2024-11-30",
+        "estimated_close": "2025-04-20"
+      },
+      "official_site": "https://www.hunter.co.jp/",
+      "description": {
+        "highlights": [
+          "首都圈最大級",
+          "交通便利",
+          "家庭友善",
+          "人工造雪"
+        ],
+        "tagline": "首都圈居民及國際旅客進行當日往返或短途滑雪旅行的首選目的地。"
+      },
+      "amenities": [
+        "Onsen",
+        "Kids Park",
+        "Terrain Park"
+      ],
+      "snow_stats": {
+        "lifts": 6,
+        "courses_total": 12,
+        "beginner_ratio": 0.3,
+        "intermediate_ratio": 0.4,
+        "advanced_ratio": 0.3,
+        "longest_run": 3,
+        "vertical_drop": 500,
+        "night_ski": false,
+        "notes": "擁有覆蓋全雪場的人工造雪系統，雪況穩定可靠。"
+      },
+      "courses": [
+        {
+          "name": "Broadway",
+          "level": "beginner",
+          "tags": [
+            "beginner-friendly",
+            "wide",
+            "gentle-slope"
+          ],
+          "description": "極度寬闊平緩的雪道，是初學者天堂。",
+          "notes": ""
+        },
+        {
+          "name": "Madison Avenue",
+          "level": "intermediate",
+          "tags": [
+            "cruising",
+            "wide"
+          ],
+          "description": "位於山頂區域，寬闊的壓雪中斜坡，適合提升技巧。",
+          "notes": ""
+        },
+        {
+          "name": "Wall Street",
+          "level": "advanced",
+          "tags": [
+            "steep",
+            "moguls",
+            "un-groomed"
+          ],
+          "description": "雪場最陡峭的雪道之一，充滿挑戰性的貓跳路線。",
+          "notes": ""
+        }
+      ],
+      "pricing": {
+        "last_verified": "2025-10-14",
+        "ticket_types": [
+          {
+            "type": "1-day",
+            "adult": 6000,
+            "child": 5000,
+            "senior": 5500,
+            "notes": ""
+          },
+          {
+            "type": "4-hour",
+            "adult": 5700,
+            "child": 4700,
+            "senior": 5200,
+            "notes": ""
+          }
+        ]
+      },
+      "rental": {
+        "last_verified": "2025-10-14",
+        "items": [
+          {
+            "item": "Ski/Snowboard Set",
+            "adult_price": 5500,
+            "child_price": 3800,
+            "notes": ""
+          },
+          {
+            "item": "Wear Set",
+            "adult_price": 5000,
+            "notes": ""
+          }
+        ],
+        "notes": "建議線上預約以節省時間。"
+      },
+      "transportation": {
+        "domestic": {
+          "shinkansen": [
+            {
+              "from": "Tokyo",
+              "to": "Nasu-Shiobara Station",
+              "duration_minutes": 75,
+              "notes": "搭乘東北新幹線。"
+            }
+          ],
+          "bus": [
+            {
+              "route": "Nasu-Shiobara Station → Hunter Mountain",
+              "duration_minutes": 80,
+              "notes": "免費接駁巴士，必須提前預約。"
+            }
+          ],
+          "self_drive": [
+            {
+              "route": "Tohoku Expressway → Nishinasuno-Shiobara IC",
+              "duration_minutes": 30,
+              "notes": "交流道出口後約30分鐘車程。"
+            }
+          ]
+        },
+        "international": {
+          "airports": []
+        },
+        "remarks": "週末及假日停車收費1,000日圓，平日免費。"
+      },
+      "content_sources": [
+        "project/specs/resort-services/skiarea.md",
+        "https://www.hunter.co.jp/"
+      ],
+      "notes": "週末人潮極為擁擠，建議平日前往或提早抵達。",
+      "_metadata": {
+        "source_file": "faq/resorts/tochigi/tochigi_hunter_mountain_shiobara.yaml",
+        "region": "tochigi",
+        "area": "tochigi",
+        "last_converted": "2025-10-14T13:08:09.206Z"
+      }
+    },
+    {
+      "resort_id": "tochigi_edelweiss",
+      "names": {
+        "zh": "エーデルワイススキーリゾート",
+        "en": "Edelweiss Ski Resort",
+        "ja": "エーデルワイススキーリゾート"
+      },
+      "country_code": "JP",
+      "region": "Tochigi Prefecture",
+      "timezone": "Asia/Tokyo",
+      "coordinates": {
+        "lat": 36.925031,
+        "lng": 139.748848
+      },
+      "season": {
+        "estimated_open": "2024-12-21",
+        "estimated_close": "2025-03-30"
+      },
+      "official_site": "https://edelsnow.com/",
+      "description": {
+        "highlights": [
+          "家庭滑雪天堂",
+          "人潮稀少",
+          "高CP值",
+          "溫泉"
+        ],
+        "tagline": "日光地區靜謐的家庭滑雪天堂，享受無壓力的滑雪氛圍。"
+      },
+      "amenities": [
+        "Onsen",
+        "Kids Park"
+      ],
+      "snow_stats": {
+        "lifts": 5,
+        "courses_total": 10,
+        "beginner_ratio": 0.3,
+        "intermediate_ratio": 0.4,
+        "advanced_ratio": 0.3,
+        "longest_run": 1.8,
+        "vertical_drop": 280,
+        "night_ski": false,
+        "notes": "雪場每週三為固定休息日。"
+      },
+      "courses": [
+        {
+          "name": "Family Gelande (ファミリーゲレンデ)",
+          "level": "beginner",
+          "tags": [
+            "beginner-friendly",
+            "wide",
+            "gentle-slope"
+          ],
+          "description": "極度平緩寬闊的雪道，是兒童滑雪初體驗的絕佳場所。",
+          "notes": ""
+        },
+        {
+          "name": "Center Course (センターコース)",
+          "level": "intermediate",
+          "tags": [
+            "cruising"
+          ],
+          "description": "雪場主要滑道之一，地形多變，適合中級滑雪者。",
+          "notes": ""
+        },
+        {
+          "name": "Dynamic Course (ダイナミックコース)",
+          "level": "advanced",
+          "tags": [
+            "steep"
+          ],
+          "description": "沿主纜車線下的高級雪道，最大斜度30度。",
+          "notes": ""
+        }
+      ],
+      "pricing": {
+        "last_verified": "2025-10-14",
+        "ticket_types": [
+          {
+            "type": "1-day (weekday)",
+            "adult": 3500,
+            "child": 3000,
+            "senior": 3000,
+            "notes": ""
+          },
+          {
+            "type": "1-day (holiday)",
+            "adult": 5400,
+            "child": 3900,
+            "senior": 4800,
+            "notes": ""
+          }
+        ]
+      },
+      "rental": {
+        "last_verified": "2025-10-14",
+        "items": [
+          {
+            "item": "Ski/Snowboard Set",
+            "adult_price": 5300,
+            "child_price": 3500,
+            "notes": ""
+          }
+        ],
+        "notes": "場內及周邊皆有租賃店。"
+      },
+      "transportation": {
+        "domestic": {
+          "train": [
+            {
+              "from": "Tokyo",
+              "to": "Kinugawa-Onsen Station",
+              "duration_minutes": 120,
+              "notes": "搭乘東武鐵道。"
+            }
+          ],
+          "bus": [
+            {
+              "route": "Kinugawa-Onsen Station → Edelweiss Ski Resort",
+              "duration_minutes": 45,
+              "notes": "免費接駁巴士，僅限週末假日且需預約。"
+            }
+          ],
+          "self_drive": [
+            {
+              "route": "Nikko-Utsunomiya Expressway → Imaichi IC",
+              "duration_minutes": 60,
+              "notes": "交流道出口後約60分鐘車程，停車免費。"
+            }
+          ]
+        },
+        "international": {
+          "airports": []
+        },
+        "remarks": "平日無公共交通，主要為自駕型雪場。"
+      },
+      "content_sources": [
+        "project/specs/resort-services/skiarea.md",
+        "https://edelsnow.com/"
+      ],
+      "notes": "以其稀少的人潮和高性價比的平日價格聞名，但需注意週三固定休息。",
+      "_metadata": {
+        "source_file": "faq/resorts/tochigi/tochigi_edelweiss.yaml",
+        "region": "tochigi",
+        "area": "tochigi",
+        "last_converted": "2025-10-14T13:08:09.206Z"
+      }
+    },
+    {
+      "resort_id": "yamagata_zao_onsen",
+      "names": {
+        "zh": "藏王溫泉滑雪場",
+        "en": "Zao Onsen Ski Resort",
+        "ja": "蔵王温泉スキー場"
+      },
+      "country_code": "JP",
+      "region": "Yamagata Prefecture",
+      "timezone": "Asia/Tokyo",
+      "coordinates": {
+        "lat": 38.164649,
+        "lng": 140.401617
+      },
+      "season": {
+        "estimated_open": "2024-12-07",
+        "estimated_close": "2025-05-06"
+      },
+      "official_site": "https://www.zao-ski.or.jp/",
+      "description": {
+        "highlights": [
+          "雪怪 (Juhyo)",
+          "強酸性溫泉",
+          "歷史悠久",
+          "樹冰點燈"
+        ],
+        "tagline": "在雪怪的神秘王國中滑行，體驗獨一無二的自然奇觀與療癒溫泉。"
+      },
+      "amenities": [
+        "Onsen",
+        "Night Skiing"
+      ],
+      "snow_stats": {
+        "lifts": 35,
+        "courses_total": 12,
+        "beginner_ratio": 0.4,
+        "intermediate_ratio": 0.4,
+        "advanced_ratio": 0.2,
+        "longest_run": 9,
+        "vertical_drop": 881,
+        "night_ski": true,
+        "notes": "以其獨特的樹冰（雪怪）景觀聞名於世。"
+      },
+      "courses": [
+        {
+          "name": "Juhyogen Course (樹冰原路線)",
+          "level": "intermediate",
+          "tags": [
+            "scenic-view",
+            "long-run"
+          ],
+          "description": "穿梭於樹冰（雪怪）之間的長距離滑道，是獨一無二的體驗。",
+          "notes": "山頂天氣多變，需注意能見度。"
+        },
+        {
+          "name": "Uwanodai Slope (上の台ゲレンデ)",
+          "level": "beginner",
+          "tags": [
+            "beginner-friendly",
+            "wide",
+            "night-skiing"
+          ],
+          "description": "雪場最核心的初學者區域，坡度寬闊平緩，緊鄰溫泉街。",
+          "notes": ""
+        },
+        {
+          "name": "Yokokura no Kabe (横倉の壁)",
+          "level": "advanced",
+          "tags": [
+            "steep",
+            "moguls",
+            "un-groomed"
+          ],
+          "description": "最大斜度38度的傳奇雪道，充滿不規則的天然饅頭，極具挑戰性。",
+          "notes": "被譽為藏王的『壁』。"
+        }
+      ],
+      "pricing": {
+        "last_verified": "2025-10-14",
+        "ticket_types": [
+          {
+            "type": "1-day",
+            "adult": 6300,
+            "student": 5500,
+            "child": 3200,
+            "notes": "此為常規雪季價格。"
+          },
+          {
+            "type": "4-hour",
+            "adult": 5200,
+            "student": 4500,
+            "child": 2600,
+            "notes": ""
+          }
+        ]
+      },
+      "rental": {
+        "last_verified": "2025-10-14",
+        "items": [],
+        "notes": "溫泉街上有數家雪具租賃店，如Best Rental Pro Shop。"
+      },
+      "transportation": {
+        "domestic": {
+          "shinkansen": [
+            {
+              "from": "Tokyo",
+              "to": "Yamagata Station",
+              "duration_minutes": 160,
+              "notes": "搭乘山形新幹線。"
+            }
+          ],
+          "bus": [
+            {
+              "route": "Yamagata Station → Zao Onsen Bus Terminal",
+              "duration_minutes": 40,
+              "notes": "搭乘山交巴士。"
+            }
+          ]
+        },
+        "international": {
+          "airports": []
+        },
+        "remarks": "冬季有從仙台機場出發的直達巴士。"
+      },
+      "content_sources": [
+        "project/specs/resort-services/skiarea.md",
+        "https://www.zao-ski.or.jp/"
+      ],
+      "notes": "擁有1900年歷史的溫泉古街，泉質為強酸性硫磺泉，極具特色。",
+      "_metadata": {
+        "source_file": "faq/resorts/yamagata/yamagata_zao_onsen.yaml",
+        "region": "yamagata",
+        "area": "yamagata",
+        "last_converted": "2025-10-14T13:08:09.207Z"
+      }
+    }
+  ]
+}
