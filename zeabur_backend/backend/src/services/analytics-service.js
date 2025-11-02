@@ -57,6 +57,31 @@ class AnalyticsService {
 
       CREATE INDEX IF NOT EXISTS idx_provider_stats_date ON provider_stats(date);
       CREATE INDEX IF NOT EXISTS idx_provider_stats_provider ON provider_stats(provider);
+
+      CREATE TABLE IF NOT EXISTS faq_views (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        faq_id TEXT NOT NULL,
+        query_id INTEGER,
+        position INTEGER DEFAULT 0,
+        clicked BOOLEAN DEFAULT 0,
+        time_to_click_ms INTEGER,
+        language TEXT DEFAULT 'zh',
+        timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
+      );
+
+      CREATE INDEX IF NOT EXISTS idx_faq_views_faq_id ON faq_views(faq_id);
+      CREATE INDEX IF NOT EXISTS idx_faq_views_timestamp ON faq_views(timestamp);
+      CREATE INDEX IF NOT EXISTS idx_faq_views_clicked ON faq_views(clicked);
+
+      CREATE TABLE IF NOT EXISTS section_views (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        section TEXT NOT NULL,
+        language TEXT DEFAULT 'zh',
+        timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
+      );
+
+      CREATE INDEX IF NOT EXISTS idx_section_views_section ON section_views(section);
+      CREATE INDEX IF NOT EXISTS idx_section_views_timestamp ON section_views(timestamp);
     `);
 
     console.log('[Analytics Service] Tables initialized');

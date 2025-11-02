@@ -639,4 +639,256 @@ router.post('/track-faq-view', async (req, res, next) => {
   }
 });
 
+/**
+ * POST /api/v1/analytics/track-section-view
+ *
+ * Track section click event
+ *
+ * Body:
+ * {
+ *   "section": "booking",
+ *   "language": "zh"
+ * }
+ *
+ * Response:
+ * {
+ *   "success": true,
+ *   "data": { "tracked": true }
+ * }
+ */
+router.post('/track-section-view', async (req, res, next) => {
+  try {
+    if (!analyticsService) {
+      throw new AppError('SERVICE_UNAVAILABLE', 'Analytics 服務尚未初始化', 503);
+    }
+
+    const { section, language = 'zh' } = req.body;
+
+    if (!section) {
+      throw new AppError('VALIDATION_ERROR', 'section 為必填欄位', 400);
+    }
+
+    const db = analyticsService.db;
+
+    // Insert section view record
+    const stmt = db.prepare(`
+      INSERT INTO section_views (section, language)
+      VALUES (?, ?)
+    `);
+
+    stmt.run(section, language);
+
+    sendSuccess(res, {
+      tracked: true,
+      section
+    }, 201, {
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
+/**
+ * GET /api/v1/analytics/section-stats
+ *
+ * Get section click statistics
+ *
+ * Query params:
+ * - days: Number of days to look back (default: 30)
+ * - language: Filter by language (optional)
+ *
+ * Response:
+ * {
+ *   "success": true,
+ *   "data": {
+ *     "total": 150,
+ *     "by_section": [
+ *       {"section": "booking", "clicks": 50, "percentage": "33.33"},
+ *       {"section": "gear", "clicks": 30, "percentage": "20.00"}
+ *     ],
+ *     "by_language": [...],
+ *     "daily": [...]
+ *   }
+ * }
+ */
+router.get('/section-stats', async (req, res, next) => {
+  try {
+    if (!analyticsService) {
+      throw new AppError('SERVICE_UNAVAILABLE', 'Analytics 服務尚未初始化', 503);
+    }
+
+    const { days = 30, language } = req.query;
+    const db = analyticsService.db;
+
+    const daysAgo = new Date();
+    daysAgo.setDate(daysAgo.getDate() - parseInt(days, 10));
+    const dateFilter = daysAgo.toISOString();
+
+    // Total clicks
+    let totalQuery = `SELECT COUNT(*) as total FROM section_views WHERE timestamp >= ?`;
+    const params = [dateFilter];
+
+    if (language) {
+      totalQuery += ` AND language = ?`;
+      params.push(language);
+    }
+
+    const totalResult = db.prepare(totalQuery).get(...params);
+    const total = totalResult.total;
+
+    // By section
+    let bySectionQuery = `
+      SELECT
+        section,
+        COUNT(*) as clicks,
+        ROUND(COUNT(*) * 100.0 / ?, 2) as percentage
+      FROM section_views
+      WHERE timestamp >= ?
+    `;
+    const bySectionParams = [total, dateFilter];
+
+    if (language) {
+      bySectionQuery += ` AND language = ?`;
+      bySectionParams.push(language);
+    }
+
+    bySectionQuery += ` GROUP BY section ORDER BY clicks DESC`;
+
+    const bySection = db.prepare(bySectionQuery).all(...bySectionParams);
+
+    // By language
+    const byLanguageQuery = `
+      SELECT
+        language,
+        COUNT(*) as clicks
+      FROM section_views
+      WHERE timestamp >= ?
+      GROUP BY language
+      ORDER BY clicks DESC
+    `;
+    const byLanguage = db.prepare(byLanguageQuery).all(dateFilter);
+
+    // Daily stats
+    const dailyQuery = `
+      SELECT
+        DATE(timestamp) as date,
+        section,
+        COUNT(*) as clicks
+      FROM section_views
+      WHERE timestamp >= ?
+      GROUP BY DATE(timestamp), section
+      ORDER BY date DESC, clicks DESC
+      LIMIT 100
+    `;
+    const daily = db.prepare(dailyQuery).all(dateFilter);
+
+    sendSuccess(res, {
+      total,
+      by_section: bySection,
+      by_language: byLanguage,
+      daily,
+      period_days: parseInt(days, 10)
+    }, 200, {
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
+/**
+ * GET /api/v1/analytics/faq-stats
+ *
+ * Get detailed FAQ click statistics
+ *
+ * Query params:
+ * - days: Number of days to look back (default: 30)
+ * - clicked_only: Only include clicked FAQs (default: true)
+ *
+ * Response:
+ * {
+ *   "success": true,
+ *   "data": {
+ *     "total_views": 500,
+ *     "total_clicks": 300,
+ *     "click_through_rate": "60.00",
+ *     "by_faq": [...],
+ *     "daily": [...]
+ *   }
+ * }
+ */
+router.get('/faq-stats', async (req, res, next) => {
+  try {
+    if (!analyticsService) {
+      throw new AppError('SERVICE_UNAVAILABLE', 'Analytics 服務尚未初始化', 503);
+    }
+
+    const { days = 30, clicked_only = 'true' } = req.query;
+    const db = analyticsService.db;
+
+    const daysAgo = new Date();
+    daysAgo.setDate(daysAgo.getDate() - parseInt(days, 10));
+    const dateFilter = daysAgo.toISOString();
+
+    // Total views and clicks
+    const totalsQuery = `
+      SELECT
+        COUNT(*) as total_views,
+        SUM(clicked) as total_clicks
+      FROM faq_views
+      WHERE timestamp >= ?
+    `;
+    const totals = db.prepare(totalsQuery).get(dateFilter);
+    const clickThroughRate = totals.total_views > 0
+      ? ((totals.total_clicks / totals.total_views) * 100).toFixed(2)
+      : '0.00';
+
+    // By FAQ
+    let byFaqQuery = `
+      SELECT
+        faq_id,
+        COUNT(*) as views,
+        SUM(clicked) as clicks,
+        ROUND(SUM(clicked) * 100.0 / COUNT(*), 2) as ctr
+      FROM faq_views
+      WHERE timestamp >= ?
+    `;
+
+    if (clicked_only === 'true') {
+      byFaqQuery += ` AND clicked = 1`;
+    }
+
+    byFaqQuery += ` GROUP BY faq_id ORDER BY clicks DESC LIMIT 50`;
+
+    const byFaq = db.prepare(byFaqQuery).all(dateFilter);
+
+    // Daily stats
+    const dailyQuery = `
+      SELECT
+        DATE(timestamp) as date,
+        COUNT(*) as views,
+        SUM(clicked) as clicks
+      FROM faq_views
+      WHERE timestamp >= ?
+      GROUP BY DATE(timestamp)
+      ORDER BY date DESC
+    `;
+    const daily = db.prepare(dailyQuery).all(dateFilter);
+
+    sendSuccess(res, {
+      total_views: totals.total_views,
+      total_clicks: totals.total_clicks,
+      click_through_rate: clickThroughRate,
+      by_faq: byFaq,
+      daily,
+      period_days: parseInt(days, 10)
+    }, 200, {
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
 module.exports = router;

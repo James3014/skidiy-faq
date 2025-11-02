@@ -1043,6 +1043,10 @@
 
           const section = el.dataset.section;
           currentSection = section;
+
+          // Track section click for analytics
+          trackSectionClick(section);
+
           filterBySection(section);
         });
       });
@@ -1072,6 +1076,25 @@
         console.log(`[Analytics] Tracked ${clicked ? 'click' : 'view'} for ${faqId}`);
       } catch (error) {
         console.warn('[Analytics] Failed to track FAQ view:', error);
+        // Fail silently - analytics should not block user experience
+      }
+    }
+
+    // Track section clicks for analytics
+    async function trackSectionClick(section) {
+      try {
+        await fetch(`${API_BASE}/analytics/track-section-view`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            section: section,
+            language: currentLanguage,
+            timestamp: new Date().toISOString()
+          })
+        });
+        console.log(`[Analytics] Tracked section click: ${section}`);
+      } catch (error) {
+        console.warn('[Analytics] Failed to track section click:', error);
         // Fail silently - analytics should not block user experience
       }
     }
