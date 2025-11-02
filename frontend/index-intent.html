@@ -188,6 +188,41 @@
       font-size: 1.1rem;
     }
 
+    .collapsible-header {
+      cursor: pointer;
+      user-select: none;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .collapsible-header:hover {
+      color: #4A5F8C;
+    }
+
+    .collapse-icon {
+      display: inline-block;
+      transition: transform 0.3s ease;
+      font-size: 0.8rem;
+    }
+
+    .collapsible-header.collapsed .collapse-icon {
+      transform: rotate(-90deg);
+    }
+
+    .collapsible-content {
+      max-height: 2000px;
+      overflow: hidden;
+      transition: max-height 0.3s ease, opacity 0.3s ease;
+      opacity: 1;
+    }
+
+    .collapsible-content.collapsed {
+      max-height: 0;
+      opacity: 0;
+    }
+
     .sidebar-section {
       padding: 0.75rem 1rem;
       margin: 0.5rem 0;
@@ -522,6 +557,17 @@
       border-radius: 6px;
       font-size: 0.85rem;
       color: #666;
+      transition: all 0.2s ease;
+    }
+
+    .resort-amenity.clickable {
+      cursor: pointer;
+    }
+
+    .resort-amenity.clickable:hover {
+      background: #4A5F8C;
+      color: white;
+      transform: translateY(-1px);
     }
 
     .resort-link {
@@ -978,11 +1024,15 @@
   <div class="main-layout">
     <!-- Sidebar -->
     <div class="sidebar">
-      <h3>📂 依分類瀏覽</h3>
-      <div id="sidebarSections"></div>
+      <h3 class="collapsible-header" data-target="sidebarSections">
+        <span class="collapse-icon">▼</span> 📂 FAQ分類
+      </h3>
+      <div id="sidebarSections" class="collapsible-content"></div>
 
-      <h3 style="margin-top: 2rem;">🏔️ 雪場資訊</h3>
-      <div id="resortRegions"></div>
+      <h3 class="collapsible-header" data-target="resortRegions" style="margin-top: 2rem;">
+        <span class="collapse-icon">▼</span> 🏔️ 雪場資訊
+      </h3>
+      <div id="resortRegions" class="collapsible-content"></div>
 
       <h3 style="margin-top: 2rem;">🔥 熱門問題</h3>
       <div id="hotFAQs"></div>
@@ -1029,12 +1079,6 @@
           <div id="responseTime"></div>
         </div>
         <div id="resultsList"></div>
-      </div>
-
-      <!-- Initial Hot FAQs -->
-      <div id="initialView">
-        <h2>🔥 熱門問題</h2>
-        <div id="initialHotFAQs"></div>
       </div>
     </div>
   </div>
@@ -1428,7 +1472,7 @@
 
           ${amenities.length > 0 ? `
             <div class="resort-amenities">
-              ${amenities.slice(0, 5).map(a => `<span class="resort-amenity">${DOMPurify.sanitize(a)}</span>`).join('')}
+              ${amenities.slice(0, 5).map(a => `<span class="resort-amenity clickable" data-amenity="${DOMPurify.sanitize(a)}">${DOMPurify.sanitize(a)}</span>`).join('')}
             </div>
           ` : ''}
 
@@ -1446,6 +1490,68 @@
       document.getElementById('modalTitle').textContent = title;
       document.getElementById('modalResultsList').innerHTML = resortsHTML;
       document.getElementById('resultsModal').classList.add('show');
+
+      // Add click event to amenity tags
+      setTimeout(() => {
+        document.querySelectorAll('.resort-amenity.clickable').forEach(tag => {
+          tag.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const amenity = tag.dataset.amenity;
+            filterResortsByAmenity(amenity);
+          });
+        });
+      }, 100);
+    }
+
+    // Filter resorts by amenity tag
+    async function filterResortsByAmenity(amenity) {
+      try {
+        const response = await fetch(`${API_BASE}/resort/list`);
+        if (!response.ok) {
+          console.warn('[Resorts] Failed to load resort list for filtering');
+          return;
+        }
+
+        const data = await response.json();
+        if (!data.success || !data.data.by_region) {
+          console.warn('[Resorts] Invalid resort data');
+          return;
+        }
+
+        // Flatten all resorts and filter by amenity
+        const allResorts = Object.values(data.data.by_region).flat();
+        const filtered = allResorts.filter(resort =>
+          resort.amenities && resort.amenities.includes(amenity)
+        );
+
+        if (filtered.length === 0) {
+          alert(`沒有找到包含「${amenity}」的雪場`);
+          return;
+        }
+
+        // Get detailed info for filtered resorts
+        const resortsWithDetails = await Promise.all(
+          filtered.slice(0, 15).map(async (resort) => {
+            try {
+              const response = await fetch(`${API_BASE}/resort/${resort.resort_id}`);
+              if (response.ok) {
+                const data = await response.json();
+                return data.success ? data.data : resort;
+              }
+            } catch (error) {
+              console.warn(`Failed to load details for ${resort.resort_id}:`, error);
+            }
+            return resort;
+          })
+        );
+
+        const resortsHTML = resortsWithDetails.map(resort => createResortCard(resort)).join('');
+        const title = `🏔️ 包含「${amenity}」的雪場 (${filtered.length})`;
+
+        displayResortsInModal(resortsHTML, title);
+      } catch (error) {
+        console.error('[Resorts] Error filtering by amenity:', error);
+      }
     }
 
     // Show single resort detail
@@ -1905,6 +2011,19 @@
           alert('切換語言失敗: ' + error.message);
         }
       });
+
+      // Collapsible headers
+      document.querySelectorAll('.collapsible-header').forEach(header => {
+        header.addEventListener('click', () => {
+          const targetId = header.getAttribute('data-target');
+          const content = document.getElementById(targetId);
+
+          if (content) {
+            header.classList.toggle('collapsed');
+            content.classList.toggle('collapsed');
+          }
+        });
+      });
     }
 
     // Update UI language
@@ -1913,16 +2032,28 @@
 
       const currentLang = i18n.currentLanguage;
       const sidebarHeaders = document.querySelectorAll('.sidebar h3');
+
+      // Update FAQ分類 header (collapsible)
       if (sidebarHeaders[0]) {
-        sidebarHeaders[0].textContent = currentLang === 'en' ? '📂 Browse by Category' :
-                                         currentLang === 'th' ? '📂 เรียกดูตามหมวดหมู่' :
-                                         '📂 依分類瀏覽';
+        const icon = sidebarHeaders[0].querySelector('.collapse-icon');
+        const iconHTML = icon ? icon.outerHTML : '';
+        const text = currentLang === 'en' ? 'FAQ Categories' :
+                     currentLang === 'th' ? 'หมวดหมู่ FAQ' :
+                     'FAQ分類';
+        sidebarHeaders[0].innerHTML = iconHTML + ' 📂 ' + text;
       }
+
+      // Update 雪場資訊 header (collapsible)
       if (sidebarHeaders[1]) {
-        sidebarHeaders[1].textContent = currentLang === 'en' ? '🏔️ Resort Information' :
-                                         currentLang === 'th' ? '🏔️ ข้อมูลสกีรีสอร์ท' :
-                                         '🏔️ 雪場資訊';
+        const icon = sidebarHeaders[1].querySelector('.collapse-icon');
+        const iconHTML = icon ? icon.outerHTML : '';
+        const text = currentLang === 'en' ? 'Resort Information' :
+                     currentLang === 'th' ? 'ข้อมูลสกีรีสอร์ท' :
+                     '雪場資訊';
+        sidebarHeaders[1].innerHTML = iconHTML + ' 🏔️ ' + text;
       }
+
+      // Update 熱門問題 header
       if (sidebarHeaders[2]) {
         sidebarHeaders[2].textContent = currentLang === 'en' ? '🔥 Popular Questions' :
                                          currentLang === 'th' ? '🔥 คำถามยอดนิยม' :
