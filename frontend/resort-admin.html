@@ -407,9 +407,17 @@
         padding: 1rem;
       }
 
-      .stats-grid {
+      .stats {
         grid-template-columns: repeat(2, 1fr);
         gap: 0.75rem;
+      }
+
+      .stat-card {
+        padding: 16px;
+      }
+
+      .stat-value {
+        font-size: 24px;
       }
 
       .filters {
@@ -420,6 +428,108 @@
       .filters input,
       .filters select {
         width: 100%;
+      }
+
+      /* 手機版：隱藏表格，顯示卡片式佈局 */
+      .table-container table {
+        display: none;
+      }
+
+      #resortsBody.mobile-view {
+        display: block;
+      }
+
+      .resort-card {
+        background: white;
+        border: 1px solid #e5e7eb;
+        border-radius: 8px;
+        padding: 16px;
+        margin-bottom: 12px;
+      }
+
+      .resort-card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: start;
+        margin-bottom: 12px;
+        padding-bottom: 12px;
+        border-bottom: 1px solid #e5e7eb;
+      }
+
+      .resort-card-title {
+        flex: 1;
+      }
+
+      .resort-card-title .resort-name {
+        font-size: 16px;
+        font-weight: 600;
+        color: #1f2937;
+        margin-bottom: 4px;
+      }
+
+      .resort-card-title .resort-id {
+        font-size: 11px;
+        color: #9ca3af;
+        font-family: monospace;
+      }
+
+      .resort-card-body {
+        display: grid;
+        gap: 8px;
+        margin-bottom: 12px;
+      }
+
+      .resort-card-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 14px;
+      }
+
+      .resort-card-row label {
+        color: #6b7280;
+        font-weight: 500;
+      }
+
+      .resort-card-row value {
+        color: #1f2937;
+      }
+
+      .resort-card-actions {
+        display: flex;
+        gap: 8px;
+      }
+
+      .resort-card-actions button {
+        flex: 1;
+        padding: 8px 16px;
+        font-size: 13px;
+      }
+
+      .modal-content {
+        margin: 10px;
+        max-width: calc(100vw - 20px);
+      }
+
+      .modal-header {
+        padding: 16px;
+      }
+
+      .modal-header h2 {
+        font-size: 18px;
+      }
+
+      .modal-body {
+        padding: 16px;
+      }
+
+      .modal-footer {
+        padding: 16px;
+      }
+
+      .info-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
       }
     }
   </style>
@@ -619,6 +729,7 @@
     let currentResort = null;
     let regionsData = [];
     let statsData = null;
+    let currentResorts = []; // 儲存當前顯示的雪場資料
 
     // Initialize
     document.addEventListener('DOMContentLoaded', async () => {
@@ -658,6 +769,17 @@
       if (reloadStats) {
         reloadStats.addEventListener('click', loadStats);
       }
+
+      // 監聽視窗大小變化，重新渲染以切換桌面/手機佈局
+      let resizeTimer;
+      window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(() => {
+          if (currentResorts.length > 0) {
+            renderResorts(currentResorts);
+          }
+        }, 250);
+      });
     });
 
     function debounce(func, wait) {
@@ -752,49 +874,99 @@
       const tbody = document.getElementById('resortsBody');
       tbody.innerHTML = '';
 
-      resorts.forEach(resort => {
-        const row = document.createElement('tr');
-        
-        const nameCell = document.createElement('td');
-        nameCell.innerHTML = `
-          <div class="resort-name">${resort.names.zh || resort.names.en}</div>
-          <div class="resort-id">${resort.resort_id}</div>
-        `;
-        
-        const regionCell = document.createElement('td');
-        regionCell.innerHTML = `<span class="tag tag-region">${resort.area || resort.region}</span>`;
-        
-        const statsCell = document.createElement('td');
-        statsCell.textContent = `${resort.snow_stats.lifts || 0} 纜車 / ${resort.snow_stats.courses_total || 0} 雪道`;
-        
-        const seasonCell = document.createElement('td');
-        if (resort.season) {
-          const open = resort.season.estimated_open ? new Date(resort.season.estimated_open).toLocaleDateString('zh-TW', {month: 'short', day: 'numeric'}) : '?';
-          const close = resort.season.estimated_close ? new Date(resort.season.estimated_close).toLocaleDateString('zh-TW', {month: 'short', day: 'numeric'}) : '?';
-          seasonCell.textContent = `${open} - ${close}`;
-        }
-        
-        const featuresCell = document.createElement('td');
-        if (resort.snow_stats.night_ski) {
-          featuresCell.innerHTML = '<span class="tag tag-night-ski">夜滑</span>';
-        }
-        
-        const actionsCell = document.createElement('td');
-        actionsCell.innerHTML = `
-          <div class="actions">
-            <button class="btn-sm" onclick="viewResort('${resort.resort_id}')">查看</button>
-            <button class="btn-sm secondary" onclick="editResort('${resort.resort_id}')">編輯</button>
-          </div>
-        `;
-        
-        row.appendChild(nameCell);
-        row.appendChild(regionCell);
-        row.appendChild(statsCell);
-        row.appendChild(seasonCell);
-        row.appendChild(featuresCell);
-        row.appendChild(actionsCell);
-        tbody.appendChild(row);
-      });
+      // 儲存當前資料以便視窗大小改變時重新渲染
+      currentResorts = resorts;
+
+      // 檢測是否為手機版
+      const isMobile = window.innerWidth <= 768;
+
+      if (isMobile) {
+        // 手機版：卡片式佈局
+        tbody.classList.add('mobile-view');
+
+        resorts.forEach(resort => {
+          const card = document.createElement('div');
+          card.className = 'resort-card';
+
+          const seasonText = resort.season
+            ? `${resort.season.estimated_open ? new Date(resort.season.estimated_open).toLocaleDateString('zh-TW', {month: 'short', day: 'numeric'}) : '?'} - ${resort.season.estimated_close ? new Date(resort.season.estimated_close).toLocaleDateString('zh-TW', {month: 'short', day: 'numeric'}) : '?'}`
+            : '未提供';
+
+          card.innerHTML = `
+            <div class="resort-card-header">
+              <div class="resort-card-title">
+                <div class="resort-name">${resort.names.zh || resort.names.en}</div>
+                <div class="resort-id">${resort.resort_id}</div>
+              </div>
+              <span class="tag tag-region">${resort.area || resort.region}</span>
+            </div>
+            <div class="resort-card-body">
+              <div class="resort-card-row">
+                <label>纜車/雪道</label>
+                <value>${resort.snow_stats.lifts || 0} / ${resort.snow_stats.courses_total || 0}</value>
+              </div>
+              <div class="resort-card-row">
+                <label>雪季</label>
+                <value>${seasonText}</value>
+              </div>
+              ${resort.snow_stats.night_ski ? '<div class="resort-card-row"><span class="tag tag-night-ski">夜間滑雪</span></div>' : ''}
+            </div>
+            <div class="resort-card-actions">
+              <button class="btn-sm" onclick="viewResort('${resort.resort_id}')">查看</button>
+              <button class="btn-sm secondary" onclick="editResort('${resort.resort_id}')">編輯</button>
+            </div>
+          `;
+
+          tbody.appendChild(card);
+        });
+      } else {
+        // 桌面版：表格佈局
+        tbody.classList.remove('mobile-view');
+
+        resorts.forEach(resort => {
+          const row = document.createElement('tr');
+
+          const nameCell = document.createElement('td');
+          nameCell.innerHTML = `
+            <div class="resort-name">${resort.names.zh || resort.names.en}</div>
+            <div class="resort-id">${resort.resort_id}</div>
+          `;
+
+          const regionCell = document.createElement('td');
+          regionCell.innerHTML = `<span class="tag tag-region">${resort.area || resort.region}</span>`;
+
+          const statsCell = document.createElement('td');
+          statsCell.textContent = `${resort.snow_stats.lifts || 0} 纜車 / ${resort.snow_stats.courses_total || 0} 雪道`;
+
+          const seasonCell = document.createElement('td');
+          if (resort.season) {
+            const open = resort.season.estimated_open ? new Date(resort.season.estimated_open).toLocaleDateString('zh-TW', {month: 'short', day: 'numeric'}) : '?';
+            const close = resort.season.estimated_close ? new Date(resort.season.estimated_close).toLocaleDateString('zh-TW', {month: 'short', day: 'numeric'}) : '?';
+            seasonCell.textContent = `${open} - ${close}`;
+          }
+
+          const featuresCell = document.createElement('td');
+          if (resort.snow_stats.night_ski) {
+            featuresCell.innerHTML = '<span class="tag tag-night-ski">夜滑</span>';
+          }
+
+          const actionsCell = document.createElement('td');
+          actionsCell.innerHTML = `
+            <div class="actions">
+              <button class="btn-sm" onclick="viewResort('${resort.resort_id}')">查看</button>
+              <button class="btn-sm secondary" onclick="editResort('${resort.resort_id}')">編輯</button>
+            </div>
+          `;
+
+          row.appendChild(nameCell);
+          row.appendChild(regionCell);
+          row.appendChild(statsCell);
+          row.appendChild(seasonCell);
+          row.appendChild(featuresCell);
+          row.appendChild(actionsCell);
+          tbody.appendChild(row);
+        });
+      }
     }
 
     // Update pagination
