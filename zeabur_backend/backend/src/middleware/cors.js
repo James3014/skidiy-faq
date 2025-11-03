@@ -14,9 +14,18 @@ function configureCORS() {
   const corsOptions = {
     // Allow requests from these origins
     origin: function (origin, callback) {
-      const allowedOrigins = (process.env.CORS_ORIGIN || 'http://localhost:8080')
-        .split(',')
-        .map(o => o.trim());
+      // Default allowed origins for production
+      const defaultOrigins = [
+        'http://localhost:8080',
+        'http://localhost:3000',
+        'https://faq.diy.ski',
+        'https://skidiy-faq.zeabur.app',
+        'https://faq-api-v1.zeabur.app'
+      ];
+
+      const allowedOrigins = process.env.CORS_ORIGIN
+        ? process.env.CORS_ORIGIN.split(',').map(o => o.trim())
+        : defaultOrigins;
 
       // Allow requests with no origin (like mobile apps or curl)
       if (!origin || allowedOrigins.includes('*')) {
@@ -26,6 +35,7 @@ function configureCORS() {
       if (allowedOrigins.includes(origin)) {
         callback(null, true);
       } else {
+        console.warn(`[CORS] Blocked request from origin: ${origin}`);
         callback(new Error('Not allowed by CORS'));
       }
     },
