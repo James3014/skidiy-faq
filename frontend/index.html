@@ -3380,6 +3380,9 @@
       const reasonsSection = document.getElementById('reasonsSection');
       reasonsSection.style.display = currentFeedback.helpful ? 'none' : 'block';
 
+      // 更新模態框文字（多語言）
+      updateFeedbackModalText();
+
       // 清空之前的選擇
       document.querySelectorAll('input[name="reason"]').forEach(el => el.checked = false);
       document.getElementById('feedbackComment').value = '';
@@ -3387,6 +3390,78 @@
       // 顯示彈窗
       document.getElementById('feedbackModal').style.display = 'flex';
       console.log('[Feedback] Modal opened for', currentFeedback.type, currentFeedback.itemId);
+    }
+
+    /**
+     * 更新反饋模態框的多語言文字
+     */
+    function updateFeedbackModalText() {
+      const lang = currentLanguage || 'zh';
+
+      // 模態框標題
+      const titleEl = document.getElementById('feedbackModalTitle');
+      if (lang === 'en') {
+        titleEl.textContent = '😊 Thank You for Your Feedback';
+      } else if (lang === 'th') {
+        titleEl.textContent = '😊 ขอบคุณสำหรับความคิดเห็น';
+      } else {
+        titleEl.textContent = '😊 感謝您的反饋';
+      }
+
+      // 原因標題
+      const reasonsTitleEl = document.getElementById('reasonsTitle');
+      if (lang === 'en') {
+        reasonsTitleEl.textContent = 'What would you like to improve? (Optional)';
+      } else if (lang === 'th') {
+        reasonsTitleEl.textContent = 'คุณต้องการปรับปรุงอะไร (ไม่บังคับ)';
+      } else {
+        reasonsTitleEl.textContent = '希望改進什麼？（可選）';
+      }
+
+      // 原因選項
+      const reasonTexts = document.querySelectorAll('.reason-text');
+      const reasons = {
+        zh: ['訊息不完整', '訊息過時', '難以理解', '找錯了問題', '其他'],
+        en: ['Incomplete info', 'Outdated info', 'Hard to understand', 'Wrong question', 'Other'],
+        th: ['ข้อมูลไม่ครบ', 'ข้อมูลล้าสมัย', 'เข้าใจยาก', 'คำถามผิด', 'อื่นๆ']
+      };
+      reasonTexts.forEach((el, index) => {
+        el.textContent = reasons[lang][index];
+      });
+
+      // 評論標籤
+      const commentLabelEl = document.getElementById('commentLabel');
+      if (lang === 'en') {
+        commentLabelEl.textContent = 'Any other suggestions? (Optional)';
+      } else if (lang === 'th') {
+        commentLabelEl.textContent = 'มีข้อเสนอแนะอื่นๆ หรือไม่ (ไม่บังคับ)';
+      } else {
+        commentLabelEl.textContent = '有其他建議嗎？（可選）';
+      }
+
+      // 評論佔位符
+      const commentEl = document.getElementById('feedbackComment');
+      if (lang === 'en') {
+        commentEl.placeholder = 'e.g., Need more details...';
+      } else if (lang === 'th') {
+        commentEl.placeholder = 'เช่น ต้องการรายละเอียดเพิ่มเติม...';
+      } else {
+        commentEl.placeholder = '例：需要更詳細說明...';
+      }
+
+      // 按鈕文字
+      const btnCancelEl = document.getElementById('btnCancel');
+      const btnSubmitEl = document.getElementById('btnSubmit');
+      if (lang === 'en') {
+        btnCancelEl.textContent = 'Skip';
+        btnSubmitEl.textContent = 'Submit';
+      } else if (lang === 'th') {
+        btnCancelEl.textContent = 'ข้าม';
+        btnSubmitEl.textContent = 'ส่ง';
+      } else {
+        btnCancelEl.textContent = '跳過';
+        btnSubmitEl.textContent = '提交反饋';
+      }
     }
 
     /**
@@ -3582,7 +3657,7 @@
   <div id="feedbackModal" class="feedback-modal" style="display: none;">
     <div class="feedback-modal-content">
       <div class="feedback-modal-header">
-        <h3>😊 感謝您的反饋</h3>
+        <h3 id="feedbackModalTitle">😊 感謝您的反饋</h3>
         <button class="feedback-modal-close" onclick="closeFeedbackModal()" aria-label="關閉">✕</button>
       </div>
 
@@ -3591,19 +3666,19 @@
 
         <!-- 預設原因（如果用戶選了「沒幫助」） -->
         <div id="reasonsSection" class="reasons-section" style="display: none;">
-          <p class="reasons-title">希望改進什麼？（可選）</p>
-          <div class="reasons-list">
-            <label><input type="radio" name="reason" value="訊息不完整"> 訊息不完整</label>
-            <label><input type="radio" name="reason" value="訊息過時"> 訊息過時</label>
-            <label><input type="radio" name="reason" value="難以理解"> 難以理解</label>
-            <label><input type="radio" name="reason" value="找錯了問題"> 找錯了問題</label>
-            <label><input type="radio" name="reason" value="其他"> 其他</label>
+          <p id="reasonsTitle" class="reasons-title">希望改進什麼？（可選）</p>
+          <div class="reasons-list" id="reasonsList">
+            <label><input type="radio" name="reason" value="訊息不完整"> <span class="reason-text">訊息不完整</span></label>
+            <label><input type="radio" name="reason" value="訊息過時"> <span class="reason-text">訊息過時</span></label>
+            <label><input type="radio" name="reason" value="難以理解"> <span class="reason-text">難以理解</span></label>
+            <label><input type="radio" name="reason" value="找錯了問題"> <span class="reason-text">找錯了問題</span></label>
+            <label><input type="radio" name="reason" value="其他"> <span class="reason-text">其他</span></label>
           </div>
         </div>
 
         <!-- 自由評論 -->
         <div class="comment-section">
-          <label for="feedbackComment">有其他建議嗎？（可選）</label>
+          <label for="feedbackComment" id="commentLabel">有其他建議嗎？（可選）</label>
           <textarea
             id="feedbackComment"
             placeholder="例：需要更詳細說明..."
@@ -3613,8 +3688,8 @@
       </div>
 
       <div class="feedback-modal-footer">
-        <button class="btn-cancel" onclick="closeFeedbackModal()">跳過</button>
-        <button class="btn-submit" onclick="submitFeedback()">提交反饋</button>
+        <button class="btn-cancel" id="btnCancel" onclick="closeFeedbackModal()">跳過</button>
+        <button class="btn-submit" id="btnSubmit" onclick="submitFeedback()">提交反饋</button>
       </div>
     </div>
   </div>
