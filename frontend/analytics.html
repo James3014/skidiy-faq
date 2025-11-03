@@ -1003,7 +1003,7 @@
   <script src="assets/env.js"></script>
   <script src="lib/config.js"></script>
   <script>
-    const API_BASE = window.API_BASE || '/api/v1';
+    const API_BASE = window.ENV_API_BASE || window.API_BASE || null;
     const LANGUAGE_LABELS = {
       all: '全部語系',
       zh: '繁體中文',
@@ -1018,6 +1018,13 @@
 
     // Load all data
     async function loadData() {
+      // Skip loading if API_BASE is null (backend not available)
+      if (!API_BASE) {
+        console.warn('[Analytics] Backend API not available, displaying empty state');
+        displayEmptyState();
+        return;
+      }
+
       try {
         await Promise.all([
           loadOverallStats(),
@@ -1026,8 +1033,25 @@
         ]);
       } catch (error) {
         console.error('Failed to load data:', error);
-        showError('Failed to load analytics data: ' + error.message);
+        displayEmptyState();
       }
+    }
+
+    // Display empty state when backend is not available
+    function displayEmptyState() {
+      document.getElementById('totalRequests').textContent = '0';
+      document.getElementById('successRate').textContent = '0%';
+      document.getElementById('successCount').textContent = '0';
+      document.getElementById('totalCost').textContent = '$0.00';
+      document.getElementById('avgResponseTime').textContent = '0ms';
+      document.getElementById('totalTokens').textContent = '0';
+      document.getElementById('avgTokens').textContent = '0';
+
+      // Show info message
+      const infoMsg = document.createElement('div');
+      infoMsg.style.cssText = 'background: #fff3cd; color: #856404; padding: 1rem; border-radius: 8px; margin: 1rem 0; text-align: center;';
+      infoMsg.innerHTML = '<strong>ℹ️ 後端 API 未連接</strong><br>目前使用 localStorage 本地資料。如需完整統計，請部署後端服務。';
+      document.getElementById('statsGrid').insertAdjacentElement('afterend', infoMsg);
     }
 
     // Load overall statistics
