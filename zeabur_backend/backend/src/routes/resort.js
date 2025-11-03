@@ -127,6 +127,47 @@ router.get('/search', (req, res) => {
 });
 
 /**
+ * GET /api/v1/resort/all
+ *
+ * Get complete resort knowledge base for frontend initialization
+ * This replaces the need for frontend to load resort_kb.json directly
+ *
+ * Response:
+ * {
+ *   "success": true,
+ *   "data": {
+ *     "resorts": [...],
+ *     "meta": {...}
+ *   }
+ * }
+ */
+router.get('/all', (req, res) => {
+  try {
+    res.json({
+      success: true,
+      data: {
+        resorts: resortKB.resorts || [],
+        meta: resortKB.meta || {},
+        total: (resortKB.resorts || []).length
+      },
+      meta: {
+        timestamp: new Date().toISOString(),
+        'Cache-Control': 'public, max-age=300' // Cache for 5 minutes
+      }
+    });
+  } catch (error) {
+    console.error('[Resort API] Error in /all:', error);
+    res.status(500).json({
+      success: false,
+      error: {
+        code: 'INTERNAL_ERROR',
+        message: '取得雪場資料失敗'
+      }
+    });
+  }
+});
+
+/**
  * GET /api/v1/resort/:resort_id
  *
  * Get detailed information for a specific resort
@@ -249,47 +290,6 @@ router.get('/region/:region', (req, res) => {
       error: {
         code: 'INTERNAL_ERROR',
         message: '取得地區雪場失敗'
-      }
-    });
-  }
-});
-
-/**
- * GET /api/v1/resort/all
- *
- * Get complete resort knowledge base for frontend initialization
- * This replaces the need for frontend to load resort_kb.json directly
- *
- * Response:
- * {
- *   "success": true,
- *   "data": {
- *     "resorts": [...],
- *     "meta": {...}
- *   }
- * }
- */
-router.get('/all', (req, res) => {
-  try {
-    res.json({
-      success: true,
-      data: {
-        resorts: resortKB.resorts || [],
-        meta: resortKB.meta || {},
-        total: (resortKB.resorts || []).length
-      },
-      meta: {
-        timestamp: new Date().toISOString(),
-        'Cache-Control': 'public, max-age=300' // Cache for 5 minutes
-      }
-    });
-  } catch (error) {
-    console.error('[Resort API] Error in /all:', error);
-    res.status(500).json({
-      success: false,
-      error: {
-        code: 'INTERNAL_ERROR',
-        message: '取得雪場資料失敗'
       }
     });
   }
