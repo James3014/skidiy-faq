@@ -11,8 +11,9 @@
   // 配置
   const CONFIG = {
     // 管理員密碼（SHA-256 雜湊值）
-    // 預設密碼: "SkiDIY@2024"
+    // ⚠️ 請立即更改此雜湊值！
     // 使用 scripts/generate-admin-password.js 生成新的雜湊值
+    // 範例: node scripts/generate-admin-password.js "YourSecurePassword"
     PASSWORD_HASH: 'e26586c5e5322452d4878df93f91c49a0946cabdd3805fbdc6c813f49ee1a255',
 
     // Session 有效期限（毫秒）

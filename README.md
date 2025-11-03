@@ -224,11 +224,12 @@ cd /Users/jameschen/Downloads/diyski/crm/03_FAQ與知識庫/zeabur
 - `/faq-admin.html` - FAQ 管理後台
 - `/resort-admin.html` - 雪場資料管理
 
-**預設密碼**: `SkiDIY@2024`
+⚠️ **安全提示**:
+- 系統已配置密碼保護，訪問管理頁面時會自動彈出登入對話框
+- 初始密碼請聯繫系統管理員獲取
+- 請立即設定您自己的密碼
 
-⚠️ **重要**: 請在生產環境中更改此密碼！
-
-**更改密碼步驟**:
+**設定/更改密碼步驟**:
 ```bash
 # 1. 生成新密碼雜湊
 node scripts/generate-admin-password.js "YourNewPassword"

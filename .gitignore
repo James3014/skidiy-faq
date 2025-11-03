@@ -5,3 +5,4 @@ zeabur_backend/backend/node_modules/
 frontend/node_modules/
 .env
 zeabur_backend/backend/.env
+.admin-password.txt
