@@ -2001,7 +2001,8 @@
         const response = await fetch(`${API_BASE}/analytics/feedback-stats`);
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
 
-        const data = await response.json();
+        const result = await response.json();
+        const data = result.data?.summary || result.data || {};
 
         // Update stat cards
         document.getElementById('totalFeedback').textContent = data.total_feedback || 0;
