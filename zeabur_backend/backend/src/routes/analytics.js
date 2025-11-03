@@ -1515,4 +1515,173 @@ router.get('/section-stats', async (req, res, next) => {
   }
 });
 
+/**
+ * POST /api/v1/analytics/feedback
+ * Log user feedback on FAQ or resort
+ *
+ * Request body:
+ * {
+ *   "feedback_type": "faq" | "resort",
+ *   "item_id": "faq.booking.001",
+ *   "helpful": true | false,
+ *   "reason": "訊息不完整",  // optional
+ *   "comment": "需要更多細節",  // optional
+ *   "language": "zh"  // optional, defaults to 'zh'
+ * }
+ */
+router.post('/feedback', async (req, res, next) => {
+  try {
+    if (!analyticsService) {
+      throw new AppError('SERVICE_UNAVAILABLE', 'Analytics 服務尚未初始化', 503);
+    }
+
+    const {
+      feedback_type,
+      item_id,
+      helpful,
+      reason,
+      comment,
+      language
+    } = req.body;
+
+    // Validation
+    if (!feedback_type || !['faq', 'resort'].includes(feedback_type)) {
+      throw new AppError('INVALID_INPUT', 'feedback_type 必須為 "faq" 或 "resort"', 400);
+    }
+
+    if (!item_id) {
+      throw new AppError('INVALID_INPUT', 'item_id 為必填欄位', 400);
+    }
+
+    if (helpful === undefined || helpful === null || typeof helpful !== 'boolean') {
+      throw new AppError('INVALID_INPUT', 'helpful 必須為 true 或 false', 400);
+    }
+
+    // Log feedback
+    const feedbackId = analyticsService.logFeedback({
+      feedback_type,
+      item_id,
+      helpful,
+      reason: reason || null,
+      comment: comment || null,
+      language: language || 'zh',
+      user_session_id: req.sessionID || null
+    });
+
+    sendSuccess(res, {
+      tracked: true,
+      feedback_id: feedbackId,
+      feedback_type,
+      item_id,
+      helpful
+    }, 201);
+
+  } catch (error) {
+    next(error);
+  }
+});
+
+/**
+ * GET /api/v1/analytics/feedback-stats
+ * Get feedback statistics
+ *
+ * Query params:
+ * - feedback_type: 'faq' | 'resort' (optional)
+ * - item_id: specific item ID (optional)
+ * - days: number of days to look back (optional, default: all)
+ */
+router.get('/feedback-stats', async (req, res, next) => {
+  try {
+    if (!analyticsService) {
+      throw new AppError('SERVICE_UNAVAILABLE', 'Analytics 服務尚未初始化', 503);
+    }
+
+    const {
+      feedback_type,
+      item_id,
+      days
+    } = req.query;
+
+    // Get overall stats
+    const stats = analyticsService.getFeedbackStats({
+      feedback_type,
+      item_id,
+      days: days ? parseInt(days, 10) : undefined
+    });
+
+    // Get lowest rated items (items with lowest helpful rate)
+    const lowestRated = analyticsService.getLowestRatedItems({
+      feedback_type,
+      days: days ? parseInt(days, 10) : undefined,
+      limit: 10
+    });
+
+    // Get feedback reasons distribution
+    const reasons = analyticsService.getFeedbackReasons({
+      feedback_type,
+      days: days ? parseInt(days, 10) : undefined
+    });
+
+    // Get daily trend
+    const trend = analyticsService.getFeedbackTrend({
+      feedback_type,
+      days: days ? parseInt(days, 10) : undefined
+    });
+
+    sendSuccess(res, {
+      summary: stats,
+      lowest_rated: lowestRated,
+      reasons,
+      daily_trend: trend,
+      filter: {
+        feedback_type: feedback_type || 'all',
+        item_id: item_id || 'all',
+        days: days || 'all'
+      }
+    }, 200, {
+      timestamp: new Date().toISOString()
+    });
+
+  } catch (error) {
+    next(error);
+  }
+});
+
+/**
+ * GET /api/v1/analytics/feedback-item/:itemId
+ * Get detailed feedback for a specific item
+ */
+router.get('/feedback-item/:itemId', async (req, res, next) => {
+  try {
+    if (!analyticsService) {
+      throw new AppError('SERVICE_UNAVAILABLE', 'Analytics 服務尚未初始化', 503);
+    }
+
+    const { itemId } = req.params;
+    const { days, limit = 20 } = req.query;
+
+    // Get stats for this item
+    const stats = analyticsService.getFeedbackStats({
+      item_id: itemId,
+      days: days ? parseInt(days, 10) : undefined
+    });
+
+    // Get comments/feedback details
+    const comments = analyticsService.getFeedbackComments({
+      item_id: itemId,
+      limit: parseInt(limit, 10)
+    });
+
+    sendSuccess(res, {
+      item_id: itemId,
+      stats,
+      comments,
+      comment_count: comments.length
+    }, 200);
+
+  } catch (error) {
+    next(error);
+  }
+});
+
 module.exports = router;

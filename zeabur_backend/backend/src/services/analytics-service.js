@@ -465,6 +465,222 @@ class AnalyticsService {
   }
 
   /**
+   * Log user feedback on FAQ or resort
+   * @param {Object} feedback - Feedback data { feedback_type, item_id, helpful, reason, comment, language, user_session_id }
+   * @returns {number} - Inserted row ID
+   */
+  logFeedback(feedback) {
+    const stmt = this.db.prepare(`
+      INSERT INTO feedback (
+        feedback_type, item_id, helpful, reason, comment,
+        language, user_session_id
+      ) VALUES (?, ?, ?, ?, ?, ?, ?)
+    `);
+
+    const result = stmt.run(
+      feedback.feedback_type, // 'faq' or 'resort'
+      feedback.item_id,
+      feedback.helpful ? 1 : 0,
+      feedback.reason || null,
+      feedback.comment || null,
+      feedback.language || 'zh',
+      feedback.user_session_id || null
+    );
+
+    return result.lastInsertRowid;
+  }
+
+  /**
+   * Get feedback statistics
+   * @param {Object} options - Query options { feedback_type, item_id, days }
+   * @returns {Object} - Feedback statistics
+   */
+  getFeedbackStats(options = {}) {
+    let query = `
+      SELECT
+        COUNT(*) as total_feedback,
+        SUM(CASE WHEN helpful = 1 THEN 1 ELSE 0 END) as helpful_count,
+        SUM(CASE WHEN helpful = 0 THEN 1 ELSE 0 END) as not_helpful_count
+      FROM feedback
+      WHERE 1=1
+    `;
+
+    const params = [];
+
+    if (options.feedback_type) {
+      query += ' AND feedback_type = ?';
+      params.push(options.feedback_type);
+    }
+
+    if (options.item_id) {
+      query += ' AND item_id = ?';
+      params.push(options.item_id);
+    }
+
+    if (options.days) {
+      query += ' AND timestamp >= datetime("now", "-" || ? || " days")';
+      params.push(options.days);
+    }
+
+    const stmt = this.db.prepare(query);
+    const stats = stmt.get(...params);
+
+    // Calculate helpful rate
+    if (stats && stats.total_feedback > 0) {
+      stats.helpful_rate = ((stats.helpful_count / stats.total_feedback) * 100).toFixed(2);
+    } else {
+      stats.helpful_rate = 0;
+    }
+
+    return stats;
+  }
+
+  /**
+   * Get top items with lowest helpful rate
+   * @param {Object} options - Query options { feedback_type, days, limit }
+   * @returns {Array} - Items sorted by helpful rate (ascending)
+   */
+  getLowestRatedItems(options = {}) {
+    let query = `
+      SELECT
+        item_id,
+        feedback_type,
+        COUNT(*) as total_feedback,
+        SUM(CASE WHEN helpful = 1 THEN 1 ELSE 0 END) as helpful_count,
+        ROUND(CAST(SUM(CASE WHEN helpful = 1 THEN 1 ELSE 0 END) AS FLOAT) / COUNT(*) * 100, 2) as helpful_rate
+      FROM feedback
+      WHERE 1=1
+    `;
+
+    const params = [];
+
+    if (options.feedback_type) {
+      query += ' AND feedback_type = ?';
+      params.push(options.feedback_type);
+    }
+
+    if (options.days) {
+      query += ' AND timestamp >= datetime("now", "-" || ? || " days")';
+      params.push(options.days);
+    }
+
+    query += ' GROUP BY item_id HAVING total_feedback >= 3'; // Only items with 3+ feedback
+    query += ' ORDER BY helpful_rate ASC, total_feedback DESC';
+
+    if (options.limit) {
+      query += ' LIMIT ?';
+      params.push(options.limit);
+    }
+
+    const stmt = this.db.prepare(query);
+    return stmt.all(...params);
+  }
+
+  /**
+   * Get feedback reasons distribution (negative feedback only)
+   * @param {Object} options - Query options { feedback_type, days }
+   * @returns {Array} - Reason counts
+   */
+  getFeedbackReasons(options = {}) {
+    let query = `
+      SELECT
+        reason,
+        COUNT(*) as count
+      FROM feedback
+      WHERE helpful = 0 AND reason IS NOT NULL
+    `;
+
+    const params = [];
+
+    if (options.feedback_type) {
+      query += ' AND feedback_type = ?';
+      params.push(options.feedback_type);
+    }
+
+    if (options.days) {
+      query += ' AND timestamp >= datetime("now", "-" || ? || " days")';
+      params.push(options.days);
+    }
+
+    query += ' GROUP BY reason ORDER BY count DESC';
+
+    const stmt = this.db.prepare(query);
+    return stmt.all(...params);
+  }
+
+  /**
+   * Get feedback details/comments for an item
+   * @param {Object} options - Query options { item_id, helpful, limit }
+   * @returns {Array} - Feedback records with comments
+   */
+  getFeedbackComments(options = {}) {
+    let query = `
+      SELECT
+        id, feedback_type, item_id, helpful, reason, comment,
+        language, timestamp
+      FROM feedback
+      WHERE comment IS NOT NULL
+    `;
+
+    const params = [];
+
+    if (options.item_id) {
+      query += ' AND item_id = ?';
+      params.push(options.item_id);
+    }
+
+    if (options.helpful !== undefined) {
+      query += ' AND helpful = ?';
+      params.push(options.helpful ? 1 : 0);
+    }
+
+    query += ' ORDER BY timestamp DESC';
+
+    if (options.limit) {
+      query += ' LIMIT ?';
+      params.push(options.limit);
+    }
+
+    const stmt = this.db.prepare(query);
+    return stmt.all(...params);
+  }
+
+  /**
+   * Get feedback daily trend
+   * @param {Object} options - Query options { feedback_type, days }
+   * @returns {Array} - Daily feedback counts
+   */
+  getFeedbackTrend(options = {}) {
+    let query = `
+      SELECT
+        DATE(timestamp) as date,
+        feedback_type,
+        COUNT(*) as count,
+        SUM(CASE WHEN helpful = 1 THEN 1 ELSE 0 END) as helpful_count,
+        ROUND(CAST(SUM(CASE WHEN helpful = 1 THEN 1 ELSE 0 END) AS FLOAT) / COUNT(*) * 100, 2) as helpful_rate
+      FROM feedback
+      WHERE 1=1
+    `;
+
+    const params = [];
+
+    if (options.feedback_type) {
+      query += ' AND feedback_type = ?';
+      params.push(options.feedback_type);
+    }
+
+    if (options.days) {
+      query += ' AND timestamp >= datetime("now", "-" || ? || " days")';
+      params.push(options.days);
+    }
+
+    query += ' GROUP BY DATE(timestamp), feedback_type ORDER BY date DESC';
+
+    const stmt = this.db.prepare(query);
+    return stmt.all(...params);
+  }
+
+  /**
    * Close database connection
    */
   close() {

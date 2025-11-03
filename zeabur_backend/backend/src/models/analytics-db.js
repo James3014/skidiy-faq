@@ -82,6 +82,21 @@ class AnalyticsDB {
       );
     `);
 
+    // Create feedback table for user feedback on FAQ and resort information
+    this.db.exec(`
+      CREATE TABLE IF NOT EXISTS feedback (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        feedback_type TEXT NOT NULL,        -- 'faq' or 'resort'
+        item_id TEXT NOT NULL,              -- faq.*.* or resort_id
+        helpful BOOLEAN NOT NULL,            -- true/false (1/0)
+        reason TEXT,                         -- 訊息不完整、過時等（預留可選）
+        comment TEXT,                        -- 用戶自由評論（可選）
+        language TEXT DEFAULT 'zh',
+        user_session_id TEXT,                -- 匿名追蹤（可選）
+        timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
+      );
+    `);
+
     // Create indexes
     this.db.exec(`
       CREATE INDEX IF NOT EXISTS idx_query_timestamp ON search_queries(timestamp);
@@ -89,6 +104,10 @@ class AnalyticsDB {
       CREATE INDEX IF NOT EXISTS idx_query_session ON search_queries(session_id);
       CREATE INDEX IF NOT EXISTS idx_faq_views_faq_id ON faq_views(faq_id);
       CREATE INDEX IF NOT EXISTS idx_faq_views_query_id ON faq_views(query_id);
+      CREATE INDEX IF NOT EXISTS idx_feedback_item_id ON feedback(item_id);
+      CREATE INDEX IF NOT EXISTS idx_feedback_type ON feedback(feedback_type);
+      CREATE INDEX IF NOT EXISTS idx_feedback_helpful ON feedback(helpful);
+      CREATE INDEX IF NOT EXISTS idx_feedback_timestamp ON feedback(timestamp);
     `);
   }
 
@@ -244,6 +263,191 @@ class AnalyticsDB {
     `);
 
     return stmt.all();
+  }
+
+  /**
+   * Log user feedback on FAQ or resort
+   * @param {Object} feedback - Feedback data
+   * @returns {number} - Inserted row ID
+   */
+  logFeedback(feedback) {
+    const stmt = this.db.prepare(`
+      INSERT INTO feedback (
+        feedback_type, item_id, helpful, reason, comment,
+        language, user_session_id
+      ) VALUES (?, ?, ?, ?, ?, ?, ?)
+    `);
+
+    const result = stmt.run(
+      feedback.feedback_type, // 'faq' or 'resort'
+      feedback.item_id,
+      feedback.helpful ? 1 : 0,
+      feedback.reason || null,
+      feedback.comment || null,
+      feedback.language || 'zh',
+      feedback.user_session_id || null
+    );
+
+    return result.lastInsertRowid;
+  }
+
+  /**
+   * Get feedback statistics for an item or type
+   * @param {Object} options - Query options { feedback_type, item_id, days, helpful }
+   * @returns {Object} - Feedback statistics
+   */
+  getFeedbackStats(options = {}) {
+    let query = `
+      SELECT
+        COUNT(*) as total_feedback,
+        SUM(CASE WHEN helpful = 1 THEN 1 ELSE 0 END) as helpful_count,
+        SUM(CASE WHEN helpful = 0 THEN 1 ELSE 0 END) as not_helpful_count
+      FROM feedback
+      WHERE 1=1
+    `;
+
+    const params = [];
+
+    if (options.feedback_type) {
+      query += ' AND feedback_type = ?';
+      params.push(options.feedback_type);
+    }
+
+    if (options.item_id) {
+      query += ' AND item_id = ?';
+      params.push(options.item_id);
+    }
+
+    if (options.days) {
+      query += ' AND timestamp >= datetime("now", "-" || ? || " days")';
+      params.push(options.days);
+    }
+
+    const stmt = this.db.prepare(query);
+    const stats = stmt.get(...params);
+
+    // Calculate helpful rate
+    if (stats && stats.total_feedback > 0) {
+      stats.helpful_rate = ((stats.helpful_count / stats.total_feedback) * 100).toFixed(2);
+    } else {
+      stats.helpful_rate = 0;
+    }
+
+    return stats;
+  }
+
+  /**
+   * Get feedback details for an item
+   * @param {Object} options - Query options { feedback_type, item_id, days, limit }
+   * @returns {Array} - Feedback records
+   */
+  getFeedbackDetails(options = {}) {
+    let query = `
+      SELECT
+        id, feedback_type, item_id, helpful, reason, comment,
+        language, timestamp
+      FROM feedback
+      WHERE 1=1
+    `;
+
+    const params = [];
+
+    if (options.feedback_type) {
+      query += ' AND feedback_type = ?';
+      params.push(options.feedback_type);
+    }
+
+    if (options.item_id) {
+      query += ' AND item_id = ?';
+      params.push(options.item_id);
+    }
+
+    if (options.days) {
+      query += ' AND timestamp >= datetime("now", "-" || ? || " days")';
+      params.push(options.days);
+    }
+
+    query += ' ORDER BY timestamp DESC';
+
+    if (options.limit) {
+      query += ' LIMIT ?';
+      params.push(options.limit);
+    }
+
+    const stmt = this.db.prepare(query);
+    return stmt.all(...params);
+  }
+
+  /**
+   * Get top rated items by helpful count
+   * @param {Object} options - Query options { feedback_type, days, limit }
+   * @returns {Array} - Top items
+   */
+  getTopFeedbackItems(options = {}) {
+    let query = `
+      SELECT
+        item_id,
+        feedback_type,
+        COUNT(*) as total_feedback,
+        SUM(CASE WHEN helpful = 1 THEN 1 ELSE 0 END) as helpful_count,
+        ROUND(CAST(SUM(CASE WHEN helpful = 1 THEN 1 ELSE 0 END) AS FLOAT) / COUNT(*) * 100, 2) as helpful_rate
+      FROM feedback
+      WHERE 1=1
+    `;
+
+    const params = [];
+
+    if (options.feedback_type) {
+      query += ' AND feedback_type = ?';
+      params.push(options.feedback_type);
+    }
+
+    if (options.days) {
+      query += ' AND timestamp >= datetime("now", "-" || ? || " days")';
+      params.push(options.days);
+    }
+
+    query += ' GROUP BY item_id ORDER BY helpful_rate ASC, total_feedback DESC';
+
+    if (options.limit) {
+      query += ' LIMIT ?';
+      params.push(options.limit);
+    }
+
+    const stmt = this.db.prepare(query);
+    return stmt.all(...params);
+  }
+
+  /**
+   * Get reason distribution for negative feedback
+   * @param {Object} options - Query options { feedback_type, days }
+   * @returns {Array} - Reason statistics
+   */
+  getFeedbackReasons(options = {}) {
+    let query = `
+      SELECT
+        reason,
+        COUNT(*) as count
+      FROM feedback
+      WHERE helpful = 0 AND reason IS NOT NULL
+    `;
+
+    const params = [];
+
+    if (options.feedback_type) {
+      query += ' AND feedback_type = ?';
+      params.push(options.feedback_type);
+    }
+
+    if (options.days) {
+      query += ' AND timestamp >= datetime("now", "-" || ? || " days")';
+      params.push(options.days);
+    }
+
+    query += ' GROUP BY reason ORDER BY count DESC';
+
+    const stmt = this.db.prepare(query);
+    return stmt.all(...params);
   }
 
   /**
