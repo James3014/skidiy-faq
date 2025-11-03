@@ -1998,7 +1998,12 @@
     // Load overall feedback statistics
     async function loadFeedbackStats() {
       try {
-        const response = await fetch(`${API_BASE}/analytics/feedback-stats`);
+        const params = new URLSearchParams();
+        if (analyticsLanguage && analyticsLanguage !== 'all') {
+          params.append('language', analyticsLanguage);
+        }
+
+        const response = await fetch(`${API_BASE}/analytics/feedback-stats?${params}`);
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
 
         const result = await response.json();
@@ -2061,7 +2066,12 @@
     // Load feedback reasons distribution
     async function loadFeedbackReasons() {
       try {
-        const response = await fetch(`${API_BASE}/analytics/feedback-reasons`);
+        const params = new URLSearchParams();
+        if (analyticsLanguage && analyticsLanguage !== 'all') {
+          params.append('language', analyticsLanguage);
+        }
+
+        const response = await fetch(`${API_BASE}/analytics/feedback-reasons?${params}`);
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
 
         const result = await response.json();
@@ -2100,7 +2110,13 @@
     // Load top rated items
     async function loadTopRatedItems() {
       try {
-        const response = await fetch(`${API_BASE}/analytics/feedback-top-items?limit=10`);
+        const params = new URLSearchParams();
+        params.append('limit', '10');
+        if (analyticsLanguage && analyticsLanguage !== 'all') {
+          params.append('language', analyticsLanguage);
+        }
+
+        const response = await fetch(`${API_BASE}/analytics/feedback-top-items?${params}`);
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
 
         const result = await response.json();
@@ -2147,7 +2163,13 @@
     // Load bottom rated items (low satisfaction)
     async function loadBottomRatedItems() {
       try {
-        const response = await fetch(`${API_BASE}/analytics/feedback-bottom-items?limit=10`);
+        const params = new URLSearchParams();
+        params.append('limit', '10');
+        if (analyticsLanguage && analyticsLanguage !== 'all') {
+          params.append('language', analyticsLanguage);
+        }
+
+        const response = await fetch(`${API_BASE}/analytics/feedback-bottom-items?${params}`);
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
 
         const result = await response.json();
@@ -2214,7 +2236,13 @@
     // Load recent feedback
     async function loadRecentFeedback() {
       try {
-        const response = await fetch(`${API_BASE}/analytics/feedback-recent?limit=50`);
+        const params = new URLSearchParams();
+        params.append('limit', '50');
+        if (analyticsLanguage && analyticsLanguage !== 'all') {
+          params.append('language', analyticsLanguage);
+        }
+
+        const response = await fetch(`${API_BASE}/analytics/feedback-recent?${params}`);
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
 
         const result = await response.json();
