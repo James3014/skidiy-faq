@@ -17,6 +17,7 @@ function configureCORS() {
       // Default allowed origins for production
       const defaultOrigins = [
         'http://localhost:8080',
+        'http://localhost:8888',
         'http://localhost:3000',
         'https://faq.diy.ski',
         'https://skidiy-faq.zeabur.app',
