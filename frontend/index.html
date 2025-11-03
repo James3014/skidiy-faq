@@ -505,15 +505,41 @@
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
-      margin-bottom: 1rem;
+      margin-bottom: 0;
       padding-bottom: 1rem;
       border-bottom: 2px solid #f0f0f0;
+    }
+
+    .resort-header.clickable {
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .resort-header.clickable:hover {
+      background: rgba(74, 95, 140, 0.05);
+      margin: -0.5rem;
+      padding: 0.5rem 0.5rem 1.5rem 0.5rem;
+      border-radius: 8px;
+    }
+
+    .expand-icon {
+      display: inline-block;
+      margin-right: 0.5rem;
+      font-size: 0.9rem;
+      color: #4A5F8C;
+      transition: transform 0.3s;
     }
 
     .resort-name {
       font-size: 1.3rem;
       font-weight: 700;
       color: #2D395C;
+      display: flex;
+      align-items: center;
+    }
+
+    .resort-details {
+      margin-top: 1rem;
     }
 
     .resort-name-en {
@@ -2139,15 +2165,19 @@
       }
 
       return `
-        <div class="resort-card" data-resort-id="${resort.resort_id}">
-          <div class="resort-header">
+        <div class="resort-card collapsible" data-resort-id="${resort.resort_id}" data-expanded="false">
+          <div class="resort-header clickable" onclick="toggleResortCard(this)">
             <div>
-              <div class="resort-name">${DOMPurify.sanitize(primary)}</div>
+              <div class="resort-name">
+                <span class="expand-icon">▶</span>
+                ${DOMPurify.sanitize(primary)}
+              </div>
               ${secondary ? `<div class="resort-name-en">${DOMPurify.sanitize(secondary)}</div>` : ''}
             </div>
             <div class="resort-region-tag">${DOMPurify.sanitize(regionDisplay)}</div>
           </div>
 
+          <div class="resort-details" style="display: none;">
           <div class="resort-stats">
             <div class="resort-stat">
               <div class="resort-stat-value">${lifts}</div>
@@ -2194,7 +2224,7 @@
           ` : ''}
 
           ${officialSite ? `
-            <a href="${DOMPurify.sanitize(officialSite)}" target="_blank" class="resort-link">
+            <a href="${DOMPurify.sanitize(officialSite)}" target="_blank" class="resort-link" onclick="trackResortEngagement(event, 'official_site_click', '${resort.resort_id}', '${DOMPurify.sanitize(primary)}')">
               ${locale.viewOfficialSite}
             </a>
           ` : ''}
@@ -2209,6 +2239,7 @@
                 👎 ${currentLanguage === 'en' ? 'Not helpful' : currentLanguage === 'th' ? 'ไม่มีประโยชน์' : '沒幫助'}
               </button>
             </div>
+          </div>
           </div>
         </div>
       `;
@@ -2915,6 +2946,70 @@
         console.error('[Resort Click] Error tracking:', error);
       }
     }
+
+    // Track resort engagement (meaningful user interactions indicating interest)
+    window.trackResortEngagement = async function(event, engagementType, resortId, resortName) {
+      try {
+        console.log(`[Resort Engagement] Type: ${engagementType}, Resort: ${resortName} (${resortId})`);
+
+        const engagement = {
+          timestamp: new Date().toISOString(),
+          click_type: 'resort_engagement',
+          engagement_type: engagementType, // 'expand', 'official_site_click', 'feedback'
+          resort_id: resortId,
+          resort_name: resortName,
+          language: currentLanguage
+        };
+
+        // Store in localStorage
+        const engagements = JSON.parse(localStorage.getItem('resortEngagements') || '[]');
+        engagements.push(engagement);
+        if (engagements.length > 100) engagements.shift();
+        localStorage.setItem('resortEngagements', JSON.stringify(engagements));
+
+        console.log('[Resort Engagement] Tracked successfully:', engagement);
+
+        // Try to send to backend
+        try {
+          await fetch(`${API_BASE}/analytics/track-resort-engagement`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(engagement)
+          });
+        } catch (err) {
+          console.warn('[Resort Engagement] Backend tracking unavailable:', err.message);
+        }
+      } catch (error) {
+        console.error('[Resort Engagement] Error tracking:', error);
+      }
+    };
+
+    // Toggle resort card expand/collapse
+    window.toggleResortCard = function(headerElement) {
+      const card = headerElement.closest('.resort-card');
+      const details = card.querySelector('.resort-details');
+      const icon = card.querySelector('.expand-icon');
+      const isExpanded = card.dataset.expanded === 'true';
+      const resortId = card.dataset.resortId;
+      const resortName = card.querySelector('.resort-name')?.textContent?.replace('▶', '').replace('▼', '').trim() || 'Unknown';
+
+      if (isExpanded) {
+        // Collapse
+        details.style.display = 'none';
+        icon.textContent = '▶';
+        card.dataset.expanded = 'false';
+        console.log(`[Resort Card] Collapsed: ${resortName}`);
+      } else {
+        // Expand
+        details.style.display = 'block';
+        icon.textContent = '▼';
+        card.dataset.expanded = 'true';
+        console.log(`[Resort Card] Expanded: ${resortName}`);
+
+        // Track expansion as engagement (user is interested in this resort)
+        trackResortEngagement(null, 'expand', resortId, resortName);
+      }
+    };
 
     // Toggle FAQ item (accordion style)
     function toggleFAQItem(item) {
