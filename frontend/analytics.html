@@ -2063,7 +2063,8 @@
         const response = await fetch(`${API_BASE}/analytics/feedback-reasons`);
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
 
-        const reasons = await response.json();
+        const result = await response.json();
+        const reasons = result.data || [];
 
         if (!reasons || reasons.length === 0) {
           document.getElementById('feedbackReasonsChart').innerHTML =
@@ -2101,7 +2102,8 @@
         const response = await fetch(`${API_BASE}/analytics/feedback-top-items?limit=10`);
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
 
-        const items = await response.json();
+        const result = await response.json();
+        const items = result.data || [];
 
         if (!items || items.length === 0) {
           document.getElementById('topRatedItems').innerHTML =
@@ -2147,7 +2149,8 @@
         const response = await fetch(`${API_BASE}/analytics/feedback-bottom-items?limit=10`);
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
 
-        const items = await response.json();
+        const result = await response.json();
+        const items = result.data || [];
 
         if (!items || items.length === 0) {
           document.getElementById('bottomRatedItems').innerHTML =
@@ -2213,7 +2216,8 @@
         const response = await fetch(`${API_BASE}/analytics/feedback-recent?limit=50`);
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
 
-        const feedbacks = await response.json();
+        const result = await response.json();
+        const feedbacks = result.data || [];
 
         if (!feedbacks || feedbacks.length === 0) {
           document.getElementById('recentFeedback').innerHTML =
