@@ -93,7 +93,6 @@ Zeabur 會在環境變數變更後自動重新部署。如果沒有：
 
 **方法 2: 推送 Git 更新**
 ```bash
-cd /Users/jameschen/Downloads/diyski/crm/03_FAQ與知識庫/zeabur
 git add .
 git commit -m "chore: update env.example with SQLITE_DB_PATH"
 git push origin main

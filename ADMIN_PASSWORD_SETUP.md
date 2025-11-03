@@ -31,8 +31,6 @@
 ### 步驟 1: 生成新的密碼雜湊
 
 ```bash
-cd /Users/jameschen/Downloads/diyski/crm/03_FAQ與知識庫/zeabur
-
 # 互動式輸入（推薦）
 node scripts/generate-admin-password.js
 

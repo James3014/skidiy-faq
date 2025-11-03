@@ -143,7 +143,6 @@ curl -G "https://faq-api-v1.zeabur.app/api/v1/analytics/section-stats" --data-ur
 執行以下命令進行自動驗證：
 
 ```bash
-cd /Users/jameschen/Downloads/diyski/crm/03_FAQ與知識庫/zeabur
 ./scripts/verify-zeabur-volume.sh
 ```
 

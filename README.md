@@ -113,14 +113,14 @@ zeabur/
 
 #### 1. 啟動前端（靜態檔案伺服器）
 ```bash
-cd /Users/jameschen/Downloads/diyski/crm/03_FAQ與知識庫/frontend
+cd frontend
 python3 -m http.server 8080
 ```
 訪問：http://localhost:8080/index-intent.html
 
 #### 2. 啟動後端 API
 ```bash
-cd /Users/jameschen/Downloads/diyski/crm/03_FAQ與知識庫/zeabur/zeabur_backend/backend
+cd zeabur_backend/backend
 npm install
 PORT=3001 npm start
 ```
@@ -210,7 +210,6 @@ FAQ_INSIGHTS_API_KEYS=your-insights-api-key
 
 **驗證腳本**:
 ```bash
-cd /Users/jameschen/Downloads/diyski/crm/03_FAQ與知識庫/zeabur
 ./scripts/verify-zeabur-volume.sh
 ```
 

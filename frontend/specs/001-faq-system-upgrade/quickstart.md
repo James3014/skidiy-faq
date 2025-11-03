@@ -62,9 +62,6 @@ git --version
 ### 2.1 初始化專案
 
 ```bash
-# 進入 FAQ 系統目錄
-cd /Users/jameschen/Downloads/diyski/crm/03_FAQ與知識庫
-
 # 建立專案目錄結構（若不存在）
 mkdir -p frontend/lib frontend/assets/i18n
 mkdir -p backend/src/{routes,services,middleware,utils} backend/tests

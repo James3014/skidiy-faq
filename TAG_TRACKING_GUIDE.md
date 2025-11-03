@@ -322,7 +322,6 @@ CREATE INDEX IF NOT EXISTS idx_tag_clicks_timestamp ON tag_clicks(timestamp);
 
 #### 1. Dry-run 模式 (預覽變更)
 ```bash
-cd /Users/jameschen/Downloads/diyski/crm/03_FAQ與知識庫/zeabur
 node retag-faqs.js --dry-run
 ```
 
