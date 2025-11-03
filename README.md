@@ -214,7 +214,41 @@ cd /Users/jameschen/Downloads/diyski/crm/03_FAQ與知識庫/zeabur
 ./scripts/verify-zeabur-volume.sh
 ```
 
-#### 2. 前端配置
+#### 4. 管理頁面訪問控制（重要！）
+
+**受保護的管理頁面**:
+- `/menu.html` - 管理選單
+- `/analytics.html` - 分析統計儀表板
+- `/admin.html` - 系統管理面板
+- `/docs.html` - 系統文檔
+- `/faq-admin.html` - FAQ 管理後台
+- `/resort-admin.html` - 雪場資料管理
+
+**預設密碼**: `SkiDIY@2024`
+
+⚠️ **重要**: 請在生產環境中更改此密碼！
+
+**更改密碼步驟**:
+```bash
+# 1. 生成新密碼雜湊
+node scripts/generate-admin-password.js "YourNewPassword"
+
+# 2. 複製生成的雜湊值
+
+# 3. 編輯 frontend/assets/admin-auth.js
+#    將 PASSWORD_HASH 替換為新雜湊值
+
+# 4. 提交並推送
+git add frontend/assets/admin-auth.js
+git commit -m "chore: update admin password"
+git push origin main
+```
+
+**詳細說明**:
+- 📖 [ADMIN_PASSWORD_SETUP.md](./ADMIN_PASSWORD_SETUP.md) - 密碼設定快速指南
+- 🔒 [ADMIN_ACCESS_CONTROL.md](./ADMIN_ACCESS_CONTROL.md) - 完整訪問控制方案
+
+#### 5. 前端配置
 
 部署時使用生產配置（zeabur 目錄下的檔案）：
 ```javascript
