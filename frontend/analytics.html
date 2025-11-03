@@ -1727,7 +1727,7 @@
 
     function displaySectionStats(data) {
       // Overall statistics
-      const totalClicks = data.by_section.reduce((sum, s) => sum + s.total_clicks, 0);
+      const totalClicks = data.by_section.reduce((sum, s) => sum + (s.clicks || 0), 0);
       document.getElementById('sectionTotalClicks').textContent = totalClicks.toLocaleString();
       document.getElementById('sectionUniqueCount').textContent = data.by_section.length;
 
@@ -1735,7 +1735,7 @@
       if (data.by_section.length > 0) {
         const topSection = data.by_section[0];
         document.getElementById('sectionTopName').textContent = topSection.section;
-        document.getElementById('sectionTopClicks').textContent = topSection.total_clicks.toLocaleString();
+        document.getElementById('sectionTopClicks').textContent = (topSection.clicks || 0).toLocaleString();
       }
 
       // Languages
@@ -1751,8 +1751,8 @@
             <span style="font-weight: 600;">${section.section}</span>
           </div>
           <div style="display: flex; gap: 1.5rem; align-items: center;">
-            <span style="color: #666;">${section.total_clicks} 次點擊</span>
-            <span style="color: #999; font-size: 0.9rem;">${section.languages_used} 種語言</span>
+            <span style="color: #666;">${section.clicks || 0} 次點擊</span>
+            <span style="color: #999; font-size: 0.9rem;">${((section.clicks / totalClicks) * 100).toFixed(1)}%</span>
           </div>
         </div>
       `).join('');
@@ -1760,7 +1760,7 @@
       document.getElementById('topSections').innerHTML = topSectionsHTML || '<p style="text-align: center; color: #999; padding: 2rem;">暫無數據</p>';
 
       // Daily trend chart
-      const dailyChartHTML = renderDailyChart(data.daily, 'clicks', 'unique_sections');
+      const dailyChartHTML = renderDailyChart(data.daily, 'clicks', 'section');
       document.getElementById('sectionDailyChart').innerHTML = dailyChartHTML;
 
       // Language distribution
@@ -1771,7 +1771,7 @@
           </div>
           <div style="display: flex; gap: 1.5rem; align-items: center;">
             <span style="color: #666;">${lang.clicks} 次點擊</span>
-            <span style="color: #999; font-size: 0.9rem;">${lang.unique_sections} 個分類</span>
+            <span style="color: #999; font-size: 0.9rem;">${((lang.clicks / totalClicks) * 100).toFixed(1)}%</span>
           </div>
         </div>
       `).join('');
