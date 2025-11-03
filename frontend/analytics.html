@@ -615,6 +615,7 @@
       <button class="tab" onclick="switchTab('tag')">🏷️ Tag 點擊分析</button>
       <button class="tab" onclick="switchTab('section')">📂 分類點擊分析</button>
       <button class="tab" onclick="switchTab('resort')">🏔️ 雪場點擊分析</button>
+      <button class="tab" onclick="switchTab('feedback')">📋 反饋與改進</button>
     </div>
 
     <!-- LLM Statistics Tab -->
@@ -1000,6 +1001,80 @@
         </div>
       </div>
     </div> <!-- End Resort Tab -->
+
+    <!-- Feedback Statistics Tab -->
+    <div id="feedback-tab" class="tab-content">
+      <!-- Overall Feedback Statistics -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-label">總反饋數</div>
+          <div class="stat-value" id="totalFeedback">-</div>
+        </div>
+        <div class="stat-card success">
+          <div class="stat-label">有幫助 👍</div>
+          <div class="stat-value" id="helpfulCount">-</div>
+        </div>
+        <div class="stat-card warning">
+          <div class="stat-label">沒幫助 👎</div>
+          <div class="stat-value" id="notHelpfulCount">-</div>
+        </div>
+        <div class="stat-card primary">
+          <div class="stat-label">滿意率</div>
+          <div class="stat-value" id="helpfulRate">-</div>
+        </div>
+      </div>
+
+      <!-- Low Satisfaction Warning -->
+      <div id="lowSatisfactionWarning" class="provider-section" style="display: none; background: #fef3c7; border-left: 4px solid #f59e0b; padding: 1rem; margin-bottom: 1.5rem;">
+        <h3 style="margin-bottom: 1rem; color: #92400e; display: flex; align-items: center; gap: 0.5rem;">
+          ⚠️ 低滿意度警告
+        </h3>
+        <div id="lowSatisfactionItems" style="color: #92400e;">
+          <p style="margin-bottom: 0.5rem;">以下內容滿意率較低，建議優先處理：</p>
+          <div id="lowSatisfactionList"></div>
+        </div>
+      </div>
+
+      <!-- Feedback by Type -->
+      <div class="chart-section">
+        <h3 style="margin-bottom: 1rem; color: #2D395C;">📊 反饋類型分佈</h3>
+        <div class="chart" id="feedbackTypeChart">
+          <p style="text-align: center; color: #999; padding: 3rem;">載入中...</p>
+        </div>
+      </div>
+
+      <!-- Feedback Reasons Distribution (for "Not Helpful") -->
+      <div class="chart-section">
+        <h3 style="margin-bottom: 1rem; color: #2D395C;">💬 負面反饋原因分析</h3>
+        <div class="chart" id="feedbackReasonsChart">
+          <p style="text-align: center; color: #999; padding: 3rem;">載入中...</p>
+        </div>
+      </div>
+
+      <!-- Top Rated Items -->
+      <div class="provider-section">
+        <h3 style="margin-bottom: 1rem; color: #2D395C;">🌟 滿意度最高內容 (Top 10)</h3>
+        <div class="provider-list" id="topRatedItems">
+          <p style="text-align: center; color: #999; padding: 2rem;">載入中...</p>
+        </div>
+      </div>
+
+      <!-- Bottom Rated Items -->
+      <div class="provider-section">
+        <h3 style="margin-bottom: 1rem; color: #2D395C;">⚠️ 滿意度最低內容 (Bottom 10)</h3>
+        <div class="provider-list" id="bottomRatedItems">
+          <p style="text-align: center; color: #999; padding: 2rem;">載入中...</p>
+        </div>
+      </div>
+
+      <!-- Recent Feedback -->
+      <div class="provider-section">
+        <h3 style="margin-bottom: 1rem; color: #2D395C;">💬 最新反饋記錄 (最近 50 筆)</h3>
+        <div class="recent-queries" id="recentFeedback">
+          <p style="text-align: center; color: #999; padding: 2rem;">載入中...</p>
+        </div>
+      </div>
+    </div> <!-- End Feedback Tab -->
   </div>
 
   <script src="assets/env.js"></script>
@@ -1212,6 +1287,10 @@
         document.getElementById('resort-tab').classList.add('active');
         // Load Resort data when switching to Resort tab
         loadResortData();
+      } else if (tab === 'feedback') {
+        document.getElementById('feedback-tab').classList.add('active');
+        // Load Feedback data when switching to Feedback tab
+        loadFeedbackData();
       }
     }
 
@@ -1900,6 +1979,282 @@
       }
     }
 
+    // Load Feedback analytics data
+    async function loadFeedbackData() {
+      try {
+        await Promise.all([
+          loadFeedbackStats(),
+          loadFeedbackReasons(),
+          loadTopRatedItems(),
+          loadBottomRatedItems(),
+          loadRecentFeedback()
+        ]);
+      } catch (error) {
+        console.error('Failed to load feedback data:', error);
+        showError('Failed to load feedback analytics: ' + error.message);
+      }
+    }
+
+    // Load overall feedback statistics
+    async function loadFeedbackStats() {
+      try {
+        const response = await fetch(`${API_BASE}/analytics/feedback-stats`);
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+        const data = await response.json();
+
+        // Update stat cards
+        document.getElementById('totalFeedback').textContent = data.total_feedback || 0;
+        document.getElementById('helpfulCount').textContent = data.helpful_count || 0;
+        document.getElementById('notHelpfulCount').textContent = data.not_helpful_count || 0;
+        document.getElementById('helpfulRate').textContent =
+          data.total_feedback > 0
+            ? `${((data.helpful_count / data.total_feedback) * 100).toFixed(1)}%`
+            : '0%';
+
+        // Render feedback type distribution chart
+        renderFeedbackTypeChart(data);
+
+        console.log('[Feedback Analytics] Stats loaded:', data);
+      } catch (error) {
+        console.error('[Feedback Analytics] Error loading stats:', error);
+        document.getElementById('totalFeedback').textContent = 'Error';
+        document.getElementById('helpfulCount').textContent = 'Error';
+        document.getElementById('notHelpfulCount').textContent = 'Error';
+        document.getElementById('helpfulRate').textContent = 'Error';
+      }
+    }
+
+    // Render feedback type distribution chart
+    function renderFeedbackTypeChart(data) {
+      const total = data.total_feedback || 1;
+      const helpfulPct = ((data.helpful_count || 0) / total * 100).toFixed(1);
+      const notHelpfulPct = ((data.not_helpful_count || 0) / total * 100).toFixed(1);
+
+      const html = `
+        <div style="display: flex; flex-direction: column; gap: 1rem; padding: 1rem;">
+          <div style="display: flex; align-items: center; gap: 1rem;">
+            <div style="flex: 0 0 120px; font-weight: 600; color: #2D395C;">有幫助 👍</div>
+            <div style="flex: 1; background: #e5e7eb; border-radius: 8px; height: 32px; position: relative; overflow: hidden;">
+              <div style="background: #10b981; height: 100%; width: ${helpfulPct}%; border-radius: 8px; display: flex; align-items: center; justify-content: flex-end; padding-right: 0.5rem;">
+                <span style="color: white; font-weight: 600; font-size: 0.9rem;">${data.helpful_count || 0}</span>
+              </div>
+            </div>
+            <div style="flex: 0 0 60px; text-align: right; font-weight: 600; color: #10b981;">${helpfulPct}%</div>
+          </div>
+          <div style="display: flex; align-items: center; gap: 1rem;">
+            <div style="flex: 0 0 120px; font-weight: 600; color: #2D395C;">沒幫助 👎</div>
+            <div style="flex: 1; background: #e5e7eb; border-radius: 8px; height: 32px; position: relative; overflow: hidden;">
+              <div style="background: #f59e0b; height: 100%; width: ${notHelpfulPct}%; border-radius: 8px; display: flex; align-items: center; justify-content: flex-end; padding-right: 0.5rem;">
+                <span style="color: white; font-weight: 600; font-size: 0.9rem;">${data.not_helpful_count || 0}</span>
+              </div>
+            </div>
+            <div style="flex: 0 0 60px; text-align: right; font-weight: 600; color: #f59e0b;">${notHelpfulPct}%</div>
+          </div>
+        </div>
+      `;
+
+      document.getElementById('feedbackTypeChart').innerHTML = html;
+    }
+
+    // Load feedback reasons distribution
+    async function loadFeedbackReasons() {
+      try {
+        const response = await fetch(`${API_BASE}/analytics/feedback-reasons`);
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+        const reasons = await response.json();
+
+        if (!reasons || reasons.length === 0) {
+          document.getElementById('feedbackReasonsChart').innerHTML =
+            '<p style="text-align: center; color: #999; padding: 2rem;">暫無負面反饋原因數據</p>';
+          return;
+        }
+
+        const total = reasons.reduce((sum, r) => sum + r.count, 0);
+        const html = reasons.map(reason => {
+          const pct = ((reason.count / total) * 100).toFixed(1);
+          return `
+            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 0.75rem;">
+              <div style="flex: 0 0 120px; font-weight: 500; color: #2D395C;">${reason.reason || '未指定'}</div>
+              <div style="flex: 1; background: #e5e7eb; border-radius: 8px; height: 28px; position: relative; overflow: hidden;">
+                <div style="background: #ef4444; height: 100%; width: ${pct}%; border-radius: 8px; display: flex; align-items: center; justify-content: flex-end; padding-right: 0.5rem;">
+                  <span style="color: white; font-weight: 600; font-size: 0.85rem;">${reason.count}</span>
+                </div>
+              </div>
+              <div style="flex: 0 0 50px; text-align: right; font-weight: 600; color: #ef4444;">${pct}%</div>
+            </div>
+          `;
+        }).join('');
+
+        document.getElementById('feedbackReasonsChart').innerHTML = `<div style="padding: 1rem;">${html}</div>`;
+      } catch (error) {
+        console.error('[Feedback Analytics] Error loading reasons:', error);
+        document.getElementById('feedbackReasonsChart').innerHTML =
+          '<p style="text-align: center; color: #999; padding: 2rem;">載入失敗</p>';
+      }
+    }
+
+    // Load top rated items
+    async function loadTopRatedItems() {
+      try {
+        const response = await fetch(`${API_BASE}/analytics/feedback-top-items?limit=10`);
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+        const items = await response.json();
+
+        if (!items || items.length === 0) {
+          document.getElementById('topRatedItems').innerHTML =
+            '<p style="text-align: center; color: #999; padding: 2rem;">暫無數據</p>';
+          return;
+        }
+
+        const html = items.map((item, index) => {
+          const rate = parseFloat(item.helpful_rate || 0);
+          const typeLabel = item.feedback_type === 'faq' ? 'FAQ' : '雪場';
+          const typeColor = item.feedback_type === 'faq' ? '#4A5F8C' : '#10b981';
+
+          return `
+            <div class="provider-item" style="display: flex; align-items: center; gap: 1rem; padding: 0.75rem; background: ${index % 2 === 0 ? '#f9fafb' : 'white'};">
+              <div style="flex: 0 0 30px; font-weight: 700; color: #d1d5db; font-size: 1.2rem;">#${index + 1}</div>
+              <div style="flex: 1;">
+                <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
+                  <span style="background: ${typeColor}; color: white; padding: 0.1rem 0.5rem; border-radius: 4px; font-size: 0.75rem; font-weight: 600;">${typeLabel}</span>
+                  <strong style="color: #2D395C;">${item.item_id}</strong>
+                </div>
+                <div style="color: #999; font-size: 0.85rem;">
+                  總反饋: ${item.total_feedback} | 有幫助: ${item.helpful_count}
+                </div>
+              </div>
+              <div style="flex: 0 0 80px; text-align: right;">
+                <div style="font-size: 1.5rem; font-weight: 700; color: #10b981;">${rate.toFixed(1)}%</div>
+              </div>
+            </div>
+          `;
+        }).join('');
+
+        document.getElementById('topRatedItems').innerHTML = html;
+      } catch (error) {
+        console.error('[Feedback Analytics] Error loading top items:', error);
+        document.getElementById('topRatedItems').innerHTML =
+          '<p style="text-align: center; color: #999; padding: 2rem;">載入失敗</p>';
+      }
+    }
+
+    // Load bottom rated items (low satisfaction)
+    async function loadBottomRatedItems() {
+      try {
+        const response = await fetch(`${API_BASE}/analytics/feedback-bottom-items?limit=10`);
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+        const items = await response.json();
+
+        if (!items || items.length === 0) {
+          document.getElementById('bottomRatedItems').innerHTML =
+            '<p style="text-align: center; color: #999; padding: 2rem;">暫無數據</p>';
+          return;
+        }
+
+        // Show warning for items with satisfaction rate < 50%
+        const lowSatisfactionItems = items.filter(item => parseFloat(item.helpful_rate || 0) < 50);
+        if (lowSatisfactionItems.length > 0) {
+          document.getElementById('lowSatisfactionWarning').style.display = 'block';
+          const warningHtml = lowSatisfactionItems.map(item => {
+            const typeLabel = item.feedback_type === 'faq' ? 'FAQ' : '雪場';
+            return `
+              <div style="padding: 0.5rem; background: white; border-radius: 4px; margin-bottom: 0.5rem;">
+                <strong>[${typeLabel}] ${item.item_id}</strong> -
+                滿意率: <span style="color: #dc2626; font-weight: 700;">${parseFloat(item.helpful_rate || 0).toFixed(1)}%</span>
+                (${item.helpful_count}/${item.total_feedback})
+              </div>
+            `;
+          }).join('');
+          document.getElementById('lowSatisfactionList').innerHTML = warningHtml;
+        } else {
+          document.getElementById('lowSatisfactionWarning').style.display = 'none';
+        }
+
+        const html = items.map((item, index) => {
+          const rate = parseFloat(item.helpful_rate || 0);
+          const typeLabel = item.feedback_type === 'faq' ? 'FAQ' : '雪場';
+          const typeColor = item.feedback_type === 'faq' ? '#4A5F8C' : '#10b981';
+          const rateColor = rate < 30 ? '#dc2626' : rate < 50 ? '#f59e0b' : '#6b7280';
+
+          return `
+            <div class="provider-item" style="display: flex; align-items: center; gap: 1rem; padding: 0.75rem; background: ${index % 2 === 0 ? '#f9fafb' : 'white'};">
+              <div style="flex: 0 0 30px; font-weight: 700; color: #d1d5db; font-size: 1.2rem;">#${index + 1}</div>
+              <div style="flex: 1;">
+                <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
+                  <span style="background: ${typeColor}; color: white; padding: 0.1rem 0.5rem; border-radius: 4px; font-size: 0.75rem; font-weight: 600;">${typeLabel}</span>
+                  <strong style="color: #2D395C;">${item.item_id}</strong>
+                </div>
+                <div style="color: #999; font-size: 0.85rem;">
+                  總反饋: ${item.total_feedback} | 有幫助: ${item.helpful_count}
+                </div>
+              </div>
+              <div style="flex: 0 0 80px; text-align: right;">
+                <div style="font-size: 1.5rem; font-weight: 700; color: ${rateColor};">${rate.toFixed(1)}%</div>
+              </div>
+            </div>
+          `;
+        }).join('');
+
+        document.getElementById('bottomRatedItems').innerHTML = html;
+      } catch (error) {
+        console.error('[Feedback Analytics] Error loading bottom items:', error);
+        document.getElementById('bottomRatedItems').innerHTML =
+          '<p style="text-align: center; color: #999; padding: 2rem;">載入失敗</p>';
+      }
+    }
+
+    // Load recent feedback
+    async function loadRecentFeedback() {
+      try {
+        const response = await fetch(`${API_BASE}/analytics/feedback-recent?limit=50`);
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+        const feedbacks = await response.json();
+
+        if (!feedbacks || feedbacks.length === 0) {
+          document.getElementById('recentFeedback').innerHTML =
+            '<p style="text-align: center; color: #999; padding: 2rem;">暫無反饋記錄</p>';
+          return;
+        }
+
+        const html = feedbacks.map(fb => {
+          const time = new Date(fb.timestamp).toLocaleString('zh-TW');
+          const typeLabel = fb.feedback_type === 'faq' ? 'FAQ' : '雪場';
+          const typeColor = fb.feedback_type === 'faq' ? '#4A5F8C' : '#10b981';
+          const helpfulLabel = fb.helpful ? '👍 有幫助' : '👎 沒幫助';
+          const helpfulColor = fb.helpful ? '#10b981' : '#f59e0b';
+
+          return `
+            <div class="query-row">
+              <div style="flex: 1;">
+                <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
+                  <span style="background: ${typeColor}; color: white; padding: 0.1rem 0.5rem; border-radius: 4px; font-size: 0.75rem; font-weight: 600;">${typeLabel}</span>
+                  <strong style="color: #2D395C;">${fb.item_id}</strong>
+                  <span style="background: ${helpfulColor}; color: white; padding: 0.1rem 0.5rem; border-radius: 4px; font-size: 0.75rem;">${helpfulLabel}</span>
+                </div>
+                ${fb.reason ? `<div style="color: #666; font-size: 0.85rem;">原因: ${fb.reason}</div>` : ''}
+                ${fb.comment ? `<div style="color: #888; font-size: 0.85rem; font-style: italic;">"${fb.comment}"</div>` : ''}
+                <div style="color: #999; font-size: 0.8rem; margin-top: 0.25rem;">
+                  語言: ${fb.language || 'zh'}
+                </div>
+              </div>
+              <div class="query-timestamp">${time}</div>
+            </div>
+          `;
+        }).join('');
+
+        document.getElementById('recentFeedback').innerHTML = html;
+      } catch (error) {
+        console.error('[Feedback Analytics] Error loading recent feedback:', error);
+        document.getElementById('recentFeedback').innerHTML =
+          '<p style="text-align: center; color: #999; padding: 2rem;">載入失敗</p>';
+      }
+    }
+
     // Initial load
     document.addEventListener('DOMContentLoaded', () => {
       const languageSelect = document.getElementById('analyticsLanguageSelect');
@@ -1923,6 +2278,10 @@
 
           if (document.getElementById('resort-tab').classList.contains('active')) {
             loadResortData();
+          }
+
+          if (document.getElementById('feedback-tab').classList.contains('active')) {
+            loadFeedbackData();
           }
         });
       }
