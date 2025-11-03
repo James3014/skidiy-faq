@@ -3,7 +3,39 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FAQ 智慧搜尋系統</title>
+
+  <!-- SEO Meta Tags -->
+  <title>滑雪教練預約、課程費用、安全須知 | DIY Ski FAQ</title>
+  <meta name="description" content="SkiDIY FAQ 系統提供滑雪課程、教練預約、保險、裝備等常見問題解答。支援中文、英文、泰文，幫助滑雪愛好者快速找到答案。">
+  <meta name="keywords" content="滑雪教練,滑雪課程,滑雪預約,日本滑雪,滑雪保險,滑雪費用,滑雪安全">
+  <meta name="language" content="zh-TW">
+  <meta name="author" content="SkiDIY">
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+
+  <!-- Open Graph Tags for Social Sharing -->
+  <meta property="og:title" content="SkiDIY - 滑雪 FAQ 智慧搜尋系統">
+  <meta property="og:description" content="一站式滑雪教練預約、課程資訊、安全指南 - 提供中文、英文、泰文多語言支援">
+  <meta property="og:image" content="https://faq.diy.ski/og-image.png">
+  <meta property="og:url" content="https://faq.diy.ski/">
+  <meta property="og:type" content="website">
+
+  <!-- Twitter Card Tags -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="SkiDIY FAQ 系統 - 滑雪教練、課程、預約">
+  <meta name="twitter:description" content="找滑雪教練、查詢課程費用、瞭解保險與安全須知 - 一個平台搞定">
+  <meta name="twitter:image" content="https://faq.diy.ski/og-image.png">
+
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://faq.diy.ski/">
+
+  <!-- Language Alternatives (hreflang) - Auto-injected by SEO library -->
+  <!-- See lib/seo-hreflang.js for dynamic injection -->
+
+  <!-- Alternate Links for Language Versions -->
+  <link rel="alternate" hreflang="zh-TW" href="https://faq.diy.ski/">
+  <link rel="alternate" hreflang="en-US" href="https://faq.diy.ski/?lang=en">
+  <link rel="alternate" hreflang="th-TH" href="https://faq.diy.ski/?lang=th">
+  <link rel="alternate" hreflang="x-default" href="https://faq.diy.ski/">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -2891,6 +2923,74 @@
 
       console.log('[AI Chat] AI chat widget initialized');
     }
+  </script>
+
+  <!-- SEO Modules and Initialization -->
+  <script src="lib/seo-hreflang.js"></script>
+  <script src="lib/seo-meta.js"></script>
+
+  <script>
+    // SEO Initialization Script
+    // Initialize SEO modules after FAQ engine loads
+    window.addEventListener('DOMContentLoaded', () => {
+      // Initialize hreflang manager for multi-language support
+      if (typeof HrefLangManager !== 'undefined') {
+        HrefLangManager.init();
+        console.log('[SEO] hreflang manager initialized');
+      }
+
+      // Initialize meta tags for main page
+      if (typeof SEOMeta !== 'undefined') {
+        const currentLang = HrefLangManager ? HrefLangManager.getCurrentLanguage() : 'zh';
+
+        // Wait for FAQ engine to load before setting up schema
+        const checkFAQEngine = setInterval(() => {
+          if (window.faqEngine && window.faqEngine.isInitialized) {
+            clearInterval(checkFAQEngine);
+
+            // Initialize main page SEO with FAQ data
+            SEOMeta.initMainPageSEO(currentLang, window.faqEngine.faqData?.items);
+            console.log('[SEO] Main page SEO initialized with FAQ data');
+
+            // Optional: Debug meta tags in development
+            if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+              console.log('[SEO] Debug mode - Meta tags:');
+              SEOMeta.debugMetaTags();
+            }
+          }
+        }, 100);
+
+        // Fallback timeout if FAQ engine doesn't load within 5 seconds
+        setTimeout(() => {
+          if (window.faqEngine && window.faqEngine.isInitialized) {
+            return; // Already initialized
+          }
+
+          // Initialize with minimal data if FAQ engine times out
+          console.warn('[SEO] FAQ engine did not load, initializing with minimal SEO');
+          SEOMeta.initMainPageSEO(currentLang);
+        }, 5000);
+      }
+
+      // Handle language switching for SEO updates
+      const langSelector = document.querySelector('.language-selector select');
+      if (langSelector && typeof HrefLangManager !== 'undefined') {
+        langSelector.addEventListener('change', (e) => {
+          const newLang = e.target.value;
+
+          // Update hreflang tags for new language
+          HrefLangManager.updateLanguageVersion(newLang);
+
+          // Update page meta for new language
+          if (typeof SEOMeta !== 'undefined') {
+            setTimeout(() => {
+              SEOMeta.initMainPageSEO(newLang, window.faqEngine?.faqData?.items);
+              console.log(`[SEO] Language changed to ${newLang}`);
+            }, 100);
+          }
+        });
+      }
+    });
   </script>
 
   <!-- Footer -->

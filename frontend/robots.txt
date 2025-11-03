@@ -1,0 +1,44 @@
+# robots.txt for SkiDIY FAQ System
+# https://faq.diy.ski/
+
+# Allow all crawlers by default
+User-agent: *
+Allow: /
+
+# Disallow admin pages
+Disallow: /admin
+Disallow: /analytics
+Disallow: /menu.html
+Disallow: /docs.html
+
+# Disallow data files and libraries
+Disallow: *.json
+Disallow: /lib/
+Disallow: /assets/
+Disallow: /scripts/
+
+# Allow CSS and JavaScript
+Allow: /*.js
+Allow: /*.css
+
+# Crawl delay for respectful crawling
+Crawl-delay: 1
+
+# Google-specific rules
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 0
+
+# Bing-specific rules
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
+
+# Prevent bad bots
+User-agent: MJ12bot
+User-agent: AhrefsBot
+User-agent: DotBot
+Disallow: /
+
+# Sitemap location
+Sitemap: https://faq.diy.ski/sitemap.xml
