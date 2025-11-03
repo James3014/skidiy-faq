@@ -2226,6 +2226,29 @@
           return;
         }
 
+        // Load FAQ and resort data for title lookup
+        const [faqResponse, resortResponse] = await Promise.all([
+          fetch(`${API_BASE}/faq/all`).catch(() => null),
+          fetch(`${API_BASE}/resort/all`).catch(() => null)
+        ]);
+
+        const faqData = faqResponse && faqResponse.ok ? await faqResponse.json() : null;
+        const resortData = resortResponse && resortResponse.ok ? await resortResponse.json() : null;
+
+        const faqItems = faqData?.data?.items || [];
+        const resortItems = resortData?.data?.resorts || [];
+
+        // Create lookup maps
+        const faqMap = {};
+        faqItems.forEach(faq => {
+          faqMap[faq.id] = faq.canonical_question || faq.id;
+        });
+
+        const resortMap = {};
+        resortItems.forEach(resort => {
+          resortMap[resort.resort_id] = resort.names?.zh || resort.resort_id;
+        });
+
         const html = feedbacks.map(fb => {
           const time = new Date(fb.timestamp).toLocaleString('zh-TW');
           const typeLabel = fb.feedback_type === 'faq' ? 'FAQ' : '雪場';
@@ -2233,18 +2256,26 @@
           const helpfulLabel = fb.helpful ? '👍 有幫助' : '👎 沒幫助';
           const helpfulColor = fb.helpful ? '#10b981' : '#f59e0b';
 
+          // Get item title
+          let itemTitle = fb.item_id;
+          if (fb.feedback_type === 'faq') {
+            itemTitle = faqMap[fb.item_id] || fb.item_id;
+          } else if (fb.feedback_type === 'resort') {
+            itemTitle = resortMap[fb.item_id] || fb.item_id;
+          }
+
           return `
             <div class="query-row">
               <div style="flex: 1;">
                 <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
                   <span style="background: ${typeColor}; color: white; padding: 0.1rem 0.5rem; border-radius: 4px; font-size: 0.75rem; font-weight: 600;">${typeLabel}</span>
-                  <strong style="color: #2D395C;">${fb.item_id}</strong>
+                  <strong style="color: #2D395C;">${itemTitle}</strong>
                   <span style="background: ${helpfulColor}; color: white; padding: 0.1rem 0.5rem; border-radius: 4px; font-size: 0.75rem;">${helpfulLabel}</span>
                 </div>
                 ${fb.reason ? `<div style="color: #666; font-size: 0.85rem;">原因: ${fb.reason}</div>` : ''}
                 ${fb.comment ? `<div style="color: #888; font-size: 0.85rem; font-style: italic;">"${fb.comment}"</div>` : ''}
                 <div style="color: #999; font-size: 0.8rem; margin-top: 0.25rem;">
-                  語言: ${fb.language || 'zh'}
+                  語言: ${fb.language || 'zh'} · ID: ${fb.item_id}
                 </div>
               </div>
               <div class="query-timestamp">${time}</div>
