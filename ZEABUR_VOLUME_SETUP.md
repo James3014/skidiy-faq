@@ -1,5 +1,7 @@
 # Zeabur Volume 永久儲存設定指南
 
+> 📖 **完整配置指南**: 請參閱 [ZEABUR_CONFIG_GUIDE.md](./ZEABUR_CONFIG_GUIDE.md) 獲取詳細步驟、截圖說明和疑難排解
+
 ## ⚠️ 目前問題
 
 後端 SQLite 資料庫目前儲存在 `/tmp/analytics.db`，這會導致：

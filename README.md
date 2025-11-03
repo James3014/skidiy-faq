@@ -148,7 +148,11 @@ ENABLE_DEV_LOGIN=true
 # Node 環境
 NODE_ENV=production
 
-# 資料庫路徑
+# 💾 資料庫永久儲存（重要！）
+# 使用 Zeabur Volume 以保留資料，避免重啟後資料遺失
+SQLITE_DB_PATH=/data/analytics.db
+
+# 其他資料路徑
 DATABASE_PATH=../data/analytics.db
 JSONL_LOG_PATH=../data/customer_inquiries.jsonl
 ```
@@ -170,6 +174,45 @@ FAQ_INSIGHTS_API_KEYS=your-insights-api-key
 4. 進入 "Environment Variables" 標籤
 5. 新增上述環境變數
 6. 儲存後自動重新部署
+
+#### 3. 配置 Volume 永久儲存（重要！）
+
+**為什麼需要配置 Volume？**
+- SQLite 資料庫預設儲存在 `/tmp/analytics.db`（臨時目錄）
+- Zeabur 重新部署或容器重啟後，`/tmp` 會被清空
+- 配置 Volume 後，資料將永久保存在 `/data/analytics.db`
+
+**快速配置步驟**:
+
+1. **建立 Volume**
+   - Backend 服務 → Settings → Volumes
+   - 點擊 **Add Volume**
+   - Mount Path: `/data`
+   - Size: `1 GB`
+   - 點擊 **Save**
+
+2. **設定環境變數**（如上方已設定）
+   - Key: `SQLITE_DB_PATH`
+   - Value: `/data/analytics.db`
+
+3. **重新部署** Backend 服務
+
+4. **驗證配置**
+   - 查看 Backend Logs，確認日誌顯示：
+     ```
+     [Analytics Service] Using database path: /data/analytics.db
+     ```
+
+**詳細配置指南**:
+- 📖 [ZEABUR_CONFIG_GUIDE.md](./ZEABUR_CONFIG_GUIDE.md) - 完整配置指南（附疑難排解）
+- ✅ [ZEABUR_CHECKLIST.md](./ZEABUR_CHECKLIST.md) - 配置檢查清單
+- 🔍 [ZEABUR_VOLUME_SETUP.md](./ZEABUR_VOLUME_SETUP.md) - 快速設定指南
+
+**驗證腳本**:
+```bash
+cd /Users/jameschen/Downloads/diyski/crm/03_FAQ與知識庫/zeabur
+./scripts/verify-zeabur-volume.sh
+```
 
 #### 2. 前端配置
 
