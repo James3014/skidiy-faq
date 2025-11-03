@@ -1599,6 +1599,7 @@ router.get('/feedback-stats', async (req, res, next) => {
     const {
       feedback_type,
       item_id,
+      language,
       days
     } = req.query;
 
@@ -1606,12 +1607,14 @@ router.get('/feedback-stats', async (req, res, next) => {
     const stats = analyticsService.getFeedbackStats({
       feedback_type,
       item_id,
+      language,
       days: days ? parseInt(days, 10) : undefined
     });
 
     // Get lowest rated items (items with lowest helpful rate)
     const lowestRated = analyticsService.getLowestRatedItems({
       feedback_type,
+      language,
       days: days ? parseInt(days, 10) : undefined,
       limit: 10
     });
@@ -1619,12 +1622,14 @@ router.get('/feedback-stats', async (req, res, next) => {
     // Get feedback reasons distribution
     const reasons = analyticsService.getFeedbackReasons({
       feedback_type,
+      language,
       days: days ? parseInt(days, 10) : undefined
     });
 
     // Get daily trend
     const trend = analyticsService.getFeedbackTrend({
       feedback_type,
+      language,
       days: days ? parseInt(days, 10) : undefined
     });
 
@@ -1636,6 +1641,7 @@ router.get('/feedback-stats', async (req, res, next) => {
       filter: {
         feedback_type: feedback_type || 'all',
         item_id: item_id || 'all',
+        language: language || 'all',
         days: days || 'all'
       }
     }, 200, {
@@ -1698,10 +1704,11 @@ router.get('/feedback-reasons', async (req, res, next) => {
       throw new AppError('SERVICE_UNAVAILABLE', 'Analytics 服務尚未初始化', 503);
     }
 
-    const { feedback_type, days } = req.query;
+    const { feedback_type, language, days } = req.query;
 
     const reasons = analyticsService.getFeedbackReasons({
       feedback_type,
+      language,
       days: days ? parseInt(days, 10) : undefined
     });
 
@@ -1718,6 +1725,7 @@ router.get('/feedback-reasons', async (req, res, next) => {
  *
  * Query params:
  * - feedback_type: 'faq' | 'resort' (optional)
+ * - language: 'zh' | 'en' | 'th' | 'all' (optional)
  * - days: number of days to look back (optional)
  * - limit: number of items to return (default: 10)
  */
@@ -1727,10 +1735,11 @@ router.get('/feedback-top-items', async (req, res, next) => {
       throw new AppError('SERVICE_UNAVAILABLE', 'Analytics 服務尚未初始化', 503);
     }
 
-    const { feedback_type, days, limit = 10 } = req.query;
+    const { feedback_type, language, days, limit = 10 } = req.query;
 
     const items = analyticsService.getTopRatedItems({
       feedback_type,
+      language,
       days: days ? parseInt(days, 10) : undefined,
       limit: parseInt(limit, 10)
     });
@@ -1748,6 +1757,7 @@ router.get('/feedback-top-items', async (req, res, next) => {
  *
  * Query params:
  * - feedback_type: 'faq' | 'resort' (optional)
+ * - language: 'zh' | 'en' | 'th' | 'all' (optional)
  * - days: number of days to look back (optional)
  * - limit: number of items to return (default: 10)
  */
@@ -1757,10 +1767,11 @@ router.get('/feedback-bottom-items', async (req, res, next) => {
       throw new AppError('SERVICE_UNAVAILABLE', 'Analytics 服務尚未初始化', 503);
     }
 
-    const { feedback_type, days, limit = 10 } = req.query;
+    const { feedback_type, language, days, limit = 10 } = req.query;
 
     const items = analyticsService.getLowestRatedItems({
       feedback_type,
+      language,
       days: days ? parseInt(days, 10) : undefined,
       limit: parseInt(limit, 10)
     });
@@ -1779,6 +1790,7 @@ router.get('/feedback-bottom-items', async (req, res, next) => {
  * Query params:
  * - feedback_type: 'faq' | 'resort' (optional)
  * - helpful: true | false (optional)
+ * - language: 'zh' | 'en' | 'th' | 'all' (optional)
  * - limit: number of records to return (default: 50)
  */
 router.get('/feedback-recent', async (req, res, next) => {
@@ -1787,11 +1799,12 @@ router.get('/feedback-recent', async (req, res, next) => {
       throw new AppError('SERVICE_UNAVAILABLE', 'Analytics 服務尚未初始化', 503);
     }
 
-    const { feedback_type, helpful, limit = 50 } = req.query;
+    const { feedback_type, helpful, language, limit = 50 } = req.query;
 
     const feedbacks = analyticsService.getRecentFeedback({
       feedback_type,
       helpful: helpful !== undefined ? helpful === 'true' : undefined,
+      language,
       limit: parseInt(limit, 10)
     });
 

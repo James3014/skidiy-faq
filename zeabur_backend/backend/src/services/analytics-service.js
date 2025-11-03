@@ -517,6 +517,11 @@ class AnalyticsService {
       params.push(options.item_id);
     }
 
+    if (options.language && options.language !== 'all') {
+      query += ' AND language = ?';
+      params.push(options.language);
+    }
+
     if (options.days) {
       query += ' AND timestamp >= datetime("now", "-" || ? || " days")';
       params.push(options.days);
@@ -557,6 +562,11 @@ class AnalyticsService {
     if (options.feedback_type) {
       query += ' AND feedback_type = ?';
       params.push(options.feedback_type);
+    }
+
+    if (options.language && options.language !== 'all') {
+      query += ' AND language = ?';
+      params.push(options.language);
     }
 
     if (options.days) {
@@ -600,6 +610,11 @@ class AnalyticsService {
       params.push(options.feedback_type);
     }
 
+    if (options.language && options.language !== 'all') {
+      query += ' AND language = ?';
+      params.push(options.language);
+    }
+
     if (options.days) {
       query += ' AND timestamp >= datetime("now", "-" || ? || " days")';
       params.push(options.days);
@@ -636,6 +651,11 @@ class AnalyticsService {
     if (options.feedback_type) {
       query += ' AND feedback_type = ?';
       params.push(options.feedback_type);
+    }
+
+    if (options.language && options.language !== 'all') {
+      query += ' AND language = ?';
+      params.push(options.language);
     }
 
     if (options.days) {
@@ -710,6 +730,11 @@ class AnalyticsService {
       params.push(options.feedback_type);
     }
 
+    if (options.language && options.language !== 'all') {
+      query += ' AND language = ?';
+      params.push(options.language);
+    }
+
     if (options.days) {
       query += ' AND timestamp >= datetime("now", "-" || ? || " days")';
       params.push(options.days);
@@ -745,6 +770,11 @@ class AnalyticsService {
     if (options.helpful !== undefined) {
       query += ' AND helpful = ?';
       params.push(options.helpful ? 1 : 0);
+    }
+
+    if (options.language && options.language !== 'all') {
+      query += ' AND language = ?';
+      params.push(options.language);
     }
 
     query += ' ORDER BY timestamp DESC';
