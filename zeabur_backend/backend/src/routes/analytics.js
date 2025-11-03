@@ -1815,4 +1815,67 @@ router.get('/feedback-recent', async (req, res, next) => {
   }
 });
 
+/**
+ * Track resort engagement (expand, official site click, feedback)
+ * POST /api/v1/analytics/track-resort-engagement
+ */
+router.post('/track-resort-engagement', async (req, res, next) => {
+  try {
+    if (!analyticsService) {
+      throw new AppError('Analytics service not initialized', 503);
+    }
+
+    const { timestamp, click_type, engagement_type, resort_id, resort_name, language } = req.body;
+
+    // Validate required fields
+    if (!engagement_type || !resort_id) {
+      throw new AppError('Missing required fields: engagement_type, resort_id', 400);
+    }
+
+    // Store engagement event
+    analyticsService.trackResortEngagement({
+      timestamp: timestamp || new Date().toISOString(),
+      click_type: click_type || 'resort_engagement',
+      engagement_type, // 'expand', 'official_site_click', 'feedback'
+      resort_id,
+      resort_name: resort_name || resort_id,
+      language: language || 'zh'
+    });
+
+    sendSuccess(res, {
+      message: 'Resort engagement tracked successfully',
+      engagement_type,
+      resort_id
+    }, 201);
+
+  } catch (error) {
+    next(error);
+  }
+});
+
+/**
+ * Get resort engagement statistics
+ * GET /api/v1/analytics/resort-engagement-stats
+ */
+router.get('/resort-engagement-stats', async (req, res, next) => {
+  try {
+    if (!analyticsService) {
+      throw new AppError('Analytics service not initialized', 503);
+    }
+
+    const { language, days, limit } = req.query;
+
+    const stats = analyticsService.getResortEngagementStats({
+      language,
+      days: days ? parseInt(days, 10) : 30,
+      limit: limit ? parseInt(limit, 10) : 20
+    });
+
+    sendSuccess(res, stats, 200);
+
+  } catch (error) {
+    next(error);
+  }
+});
+
 module.exports = router;

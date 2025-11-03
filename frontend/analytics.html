@@ -1000,6 +1000,57 @@
           <p style="text-align: center; color: #999; padding: 2rem;">載入中...</p>
         </div>
       </div>
+
+      <!-- Resort Engagement Analytics -->
+      <div style="border-top: 3px solid #4A5F8C; margin: 2rem 0; padding-top: 2rem;">
+        <h2 style="color: #2D395C; margin-bottom: 1.5rem;">💡 雪場互動分析 (用戶興趣追蹤)</h2>
+        <p style="color: #666; margin-bottom: 1.5rem;">追蹤用戶對特定雪場的主動互動行為：展開查看詳情、點擊官網、給予反饋</p>
+
+        <!-- Engagement Stats Summary -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-label">總互動次數</div>
+            <div class="stat-value" id="totalEngagements">-</div>
+          </div>
+          <div class="stat-card primary">
+            <div class="stat-label">展開查看 ▼</div>
+            <div class="stat-value" id="expandCount">-</div>
+          </div>
+          <div class="stat-card success">
+            <div class="stat-label">點擊官網 🔗</div>
+            <div class="stat-value" id="officialSiteCount">-</div>
+          </div>
+          <div class="stat-card warning">
+            <div class="stat-label">給予反饋 👍👎</div>
+            <div class="stat-value" id="feedbackCount">-</div>
+          </div>
+        </div>
+
+        <!-- Top Engaged Resorts -->
+        <div class="provider-section">
+          <h3 style="margin-bottom: 1rem; color: #2D395C;">🔥 最受關注雪場排行</h3>
+          <div class="provider-list" id="topEngagedResorts">
+            <p style="text-align: center; color: #999; padding: 2rem;">載入中...</p>
+          </div>
+        </div>
+
+        <!-- Engagement Type Breakdown -->
+        <div class="provider-section">
+          <h3 style="margin-bottom: 1rem; color: #2D395C;">📊 互動類型分佈</h3>
+          <div class="provider-list" id="engagementTypeBreakdown">
+            <p style="text-align: center; color: #999; padding: 2rem;">載入中...</p>
+          </div>
+        </div>
+
+        <!-- Daily Engagement Trend -->
+        <div class="chart-section">
+          <h3 style="margin-bottom: 1rem; color: #2D395C;">📈 每日互動趨勢</h3>
+          <div class="chart" id="engagementDailyChart">
+            <p style="text-align: center; color: #999; padding: 3rem;">載入中...</p>
+          </div>
+        </div>
+      </div>
+
     </div> <!-- End Resort Tab -->
 
     <!-- Feedback Statistics Tab -->
@@ -1878,6 +1929,9 @@
           console.warn('[Resort Analytics] API unavailable, using localStorage');
           displayLocalResortData();
         }
+
+        // Also load engagement data
+        await loadResortEngagementData();
       } catch (error) {
         console.warn('[Resort Analytics] Error loading from API:', error);
         displayLocalResortData();
@@ -2005,6 +2059,107 @@
         console.error('[Resort Analytics] Error displaying local data:', error);
         document.getElementById('localResortClicks').innerHTML = '<p style="text-align: center; color: #999; padding: 2rem;">載入失敗</p>';
       }
+    }
+
+    // Load Resort Engagement analytics data
+    async function loadResortEngagementData() {
+      const languageFilter = document.getElementById('resortLanguageFilter').value;
+      const days = document.getElementById('resortDaysFilter').value;
+
+      try {
+        const params = new URLSearchParams();
+        if (languageFilter) params.append('language', languageFilter);
+        params.append('days', days);
+        params.append('limit', 20);
+
+        const response = await fetch(`${API_BASE}/analytics/resort-engagement-stats?${params}`);
+
+        if (response.ok) {
+          const data = await response.json();
+          if (data.success) {
+            displayResortEngagementStats(data.data);
+          } else {
+            console.warn('[Resort Engagement] API returned error:', data.error);
+            displayNoEngagementData();
+          }
+        } else {
+          console.warn('[Resort Engagement] API unavailable');
+          displayNoEngagementData();
+        }
+      } catch (error) {
+        console.warn('[Resort Engagement] Error loading from API:', error);
+        displayNoEngagementData();
+      }
+    }
+
+    function displayResortEngagementStats(data) {
+      // Update summary stats
+      document.getElementById('totalEngagements').textContent = data.total_engagements.toLocaleString();
+
+      const expandEngagements = data.engagement_by_type.find(e => e.engagement_type === 'expand') || { count: 0 };
+      const officialSiteEngagements = data.engagement_by_type.find(e => e.engagement_type === 'official_site_click') || { count: 0 };
+      const feedbackEngagements = data.engagement_by_type.find(e => e.engagement_type === 'feedback') || { count: 0 };
+
+      document.getElementById('expandCount').textContent = expandEngagements.count.toLocaleString();
+      document.getElementById('officialSiteCount').textContent = officialSiteEngagements.count.toLocaleString();
+      document.getElementById('feedbackCount').textContent = feedbackEngagements.count.toLocaleString();
+
+      // Top engaged resorts
+      const topEngagedHTML = data.top_resorts.map((resort, index) => `
+        <div class="provider-row">
+          <div style="display: flex; align-items: center; gap: 0.5rem; flex: 1;">
+            <span style="font-weight: 600; color: ${index < 3 ? '#f59e0b' : '#666'}; min-width: 2rem;">
+              ${index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : (index + 1) + '.'}
+            </span>
+            <span style="font-weight: 600;">${resort.resort_name || resort.resort_id}</span>
+          </div>
+          <div style="display: flex; gap: 1rem; align-items: center; font-size: 0.9rem;">
+            <span style="color: #667eea;">▼ ${resort.engagement_types.expand || 0}</span>
+            <span style="color: #10b981;">🔗 ${resort.engagement_types.official_site_click || 0}</span>
+            <span style="color: #f59e0b;">👍 ${resort.engagement_types.feedback || 0}</span>
+            <span style="font-weight: 600; color: #2D395C;">總計 ${resort.total_engagements}</span>
+          </div>
+        </div>
+      `).join('');
+
+      document.getElementById('topEngagedResorts').innerHTML = topEngagedHTML || '<p style="text-align: center; color: #999; padding: 2rem;">暫無數據</p>';
+
+      // Engagement type breakdown
+      const engagementTypeHTML = data.engagement_by_type.map(type => {
+        const typeLabels = {
+          expand: '▼ 展開查看',
+          official_site_click: '🔗 點擊官網',
+          feedback: '👍 給予反饋'
+        };
+        const percentage = ((type.count / data.total_engagements) * 100).toFixed(1);
+
+        return `
+          <div class="provider-row">
+            <div style="display: flex; align-items: center; gap: 0.5rem;">
+              <span style="font-weight: 600;">${typeLabels[type.engagement_type] || type.engagement_type}</span>
+            </div>
+            <div style="display: flex; gap: 1.5rem; align-items: center;">
+              <span style="color: #666;">${type.count} 次 (${percentage}%)</span>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      document.getElementById('engagementTypeBreakdown').innerHTML = engagementTypeHTML || '<p style="text-align: center; color: #999; padding: 2rem;">暫無數據</p>';
+
+      // Daily engagement trend
+      const dailyChartHTML = renderGenericDailyChart(data.daily_trend, 'engagements');
+      document.getElementById('engagementDailyChart').innerHTML = dailyChartHTML;
+    }
+
+    function displayNoEngagementData() {
+      document.getElementById('totalEngagements').textContent = '0';
+      document.getElementById('expandCount').textContent = '0';
+      document.getElementById('officialSiteCount').textContent = '0';
+      document.getElementById('feedbackCount').textContent = '0';
+      document.getElementById('topEngagedResorts').innerHTML = '<p style="text-align: center; color: #999; padding: 2rem;">暫無數據</p>';
+      document.getElementById('engagementTypeBreakdown').innerHTML = '<p style="text-align: center; color: #999; padding: 2rem;">暫無數據</p>';
+      document.getElementById('engagementDailyChart').innerHTML = '<p style="text-align: center; color: #999; padding: 3rem;">暫無數據</p>';
     }
 
     // Load Feedback analytics data

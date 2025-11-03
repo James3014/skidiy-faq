@@ -789,6 +789,138 @@ class AnalyticsService {
   }
 
   /**
+   * Track resort engagement event (expand, official site click, feedback)
+   */
+  trackResortEngagement(data) {
+    const stmt = this.db.prepare(`
+      INSERT INTO resort_clicks (timestamp, click_type, region, resort_id, language, metadata)
+      VALUES (?, ?, ?, ?, ?, ?)
+    `);
+
+    const metadata = JSON.stringify({
+      engagement_type: data.engagement_type,
+      resort_name: data.resort_name
+    });
+
+    stmt.run(
+      data.timestamp,
+      data.click_type || 'resort_engagement',
+      null, // region is null for engagement tracking
+      data.resort_id,
+      data.language || 'zh',
+      metadata
+    );
+  }
+
+  /**
+   * Get resort engagement statistics
+   */
+  getResortEngagementStats(options = {}) {
+    // Build engagement type filter
+    let engagementFilter = '';
+    const params = [];
+
+    if (options.days) {
+      engagementFilter += ` AND timestamp >= datetime('now', '-${parseInt(options.days, 10)} days')`;
+    }
+
+    if (options.language && options.language !== 'all') {
+      engagementFilter += ' AND language = ?';
+      params.push(options.language);
+    }
+
+    // Get top resorts by engagement count
+    const topResortsQuery = `
+      SELECT
+        resort_id,
+        json_extract(metadata, '$.resort_name') as resort_name,
+        json_extract(metadata, '$.engagement_type') as engagement_type,
+        COUNT(*) as engagement_count,
+        COUNT(DISTINCT DATE(timestamp)) as active_days
+      FROM resort_clicks
+      WHERE click_type = 'resort_engagement'
+        ${engagementFilter}
+      GROUP BY resort_id, engagement_type
+      ORDER BY engagement_count DESC
+      LIMIT ${options.limit || 20}
+    `;
+
+    const topResorts = this.db.prepare(topResortsQuery).all(...params);
+
+    // Get engagement breakdown by type
+    const engagementByTypeQuery = `
+      SELECT
+        json_extract(metadata, '$.engagement_type') as engagement_type,
+        COUNT(*) as count
+      FROM resort_clicks
+      WHERE click_type = 'resort_engagement'
+        ${engagementFilter}
+      GROUP BY engagement_type
+      ORDER BY count DESC
+    `;
+
+    const engagementByType = this.db.prepare(engagementByTypeQuery).all(...params);
+
+    // Get daily engagement trend
+    const dailyTrendQuery = `
+      SELECT
+        DATE(timestamp) as date,
+        COUNT(*) as engagements
+      FROM resort_clicks
+      WHERE click_type = 'resort_engagement'
+        ${engagementFilter}
+      GROUP BY DATE(timestamp)
+      ORDER BY date DESC
+      LIMIT 30
+    `;
+
+    const dailyTrend = this.db.prepare(dailyTrendQuery).all(...params);
+
+    // Get language distribution
+    const languageDistQuery = `
+      SELECT
+        language,
+        COUNT(*) as count
+      FROM resort_clicks
+      WHERE click_type = 'resort_engagement'
+        ${engagementFilter.replace(' AND language = ?', '')} // Remove language filter for distribution
+      GROUP BY language
+      ORDER BY count DESC
+    `;
+
+    const languageParams = options.days ? [] : params.slice(0, -1); // Remove language param if present
+    const languageDistribution = this.db.prepare(languageDistQuery).all(...languageParams);
+
+    // Aggregate resorts with all their engagement types
+    const resortEngagementMap = {};
+    topResorts.forEach(row => {
+      if (!resortEngagementMap[row.resort_id]) {
+        resortEngagementMap[row.resort_id] = {
+          resort_id: row.resort_id,
+          resort_name: row.resort_name,
+          total_engagements: 0,
+          engagement_types: {},
+          active_days: row.active_days
+        };
+      }
+      resortEngagementMap[row.resort_id].total_engagements += row.engagement_count;
+      resortEngagementMap[row.resort_id].engagement_types[row.engagement_type] = row.engagement_count;
+    });
+
+    const aggregatedResorts = Object.values(resortEngagementMap)
+      .sort((a, b) => b.total_engagements - a.total_engagements)
+      .slice(0, options.limit || 20);
+
+    return {
+      top_resorts: aggregatedResorts,
+      engagement_by_type: engagementByType,
+      daily_trend: dailyTrend,
+      language_distribution: languageDistribution,
+      total_engagements: aggregatedResorts.reduce((sum, r) => sum + r.total_engagements, 0)
+    };
+  }
+
+  /**
    * Close database connection
    */
   close() {
