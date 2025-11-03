@@ -1684,4 +1684,122 @@ router.get('/feedback-item/:itemId', async (req, res, next) => {
   }
 });
 
+/**
+ * GET /api/v1/analytics/feedback-reasons
+ * Get feedback reasons distribution (negative feedback only)
+ *
+ * Query params:
+ * - feedback_type: 'faq' | 'resort' (optional)
+ * - days: number of days to look back (optional)
+ */
+router.get('/feedback-reasons', async (req, res, next) => {
+  try {
+    if (!analyticsService) {
+      throw new AppError('SERVICE_UNAVAILABLE', 'Analytics 服務尚未初始化', 503);
+    }
+
+    const { feedback_type, days } = req.query;
+
+    const reasons = analyticsService.getFeedbackReasons({
+      feedback_type,
+      days: days ? parseInt(days, 10) : undefined
+    });
+
+    sendSuccess(res, reasons, 200);
+
+  } catch (error) {
+    next(error);
+  }
+});
+
+/**
+ * GET /api/v1/analytics/feedback-top-items
+ * Get top rated items (highest helpful rate)
+ *
+ * Query params:
+ * - feedback_type: 'faq' | 'resort' (optional)
+ * - days: number of days to look back (optional)
+ * - limit: number of items to return (default: 10)
+ */
+router.get('/feedback-top-items', async (req, res, next) => {
+  try {
+    if (!analyticsService) {
+      throw new AppError('SERVICE_UNAVAILABLE', 'Analytics 服務尚未初始化', 503);
+    }
+
+    const { feedback_type, days, limit = 10 } = req.query;
+
+    const items = analyticsService.getTopRatedItems({
+      feedback_type,
+      days: days ? parseInt(days, 10) : undefined,
+      limit: parseInt(limit, 10)
+    });
+
+    sendSuccess(res, items, 200);
+
+  } catch (error) {
+    next(error);
+  }
+});
+
+/**
+ * GET /api/v1/analytics/feedback-bottom-items
+ * Get bottom rated items (lowest helpful rate)
+ *
+ * Query params:
+ * - feedback_type: 'faq' | 'resort' (optional)
+ * - days: number of days to look back (optional)
+ * - limit: number of items to return (default: 10)
+ */
+router.get('/feedback-bottom-items', async (req, res, next) => {
+  try {
+    if (!analyticsService) {
+      throw new AppError('SERVICE_UNAVAILABLE', 'Analytics 服務尚未初始化', 503);
+    }
+
+    const { feedback_type, days, limit = 10 } = req.query;
+
+    const items = analyticsService.getLowestRatedItems({
+      feedback_type,
+      days: days ? parseInt(days, 10) : undefined,
+      limit: parseInt(limit, 10)
+    });
+
+    sendSuccess(res, items, 200);
+
+  } catch (error) {
+    next(error);
+  }
+});
+
+/**
+ * GET /api/v1/analytics/feedback-recent
+ * Get recent feedback records
+ *
+ * Query params:
+ * - feedback_type: 'faq' | 'resort' (optional)
+ * - helpful: true | false (optional)
+ * - limit: number of records to return (default: 50)
+ */
+router.get('/feedback-recent', async (req, res, next) => {
+  try {
+    if (!analyticsService) {
+      throw new AppError('SERVICE_UNAVAILABLE', 'Analytics 服務尚未初始化', 503);
+    }
+
+    const { feedback_type, helpful, limit = 50 } = req.query;
+
+    const feedbacks = analyticsService.getRecentFeedback({
+      feedback_type,
+      helpful: helpful !== undefined ? helpful === 'true' : undefined,
+      limit: parseInt(limit, 10)
+    });
+
+    sendSuccess(res, feedbacks, 200);
+
+  } catch (error) {
+    next(error);
+  }
+});
+
 module.exports = router;

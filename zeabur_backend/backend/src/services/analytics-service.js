@@ -577,6 +577,47 @@ class AnalyticsService {
   }
 
   /**
+   * Get top rated items (highest helpful rate)
+   * @param {Object} options - Query options { feedback_type, days, limit }
+   * @returns {Array} - Top rated items
+   */
+  getTopRatedItems(options = {}) {
+    let query = `
+      SELECT
+        item_id,
+        feedback_type,
+        COUNT(*) as total_feedback,
+        SUM(CASE WHEN helpful = 1 THEN 1 ELSE 0 END) as helpful_count,
+        ROUND(CAST(SUM(CASE WHEN helpful = 1 THEN 1 ELSE 0 END) AS FLOAT) / COUNT(*) * 100, 2) as helpful_rate
+      FROM feedback
+      WHERE 1=1
+    `;
+
+    const params = [];
+
+    if (options.feedback_type) {
+      query += ' AND feedback_type = ?';
+      params.push(options.feedback_type);
+    }
+
+    if (options.days) {
+      query += ' AND timestamp >= datetime("now", "-" || ? || " days")';
+      params.push(options.days);
+    }
+
+    query += ' GROUP BY item_id HAVING total_feedback >= 3'; // Only items with 3+ feedback
+    query += ' ORDER BY helpful_rate DESC, total_feedback DESC';
+
+    if (options.limit) {
+      query += ' LIMIT ?';
+      params.push(options.limit);
+    }
+
+    const stmt = this.db.prepare(query);
+    return stmt.all(...params);
+  }
+
+  /**
    * Get feedback reasons distribution (negative feedback only)
    * @param {Object} options - Query options { feedback_type, days }
    * @returns {Array} - Reason counts
@@ -675,6 +716,43 @@ class AnalyticsService {
     }
 
     query += ' GROUP BY DATE(timestamp), feedback_type ORDER BY date DESC';
+
+    const stmt = this.db.prepare(query);
+    return stmt.all(...params);
+  }
+
+  /**
+   * Get recent feedback records
+   * @param {Object} options - Query options { feedback_type, helpful, limit }
+   * @returns {Array} - Recent feedback records
+   */
+  getRecentFeedback(options = {}) {
+    let query = `
+      SELECT
+        id, feedback_type, item_id, helpful, reason, comment,
+        language, timestamp
+      FROM feedback
+      WHERE 1=1
+    `;
+
+    const params = [];
+
+    if (options.feedback_type) {
+      query += ' AND feedback_type = ?';
+      params.push(options.feedback_type);
+    }
+
+    if (options.helpful !== undefined) {
+      query += ' AND helpful = ?';
+      params.push(options.helpful ? 1 : 0);
+    }
+
+    query += ' ORDER BY timestamp DESC';
+
+    if (options.limit) {
+      query += ' LIMIT ?';
+      params.push(options.limit);
+    }
 
     const stmt = this.db.prepare(query);
     return stmt.all(...params);
