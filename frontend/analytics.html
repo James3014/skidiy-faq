@@ -1251,6 +1251,34 @@
       }).join('');
     }
 
+    // Generic daily chart renderer for section/resort analytics
+    function renderGenericDailyChart(dailyData, valueField = 'clicks') {
+      if (!dailyData || dailyData.length === 0) {
+        return '<div class="no-data">暫無每日數據</div>';
+      }
+
+      const maxValue = Math.max(...dailyData.map(d => d[valueField] || 0));
+
+      // Reverse to show oldest to newest (left to right)
+      const sortedData = [...dailyData].reverse();
+
+      return sortedData.map(day => {
+        const value = day[valueField] || 0;
+        const heightPercent = maxValue > 0 ? (value / maxValue) * 100 : 0;
+        const date = new Date(day.date);
+        const label = `${date.getMonth() + 1}/${date.getDate()}`;
+
+        return `
+          <div class="bar-item">
+            <div class="bar" style="height: ${heightPercent}%">
+              <div class="bar-value">${value}</div>
+            </div>
+            <div class="bar-label">${label}</div>
+          </div>
+        `;
+      }).join('');
+    }
+
     // Export data as CSV
     async function exportData(type) {
       try {
@@ -1760,7 +1788,7 @@
       document.getElementById('topSections').innerHTML = topSectionsHTML || '<p style="text-align: center; color: #999; padding: 2rem;">暫無數據</p>';
 
       // Daily trend chart
-      const dailyChartHTML = renderDailyChart(data.daily, 'clicks', 'section');
+      const dailyChartHTML = renderGenericDailyChart(data.daily, 'clicks');
       document.getElementById('sectionDailyChart').innerHTML = dailyChartHTML;
 
       // Language distribution
@@ -1912,7 +1940,7 @@
       document.getElementById('topResorts').innerHTML = topResortsHTML || '<p style="text-align: center; color: #999; padding: 2rem;">暫無數據</p>';
 
       // Daily trend chart
-      const dailyChartHTML = renderDailyChart(data.daily, 'clicks', 'unique_clicks');
+      const dailyChartHTML = renderGenericDailyChart(data.daily, 'clicks');
       document.getElementById('resortDailyChart').innerHTML = dailyChartHTML;
 
       // Language distribution
