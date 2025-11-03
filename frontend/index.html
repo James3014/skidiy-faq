@@ -1905,16 +1905,17 @@
     // Render resort regions in sidebar
     async function renderResortRegions() {
       try {
-        // 使用靜態 JSON 檔案而不是 API
+        // 使用後端 API 載入雪場資料
         let data = resortDataCache;
         if (!data) {
-          const response = await fetch('resort_kb.json');
+          const response = await fetch(`${API_BASE}/resort/all`);
           if (!response.ok) {
             console.warn('[Resorts] Failed to load resort list');
             return;
           }
 
-          data = await response.json();
+          const result = await response.json();
+          data = result.data || result;
           if (!data.resorts) {
             console.warn('[Resorts] Invalid resort data');
             return;
@@ -2228,14 +2229,15 @@
       try {
         let data = resortDataCache;
         if (!data) {
-          const response = await fetch('resort_kb.json');
+          const response = await fetch(`${API_BASE}/resort/all`);
           if (!response.ok) {
             console.warn('[Resorts] Failed to load resort list for filtering');
             alert(locale.alerts.loadError);
             return;
           }
 
-          data = await response.json();
+          const result = await response.json();
+          data = result.data || result;
           if (!data.resorts) {
             console.warn('[Resorts] Invalid resort data');
             alert(locale.alerts.loadError);
@@ -2552,9 +2554,10 @@
         try {
           let resortData = resortDataCache;
           if (!resortData) {
-            const resortResponse = await fetch('resort_kb.json');
+            const resortResponse = await fetch(`${API_BASE}/resort/all`);
             if (resortResponse.ok) {
-              resortData = await resortResponse.json();
+              const result = await resortResponse.json();
+              resortData = result.data || result;
               resortDataCache = resortData;
             } else {
               console.warn('[Search] Resort data request failed with status:', resortResponse.status);

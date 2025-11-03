@@ -305,4 +305,38 @@ router.get('/', async (req, res, next) => {
   }
 });
 
+/**
+ * GET /api/v1/faq/all
+ * Get all FAQ data for frontend initialization
+ *
+ * Returns the complete FAQ knowledge base in the same format as faq_kb.json
+ * This replaces the need for frontend to load faq_kb.json directly
+ *
+ * Response:
+ * {
+ *   "success": true,
+ *   "data": {
+ *     "items": [...],
+ *     "metadata": {...}
+ *   }
+ * }
+ */
+router.get('/all', async (req, res, next) => {
+  try {
+    const data = await loadFAQData();
+
+    sendSuccess(res, {
+      items: data.items || [],
+      metadata: data.metadata || data.meta || {},
+      total: (data.items || []).length
+    }, 200, {
+      timestamp: new Date().toISOString(),
+      'Cache-Control': 'public, max-age=300' // Cache for 5 minutes
+    });
+
+  } catch (error) {
+    next(error);
+  }
+});
+
 module.exports = router;

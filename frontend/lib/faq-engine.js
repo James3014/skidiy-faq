@@ -21,17 +21,18 @@ class FAQEngine {
   }
 
   /**
-   * Initialize the FAQ engine by loading faq_kb.json
+   * Initialize the FAQ engine by loading FAQ data from backend API
    * @returns {Promise<void>}
    */
   async initialize() {
     try {
-      // Load FAQ data from local file
+      // Load FAQ data from backend API
+      const API_BASE = window.API_BASE || 'https://faq-api-v1.zeabur.app/api/v1';
       const cacheBuster =
         typeof window !== 'undefined' && window.FAQ_KB_VERSION
           ? window.FAQ_KB_VERSION
           : Date.now();
-      const response = await fetch(`faq_kb.json?v=${cacheBuster}`, {
+      const response = await fetch(`${API_BASE}/faq/all?v=${cacheBuster}`, {
         cache: 'no-store'
       });
 
@@ -39,7 +40,8 @@ class FAQEngine {
         throw new Error(`Failed to load FAQ data: ${response.status} ${response.statusText}`);
       }
 
-      this.faqData = await response.json();
+      const result = await response.json();
+      this.faqData = result.data || result;
 
       this.faqData.items.forEach(item => {
         this.prepareLocalizedContent(item);
