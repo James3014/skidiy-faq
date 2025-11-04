@@ -2248,11 +2248,34 @@
 
         console.log('[Feedback Analytics] Stats loaded:', data);
       } catch (error) {
-        console.error('[Feedback Analytics] Error loading stats:', error);
-        document.getElementById('totalFeedback').textContent = 'Error';
-        document.getElementById('helpfulCount').textContent = 'Error';
-        document.getElementById('notHelpfulCount').textContent = 'Error';
-        document.getElementById('helpfulRate').textContent = 'Error';
+        console.error('[Feedback Analytics] Error loading stats from API:', error);
+        // Load from localStorage as fallback
+        loadLocalFeedbackStats();
+      }
+    }
+
+    // Load feedback stats from localStorage
+    function loadLocalFeedbackStats() {
+      try {
+        const feedbacks = JSON.parse(localStorage.getItem('localFeedbacks') || '[]');
+        const total = feedbacks.length;
+        const helpful = feedbacks.filter(f => f.is_helpful).length;
+        const notHelpful = total - helpful;
+        const helpfulRate = total > 0 ? ((helpful / total) * 100).toFixed(1) : 0;
+
+        document.getElementById('totalFeedback').textContent = total;
+        document.getElementById('helpfulCount').textContent = helpful;
+        document.getElementById('notHelpfulCount').textContent = notHelpful;
+        document.getElementById('helpfulRate').textContent = `${helpfulRate}%`;
+
+        // Render chart with local data
+        renderFeedbackTypeChart({ total_feedback: total, helpful_count: helpful, not_helpful_count: notHelpful });
+      } catch (error) {
+        console.error('[Feedback Analytics] Error loading local stats:', error);
+        document.getElementById('totalFeedback').textContent = '0';
+        document.getElementById('helpfulCount').textContent = '0';
+        document.getElementById('notHelpfulCount').textContent = '0';
+        document.getElementById('helpfulRate').textContent = '0%';
       }
     }
 
@@ -2326,9 +2349,10 @@
 
         document.getElementById('feedbackReasonsChart').innerHTML = `<div style="padding: 1rem;">${html}</div>`;
       } catch (error) {
-        console.error('[Feedback Analytics] Error loading reasons:', error);
+        console.error('[Feedback Analytics] Error loading reasons from API:', error);
+        // Show empty state for reasons (localStorage doesn't store aggregated reason stats)
         document.getElementById('feedbackReasonsChart').innerHTML =
-          '<p style="text-align: center; color: #999; padding: 2rem;">載入失敗</p>';
+          '<p style="text-align: center; color: #999; padding: 2rem;">📱 使用本地數據時無法顯示聚合統計</p>';
       }
     }
 
@@ -2378,9 +2402,9 @@
 
         document.getElementById('topRatedItems').innerHTML = html;
       } catch (error) {
-        console.error('[Feedback Analytics] Error loading top items:', error);
+        console.error('[Feedback Analytics] Error loading top items from API:', error);
         document.getElementById('topRatedItems').innerHTML =
-          '<p style="text-align: center; color: #999; padding: 2rem;">載入失敗</p>';
+          '<p style="text-align: center; color: #999; padding: 2rem;">📱 使用本地數據時無法顯示項目排名</p>';
       }
     }
 
@@ -2450,9 +2474,9 @@
 
         document.getElementById('bottomRatedItems').innerHTML = html;
       } catch (error) {
-        console.error('[Feedback Analytics] Error loading bottom items:', error);
+        console.error('[Feedback Analytics] Error loading bottom items from API:', error);
         document.getElementById('bottomRatedItems').innerHTML =
-          '<p style="text-align: center; color: #999; padding: 2rem;">載入失敗</p>';
+          '<p style="text-align: center; color: #999; padding: 2rem;">📱 使用本地數據時無法顯示項目排名</p>';
       }
     }
 
