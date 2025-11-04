@@ -1899,14 +1899,25 @@
 
         // Save to localStorage if it's a click
         if (clicked) {
-          const faqClicks = JSON.parse(localStorage.getItem('faq_clicks') || '[]');
-          faqClicks.push(trackData);
-          // Keep only last 100 clicks
-          if (faqClicks.length > 100) {
-            faqClicks.shift();
+          try {
+            let faqClicks = JSON.parse(localStorage.getItem('faq_clicks') || '[]');
+            // If data is corrupted or not an array, reset it
+            if (!Array.isArray(faqClicks)) {
+              console.warn('[Analytics] Corrupted faq_clicks data detected, resetting...');
+              faqClicks = [];
+            }
+            faqClicks.push(trackData);
+            // Keep only last 100 clicks
+            if (faqClicks.length > 100) {
+              faqClicks.shift();
+            }
+            localStorage.setItem('faq_clicks', JSON.stringify(faqClicks));
+            console.log('[Analytics] Saved FAQ click to localStorage:', trackData);
+          } catch (e) {
+            // If localStorage is corrupted, reset with current data
+            console.warn('[Analytics] Failed to parse faq_clicks, resetting:', e);
+            localStorage.setItem('faq_clicks', JSON.stringify([trackData]));
           }
-          localStorage.setItem('faq_clicks', JSON.stringify(faqClicks));
-          console.log('[Analytics] Saved FAQ click to localStorage:', trackData);
         }
 
         // Send to backend
@@ -3673,63 +3684,92 @@
      * 本地保存反饋（後備方案）
      */
     function saveLocalFeedback() {
-      const feedbacks = JSON.parse(localStorage.getItem('localFeedbacks') || '[]');
-      feedbacks.push({
-        ...currentFeedback,
-        timestamp: new Date().toISOString(),
-        synced: false
-      });
+      try {
+        let feedbacks = JSON.parse(localStorage.getItem('localFeedbacks') || '[]');
+        // If data is corrupted or not an array, reset it
+        if (!Array.isArray(feedbacks)) {
+          console.warn('[Feedback] Corrupted localFeedbacks data detected, resetting...');
+          feedbacks = [];
+        }
+        feedbacks.push({
+          ...currentFeedback,
+          timestamp: new Date().toISOString(),
+          synced: false
+        });
 
-      // 只保留最近 100 條記錄
-      if (feedbacks.length > 100) {
-        feedbacks.shift();
+        // 只保留最近 100 條記錄
+        if (feedbacks.length > 100) {
+          feedbacks.shift();
+        }
+
+        localStorage.setItem('localFeedbacks', JSON.stringify(feedbacks));
+        console.log('[Feedback] 本地保存:', feedbacks.length, '條記錄');
+      } catch (e) {
+        // If localStorage is corrupted, reset with current data
+        console.warn('[Feedback] Failed to parse localFeedbacks, resetting:', e);
+        localStorage.setItem('localFeedbacks', JSON.stringify([{
+          ...currentFeedback,
+          timestamp: new Date().toISOString(),
+          synced: false
+        }]));
       }
-
-      localStorage.setItem('localFeedbacks', JSON.stringify(feedbacks));
-      console.log('[Feedback] 本地保存:', feedbacks.length, '條記錄');
     }
 
     /**
      * 同步本地保存的反饋到後端
      */
     async function syncLocalFeedbacks() {
-      const feedbacks = JSON.parse(localStorage.getItem('localFeedbacks') || '[]');
-      const unsynced = feedbacks.filter(f => !f.synced);
-
-      if (unsynced.length === 0) return;
-
-      console.log('[Feedback] 開始同步', unsynced.length, '條本地反饋');
-
-      for (let i = 0; i < unsynced.length; i++) {
-        const feedback = unsynced[i];
-        try {
-          const response = await fetch(`${API_BASE}/analytics/feedback`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              feedback_type: feedback.type,
-              item_id: feedback.itemId,
-              helpful: feedback.helpful,
-              reason: feedback.reason,
-              comment: feedback.comment,
-              language: feedback.language || 'zh'
-            })
-          });
-
-          if (response.ok) {
-            feedback.synced = true;
-            console.log('[Feedback Sync] 成功同步:', feedback.itemId);
-          }
-        } catch (error) {
-          console.warn('[Feedback Sync] 同步失敗:', error);
-          // 保持 synced = false，稍後重試
+      try {
+        let feedbacks = JSON.parse(localStorage.getItem('localFeedbacks') || '[]');
+        // If data is corrupted or not an array, reset it
+        if (!Array.isArray(feedbacks)) {
+          console.warn('[Feedback Sync] Corrupted localFeedbacks data detected, resetting...');
+          feedbacks = [];
+          localStorage.setItem('localFeedbacks', JSON.stringify(feedbacks));
+          return;
         }
-      }
 
-      // 保存更新狀態
-      localStorage.setItem('localFeedbacks', JSON.stringify(feedbacks));
-      const syncedCount = feedbacks.filter(f => f.synced).length;
-      console.log('[Feedback] 同步完成:', syncedCount, '/', feedbacks.length);
+        const unsynced = feedbacks.filter(f => !f.synced);
+
+        if (unsynced.length === 0) return;
+
+        console.log('[Feedback] 開始同步', unsynced.length, '條本地反饋');
+
+        for (let i = 0; i < unsynced.length; i++) {
+          const feedback = unsynced[i];
+          try {
+            const response = await fetch(`${API_BASE}/analytics/feedback`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                feedback_type: feedback.type,
+                item_id: feedback.itemId,
+                helpful: feedback.helpful,
+                reason: feedback.reason,
+                comment: feedback.comment,
+                language: feedback.language || 'zh'
+              })
+            });
+
+            if (response.ok) {
+              feedback.synced = true;
+              console.log('[Feedback Sync] 成功同步:', feedback.itemId);
+            }
+          } catch (error) {
+            console.warn('[Feedback Sync] 同步失敗:', error);
+            // 保持 synced = false，稍後重試
+          }
+        }
+
+        // 保存更新狀態
+        localStorage.setItem('localFeedbacks', JSON.stringify(feedbacks));
+        const syncedCount = feedbacks.filter(f => f.synced).length;
+        console.log('[Feedback] 同步完成:', syncedCount, '/', feedbacks.length);
+      } catch (e) {
+        console.error('[Feedback Sync] Failed to sync feedbacks:', e);
+        // Reset corrupted data
+        localStorage.setItem('localFeedbacks', JSON.stringify([]));
+      }
     }
 
     /**
