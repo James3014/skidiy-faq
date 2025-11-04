@@ -2535,7 +2535,70 @@
 
         document.getElementById('recentFeedback').innerHTML = html;
       } catch (error) {
-        console.error('[Feedback Analytics] Error loading recent feedback:', error);
+        console.error('[Feedback Analytics] Error loading recent feedback from API:', error);
+        // Try loading from localStorage as fallback
+        loadLocalFeedbackData();
+      }
+    }
+
+    // Load feedback data from localStorage
+    function loadLocalFeedbackData() {
+      try {
+        const feedbacks = JSON.parse(localStorage.getItem('localFeedbacks') || '[]');
+
+        if (feedbacks.length === 0) {
+          document.getElementById('recentFeedback').innerHTML =
+            '<p style="text-align: center; color: #999; padding: 2rem;">暫無本地反饋記錄</p>';
+          return;
+        }
+
+        // Sort by timestamp descending
+        const sortedFeedbacks = feedbacks
+          .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))
+          .slice(0, 50);
+
+        const html = sortedFeedbacks.map(feedback => {
+          const date = new Date(feedback.timestamp);
+          const timeStr = date.toLocaleString('zh-TW', {
+            month: '2-digit',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit'
+          });
+
+          const typeLabel = feedback.content_type === 'faq' ? 'FAQ' : '雪場';
+          const helpfulIcon = feedback.is_helpful ? '👍 有幫助' : '👎 沒幫助';
+          const reasonLabel = feedback.reason ? ` - ${feedback.reason}` : '';
+          const syncIcon = feedback.synced ? '✓' : '⏳';
+
+          return `
+            <div class="query-item" style="border-left: 3px solid ${feedback.is_helpful ? '#10b981' : '#f59e0b'};">
+              <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.5rem;">
+                <div style="flex: 1;">
+                  <strong>${typeLabel}</strong>: ${escapeHtml(feedback.content_id || '未知')}
+                </div>
+                <span style="font-size: 0.85rem; color: #999;">${timeStr} ${syncIcon}</span>
+              </div>
+              <div style="margin-bottom: 0.5rem;">
+                <span style="background: ${feedback.is_helpful ? '#d1fae5' : '#fef3c7'}; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.85rem;">
+                  ${helpfulIcon}${reasonLabel}
+                </span>
+              </div>
+              ${feedback.comment ? `
+                <div style="color: #666; font-size: 0.9rem; margin-top: 0.5rem; padding: 0.5rem; background: #f9fafb; border-radius: 4px;">
+                  ${escapeHtml(feedback.comment)}
+                </div>
+              ` : ''}
+            </div>
+          `;
+        }).join('');
+
+        document.getElementById('recentFeedback').innerHTML =
+          `<div style="background: #fef3c7; border: 1px solid #f59e0b; border-radius: 6px; padding: 0.75rem; margin-bottom: 1rem; font-size: 0.9rem;">
+            📱 顯示本地數據（${feedbacks.length} 筆，${feedbacks.filter(f => f.synced).length} 筆已同步）
+          </div>` + html;
+      } catch (error) {
+        console.error('[Feedback Analytics] Error loading local feedback:', error);
         document.getElementById('recentFeedback').innerHTML =
           '<p style="text-align: center; color: #999; padding: 2rem;">載入失敗</p>';
       }

@@ -1890,15 +1890,30 @@
     // Track FAQ views and clicks for analytics
     async function trackFAQView(faqId, clicked = false) {
       try {
+        const trackData = {
+          faq_id: faqId,
+          clicked: clicked,
+          language: currentLanguage,
+          timestamp: new Date().toISOString()
+        };
+
+        // Save to localStorage if it's a click
+        if (clicked) {
+          const faqClicks = JSON.parse(localStorage.getItem('faq_clicks') || '[]');
+          faqClicks.push(trackData);
+          // Keep only last 100 clicks
+          if (faqClicks.length > 100) {
+            faqClicks.shift();
+          }
+          localStorage.setItem('faq_clicks', JSON.stringify(faqClicks));
+          console.log('[Analytics] Saved FAQ click to localStorage:', trackData);
+        }
+
+        // Send to backend
         await fetch(`${API_BASE}/analytics/track-faq-view`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            faq_id: faqId,
-            clicked: clicked,
-            language: currentLanguage,
-            timestamp: new Date().toISOString()
-          })
+          body: JSON.stringify(trackData)
         });
         console.log(`[Analytics] Tracked ${clicked ? 'click' : 'view'} for ${faqId}`);
       } catch (error) {
