@@ -2061,14 +2061,81 @@
             displayResortEngagementStats(data.data);
           } else {
             console.warn('[Resort Engagement] API returned error:', data.error);
-            displayNoEngagementData();
+            loadResortEngagementFromLocalStorage();
           }
         } else {
-          console.warn('[Resort Engagement] API unavailable');
-          displayNoEngagementData();
+          console.warn('[Resort Engagement] API unavailable, using localStorage');
+          loadResortEngagementFromLocalStorage();
         }
       } catch (error) {
-        console.warn('[Resort Engagement] Error loading from API:', error);
+        console.warn('[Resort Engagement] Error loading from API, using localStorage:', error);
+        loadResortEngagementFromLocalStorage();
+      }
+    }
+
+    function loadResortEngagementFromLocalStorage() {
+      try {
+        const engagements = JSON.parse(localStorage.getItem('resortEngagements') || '[]');
+
+        if (engagements.length === 0) {
+          displayNoEngagementData();
+          return;
+        }
+
+        // Calculate stats from localStorage
+        const stats = {
+          total_engagements: engagements.length,
+          engagement_by_type: [],
+          top_resorts: [],
+          daily_trend: []
+        };
+
+        // Count by engagement type
+        const typeCounts = {};
+        engagements.forEach(e => {
+          typeCounts[e.engagement_type] = (typeCounts[e.engagement_type] || 0) + 1;
+        });
+        stats.engagement_by_type = Object.entries(typeCounts).map(([type, count]) => ({
+          engagement_type: type,
+          count: count
+        }));
+
+        // Count by resort
+        const resortCounts = {};
+        const resortEngagementTypes = {};
+        engagements.forEach(e => {
+          const resortId = e.resort_id;
+          const resortName = e.resort_name || resortId;
+          if (!resortCounts[resortId]) {
+            resortCounts[resortId] = { resort_id: resortId, resort_name: resortName, total: 0, types: {} };
+          }
+          resortCounts[resortId].total++;
+          resortCounts[resortId].types[e.engagement_type] = (resortCounts[resortId].types[e.engagement_type] || 0) + 1;
+        });
+
+        stats.top_resorts = Object.values(resortCounts)
+          .sort((a, b) => b.total - a.total)
+          .slice(0, 10)
+          .map(r => ({
+            resort_id: r.resort_id,
+            resort_name: r.resort_name,
+            total_engagements: r.total,
+            engagement_types: r.types
+          }));
+
+        // Count by day
+        const dayCounts = {};
+        engagements.forEach(e => {
+          const date = new Date(e.timestamp).toISOString().split('T')[0];
+          dayCounts[date] = (dayCounts[date] || 0) + 1;
+        });
+        stats.daily_trend = Object.entries(dayCounts)
+          .sort((a, b) => a[0].localeCompare(b[0]))
+          .map(([date, count]) => ({ date, engagements: count }));
+
+        displayResortEngagementStats(stats);
+      } catch (error) {
+        console.error('[Resort Engagement] Error loading from localStorage:', error);
         displayNoEngagementData();
       }
     }
