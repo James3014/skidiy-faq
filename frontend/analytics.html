@@ -2075,7 +2075,20 @@
 
     function loadResortEngagementFromLocalStorage() {
       try {
-        const engagements = JSON.parse(localStorage.getItem('resortEngagements') || '[]');
+        const languageFilter = document.getElementById('resortLanguageFilter').value;
+        const daysFilter = parseInt(document.getElementById('resortDaysFilter').value);
+
+        let engagements = JSON.parse(localStorage.getItem('resortEngagements') || '[]');
+
+        // Apply language filter
+        if (languageFilter) {
+          engagements = engagements.filter(e => e.language === languageFilter);
+        }
+
+        // Apply time filter
+        const cutoffDate = new Date();
+        cutoffDate.setDate(cutoffDate.getDate() - daysFilter);
+        engagements = engagements.filter(e => new Date(e.timestamp) >= cutoffDate);
 
         if (engagements.length === 0) {
           displayNoEngagementData();
@@ -2326,7 +2339,7 @@
       try {
         const feedbacks = JSON.parse(localStorage.getItem('localFeedbacks') || '[]');
         const total = feedbacks.length;
-        const helpful = feedbacks.filter(f => f.is_helpful).length;
+        const helpful = feedbacks.filter(f => f.helpful === true).length;
         const notHelpful = total - helpful;
         const helpfulRate = total > 0 ? ((helpful / total) * 100).toFixed(1) : 0;
 
@@ -2337,6 +2350,7 @@
 
         // Render chart with local data
         renderFeedbackTypeChart({ total_feedback: total, helpful_count: helpful, not_helpful_count: notHelpful });
+        console.log('[Feedback Analytics] Loaded from localStorage:', { total, helpful, notHelpful });
       } catch (error) {
         console.error('[Feedback Analytics] Error loading local stats:', error);
         document.getElementById('totalFeedback').textContent = '0';
@@ -2657,21 +2671,21 @@
             minute: '2-digit'
           });
 
-          const typeLabel = feedback.content_type === 'faq' ? 'FAQ' : '雪場';
-          const helpfulIcon = feedback.is_helpful ? '👍 有幫助' : '👎 沒幫助';
+          const typeLabel = feedback.type === 'faq' ? 'FAQ' : '雪場';
+          const helpfulIcon = feedback.helpful ? '👍 有幫助' : '👎 沒幫助';
           const reasonLabel = feedback.reason ? ` - ${feedback.reason}` : '';
           const syncIcon = feedback.synced ? '✓' : '⏳';
 
           return `
-            <div class="query-item" style="border-left: 3px solid ${feedback.is_helpful ? '#10b981' : '#f59e0b'};">
+            <div class="query-item" style="border-left: 3px solid ${feedback.helpful ? '#10b981' : '#f59e0b'};">
               <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.5rem;">
                 <div style="flex: 1;">
-                  <strong>${typeLabel}</strong>: ${escapeHtml(feedback.content_id || '未知')}
+                  <strong>${typeLabel}</strong>: ${escapeHtml(feedback.itemId || '未知')}
                 </div>
                 <span style="font-size: 0.85rem; color: #999;">${timeStr} ${syncIcon}</span>
               </div>
               <div style="margin-bottom: 0.5rem;">
-                <span style="background: ${feedback.is_helpful ? '#d1fae5' : '#fef3c7'}; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.85rem;">
+                <span style="background: ${feedback.helpful ? '#d1fae5' : '#fef3c7'}; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.85rem;">
                   ${helpfulIcon}${reasonLabel}
                 </span>
               </div>
