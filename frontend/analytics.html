@@ -1166,6 +1166,50 @@
       analyticsLanguage = 'zh';
     }
 
+    // FAQ knowledge base cache
+    let faqKnowledgeBase = null;
+
+    // Load FAQ knowledge base
+    async function loadFAQKnowledgeBase() {
+      if (faqKnowledgeBase) return faqKnowledgeBase;
+
+      try {
+        const response = await fetch(`${API_BASE}/faq/search`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ query: '', limit: 1000 })
+        });
+
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+        const result = await response.json();
+        if (result.success && result.results) {
+          // Create a map of faq_id to faq data
+          faqKnowledgeBase = {};
+          result.results.forEach(faq => {
+            faqKnowledgeBase[faq.id] = {
+              id: faq.id,
+              title: faq.canonical_question,
+              section: faq.section
+            };
+          });
+          console.log('[FAQ KB] Loaded', Object.keys(faqKnowledgeBase).length, 'FAQs');
+        }
+        return faqKnowledgeBase;
+      } catch (error) {
+        console.error('[FAQ KB] Failed to load:', error);
+        return null;
+      }
+    }
+
+    // Get FAQ title by ID
+    function getFAQTitle(faqId) {
+      if (faqKnowledgeBase && faqKnowledgeBase[faqId]) {
+        return faqKnowledgeBase[faqId].title;
+      }
+      return faqId;
+    }
+
     // Load all data
     async function loadData() {
       try {
@@ -1491,8 +1535,11 @@
     }
 
     // Load local FAQ clicks from localStorage
-    function loadLocalFAQClicks() {
+    async function loadLocalFAQClicks() {
       try {
+        // Load FAQ knowledge base first
+        await loadFAQKnowledgeBase();
+
         const clicksData = JSON.parse(localStorage.getItem('faq_clicks') || '[]');
         const container = document.getElementById('localFaqClicks');
 
@@ -1515,10 +1562,14 @@
             minute: '2-digit'
           });
           const langLabel = LANGUAGE_LABELS[click.language] || click.language;
+          const faqTitle = getFAQTitle(click.faq_id);
 
           return `
             <div class="query-item">
-              <div class="query-text">${escapeHtml(click.faq_id || '未知FAQ')}</div>
+              <div class="query-text">
+                <strong>${escapeHtml(faqTitle)}</strong>
+                ${faqTitle !== click.faq_id ? `<br><small style="color: #999;">ID: ${escapeHtml(click.faq_id)}</small>` : ''}
+              </div>
               <div class="query-meta">
                 <span class="query-time">${timeStr}</span>
                 <span class="query-language">${langLabel}</span>
@@ -2471,9 +2522,66 @@
         document.getElementById('feedbackReasonsChart').innerHTML = `<div style="padding: 1rem;">${html}</div>`;
       } catch (error) {
         console.error('[Feedback Analytics] Error loading reasons from API:', error);
-        // Show empty state for reasons (localStorage doesn't store aggregated reason stats)
+        // Calculate from recent feedback API
+        calculateReasonsFromRecentFeedback(languageFilter, daysFilter);
+      }
+    }
+
+    // Calculate reasons from recent feedback when aggregation API fails
+    async function calculateReasonsFromRecentFeedback(languageFilter = '', daysFilter = '30') {
+      try {
+        const params = new URLSearchParams({ limit: '1000', days: daysFilter });
+        if (languageFilter) {
+          params.append('language', languageFilter);
+        }
+
+        const response = await fetch(`${API_BASE}/analytics/feedback-recent?${params}`);
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+        const result = await response.json();
+        const feedbacks = result.data || [];
+
+        // Filter for not helpful (0) and has reason
+        const negatives = feedbacks.filter(f => (f.helpful === 0 || f.helpful === false) && f.reason);
+
+        if (negatives.length === 0) {
+          document.getElementById('feedbackReasonsChart').innerHTML =
+            '<p style="text-align: center; color: #999; padding: 2rem;">暫無負面反饋原因數據</p>';
+          return;
+        }
+
+        // Count by reason
+        const reasonCounts = {};
+        negatives.forEach(f => {
+          reasonCounts[f.reason] = (reasonCounts[f.reason] || 0) + 1;
+        });
+
+        const reasons = Object.entries(reasonCounts)
+          .map(([reason, count]) => ({ reason, count }))
+          .sort((a, b) => b.count - a.count);
+
+        const total = reasons.reduce((sum, r) => sum + r.count, 0);
+        const html = reasons.map(reason => {
+          const pct = ((reason.count / total) * 100).toFixed(1);
+          return `
+            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 0.75rem;">
+              <div style="flex: 0 0 120px; font-weight: 500; color: #2D395C;">${reason.reason || '未指定'}</div>
+              <div style="flex: 1; background: #e5e7eb; border-radius: 8px; height: 28px; position: relative; overflow: hidden;">
+                <div style="background: #ef4444; height: 100%; width: ${pct}%; border-radius: 8px; display: flex; align-items: center; justify-content: flex-end; padding-right: 0.5rem;">
+                  <span style="color: white; font-weight: 600; font-size: 0.85rem;">${reason.count}</span>
+                </div>
+              </div>
+              <div style="flex: 0 0 50px; text-align: right; font-weight: 600; color: #ef4444;">${pct}%</div>
+            </div>
+          `;
+        }).join('');
+
+        document.getElementById('feedbackReasonsChart').innerHTML = `<div style="padding: 1rem;">${html}</div>`;
+        console.log('[Feedback Analytics] Reasons calculated from recent feedback:', reasons);
+      } catch (error) {
+        console.error('[Feedback Analytics] Error calculating reasons:', error);
         document.getElementById('feedbackReasonsChart').innerHTML =
-          '<p style="text-align: center; color: #999; padding: 2rem;">📱 使用本地數據時無法顯示聚合統計</p>';
+          '<p style="text-align: center; color: #999; padding: 2rem;">📱 無法載入反饋原因數據</p>';
       }
     }
 
@@ -2524,8 +2632,91 @@
         document.getElementById('topRatedItems').innerHTML = html;
       } catch (error) {
         console.error('[Feedback Analytics] Error loading top items from API:', error);
+        calculateTopItemsFromRecentFeedback(languageFilter, daysFilter);
+      }
+    }
+
+    // Calculate top items from recent feedback
+    async function calculateTopItemsFromRecentFeedback(languageFilter = '', daysFilter = '30') {
+      try {
+        const params = new URLSearchParams({ limit: '1000', days: daysFilter });
+        if (languageFilter) {
+          params.append('language', languageFilter);
+        }
+
+        const response = await fetch(`${API_BASE}/analytics/feedback-recent?${params}`);
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+        const result = await response.json();
+        const feedbacks = result.data || [];
+
+        if (feedbacks.length === 0) {
+          document.getElementById('topRatedItems').innerHTML =
+            '<p style="text-align: center; color: #999; padding: 2rem;">暫無數據</p>';
+          return;
+        }
+
+        // Group by item_id
+        const itemStats = {};
+        feedbacks.forEach(f => {
+          if (!itemStats[f.item_id]) {
+            itemStats[f.item_id] = {
+              item_id: f.item_id,
+              feedback_type: f.feedback_type,
+              total: 0,
+              helpful: 0
+            };
+          }
+          itemStats[f.item_id].total++;
+          if (f.helpful === 1 || f.helpful === true) {
+            itemStats[f.item_id].helpful++;
+          }
+        });
+
+        // Calculate rates and sort
+        const items = Object.values(itemStats)
+          .map(item => ({
+            ...item,
+            helpful_rate: item.total > 0 ? (item.helpful / item.total * 100) : 0
+          }))
+          .sort((a, b) => b.helpful_rate - a.helpful_rate)
+          .slice(0, 10);
+
+        if (items.length === 0) {
+          document.getElementById('topRatedItems').innerHTML =
+            '<p style="text-align: center; color: #999; padding: 2rem;">暫無數據</p>';
+          return;
+        }
+
+        const html = items.map((item, index) => {
+          const typeLabel = item.feedback_type === 'faq' ? 'FAQ' : '雪場';
+          const typeColor = item.feedback_type === 'faq' ? '#4A5F8C' : '#10b981';
+
+          return `
+            <div class="provider-item" style="display: flex; align-items: center; gap: 1rem; padding: 0.75rem; background: ${index % 2 === 0 ? '#f9fafb' : 'white'};">
+              <div style="flex: 0 0 30px; font-weight: 700; color: #d1d5db; font-size: 1.2rem;">#${index + 1}</div>
+              <div style="flex: 1;">
+                <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
+                  <span style="background: ${typeColor}; color: white; padding: 0.1rem 0.5rem; border-radius: 4px; font-size: 0.75rem; font-weight: 600;">${typeLabel}</span>
+                  <strong style="color: #2D395C;">${item.item_id}</strong>
+                </div>
+                <div style="color: #999; font-size: 0.85rem;">
+                  總反饋: ${item.total} | 有幫助: ${item.helpful}
+                </div>
+              </div>
+              <div style="flex: 0 0 80px; text-align: right;">
+                <div style="font-size: 1.5rem; font-weight: 700; color: #10b981;">${item.helpful_rate.toFixed(1)}%</div>
+              </div>
+            </div>
+          `;
+        }).join('');
+
+        document.getElementById('topRatedItems').innerHTML = html;
+        console.log('[Feedback Analytics] Top items calculated from recent feedback');
+      } catch (error) {
+        console.error('[Feedback Analytics] Error calculating top items:', error);
         document.getElementById('topRatedItems').innerHTML =
-          '<p style="text-align: center; color: #999; padding: 2rem;">📱 使用本地數據時無法顯示項目排名</p>';
+          '<p style="text-align: center; color: #999; padding: 2rem;">📱 無法載入排名數據</p>';
       }
     }
 
@@ -2596,8 +2787,115 @@
         document.getElementById('bottomRatedItems').innerHTML = html;
       } catch (error) {
         console.error('[Feedback Analytics] Error loading bottom items from API:', error);
+        calculateBottomItemsFromRecentFeedback(languageFilter, daysFilter);
+      }
+    }
+
+    // Calculate bottom items from recent feedback
+    async function calculateBottomItemsFromRecentFeedback(languageFilter = '', daysFilter = '30') {
+      try {
+        const params = new URLSearchParams({ limit: '1000', days: daysFilter });
+        if (languageFilter) {
+          params.append('language', languageFilter);
+        }
+
+        const response = await fetch(`${API_BASE}/analytics/feedback-recent?${params}`);
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+        const result = await response.json();
+        const feedbacks = result.data || [];
+
+        if (feedbacks.length === 0) {
+          document.getElementById('bottomRatedItems').innerHTML =
+            '<p style="text-align: center; color: #999; padding: 2rem;">暫無數據</p>';
+          document.getElementById('lowSatisfactionWarning').style.display = 'none';
+          return;
+        }
+
+        // Group by item_id
+        const itemStats = {};
+        feedbacks.forEach(f => {
+          if (!itemStats[f.item_id]) {
+            itemStats[f.item_id] = {
+              item_id: f.item_id,
+              feedback_type: f.feedback_type,
+              total: 0,
+              helpful: 0
+            };
+          }
+          itemStats[f.item_id].total++;
+          if (f.helpful === 1 || f.helpful === true) {
+            itemStats[f.item_id].helpful++;
+          }
+        });
+
+        // Calculate rates and sort (lowest first)
+        const items = Object.values(itemStats)
+          .filter(item => item.total >= 1) // At least 1 feedback
+          .map(item => ({
+            ...item,
+            helpful_rate: item.total > 0 ? (item.helpful / item.total * 100) : 0
+          }))
+          .sort((a, b) => a.helpful_rate - b.helpful_rate)
+          .slice(0, 10);
+
+        if (items.length === 0) {
+          document.getElementById('bottomRatedItems').innerHTML =
+            '<p style="text-align: center; color: #999; padding: 2rem;">暫無數據</p>';
+          document.getElementById('lowSatisfactionWarning').style.display = 'none';
+          return;
+        }
+
+        // Show warning for items with satisfaction rate < 50%
+        const lowSatisfactionItems = items.filter(item => item.helpful_rate < 50);
+        if (lowSatisfactionItems.length > 0) {
+          document.getElementById('lowSatisfactionWarning').style.display = 'block';
+          const warningHtml = lowSatisfactionItems.map(item => {
+            const typeLabel = item.feedback_type === 'faq' ? 'FAQ' : '雪場';
+            return `
+              <div style="padding: 0.5rem; background: white; border-radius: 4px; margin-bottom: 0.5rem;">
+                <strong>[${typeLabel}] ${item.item_id}</strong> -
+                滿意率: <span style="color: #dc2626; font-weight: 700;">${item.helpful_rate.toFixed(1)}%</span>
+                (${item.helpful}/${item.total})
+              </div>
+            `;
+          }).join('');
+          document.getElementById('lowSatisfactionList').innerHTML = warningHtml;
+        } else {
+          document.getElementById('lowSatisfactionWarning').style.display = 'none';
+        }
+
+        const html = items.map((item, index) => {
+          const typeLabel = item.feedback_type === 'faq' ? 'FAQ' : '雪場';
+          const typeColor = item.feedback_type === 'faq' ? '#4A5F8C' : '#10b981';
+          const rateColor = item.helpful_rate < 30 ? '#dc2626' : item.helpful_rate < 50 ? '#f59e0b' : '#6b7280';
+
+          return `
+            <div class="provider-item" style="display: flex; align-items: center; gap: 1rem; padding: 0.75rem; background: ${index % 2 === 0 ? '#f9fafb' : 'white'};">
+              <div style="flex: 0 0 30px; font-weight: 700; color: #d1d5db; font-size: 1.2rem;">#${index + 1}</div>
+              <div style="flex: 1;">
+                <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
+                  <span style="background: ${typeColor}; color: white; padding: 0.1rem 0.5rem; border-radius: 4px; font-size: 0.75rem; font-weight: 600;">${typeLabel}</span>
+                  <strong style="color: #2D395C;">${item.item_id}</strong>
+                </div>
+                <div style="color: #999; font-size: 0.85rem;">
+                  總反饋: ${item.total} | 有幫助: ${item.helpful}
+                </div>
+              </div>
+              <div style="flex: 0 0 80px; text-align: right;">
+                <div style="font-size: 1.5rem; font-weight: 700; color: ${rateColor};">${item.helpful_rate.toFixed(1)}%</div>
+              </div>
+            </div>
+          `;
+        }).join('');
+
+        document.getElementById('bottomRatedItems').innerHTML = html;
+        console.log('[Feedback Analytics] Bottom items calculated from recent feedback');
+      } catch (error) {
+        console.error('[Feedback Analytics] Error calculating bottom items:', error);
         document.getElementById('bottomRatedItems').innerHTML =
-          '<p style="text-align: center; color: #999; padding: 2rem;">📱 使用本地數據時無法顯示項目排名</p>';
+          '<p style="text-align: center; color: #999; padding: 2rem;">📱 無法載入排名數據</p>';
+        document.getElementById('lowSatisfactionWarning').style.display = 'none';
       }
     }
 
