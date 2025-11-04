@@ -1403,7 +1403,6 @@
 
         await Promise.all([
           loadFAQStats(languageFilter, daysFilter),
-          loadFAQLanguageDistribution(languageFilter, daysFilter),
           loadLocalFAQClicks()
         ]);
       } catch (error) {
@@ -1456,51 +1455,39 @@
         // Render daily chart
         renderFAQDailyChart(data.daily || []);
 
+        // Render language distribution
+        renderFAQLanguageDistribution(data.by_language || []);
+
       } catch (error) {
         console.error('Failed to load FAQ stats:', error);
         document.getElementById('topFAQs').innerHTML = '<div class="error">無法載入 FAQ 統計數據</div>';
       }
     }
 
-    // Load FAQ language distribution
-    async function loadFAQLanguageDistribution(languageFilter = '', daysFilter = '30') {
-      try {
-        const params = new URLSearchParams({ click_type: 'faq', days: daysFilter });
-        if (languageFilter) {
-          params.append('language', languageFilter);
-        }
+    // Render FAQ language distribution
+    function renderFAQLanguageDistribution(languages) {
+      const container = document.getElementById('faqLanguageDistribution');
 
-        const response = await fetch(`${API_BASE}/analytics/clicks-by-language?${params}`);
-        const result = await response.json();
-
-        if (!result.success) {
-          throw new Error(result.error?.message || 'Failed to load language distribution');
-        }
-
-        const container = document.getElementById('faqLanguageDistribution');
-        const data = result.data || [];
-
-        if (data.length === 0) {
-          container.innerHTML = '<p style="text-align: center; color: #999; padding: 2rem;">暫無語系數據</p>';
-          return;
-        }
-
-        const html = data.map(item => `
-          <div class="provider-item">
-            <div class="provider-name">
-              ${LANGUAGE_LABELS[item.language] || item.language}
-            </div>
-            <div class="provider-stats">
-              <span class="provider-clicks">${item.clicks?.toLocaleString() || 0} 次點擊</span>
-            </div>
-          </div>
-        `).join('');
-
-        container.innerHTML = html;
-      } catch (error) {
-        console.error('Failed to load FAQ language distribution:', error);
-        document.getElementById('faqLanguageDistribution').innerHTML = '<div class="error">無法載入語系分佈</div>';
+      if (!languages || languages.length === 0) {
+        container.innerHTML = '<p style="text-align: center; color: #999; padding: 2rem;">暫無語系數據</p>';
+        return;
       }
+
+      const totalClicks = languages.reduce((sum, lang) => sum + (lang.clicks || 0), 0);
+
+      const html = languages.map(lang => `
+        <div class="provider-row">
+          <div style="display: flex; align-items: center; gap: 0.5rem;">
+            <span style="font-weight: 600;">${LANGUAGE_LABELS[lang.language] || lang.language}</span>
+          </div>
+          <div style="display: flex; gap: 1.5rem; align-items: center;">
+            <span style="color: #666;">${(lang.clicks || 0).toLocaleString()} 次點擊</span>
+            <span style="color: #999; font-size: 0.9rem;">${totalClicks > 0 ? ((lang.clicks / totalClicks) * 100).toFixed(1) : '0.0'}%</span>
+          </div>
+        </div>
+      `).join('');
+
+      container.innerHTML = html;
     }
 
     // Load local FAQ clicks from localStorage
@@ -2087,8 +2074,14 @@
     }
 
     function displayResortEngagementStats(data) {
+      // Check if data exists
+      if (!data || !data.top_resorts || !data.engagement_by_type) {
+        displayNoEngagementData();
+        return;
+      }
+
       // Update summary stats
-      document.getElementById('totalEngagements').textContent = data.total_engagements.toLocaleString();
+      document.getElementById('totalEngagements').textContent = (data.total_engagements || 0).toLocaleString();
 
       const expandEngagements = data.engagement_by_type.find(e => e.engagement_type === 'expand') || { count: 0 };
       const officialSiteEngagements = data.engagement_by_type.find(e => e.engagement_type === 'official_site_click') || { count: 0 };
