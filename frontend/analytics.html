@@ -2356,7 +2356,7 @@
 
         // Calculate stats from feedback list
         const total = feedbacks.length;
-        const helpful = feedbacks.filter(f => f.helpful === true).length;
+        const helpful = feedbacks.filter(f => f.helpful === 1 || f.helpful === true).length;
         const notHelpful = total - helpful;
         const helpfulRate = total > 0 ? ((helpful / total) * 100).toFixed(1) : 0;
 
