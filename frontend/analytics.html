@@ -1174,19 +1174,15 @@
       if (faqKnowledgeBase) return faqKnowledgeBase;
 
       try {
-        const response = await fetch(`${API_BASE}/faq/search`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ query: '', limit: 1000 })
-        });
+        const response = await fetch(`${API_BASE}/faq/all`);
 
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
 
         const result = await response.json();
-        if (result.success && result.results) {
+        if (result.success && result.data && result.data.items) {
           // Create a map of faq_id to faq data
           faqKnowledgeBase = {};
-          result.results.forEach(faq => {
+          result.data.items.forEach(faq => {
             faqKnowledgeBase[faq.id] = {
               id: faq.id,
               title: faq.canonical_question,
@@ -2639,6 +2635,9 @@
     // Calculate top items from recent feedback
     async function calculateTopItemsFromRecentFeedback(languageFilter = '', daysFilter = '30') {
       try {
+        // Load FAQ KB first
+        await loadFAQKnowledgeBase();
+
         const params = new URLSearchParams({ limit: '1000', days: daysFilter });
         if (languageFilter) {
           params.append('language', languageFilter);
@@ -2691,6 +2690,7 @@
         const html = items.map((item, index) => {
           const typeLabel = item.feedback_type === 'faq' ? 'FAQ' : '雪場';
           const typeColor = item.feedback_type === 'faq' ? '#4A5F8C' : '#10b981';
+          const displayTitle = item.feedback_type === 'faq' ? getFAQTitle(item.item_id) : item.item_id;
 
           return `
             <div class="provider-item" style="display: flex; align-items: center; gap: 1rem; padding: 0.75rem; background: ${index % 2 === 0 ? '#f9fafb' : 'white'};">
@@ -2698,10 +2698,10 @@
               <div style="flex: 1;">
                 <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
                   <span style="background: ${typeColor}; color: white; padding: 0.1rem 0.5rem; border-radius: 4px; font-size: 0.75rem; font-weight: 600;">${typeLabel}</span>
-                  <strong style="color: #2D395C;">${item.item_id}</strong>
+                  <strong style="color: #2D395C;">${escapeHtml(displayTitle)}</strong>
                 </div>
                 <div style="color: #999; font-size: 0.85rem;">
-                  總反饋: ${item.total} | 有幫助: ${item.helpful}
+                  ${displayTitle !== item.item_id ? `ID: ${escapeHtml(item.item_id)} | ` : ''}總反饋: ${item.total} | 有幫助: ${item.helpful}
                 </div>
               </div>
               <div style="flex: 0 0 80px; text-align: right;">
@@ -2794,6 +2794,9 @@
     // Calculate bottom items from recent feedback
     async function calculateBottomItemsFromRecentFeedback(languageFilter = '', daysFilter = '30') {
       try {
+        // Load FAQ KB first
+        await loadFAQKnowledgeBase();
+
         const params = new URLSearchParams({ limit: '1000', days: daysFilter });
         if (languageFilter) {
           params.append('language', languageFilter);
@@ -2852,9 +2855,10 @@
           document.getElementById('lowSatisfactionWarning').style.display = 'block';
           const warningHtml = lowSatisfactionItems.map(item => {
             const typeLabel = item.feedback_type === 'faq' ? 'FAQ' : '雪場';
+            const displayTitle = item.feedback_type === 'faq' ? getFAQTitle(item.item_id) : item.item_id;
             return `
               <div style="padding: 0.5rem; background: white; border-radius: 4px; margin-bottom: 0.5rem;">
-                <strong>[${typeLabel}] ${item.item_id}</strong> -
+                <strong>[${typeLabel}] ${escapeHtml(displayTitle)}</strong> -
                 滿意率: <span style="color: #dc2626; font-weight: 700;">${item.helpful_rate.toFixed(1)}%</span>
                 (${item.helpful}/${item.total})
               </div>
@@ -2869,6 +2873,7 @@
           const typeLabel = item.feedback_type === 'faq' ? 'FAQ' : '雪場';
           const typeColor = item.feedback_type === 'faq' ? '#4A5F8C' : '#10b981';
           const rateColor = item.helpful_rate < 30 ? '#dc2626' : item.helpful_rate < 50 ? '#f59e0b' : '#6b7280';
+          const displayTitle = item.feedback_type === 'faq' ? getFAQTitle(item.item_id) : item.item_id;
 
           return `
             <div class="provider-item" style="display: flex; align-items: center; gap: 1rem; padding: 0.75rem; background: ${index % 2 === 0 ? '#f9fafb' : 'white'};">
@@ -2876,10 +2881,10 @@
               <div style="flex: 1;">
                 <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
                   <span style="background: ${typeColor}; color: white; padding: 0.1rem 0.5rem; border-radius: 4px; font-size: 0.75rem; font-weight: 600;">${typeLabel}</span>
-                  <strong style="color: #2D395C;">${item.item_id}</strong>
+                  <strong style="color: #2D395C;">${escapeHtml(displayTitle)}</strong>
                 </div>
                 <div style="color: #999; font-size: 0.85rem;">
-                  總反饋: ${item.total} | 有幫助: ${item.helpful}
+                  ${displayTitle !== item.item_id ? `ID: ${escapeHtml(item.item_id)} | ` : ''}總反饋: ${item.total} | 有幫助: ${item.helpful}
                 </div>
               </div>
               <div style="flex: 0 0 80px; text-align: right;">
