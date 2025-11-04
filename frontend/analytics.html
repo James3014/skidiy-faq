@@ -707,7 +707,6 @@
 
     <!-- FAQ Statistics Tab -->
     <div id="faq-tab" class="tab-content">
-      <div class="language-indicator">顯示語系：<strong id="faqLanguageIndicator">繁體中文</strong></div>
       <!-- FAQ Overall Statistics -->
       <div class="stats-grid">
         <div class="stat-card primary">
@@ -721,31 +720,37 @@
           <div class="subvalue"><span id="faqClickRate">-</span>% 點擊率</div>
         </div>
         <div class="stat-card">
-          <div class="label">分類點擊</div>
-          <div class="value" id="sectionTotalClicks">-</div>
-          <div class="subvalue">側邊欄分類</div>
+          <div class="label">不同 FAQ 數</div>
+          <div class="value" id="faqUniqueCount">-</div>
+          <div class="subvalue">被點擊的FAQ</div>
         </div>
-        <div class="stat-card">
+        <div class="stat-card warning">
           <div class="label">最熱門 FAQ</div>
           <div class="value" id="topFaqClicks">-</div>
           <div class="subvalue" id="topFaqId">-</div>
         </div>
       </div>
 
-      <!-- Section Click Statistics -->
-      <div class="chart-section">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-          <h2>分類點擊統計（最近 30 天）</h2>
-          <button class="refresh-btn" onclick="loadFAQData()">重新整理</button>
-        </div>
-        <div class="provider-comparison" id="sectionStats">
-          <div class="loading">載入分類統計中...</div>
-        </div>
+      <!-- Filters -->
+      <div style="display: flex; gap: 1rem; margin-bottom: 1.5rem; align-items: center;">
+        <label style="font-weight: 600;">語系篩選:</label>
+        <select id="faqLanguageFilter" onchange="loadFAQData()" style="padding: 0.5rem; border: 1px solid #d1d5db; border-radius: 6px;">
+          <option value="">全部語系</option>
+          <option value="zh">繁體中文</option>
+          <option value="en">English</option>
+          <option value="th">ภาษาไทย</option>
+        </select>
+        <label style="font-weight: 600; margin-left: 1rem;">時間範圍:</label>
+        <select id="faqDaysFilter" onchange="loadFAQData()" style="padding: 0.5rem; border: 1px solid #d1d5db; border-radius: 6px;">
+          <option value="7">最近 7 天</option>
+          <option value="30" selected>最近 30 天</option>
+          <option value="90">最近 90 天</option>
+        </select>
       </div>
 
       <!-- Top Clicked FAQs -->
       <div class="chart-section">
-        <h2>最常點擊的 FAQ（前 20 名）</h2>
+        <h2>❓ 熱門 FAQ 排行（前 20 名）</h2>
         <div class="recent-queries" id="topFAQs">
           <div class="loading">載入 FAQ 統計中...</div>
         </div>
@@ -753,18 +758,33 @@
 
       <!-- Daily FAQ Stats -->
       <div class="chart-section">
-        <h2>每日 FAQ 點擊趨勢</h2>
+        <h2>📈 每日 FAQ 點擊趨勢</h2>
         <div class="daily-chart">
           <div class="chart-bars" id="faqDailyChart">
             <div class="loading">載入每日資料中...</div>
           </div>
         </div>
       </div>
+
+      <!-- Language Distribution -->
+      <div class="provider-section">
+        <h3 style="margin-bottom: 1rem; color: #2D395C;">🌏 語系分佈</h3>
+        <div class="provider-list" id="faqLanguageDistribution">
+          <p style="text-align: center; color: #999; padding: 2rem;">載入中...</p>
+        </div>
+      </div>
+
+      <!-- Local FAQ Clicks -->
+      <div class="provider-section">
+        <h3 style="margin-bottom: 1rem; color: #2D395C;">🗂️ 本地 FAQ 點擊記錄 (最近 100 筆)</h3>
+        <div class="recent-queries" id="localFaqClicks">
+          <p style="text-align: center; color: #999; padding: 2rem;">載入中...</p>
+        </div>
+      </div>
     </div> <!-- End FAQ Tab -->
 
     <!-- Tag Statistics Tab -->
     <div id="tag-tab" class="tab-content">
-      <div class="language-indicator">顯示語系：<strong id="tagLanguageIndicator">繁體中文</strong></div>
       <!-- Overall Tag Statistics -->
       <div class="stats-grid">
         <div class="stat-card">
@@ -790,7 +810,14 @@
 
       <!-- Filters -->
       <div style="display: flex; gap: 1rem; margin-bottom: 1.5rem; align-items: center;">
-        <label style="font-weight: 600;">Tag 類型:</label>
+        <label style="font-weight: 600;">語系篩選:</label>
+        <select id="tagLanguageFilter" onchange="loadTagData()" style="padding: 0.5rem; border: 1px solid #d1d5db; border-radius: 6px;">
+          <option value="">全部語系</option>
+          <option value="zh">繁體中文</option>
+          <option value="en">English</option>
+          <option value="th">ภาษาไทย</option>
+        </select>
+        <label style="font-weight: 600; margin-left: 1rem;">Tag 類型:</label>
         <select id="tagTypeFilter" onchange="loadTagData()" style="padding: 0.5rem; border: 1px solid #d1d5db; border-radius: 6px;">
           <option value="">全部</option>
           <option value="faq">FAQ Tags</option>
@@ -1051,6 +1078,23 @@
           <div class="stat-label">滿意率</div>
           <div class="stat-value" id="helpfulRate">-</div>
         </div>
+      </div>
+
+      <!-- Filters -->
+      <div style="display: flex; gap: 1rem; margin-bottom: 1.5rem; align-items: center;">
+        <label style="font-weight: 600;">語系篩選:</label>
+        <select id="feedbackLanguageFilter" onchange="loadFeedbackData()" style="padding: 0.5rem; border: 1px solid #d1d5db; border-radius: 6px;">
+          <option value="">全部語系</option>
+          <option value="zh">繁體中文</option>
+          <option value="en">English</option>
+          <option value="th">ภาษาไทย</option>
+        </select>
+        <label style="font-weight: 600; margin-left: 1rem;">時間範圍:</label>
+        <select id="feedbackDaysFilter" onchange="loadFeedbackData()" style="padding: 0.5rem; border: 1px solid #d1d5db; border-radius: 6px;">
+          <option value="7">最近 7 天</option>
+          <option value="30" selected>最近 30 天</option>
+          <option value="90">最近 90 天</option>
+        </select>
       </div>
 
       <!-- Low Satisfaction Warning -->
@@ -1354,14 +1398,13 @@
     // Load FAQ analytics data
     async function loadFAQData() {
       try {
-        const faqIndicator = document.getElementById('faqLanguageIndicator');
-        if (faqIndicator) {
-          faqIndicator.textContent = LANGUAGE_LABELS[analyticsLanguage] || LANGUAGE_LABELS.all;
-        }
+        const languageFilter = document.getElementById('faqLanguageFilter').value;
+        const daysFilter = document.getElementById('faqDaysFilter').value;
 
         await Promise.all([
-          loadFAQStats(),
-          loadSectionStats()
+          loadFAQStats(languageFilter, daysFilter),
+          loadFAQLanguageDistribution(languageFilter, daysFilter),
+          loadLocalFAQClicks()
         ]);
       } catch (error) {
         console.error('Failed to load FAQ data:', error);
@@ -1370,11 +1413,11 @@
     }
 
     // Load FAQ statistics
-    async function loadFAQStats() {
+    async function loadFAQStats(languageFilter = '', daysFilter = '30') {
       try {
-        const params = new URLSearchParams({ days: 30 });
-        if (analyticsLanguage !== 'all') {
-          params.append('language', analyticsLanguage);
+        const params = new URLSearchParams({ days: daysFilter });
+        if (languageFilter) {
+          params.append('language', languageFilter);
         }
 
         const response = await fetch(`${API_BASE}/analytics/faq-stats?${params.toString()}`);
@@ -1385,28 +1428,26 @@
         }
 
         const data = result.data;
-        const langKey = data.language || analyticsLanguage || 'all';
-        const langLabel = LANGUAGE_LABELS[langKey] || LANGUAGE_LABELS.all;
-
-        const faqLanguageIndicator = document.getElementById('faqLanguageIndicator');
-        if (faqLanguageIndicator) {
-          faqLanguageIndicator.textContent = langLabel;
-        }
+        const langLabel = languageFilter ? LANGUAGE_LABELS[languageFilter] : '全部語系';
 
         const faqRange = document.getElementById('faqViewsRange');
         if (faqRange) {
-          faqRange.textContent = `最近 30 天 · ${langLabel}`;
+          faqRange.textContent = `最近 ${daysFilter} 天 · ${langLabel}`;
         }
 
         // Update overall stats
         document.getElementById('faqTotalViews').textContent = data.total_views?.toLocaleString() || '0';
         document.getElementById('faqTotalClicks').textContent = data.total_clicks?.toLocaleString() || '0';
         document.getElementById('faqClickRate').textContent = data.click_through_rate || '0.00';
+        document.getElementById('faqUniqueCount').textContent = data.by_faq?.length.toLocaleString() || '0';
 
         // Top FAQ
         if (data.by_faq && data.by_faq.length > 0) {
           document.getElementById('topFaqClicks').textContent = data.by_faq[0].clicks?.toLocaleString() || '0';
           document.getElementById('topFaqId').textContent = data.by_faq[0].faq_id || '-';
+        } else {
+          document.getElementById('topFaqClicks').textContent = '0';
+          document.getElementById('topFaqId').textContent = '-';
         }
 
         // Render top FAQs table
@@ -1421,32 +1462,88 @@
       }
     }
 
-    // Load section statistics
-    async function loadSectionStats() {
+    // Load FAQ language distribution
+    async function loadFAQLanguageDistribution(languageFilter = '', daysFilter = '30') {
       try {
-        const params = new URLSearchParams({ days: 30 });
-        if (analyticsLanguage !== 'all') {
-          params.append('language', analyticsLanguage);
+        const params = new URLSearchParams({ click_type: 'faq', days: daysFilter });
+        if (languageFilter) {
+          params.append('language', languageFilter);
         }
 
-        const response = await fetch(`${API_BASE}/analytics/section-stats?${params.toString()}`);
+        const response = await fetch(`${API_BASE}/analytics/clicks-by-language?${params}`);
         const result = await response.json();
 
         if (!result.success) {
-          throw new Error(result.error?.message || 'Failed to load section stats');
+          throw new Error(result.error?.message || 'Failed to load language distribution');
         }
 
-        const data = result.data;
+        const container = document.getElementById('faqLanguageDistribution');
+        const data = result.data || [];
 
-        // Update overall section clicks
-        document.getElementById('sectionTotalClicks').textContent = data.total?.toLocaleString() || '0';
+        if (data.length === 0) {
+          container.innerHTML = '<p style="text-align: center; color: #999; padding: 2rem;">暫無語系數據</p>';
+          return;
+        }
 
-        // Render section stats
-        renderSectionStats(data.by_section || []);
+        const html = data.map(item => `
+          <div class="provider-item">
+            <div class="provider-name">
+              ${LANGUAGE_LABELS[item.language] || item.language}
+            </div>
+            <div class="provider-stats">
+              <span class="provider-clicks">${item.clicks?.toLocaleString() || 0} 次點擊</span>
+            </div>
+          </div>
+        `).join('');
 
+        container.innerHTML = html;
       } catch (error) {
-        console.error('Failed to load section stats:', error);
-        document.getElementById('sectionStats').innerHTML = '<div class="error">無法載入分類統計數據</div>';
+        console.error('Failed to load FAQ language distribution:', error);
+        document.getElementById('faqLanguageDistribution').innerHTML = '<div class="error">無法載入語系分佈</div>';
+      }
+    }
+
+    // Load local FAQ clicks from localStorage
+    function loadLocalFAQClicks() {
+      try {
+        const clicksData = JSON.parse(localStorage.getItem('faq_clicks') || '[]');
+        const container = document.getElementById('localFaqClicks');
+
+        if (clicksData.length === 0) {
+          container.innerHTML = '<p style="text-align: center; color: #999; padding: 2rem;">暫無本地記錄</p>';
+          return;
+        }
+
+        // Sort by timestamp descending and take last 100
+        const recentClicks = clicksData
+          .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))
+          .slice(0, 100);
+
+        const html = recentClicks.map(click => {
+          const date = new Date(click.timestamp);
+          const timeStr = date.toLocaleString('zh-TW', {
+            month: '2-digit',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit'
+          });
+          const langLabel = LANGUAGE_LABELS[click.language] || click.language;
+
+          return `
+            <div class="query-item">
+              <div class="query-text">${escapeHtml(click.faq_id || '未知FAQ')}</div>
+              <div class="query-meta">
+                <span class="query-time">${timeStr}</span>
+                <span class="query-language">${langLabel}</span>
+              </div>
+            </div>
+          `;
+        }).join('');
+
+        container.innerHTML = html;
+      } catch (error) {
+        console.error('Failed to load local FAQ clicks:', error);
+        document.getElementById('localFaqClicks').innerHTML = '<div class="error">無法載入本地記錄</div>';
       }
     }
 
@@ -1572,22 +1669,17 @@
 
     // Load Tag analytics data
     async function loadTagData() {
+      const languageFilter = document.getElementById('tagLanguageFilter').value;
       const tagType = document.getElementById('tagTypeFilter').value;
       const days = document.getElementById('tagDaysFilter').value;
-      const tagIndicator = document.getElementById('tagLanguageIndicator');
-      if (tagIndicator) {
-        tagIndicator.textContent = LANGUAGE_LABELS[analyticsLanguage] || LANGUAGE_LABELS.all;
-      }
 
       try {
         // Load from backend API
         const params = new URLSearchParams();
+        if (languageFilter) params.append('language', languageFilter);
         if (tagType) params.append('tag_type', tagType);
         params.append('days', days);
         params.append('limit', 50);
-        if (analyticsLanguage !== 'all') {
-          params.append('language', analyticsLanguage);
-        }
 
         const response = await fetch(`${API_BASE}/analytics/tag-stats?${params}`);
 
@@ -1611,7 +1703,7 @@
 
     // Display tag statistics from API
     function displayTagStats(data) {
-      const langKey = data.language || analyticsLanguage || 'all';
+      const langKey = data.language || 'all';
       const langLabel = LANGUAGE_LABELS[langKey] || LANGUAGE_LABELS.all;
       const tagLanguageIndicator = document.getElementById('tagLanguageIndicator');
       if (tagLanguageIndicator) {
@@ -2119,12 +2211,15 @@
     // Load Feedback analytics data
     async function loadFeedbackData() {
       try {
+        const languageFilter = document.getElementById('feedbackLanguageFilter').value;
+        const daysFilter = document.getElementById('feedbackDaysFilter').value;
+
         await Promise.all([
-          loadFeedbackStats(),
-          loadFeedbackReasons(),
-          loadTopRatedItems(),
-          loadBottomRatedItems(),
-          loadRecentFeedback()
+          loadFeedbackStats(languageFilter, daysFilter),
+          loadFeedbackReasons(languageFilter, daysFilter),
+          loadTopRatedItems(languageFilter, daysFilter),
+          loadBottomRatedItems(languageFilter, daysFilter),
+          loadRecentFeedback(languageFilter, daysFilter)
         ]);
       } catch (error) {
         console.error('Failed to load feedback data:', error);
@@ -2133,11 +2228,11 @@
     }
 
     // Load overall feedback statistics
-    async function loadFeedbackStats() {
+    async function loadFeedbackStats(languageFilter = '', daysFilter = '30') {
       try {
-        const params = new URLSearchParams();
-        if (analyticsLanguage && analyticsLanguage !== 'all') {
-          params.append('language', analyticsLanguage);
+        const params = new URLSearchParams({ days: daysFilter });
+        if (languageFilter) {
+          params.append('language', languageFilter);
         }
 
         const response = await fetch(`${API_BASE}/analytics/feedback-stats?${params}`);
@@ -2201,11 +2296,11 @@
     }
 
     // Load feedback reasons distribution
-    async function loadFeedbackReasons() {
+    async function loadFeedbackReasons(languageFilter = '', daysFilter = '30') {
       try {
-        const params = new URLSearchParams();
-        if (analyticsLanguage && analyticsLanguage !== 'all') {
-          params.append('language', analyticsLanguage);
+        const params = new URLSearchParams({ days: daysFilter });
+        if (languageFilter) {
+          params.append('language', languageFilter);
         }
 
         const response = await fetch(`${API_BASE}/analytics/feedback-reasons?${params}`);
@@ -2245,12 +2340,11 @@
     }
 
     // Load top rated items
-    async function loadTopRatedItems() {
+    async function loadTopRatedItems(languageFilter = '', daysFilter = '30') {
       try {
-        const params = new URLSearchParams();
-        params.append('limit', '10');
-        if (analyticsLanguage && analyticsLanguage !== 'all') {
-          params.append('language', analyticsLanguage);
+        const params = new URLSearchParams({ limit: '10', days: daysFilter });
+        if (languageFilter) {
+          params.append('language', languageFilter);
         }
 
         const response = await fetch(`${API_BASE}/analytics/feedback-top-items?${params}`);
@@ -2298,12 +2392,11 @@
     }
 
     // Load bottom rated items (low satisfaction)
-    async function loadBottomRatedItems() {
+    async function loadBottomRatedItems(languageFilter = '', daysFilter = '30') {
       try {
-        const params = new URLSearchParams();
-        params.append('limit', '10');
-        if (analyticsLanguage && analyticsLanguage !== 'all') {
-          params.append('language', analyticsLanguage);
+        const params = new URLSearchParams({ limit: '10', days: daysFilter });
+        if (languageFilter) {
+          params.append('language', languageFilter);
         }
 
         const response = await fetch(`${API_BASE}/analytics/feedback-bottom-items?${params}`);
@@ -2371,12 +2464,11 @@
     }
 
     // Load recent feedback
-    async function loadRecentFeedback() {
+    async function loadRecentFeedback(languageFilter = '', daysFilter = '30') {
       try {
-        const params = new URLSearchParams();
-        params.append('limit', '50');
-        if (analyticsLanguage && analyticsLanguage !== 'all') {
-          params.append('language', analyticsLanguage);
+        const params = new URLSearchParams({ limit: '50', days: daysFilter });
+        if (languageFilter) {
+          params.append('language', languageFilter);
         }
 
         const response = await fetch(`${API_BASE}/analytics/feedback-recent?${params}`);
