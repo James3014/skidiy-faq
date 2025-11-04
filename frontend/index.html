@@ -2988,12 +2988,21 @@
         };
 
         // Store in localStorage
-        const engagements = JSON.parse(localStorage.getItem('resortEngagements') || '[]');
-        engagements.push(engagement);
-        if (engagements.length > 100) engagements.shift();
-        localStorage.setItem('resortEngagements', JSON.stringify(engagements));
-
-        console.log('[Resort Engagement] Tracked successfully:', engagement);
+        try {
+          let engagements = JSON.parse(localStorage.getItem('resortEngagements') || '[]');
+          // If data is corrupted or not an array, reset it
+          if (!Array.isArray(engagements)) {
+            console.warn('[Resort Engagement] Corrupted data detected, resetting...');
+            engagements = [];
+          }
+          engagements.push(engagement);
+          if (engagements.length > 100) engagements.shift();
+          localStorage.setItem('resortEngagements', JSON.stringify(engagements));
+          console.log('[Resort Engagement] Tracked successfully:', engagement);
+        } catch (e) {
+          console.warn('[Resort Engagement] Failed to parse data, resetting:', e);
+          localStorage.setItem('resortEngagements', JSON.stringify([engagement]));
+        }
 
         // Try to send to backend
         try {
@@ -3620,6 +3629,9 @@
       submitBtn.disabled = true;
       submitBtn.textContent = '提交中...';
 
+      // Always save to localStorage first (for analytics display)
+      saveLocalFeedback();
+
       try {
         const response = await fetch(`${API_BASE}/analytics/feedback`, {
           method: 'POST',
@@ -3641,14 +3653,24 @@
         const data = await response.json();
         console.log('[Feedback] 提交成功:', data);
 
+        // Mark as synced in localStorage
+        try {
+          const feedbacks = JSON.parse(localStorage.getItem('localFeedbacks') || '[]');
+          if (feedbacks.length > 0 && !feedbacks[feedbacks.length - 1].synced) {
+            feedbacks[feedbacks.length - 1].synced = true;
+            localStorage.setItem('localFeedbacks', JSON.stringify(feedbacks));
+          }
+        } catch (e) {
+          console.warn('[Feedback] Failed to mark as synced:', e);
+        }
+
         // 成功提交
         closeFeedbackModal();
         showSuccessMessage();
 
       } catch (error) {
         console.error('[Feedback] 提交失敗:', error);
-        // 本地保存（後備方案）
-        saveLocalFeedback();
+        // Already saved to localStorage above
         closeFeedbackModal();
         showSuccessMessage('（已本地保存）');
       } finally {
