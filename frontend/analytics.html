@@ -2329,7 +2329,47 @@
         console.log('[Feedback Analytics] Stats loaded:', data);
       } catch (error) {
         console.error('[Feedback Analytics] Error loading stats from API:', error);
-        // Load from localStorage as fallback
+        // Try to calculate from recent feedback API as fallback
+        calculateStatsFromRecentFeedback(languageFilter, daysFilter);
+      }
+    }
+
+    // Calculate stats from recent feedback API when stats API fails
+    async function calculateStatsFromRecentFeedback(languageFilter = '', daysFilter = '30') {
+      try {
+        const params = new URLSearchParams({ limit: '1000', days: daysFilter });
+        if (languageFilter) {
+          params.append('language', languageFilter);
+        }
+
+        const response = await fetch(`${API_BASE}/analytics/feedback-recent?${params}`);
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+        const result = await response.json();
+        const feedbacks = result.data || [];
+
+        if (feedbacks.length === 0) {
+          // Finally try localStorage
+          loadLocalFeedbackStats();
+          return;
+        }
+
+        // Calculate stats from feedback list
+        const total = feedbacks.length;
+        const helpful = feedbacks.filter(f => f.helpful === true).length;
+        const notHelpful = total - helpful;
+        const helpfulRate = total > 0 ? ((helpful / total) * 100).toFixed(1) : 0;
+
+        document.getElementById('totalFeedback').textContent = total;
+        document.getElementById('helpfulCount').textContent = helpful;
+        document.getElementById('notHelpfulCount').textContent = notHelpful;
+        document.getElementById('helpfulRate').textContent = `${helpfulRate}%`;
+
+        renderFeedbackTypeChart({ total_feedback: total, helpful_count: helpful, not_helpful_count: notHelpful });
+        console.log('[Feedback Analytics] Stats calculated from recent feedback:', { total, helpful, notHelpful });
+      } catch (error) {
+        console.error('[Feedback Analytics] Error calculating from recent feedback:', error);
+        // Final fallback to localStorage
         loadLocalFeedbackStats();
       }
     }
