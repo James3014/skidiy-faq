@@ -7,7 +7,9 @@ module.exports =
       "LINK_APPLY_SCHEDULE": "https://booking.diy.ski/apply-schedule",
       "LINK_INSURANCE": "https://diy.ski/insurance_s.php",
       "LINK_ARTICLES": "https://diy.ski/articleList.php",
-      "LINK_ORDER_LIST": "https://booking.diy.ski/order/list"
+      "LINK_ORDER_LIST": "https://booking.diy.ski/order/list",
+      "LINK_SERVICE_EMAIL": "mailto:service@diy.ski",
+      "LINK_FACEBOOK": "https://www.facebook.com/skidiy"
     },
     "policy_notes": [
       "NO_QUOTE: 不口頭報價，請導至系統頁面。",
@@ -19,53 +21,54 @@ module.exports =
     {
       "id": "faq.itinerary.001",
       "intent": "ITINERARY",
-      "section": "行程規劃與周邊",
-      "canonical_question": "應該先訂好機票住宿，還是先預約滑雪教練？",
-      "hot": true,
+      "section": "行程與費用",
+      "canonical_question": "請問滑雪行程費用包含哪些項目？",
       "utterance_patterns": [
-        "應該先訂好機票住宿，還是先預約滑雪教練",
-        "先訂教練還是先訂機票",
-        "先訂教練還是先訂住宿",
-        "要先預約教練嗎",
-        "機票住宿要先訂嗎",
-        "先訂教練比較保險嗎",
-        "要先預約教練",
-        "機票住宿要先訂",
-        "先訂教練比較保險",
-        "應該先訂好機票住宿，還是先預約滑雪教練？"
+        "滑雪行程費用包含什麼",
+        "費用包含",
+        "行程費用",
+        "包含哪些",
+        "行程費用包含哪些項目",
+        "請問滑雪行程費用包含哪些項目？"
       ],
       "required_slots": [],
-      "policy_flags": [
-        "NO_MANUAL_MATCH"
+      "policy_flags": [],
+      "keywords": [
+        "滑雪行程",
+        "費用包含",
+        "滑雪裝備",
+        "纜車票",
+        "滑雪教練"
       ],
       "answer_template": {
-        "text": "我們強烈建議您「先預約教練，再訂機票住宿」。尤其是在旺季，優質的中文教練非常搶手，時常比機票或住宿更早被預約一空。先確認預約到您想要的教練與時段後，再進行後續的旅遊安排，行程會比較有保障。",
-        "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
+        "summary": "滑雪行程費用包含當地交通、住宿、餐食、滑雪教練、滑雪裝備租借、纜車票、保險。",
+        "details": "行程費用涵蓋了您在滑雪期間的各項主要開銷，確保您能無憂享受滑雪樂趣。具體包含：當地交通接駁、舒適住宿、每日餐食、專業滑雪教練指導、全套滑雪裝備租借、雪場纜車票以及旅行保險。不包含項目則為：國際機票、簽證費用及個人性質消費。",
+        "tip": "建議您在出發前仔細核對行程頁面，了解所有包含與不包含的項目，並可根據個人需求加購額外服務。",
         "links_inline": false,
         "text_translations": {
-          "en": "We strongly recommend that you 'book your coach first, then your flights and accommodation.' Especially during peak season, high-quality Chinese-speaking coaches are in high demand and are often fully booked even before flights or accommodation. By confirming your desired coach and time slot first, and then making subsequent travel arrangements, your itinerary will be more secure.",
-          "th": "เราขอแนะนำอย่างยิ่งให้คุณ \"จองโค้ชก่อน แล้วค่อยจองตั๋วเครื่องบินและที่พัก\" โดยเฉพาะอย่างยิ่งในช่วงฤดูท่องเที่ยว โค้ชภาษาจีนที่มีคุณภาพเป็นที่ต้องการอย่างมาก และมักจะถูกจองเต็มเร็วกว่าตั๋วเครื่องบินหรือที่พัก หลังจากยืนยันการจองโค้ชและช่วงเวลาที่คุณต้องการแล้ว การจัดเตรียมการเดินทางในภายหลังจะช่วยให้แผนการเดินทางของคุณมีความมั่นคงมากขึ้น"
+          "en": "Ski trip costs include: local transportation, accommodation, meals, ski instructor, ski equipment rental, lift tickets, insurance. Excludes: airfare, visas, personal expenses.",
+          "th": "ค่าใช้จ่ายทริปสกีประกอบด้วย: การเดินทางในท้องถิ่น, ที่พัก, อาหาร, ผู้สอนสกี, ค่าเช่าอุปกรณ์สกี, ตั๋วลิฟต์, ประกันภัย ไม่รวม: ค่าตั๋วเครื่องบิน, วีซ่า, ค่าใช้จ่ายส่วนตัว"
         },
         "postscript_translations": {
-          "en": "For more information and the latest availability, please refer to the reservation system.",
-          "th": "สำหรับข้อมูลเพิ่มเติมและจำนวนที่ว่างล่าสุด โปรดดูตามที่แสดงในระบบการจอง"
+          "en": "For detailed costs, please refer to the itinerary page.",
+          "th": "สำหรับค่าใช้จ่ายโดยละเอียด โปรดดูที่หน้ากำหนดการเดินทาง"
         }
       },
       "links": [
-        "{{LINK_SCHEDULE}}",
-        "{{LINK_ARTICLES}}"
+        "{{LINK_SCHEDULE}}"
       ],
       "crm_tags": [
-        "#行程規劃"
+        "#費用",
+        "#行程"
       ],
       "metadata": {
-        "content_version": 1,
+        "content_version": 2,
         "source_language": "zh",
-        "last_updated": "2025-10-28T07:36:14.070Z"
+        "last_updated": "2025-11-04T22:51:39.000Z"
       },
       "canonical_question_translations": {
-        "en": "Should I book flights and accommodation first, or reserve a ski instructor first?",
-        "th": "ควรจองตั๋วเครื่องบินและที่พักก่อน หรือจองครูสอนสกีล่วงหน้าก่อนดี?"
+        "en": "What does the ski trip cost include?",
+        "th": "ค่าใช้จ่ายทริปสกีรวมอะไรบ้าง?"
       },
       "translation_status": {
         "zh": {
@@ -76,12 +79,12 @@ module.exports =
         "en": {
           "status": "complete",
           "last_synced_version": 1,
-          "last_updated": "2025-10-28T10:13:38.250688+00:00"
+          "last_updated": "2025-10-28T13:29:02.023893+00:00"
         },
         "th": {
           "status": "complete",
           "last_synced_version": 1,
-          "last_updated": "2025-10-28T10:13:38.250688+00:00"
+          "last_updated": "2025-10-28T13:29:02.023893+00:00"
         }
       }
     },
@@ -260,12 +263,12 @@ module.exports =
         "NO_MANUAL_MATCH"
       ],
       "answer_template": {
-        "text": "為了確保服務品質與資訊的準確性，我們目前主要透過電子郵件 ( admin@diy.ski ) 提供客服。文字記錄能幫助我們更精準地理解您的問題，並完整地追蹤處理進度。我們承諾會盡快回覆您的所有問題。",
+        "text": "為了確保服務品質與資訊的準確性，我們目前主要透過電子郵件 ( [LINK:LINK_SERVICE_EMAIL|service@diy.ski] ) 提供客服。文字記錄能幫助我們更精準地理解您的問題，並完整地追蹤處理進度。我們承諾會盡快回覆您的所有問題。",
         "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
         "links_inline": false,
         "text_translations": {
-          "en": "To ensure service quality and accuracy of information, we currently primarily provide customer service via email (admin@diy.ski). Text records help us understand your questions more precisely and fully track the progress of their resolution. We promise to respond to all your inquiries as quickly as possible.",
-          "th": "เพื่อให้มั่นใจในคุณภาพการบริการและความถูกต้องของข้อมูล ปัจจุบันเราให้บริการลูกค้าหลักผ่านทางอีเมล (admin@diy.ski) การบันทึกข้อความช่วยให้เราเข้าใจปัญหาของคุณได้อย่างแม่นยำยิ่งขึ้น และติดตามความคืบหน้าในการแก้ไขได้อย่างสมบูรณ์ เราสัญญาว่าจะตอบกลับทุกคำถามของคุณโดยเร็วที่สุด"
+          "en": "To ensure service quality and accuracy of information, we currently primarily provide customer service via email ([LINK:LINK_SERVICE_EMAIL|service@diy.ski]). Text records help us understand your questions more precisely and fully track the progress of their resolution. We promise to respond to all your inquiries as quickly as possible.",
+          "th": "เพื่อให้มั่นใจในคุณภาพการบริการและความถูกต้องของข้อมูล ปัจจุบันเราให้บริการลูกค้าหลักผ่านทางอีเมล ([LINK:LINK_SERVICE_EMAIL|service@diy.ski]) การบันทึกข้อความช่วยให้เราเข้าใจปัญหาของคุณได้อย่างแม่นยำยิ่งขึ้น และติดตามความคืบหน้าในการแก้ไขได้อย่างสมบูรณ์ เราสัญญาว่าจะตอบกลับทุกคำถามของคุณโดยเร็วที่สุด"
         },
         "postscript_translations": {
           "en": "For more information and the latest availability, please refer to the reservation system.",
@@ -937,12 +940,12 @@ module.exports =
         "NO_MANUAL_MATCH"
       ],
       "answer_template": {
-        "text": "可以考慮「熊貓滑雪學校」（Pandaruman），專為5歲以下兒童設計課程：https://www.pandaruman.com/",
+        "text": "可以考慮 [LINK:LINK_PANDARUMAN|熊貓滑雪學校]，專為5歲以下兒童設計課程。",
         "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
         "links_inline": false,
         "text_translations": {
-          "en": "Consider 'Pandaruman Ski School,' which offers courses specifically designed for children under 5 years old: https://www.pandaruman.com/",
-          "th": "พิจารณา \"โรงเรียนสอนสกีแพนด้า\" (Pandaruman) ซึ่งมีหลักสูตรที่ออกแบบมาสำหรับเด็กอายุต่ำกว่า 5 ปีโดยเฉพาะ: https://www.pandaruman.com/"
+          "en": "Consider [LINK:LINK_PANDARUMAN|Pandaruman Ski School], which offers courses specifically designed for children under 5 years old.",
+          "th": "พิจารณา [LINK:LINK_PANDARUMAN|โรงเรียนสกี Pandaruman] ซึ่งมีหลักสูตรที่ออกแบบมาสำหรับเด็กอายุต่ำกว่า 5 ปีโดยเฉพาะ"
         },
         "postscript_translations": {
           "en": "For more information and the latest availability, please refer to the reservation system.",
@@ -2071,12 +2074,12 @@ module.exports =
         "NO_MANUAL_MATCH"
       ],
       "answer_template": {
-        "text": "依情況而定。若您想增加或減少人數，請直接在後台訂單選擇，系統將自動重新計算費用。若您想「增加」堂數但要合併在同一個訂單，最快的方式是請您「自行取消原訂單，然後重新預約一個正確內容的新訂單」。因為這涉及到費用重新計算與金流，取消重訂能確保您的費用正確無誤。只要符合我們的退訂政策，取消是不會收取額外費用的。若要「減少」堂數請直接連繫客服處理。\n\n參考連結：https://booking.diy.ski/order/list",
+        "text": "依情況而定。若您想增加或減少人數，請直接在後台訂單選擇，系統將自動重新計算費用。若您想「增加」堂數但要合併在同一個訂單，最快的方式是請您「自行取消原訂單，然後重新預約一個正確內容的新訂單」。因為這涉及到費用重新計算與金流，取消重訂能確保您的費用正確無誤。只要符合我們的退訂政策，取消是不會收取額外費用的。若要「減少」堂數請直接連繫客服處理。\n\n您可在 [LINK:LINK_ORDER_LIST|訂單查詢] 頁面檢視您的訂單。",
         "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
         "links_inline": false,
         "text_translations": {
-          "en": "It depends on the situation. If you wish to increase or decrease the number of participants, please select it directly in the backend order system, and the system will automatically recalculate the fees. If you wish to \"increase\" the number of sessions but want to combine them into the same order, the fastest way is to \"cancel your original order yourself and then rebook a new order with the correct content.\" This is because it involves recalculating fees and payment flows, and canceling and rebooking ensures your fees are accurate. As long as it complies with our cancellation policy, there will be no additional charges for cancellation. If you wish to \"decrease\" the number of sessions, please contact customer service directly.\n\nReference link: https://booking.diy.ski/order/list",
-          "th": "ขึ้นอยู่กับสถานการณ์ หากคุณต้องการเพิ่มหรือลดจำนวนคน โปรดเลือกโดยตรงในคำสั่งซื้อแบ็คเอนด์ และระบบจะคำนวณค่าธรรมเนียมใหม่โดยอัตโนมัติ หากคุณต้องการ \"เพิ่ม\" จำนวนบทเรียนแต่ต้องการรวมไว้ในคำสั่งซื้อเดียวกัน วิธีที่เร็วที่สุดคือ \"ยกเลิกคำสั่งซื้อเดิมด้วยตนเอง จากนั้นจองคำสั่งซื้อใหม่ที่มีเนื้อหาถูกต้อง\" เนื่องจากเกี่ยวข้องกับการคำนวณค่าธรรมเนียมใหม่และการไหลของเงิน การยกเลิกและจองใหม่จะช่วยให้มั่นใจได้ว่าค่าธรรมเนียมของคุณถูกต้อง ตราบใดที่เป็นไปตามนโยบายการยกเลิกของเรา จะไม่มีการเรียกเก็บค่าธรรมเนียมเพิ่มเติมสำหรับการยกเลิก หากต้องการ \"ลด\" จำนวนบทเรียน โปรดติดต่อฝ่ายบริการลูกค้าโดยตรง\n\nลิงก์อ้างอิง: https://booking.diy.ski/order/list"
+          "en": "It depends on the situation. If you wish to increase or decrease the number of participants, please select it directly in the backend order system, and the system will automatically recalculate the fees. If you wish to \"increase\" the number of sessions but want to combine them into the same order, the fastest way is to \"cancel your original order yourself and then rebook a new order with the correct content.\" This is because it involves recalculating fees and payment flows, and canceling and rebooking ensures your fees are accurate. As long as it complies with our cancellation policy, there will be no additional charges for cancellation. If you wish to \"decrease\" the number of sessions, please contact customer service directly.\n\nYou can check your orders at [LINK:LINK_ORDER_LIST|My Orders] page.",
+          "th": "ขึ้นอยู่กับสถานการณ์ หากคุณต้องการเพิ่มหรือลดจำนวนคน โปรดเลือกโดยตรงในคำสั่งซื้อแบ็คเอนด์ และระบบจะคำนวณค่าธรรมเนียมใหม่โดยอัตโนมัติ หากคุณต้องการ \"เพิ่ม\" จำนวนบทเรียนแต่ต้องการรวมไว้ในคำสั่งซื้อเดียวกัน วิธีที่เร็วที่สุดคือ \"ยกเลิกคำสั่งซื้อเดิมด้วยตนเอง จากนั้นจองคำสั่งซื้อใหม่ที่มีเนื้อหาถูกต้อง\" เนื่องจากเกี่ยวข้องกับการคำนวณค่าธรรมเนียมใหม่และการไหลของเงิน การยกเลิกและจองใหม่จะช่วยให้มั่นใจได้ว่าค่าธรรมเนียมของคุณถูกต้อง ตราบใดที่เป็นไปตามนโยบายการยกเลิกของเรา จะไม่มีการเรียกเก็บค่าธรรมเนียมเพิ่มเติมสำหรับการยกเลิก หากต้องการ \"ลด\" จำนวนบทเรียน โปรดติดต่อฝ่ายบริการลูกค้าโดยตรง\n\nคุณสามารถตรวจสอบคำสั่งซื้อของคุณที่หน้า [LINK:LINK_ORDER_LIST|คำสั่งของฉัน]"
         },
         "postscript_translations": {
           "en": "For more information and the latest availability, please refer to the reservation system.",
@@ -3146,12 +3149,12 @@ module.exports =
         "NO_MANUAL_MATCH"
       ],
       "answer_template": {
-        "text": "是的，需要先註冊才能使用網站，目前僅提供電子郵件註冊與登入。 \n\n註冊網址：https://booking.diy.ski/schedule",
+        "text": "是的，需要先註冊才能使用網站，目前僅提供電子郵件註冊與登入。\n\n請前往 [LINK:LINK_SCHEDULE|預約系統] 進行註冊。",
         "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
         "links_inline": false,
         "text_translations": {
-          "en": "Yes, you need to register first to use the website. Currently, only email registration and login are provided. Registration URL: https://booking.diy.ski/schedule",
-          "th": "ใช่ ต้องลงทะเบียนก่อนจึงจะสามารถใช้งานเว็บไซต์ได้ ขณะนี้รองรับเฉพาะการลงทะเบียนและเข้าสู่ระบบด้วยอีเมลเท่านั้น\n\nลิงก์ลงทะเบียน: https://booking.diy.ski/schedule"
+          "en": "Yes, you need to register first to use the website. Currently, only email registration and login are provided.\n\nPlease visit [LINK:LINK_SCHEDULE|the registration page] to sign up.",
+          "th": "ใช่ ต้องลงทะเบียนก่อนจึงจะสามารถใช้งานเว็บไซต์ได้ ขณะนี้รองรับเฉพาะการลงทะเบียนและเข้าสู่ระบบด้วยอีเมลเท่านั้น\n\nโปรดไปที่ [LINK:LINK_SCHEDULE|หน้าลงทะเบียน] เพื่อสมัครสมาชิก"
         },
         "postscript_translations": {
           "en": "For more information and the latest availability, please refer to the reservation system.",
@@ -3211,12 +3214,12 @@ module.exports =
         "NO_MANUAL_MATCH"
       ],
       "answer_template": {
-        "text": "可在網站查詢開課教練與費用：https://booking.diy.ski/schedule\n\n教練介紹頁面：https://diy.ski/instructorList.php\n\n篩選條件包括：\n\n* 雙板/單板  \n* 上課地點（如是否在神樂）  \n* 可預約時段（半日或全日）",
+        "text": "可在網站查詢開課教練與費用：[LINK:LINK_SCHEDULE|預約系統]\n\n教練介紹頁面：[LINK:LINK_INSTRUCTORS|教練介紹]\n\n篩選條件包括：\n\n* 雙板/單板  \n* 上課地點（如是否在神樂）  \n* 可預約時段（半日或全日）",
         "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
         "links_inline": false,
         "text_translations": {
-          "en": "You can check the available instructors and fees on the website: https://booking.diy.ski/schedule\n\nInstructor introduction page: https://diy.ski/instructorList.php\n\nFilter conditions include:\n\n* Ski/Snowboard\n* Class location (e.g., whether in Kagura)\n* Available booking slots (half-day or full-day)",
-          "th": "สามารถตรวจสอบโค้ชและค่าธรรมเนียมการเรียนได้ที่เว็บไซต์: https://booking.diy.ski/schedule\n\nหน้าแนะนำโค้ช: https://diy.ski/instructorList.php\n\nเงื่อนไขการคัดกรองประกอบด้วย:\n\n* สกีคู่/สโนว์บอร์ด\n* สถานที่เรียน (เช่น อยู่ที่คางุระหรือไม่)\n* ช่วงเวลาที่สามารถจองได้ (ครึ่งวันหรือเต็มวัน)"
+          "en": "You can check the available instructors and fees on the website: [LINK:LINK_SCHEDULE|Schedule]\n\nInstructor introduction page: [LINK:LINK_INSTRUCTORS|Instructors]\n\nFilter conditions include:\n\n* Ski/Snowboard\n* Class location (e.g., whether in Kagura)\n* Available booking slots (half-day or full-day)",
+          "th": "สามารถตรวจสอบโค้ชและค่าธรรมเนียมการเรียนได้ที่เว็บไซต์: [LINK:LINK_SCHEDULE|ตารางเวลา]\n\nหน้าแนะนำโค้ช: [LINK:LINK_INSTRUCTORS|ผู้สอน]\n\nเงื่อนไขการคัดกรองประกอบด้วย:\n\n* สกีคู่/สโนว์บอร์ด\n* สถานที่เรียน (เช่น อยู่ที่คางุระหรือไม่)\n* ช่วงเวลาที่สามารถจองได้ (ครึ่งวันหรือเต็มวัน)"
         },
         "postscript_translations": {
           "en": "For more information and the latest availability, please refer to the reservation system.",
@@ -3334,12 +3337,12 @@ module.exports =
         "NO_MANUAL_MATCH"
       ],
       "answer_template": {
-        "text": "* 預約成功通知信件  \n* 保險與上課提醒通知信  \n* 您也可隨時於網站查詢訂單：https://booking.diy.ski/order/list\n\nQ：上課前需要準備什麼？平台會提醒嗎？\n\nA：建議準備：\n\n* 雪具（雪板、雪鞋）可先行租借  \n* 安全帽與護具（防摔褲、膝、手腕護具）建議自備  \n* 雪衣褲、手套、雪鏡等基本裝備  \n* 雪票：部分雪場提供優惠購票連結  \n* 機票、住宿、交通等個人安排\n\n提醒方式：\n\n* 上課前 7 天教練會主動聯繫確認  \n* 系統會寄出提醒信與保險通知表單",
+        "text": "* 預約成功通知信件  \n* 保險與上課提醒通知信  \n* 您也可隨時於網站查詢訂單：[LINK:LINK_ORDER_LIST|訂單查詢]\n\nQ：上課前需要準備什麼？平台會提醒嗎？\n\nA：建議準備：\n\n* 雪具（雪板、雪鞋）可先行租借  \n* 安全帽與護具（防摔褲、膝、手腕護具）建議自備  \n* 雪衣褲、手套、雪鏡等基本裝備  \n* 雪票：部分雪場提供優惠購票連結  \n* 機票、住宿、交通等個人安排\n\n提醒方式：\n\n* 上課前 7 天教練會主動聯繫確認  \n* 系統會寄出提醒信與保險通知表單",
         "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
         "links_inline": false,
         "text_translations": {
-          "en": "* Booking successful notification email\n* Insurance and class reminder notification email\n* You can also check your order on the website at any time: https://booking.diy.ski/order/list\n\nQ: What do I need to prepare before class? Will the platform remind me?\n\nA: Recommended preparations:\n\n* Snow gear (snowboard, snow boots) can be rented in advance\n* Helmet and protective gear (crash pants, knee, wrist guards) are recommended to be brought by yourself\n* Basic equipment such as snow jacket and pants, gloves, and snow goggles\n* Lift ticket: Some ski resorts offer discounted ticket purchase links\n* Personal arrangements such as air tickets, accommodation, and transportation\n\nReminder methods:\n\n* The coach will proactively contact you to confirm 7 days before class\n* The system will send out a reminder email and insurance notification form",
-          "th": "* จดหมายแจ้งยืนยันการจองสำเร็จ\n* จดหมายแจ้งเตือนเรื่องประกันภัยและการเรียน\n* คุณสามารถตรวจสอบคำสั่งซื้อของคุณได้ตลอดเวลาบนเว็บไซต์: https://booking.diy.ski/order/list\n\nถาม: ต้องเตรียมอะไรก่อนเรียนบ้าง? แพลตฟอร์มจะแจ้งเตือนหรือไม่?\n\nตอบ: แนะนำให้เตรียม:\n\n* อุปกรณ์สกี (สกีบอร์ด, รองเท้าสกี) สามารถเช่าล่วงหน้าได้\n* หมวกกันน็อคและอุปกรณ์ป้องกัน (กางเกงกันกระแทก, สนับเข่า, สนับข้อมือ) แนะนำให้นำมาเอง\n* ชุดสกี, ถุงมือ, แว่นตาสกี และอุปกรณ์พื้นฐานอื่นๆ\n* ตั๋วขึ้นกระเช้า: สกีรีสอร์ทบางแห่งมีลิงก์สำหรับซื้อตั๋วในราคาพิเศษ\n* การจัดการส่วนตัว เช่น ตั๋วเครื่องบิน, ที่พัก, การเดินทาง\n\nวิธีการแจ้งเตือน:\n\n* โค้ชจะติดต่อเพื่อยืนยันล่วงหน้า 7 วันก่อนเรียน\n* ระบบจะส่งอีเมลแจ้งเตือนและแบบฟอร์มแจ้งประกันภัย"
+          "en": "* Booking successful notification email\n* Insurance and class reminder notification email\n* You can also check your order on the website at any time: [LINK:LINK_ORDER_LIST|My Orders]\n\nQ: What do I need to prepare before class? Will the platform remind me?\n\nA: Recommended preparations:\n\n* Snow gear (snowboard, snow boots) can be rented in advance\n* Helmet and protective gear (crash pants, knee, wrist guards) are recommended to be brought by yourself\n* Basic equipment such as snow jacket and pants, gloves, and snow goggles\n* Lift ticket: Some ski resorts offer discounted ticket purchase links\n* Personal arrangements such as air tickets, accommodation, and transportation\n\nReminder methods:\n\n* The coach will proactively contact you to confirm 7 days before class\n* The system will send out a reminder email and insurance notification form",
+          "th": "* จดหมายแจ้งยืนยันการจองสำเร็จ\n* จดหมายแจ้งเตือนเรื่องประกันภัยและการเรียน\n* คุณสามารถตรวจสอบคำสั่งซื้อของคุณได้ตลอดเวลาบนเว็บไซต์: [LINK:LINK_ORDER_LIST|คำสั่งของฉัน]\n\nถาม: ต้องเตรียมอะไรก่อนเรียนบ้าง? แพลตฟอร์มจะแจ้งเตือนหรือไม่?\n\nตอบ: แนะนำให้เตรียม:\n\n* อุปกรณ์สกี (สกีบอร์ด, รองเท้าสกี) สามารถเช่าล่วงหน้าได้\n* หมวกกันน็อคและอุปกรณ์ป้องกัน (กางเกงกันกระแทก, สนับเข่า, สนับข้อมือ) แนะนำให้นำมาเอง\n* ชุดสกี, ถุงมือ, แว่นตาสกี และอุปกรณ์พื้นฐานอื่นๆ\n* ตั๋วขึ้นกระเช้า: สกีรีสอร์ทบางแห่งมีลิงก์สำหรับซื้อตั๋วในราคาพิเศษ\n* การจัดการส่วนตัว เช่น ตั๋วเครื่องบิน, ที่พัก, การเดินทาง\n\nวิธีการแจ้งเตือน:\n\n* โค้ชจะติดต่อเพื่อยืนยันล่วงหน้า 7 วันก่อนเรียน\n* ระบบจะส่งอีเมลแจ้งเตือนและแบบฟอร์มแจ้งประกันภัย"
         },
         "postscript_translations": {
           "en": "For more information and the latest availability, please refer to the reservation system.",
@@ -4699,4 +4702,4 @@ module.exports =
       }
     }
   ]
-}
+};
