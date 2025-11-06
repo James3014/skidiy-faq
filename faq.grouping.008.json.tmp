@@ -1,0 +1,151 @@
+{
+  "id": "faq.grouping.008",
+  "intent": "GROUPING",
+  "section": "👨‍👩‍👧‍👦 一起上課安排",
+  "canonical_question": "成人與小孩可以一起上課嗎？",
+  "utterance_patterns": [
+    "成人與小孩可以一起上課嗎",
+    "成人與小孩能不能一起上課嗎",
+    "成人與小孩可以一起上課",
+    "成人與小孩能不能一起上課",
+    "成人與小孩可不可以一起上課",
+    "成人與小孩能否一起上課",
+    "成人與小孩可以一起上課嗎？",
+    "成人與小孩能否一起上課？",
+    "成人與小孩可不可以一起上課？",
+    "成人與小孩可以一起上課？",
+    "成人與小孩能不能一起上課？"
+  ],
+  "required_slots": [
+    "date?",
+    "resort?",
+    "board_type?",
+    "people_total?"
+  ],
+  "policy_flags": [
+    "NO_MANUAL_MATCH"
+  ],
+  "keywords": [
+    "成人小孩同堂",
+    "親子課程",
+    "兒童滑雪",
+    "成人滑雪",
+    "分開上課",
+    "安全考量",
+    "學習進度"
+  ],
+  "answer_template": {
+    "text": "成人與小孩可以同堂上課，但若小孩年紀較小，教練會優先確保他們的安全與基礎動作練習，因此成人的練習時間可能會相對減少。若您希望成人學習進度不受影響，建議 5 歲以下孩童分開安排課程。",
+    "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
+    "links_inline": false
+  },
+  "links": [
+    "{{LINK_SCHEDULE}}",
+    "{{LINK_INSTRUCTORS}}"
+  ],
+  "crm_tags": [
+    "#親子同堂",
+    "#兒童課程",
+    "#成人課程",
+    "#課程安排"
+  ],
+  "metadata": {
+    "content_version": 1,
+    "source_language": "zh",
+    "last_updated": "2025-11-05T00:00:00.000Z"
+  },
+  "section_translations": {
+    "en": "Family class arrangement",
+    "th": "การจัดชั้นเรียนสำหรับครอบครัว"
+  },
+  "canonical_question_translations": {
+    "en": "Can adults and children take classes together?",
+    "th": "ผู้ใหญ่และเด็กสามารถเรียนด้วยกันได้หรือไม่?"
+  },
+  "utterance_patterns_translations": {
+    "en": [
+      "Can adults and children attend classes together?",
+      "Can adults and children attend classes together?",
+      "Adults and children can attend classes together.",
+      "Can adults and children attend classes together?",
+      "Can adults and children attend class together?",
+      "Can adults and children attend class together?",
+      "Can adults and children take classes together?",
+      "Can adults and children attend class together?",
+      "Can adults and children attend classes together?",
+      "Can adults and children take classes together?",
+      "Can adults and children attend classes together?"
+    ],
+    "th": [
+      "ผู้ใหญ่และเด็กสามารถเข้าเรียนด้วยกันได้ไหม",
+      "ผู้ใหญ่และเด็กสามารถเรียนด้วยกันได้หรือไม่?",
+      "ผู้ใหญ่และเด็กสามารถเข้าเรียนด้วยกันได้",
+      "ผู้ใหญ่และเด็กสามารถเข้าเรียนด้วยกันได้หรือไม่",
+      "ผู้ใหญ่และเด็กสามารถเข้าเรียนด้วยกันได้หรือไม่?",
+      "ผู้ใหญ่และเด็กสามารถเข้าเรียนด้วยกันได้หรือไม่?",
+      "ผู้ใหญ่และเด็กสามารถเรียนด้วยกันได้ไหม?",
+      "ผู้ใหญ่และเด็กสามารถเรียนด้วยกันได้หรือไม่?",
+      "ผู้ใหญ่และเด็กสามารถเรียนด้วยกันได้หรือไม่?",
+      "ผู้ใหญ่และเด็กสามารถเรียนด้วยกันได้ไหม?",
+      "ผู้ใหญ่และเด็กสามารถเข้าเรียนด้วยกันได้หรือไม่?"
+    ]
+  },
+  "keywords_translations": {
+    "en": [
+      "Adults and children in the same class",
+      "Parent-child courses",
+      "Children's skiing",
+      "Adult skiing",
+      "Separate classes",
+      "Safety considerations",
+      "Learning progress"
+    ],
+    "th": [
+      "ชั้นเรียนรวมผู้ใหญ่และเด็ก",
+      "หลักสูตรสำหรับผู้ปกครองและเด็ก",
+      "สกีสำหรับเด็ก",
+      "สกีสำหรับผู้ใหญ่",
+      "แยกชั้นเรียน",
+      "ข้อควรพิจารณาด้านความปลอดภัย",
+      "ความก้าวหน้าในการเรียนรู้"
+    ]
+  },
+  "crm_tags_translations": {
+    "en": [
+      "#FamilyLearning",
+      "#ChildrensCourses",
+      "#AdultCourses",
+      "#CourseSchedule"
+    ],
+    "th": [
+      "#กิจกรรมครอบครัว",
+      "#หลักสูตรสำหรับเด็ก",
+      "#หลักสูตรสำหรับผู้ใหญ่",
+      "#การจัดตารางเรียน"
+    ]
+  },
+  "answer_template_translations": {
+    "summary_translations": {
+      "en": "Adults and children can attend classes together, but if the children are younger, the coach will prioritize ensuring their safety and basic movement practice, which may relatively reduce the adults' practice time. If you wish for adults' learning progress to be unaffected, it is recommended to arrange separate classes for children under 5 years old.",
+      "th": "ผู้ใหญ่และเด็กสามารถเข้าเรียนร่วมกันได้ แต่หากเด็กมีอายุน้อยกว่า โค้ชจะให้ความสำคัญกับการดูแลความปลอดภัยและการฝึกการเคลื่อนไหวพื้นฐานของเด็กเป็นอันดับแรก ซึ่งอาจทำให้เวลาฝึกซ้อมของผู้ใหญ่ลดลง หากคุณต้องการให้ความก้าวหน้าในการเรียนรู้ของผู้ใหญ่ไม่ได้รับผลกระทบ ขอแนะนำให้จัดชั้นเรียนแยกต่างหากสำหรับเด็กอายุต่ำกว่า 5 ปี"
+    },
+    "postscript_translations": {
+      "en": "For more information and the latest availability, please refer to the reservation system.",
+      "th": "สำหรับข้อมูลเพิ่มเติมและจำนวนที่ว่างล่าสุด โปรดอ้างอิงจากระบบการจอง"
+    }
+  },
+  "translation_status": {
+    "zh": {
+      "status": "complete",
+      "translator": "human_reviewed"
+    },
+    "en": {
+      "status": "complete",
+      "translator": "human_reviewed"
+    },
+    "th": {
+      "status": "complete",
+      "translator": "human_reviewed"
+    }
+  }
+}

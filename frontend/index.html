@@ -776,6 +776,33 @@
       box-shadow: 0 2px 4px rgba(74, 95, 140, 0.3);
     }
 
+    /* FAQ Links Styling */
+    .faq-link {
+      color: #2D5AA0;
+      text-decoration: none;
+      font-weight: 500;
+      border-bottom: 1px solid #2D5AA0;
+      transition: all 0.2s ease;
+      word-break: break-word;
+    }
+
+    .faq-link:hover {
+      color: #1a3a66;
+      border-bottom-color: #1a3a66;
+      background-color: rgba(45, 90, 160, 0.05);
+    }
+
+    .faq-link-email::before {
+      content: '✉️ ';
+      margin-right: 2px;
+    }
+
+    .faq-link-external::after {
+      content: ' 🔗';
+      margin-left: 2px;
+      font-size: 0.9em;
+    }
+
     .loading { text-align: center; padding: 3rem; color: #999; }
     .hidden { display: none; }
 
@@ -1488,6 +1515,7 @@
     let currentLanguage = 'zh';
     let resortDataCache = null;
     let activeResortRegion = null;
+    let linkTokens = {}; // Store link_tokens from faq_kb.json
 
     // API base configuration
     const API_BASE = window.API_BASE || '/api/v1';
@@ -1739,6 +1767,32 @@
       'Pool': { zh: '游泳池', en: 'Pool', th: 'สระว่ายน้ำ' }
     };
 
+    // Parse FAQ text with [LINK:TOKEN|LABEL] format
+    function parseLinksInText(text) {
+      if (!text) return '';
+
+      // Replace [LINK:TOKEN|LABEL] with <a> tags
+      return text.replace(/\[LINK:([A-Z_]+)\|([^\]]+)\]/g, (match, token, label) => {
+        const url = linkTokens[token];
+        if (!url) {
+          console.warn(`[Link Parser] Token not found: ${token}`);
+          return label; // Fallback to just the label text
+        }
+
+        // Sanitize label and URL
+        const safeLabel = DOMPurify.sanitize(label);
+        const safeUrl = DOMPurify.sanitize(url);
+
+        // Handle mailto: links
+        if (url.startsWith('mailto:')) {
+          return `<a href="${safeUrl}" class="faq-link faq-link-email" onclick="event.stopPropagation()">${safeLabel}</a>`;
+        }
+
+        // Handle external links
+        return `<a href="${safeUrl}" target="_blank" rel="noopener noreferrer" class="faq-link faq-link-external" onclick="event.stopPropagation()">${safeLabel}</a>`;
+      });
+    }
+
     function getFaqTagLabel(tag, language) {
       const locale = FAQ_TAG_LOCALE[tag];
       if (!locale) return tag;
@@ -1774,6 +1828,13 @@
         await faqEngine.initialize();
         currentLanguage = i18n?.currentLanguage || 'zh';
         allFAQs = faqEngine.getAllFAQs();
+
+        // Load link_tokens from faq_kb.json meta
+        if (faqEngine.faqData && faqEngine.faqData.meta && faqEngine.faqData.meta.link_tokens) {
+          linkTokens = faqEngine.faqData.meta.link_tokens;
+          console.log('[Init] Link tokens loaded:', Object.keys(linkTokens).length);
+        }
+
         console.log(`[Init] FAQ engine initialized with ${allFAQs.length} FAQs`);
 
         const languageSelect = document.getElementById('languageSelect');
@@ -2511,7 +2572,7 @@
         // Get localized content
         const localized = faqEngine.getLocalizedContent(faq, currentLanguage);
         const question = DOMPurify.sanitize(localized.question || faq.canonical_question || '');
-        const answer = DOMPurify.sanitize(localized.answer || faq.answer_template?.text || (i18n ? i18n.t('no_answer_content') : '無答案內容'));
+        const answer = parseLinksInText(localized.answer || faq.answer_template?.text || (i18n ? i18n.t('no_answer_content') : '無答案內容'));
         const confidenceLabel = i18n ? i18n.t('confidence') : '信心度';
 
         // Render tags if available
@@ -2775,9 +2836,9 @@
 
         const localized = faqEngine.getLocalizedContent(faq, currentLanguage);
         const question = DOMPurify.sanitize(localized.question || faq.canonical_question || '');
-        const answer = DOMPurify.sanitize(localized.answer || '無答案內容');
+        const answer = parseLinksInText(localized.answer || '無答案內容');
         const postscript = localized.postscript
-          ? `<div class="faq-postscript">${DOMPurify.sanitize(localized.postscript)}</div>`
+          ? `<div class="faq-postscript">${parseLinksInText(localized.postscript)}</div>`
           : '';
 
         // Render tags if available

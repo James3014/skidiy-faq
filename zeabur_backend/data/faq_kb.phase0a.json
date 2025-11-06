@@ -1,0 +1,2068 @@
+{
+  "meta": {
+    "link_tokens": {
+      "LINK_SCHEDULE": "https://booking.diy.ski/schedule",
+      "LINK_INSTRUCTORS": "https://diy.ski/instructorList.php",
+      "LINK_APPLY_SCHEDULE": "https://booking.diy.ski/apply-schedule",
+      "LINK_INSURANCE": "https://diy.ski/insurance_s.php",
+      "LINK_ARTICLES": "https://diy.ski/articleList.php",
+      "LINK_ORDER_LIST": "https://booking.diy.ski/order/list"
+    },
+    "policy_notes": [
+      "NO_QUOTE: 不口頭報價，請導至系統頁面。",
+      "NO_MANUAL_MATCH: 不人工查空檔/配對。",
+      "NO_INSURANCE_BREAKDOWN: 不外顯保險費用細項。"
+    ]
+  },
+  "items": [
+    {
+      "id": "faq.itinerary.001",
+      "intent": "ITINERARY",
+      "section": "行程規劃與周邊",
+      "section_translations": {
+        "en": "Itinerary Planning and Surroundings",
+        "th": "การวางแผนการเดินทางและพื้นที่ใกล้เคียง"
+      },
+      "canonical_question": "應該先訂好機票住宿，還是先預約滑雪教練？",
+      "canonical_question_translations": {
+        "en": "Should I book flights and accommodation first, or reserve a ski instructor first?",
+        "th": "ควรจองตั๋วเครื่องบินและที่พักก่อน หรือจองครูสอนสกีล่วงหน้าก่อนดี?"
+      },
+      "keywords": [
+        "預約教練",
+        "行程規劃",
+        "訂機票",
+        "訂住宿",
+        "旺季"
+      ],
+      "keywords_translations": {
+        "en": [
+          "Book a coach",
+          "Itinerary planning",
+          "Book flight tickets",
+          "Book accommodation",
+          "Peak season"
+        ],
+        "th": [
+          "จองโค้ช",
+          "การวางแผนการเดินทาง",
+          "จองตั๋วเครื่องบิน",
+          "จองที่พัก",
+          "ฤดูท่องเที่ยว"
+        ]
+      },
+      "utterance_patterns": [
+        "應該先訂好機票住宿，還是先預約滑雪教練",
+        "先訂教練還是先訂機票",
+        "先訂教練還是先訂住宿",
+        "要先預約教練嗎",
+        "機票住宿要先訂嗎",
+        "先訂教練比較保險嗎",
+        "要先預約教練",
+        "機票住宿要先訂",
+        "先訂教練比較保險"
+      ],
+      "utterance_patterns_translations": {
+        "en": [
+          "Should I book flights and accommodation first, or book a ski instructor first?",
+          "Book a coach first or book a flight first?",
+          "Book a coach first or accommodation first?",
+          "Do I need to book a coach in advance?",
+          "Should I book flights and accommodation first?",
+          "Is it safer/more reliable to book a coach in advance?",
+          "You need to book a coach in advance.",
+          "Flight and accommodation must be booked in advance.",
+          "It's safer to book a coach first."
+        ],
+        "th": [
+          "ควรจองตั๋วเครื่องบินและที่พักก่อน หรือจองครูสอนสกีล่วงหน้าก่อนดี?",
+          "จองโค้ชก่อนหรือจองตั๋วเครื่องบินก่อน",
+          "จองโค้ชก่อนหรือที่พักก่อน?",
+          "ต้องจองโค้ชล่วงหน้าไหม",
+          "ควรจองตั๋วเครื่องบินและที่พักก่อนไหม",
+          "จองโค้ชล่วงหน้าจะปลอดภัยกว่าไหม",
+          "ต้องจองโค้ชล่วงหน้า",
+          "ต้องจองตั๋วเครื่องบินและที่พักล่วงหน้า",
+          "จองโค้ชก่อนปลอดภัยกว่า"
+        ]
+      },
+      "answer_template": {
+        "summary": "我們強烈建議您「先預約教練，再訂機票住宿」。尤其是在旺季，優質的中文教練非常搶手，時常比機票或住宿更早被預約一空。",
+        "details": "先確認預約到您想要的教練與時段後，再進行後續的旅遊安排，行程會比較有保障。",
+        "tip": "旺季期間建議提早 2-3 個月預約，以確保能選擇理想的教練與時段。",
+        "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
+        "summary_translations": {
+          "en": "We strongly recommend that you \"book your coach first, then book your flights and accommodation.\" Especially during peak season, high-quality Chinese coaches are in high demand and are often fully booked earlier than flights or accommodation.",
+          "th": "เราขอแนะนำอย่างยิ่งให้คุณ \"จองโค้ชก่อน แล้วค่อยจองตั๋วเครื่องบินและที่พัก\" โดยเฉพาะอย่างยิ่งในช่วงฤดูท่องเที่ยว โค้ชภาษาจีนที่มีคุณภาพเป็นที่ต้องการอย่างมาก และมักจะถูกจองเต็มเร็วกว่าตั๋วเครื่องบินหรือที่พัก"
+        },
+        "details_translations": {
+          "en": null,
+          "th": null
+        },
+        "tip_translations": {
+          "en": null,
+          "th": null
+        },
+        "postscript_translations": {
+          "en": "For more information and the latest availability, please refer to the reservation system.",
+          "th": "สำหรับข้อมูลเพิ่มเติมและจำนวนที่ว่างล่าสุด โปรดดูที่ระบบการจอง"
+        }
+      },
+      "hot": true,
+      "required_slots": [],
+      "policy_flags": [
+        "NO_MANUAL_MATCH"
+      ],
+      "crm_tags": [
+        "#行程規劃",
+        "#旺季預約",
+        "#教練預約",
+        "#優先順序"
+      ],
+      "crm_tags_translations": {
+        "en": [
+          "#ItineraryPlanning",
+          "#PeakSeasonBooking",
+          "#InstructorBooking",
+          "#Priority"
+        ],
+        "th": [
+          "#การวางแผนเส้นทาง",
+          "#การจองช่วงฤดูท่องเที่ยว",
+          "#การนัดหมายโค้ช",
+          "#ลำดับความสำคัญ"
+        ]
+      },
+      "links": [
+        "{{LINK_SCHEDULE}}",
+        "{{LINK_ARTICLES}}"
+      ],
+      "metadata": {
+        "content_version": 2,
+        "source_language": "zh",
+        "last_updated": "2025-11-05T00:00:00.000Z"
+      },
+      "translation_status": {
+        "zh": {
+          "status": "source",
+          "last_synced_version": 2,
+          "last_updated": "2025-11-05T00:00:00.000Z"
+        },
+        "en": {
+          "status": "complete",
+          "translator": "human_reviewed",
+          "last_synced_version": 2,
+          "last_updated": "2025-11-05T00:00:00.000Z"
+        },
+        "th": {
+          "status": "complete",
+          "translator": "human_reviewed",
+          "last_synced_version": 2,
+          "last_updated": "2025-11-05T00:00:00.000Z"
+        }
+      }
+    },
+    {
+      "id": "faq.itinerary.002",
+      "intent": "ITINERARY",
+      "section": "行程規劃與周邊",
+      "section_translations": {
+        "en": "Trip Planning and Surroundings",
+        "th": "การวางแผนการเดินทางและบริเวณโดยรอบ"
+      },
+      "canonical_question": "你們有推薦的住宿嗎？為什麼熱門時段的房間這麼難訂？",
+      "canonical_question_translations": {
+        "en": "Do you have any recommended accommodations? Why is it so difficult to book rooms during peak season?",
+        "th": "คุณมีที่พักแนะนำไหม? ทำไมการจองห้องพักในช่วงฤดูท่องเที่ยวถึงยากจัง?"
+      },
+      "utterance_patterns": [
+        "你們有推薦的住宿嗎為什麼熱門時段的房間這麼難訂",
+        "住宿推薦",
+        "有沒有推薦的飯店",
+        "房間很難訂為什麼",
+        "旺季住宿怎麼訂",
+        "住宿什麼時候會開放預訂",
+        "你們有推薦的住宿為什麼熱門時段的房間這麼難訂",
+        "你們有推薦的住宿？為什麼熱門時段的房間這麼難訂？",
+        "你們有推薦的住宿嗎？為什麼熱門時段的房間這麼難訂？"
+      ],
+      "utterance_patterns_translations": {
+        "en": [
+          "Do you have any recommended accommodations? Why is it so difficult to book rooms during peak season?",
+          "Accommodation recommendation",
+          "Any hotel recommendations?",
+          "Why is it so difficult to book a room?",
+          "How to book accommodation during peak season?",
+          "When will accommodation be open for booking?",
+          "Do you have any recommended accommodations? Why are rooms so difficult to book during peak seasons?",
+          "Do you have any recommended accommodations? Why are rooms so difficult to book during peak seasons?",
+          "Do you have any recommended accommodations? Why is it so difficult to book rooms during peak seasons?"
+        ],
+        "th": [
+          "คุณมีที่พักแนะนำไหม ทำไมห้องพักถึงจองยากจังในช่วงฤดูท่องเที่ยว",
+          "แนะนำที่พัก",
+          "มีโรงแรมแนะนำไหม",
+          "ทำไมห้องถึงจองยากจัง",
+          "จะจองที่พักช่วงฤดูท่องเที่ยวได้อย่างไร?",
+          "ที่พักจะเปิดให้จองเมื่อไหร่",
+          "คุณมีที่พักแนะนำไหม? ทำไมห้องพักถึงจองยากจังในช่วงฤดูท่องเที่ยว?",
+          "คุณมีที่พักแนะนำไหม? ทำไมห้องพักถึงจองยากจังในช่วงฤดูท่องเที่ยว?",
+          "คุณมีที่พักแนะนำไหม? ทำไมถึงจองห้องพักยากจังในช่วงเวลาที่นิยม?"
+        ]
+      },
+      "keywords": [
+        "住宿推薦",
+        "旺季訂房",
+        "訂房困難",
+        "開放預訂",
+        "熱門時段"
+      ],
+      "keywords_translations": {
+        "en": [
+          "Accommodation recommendation",
+          "Peak season booking",
+          "Difficulty in booking",
+          "Open for booking",
+          "Popular time slot"
+        ],
+        "th": [
+          "ที่พักแนะนำ",
+          "การจองช่วงฤดูท่องเที่ยว",
+          "จองยาก",
+          "เปิดให้จอง",
+          "ช่วงเวลาที่นิยม"
+        ]
+      },
+      "crm_tags": [
+        "#住宿問題",
+        "#旺季訂房",
+        "#訂房攻略"
+      ],
+      "crm_tags_translations": {
+        "en": [
+          "#AccommodationIssues",
+          "#PeakSeasonBooking",
+          "#BookingGuide"
+        ],
+        "th": [
+          "#ปัญหาที่พัก",
+          "#จองที่พักช่วงฤดูท่องเที่ยว",
+          "#คู่มือการจองที่พัก"
+        ]
+      },
+      "answer_template": {
+        "summary": "我們在網站的各雪場介紹頁面中，有整理學員們較常選擇的住宿選項供您參考。關於熱門時段（如聖誕、跨年、農曆新年）訂房困難，主要有兩個原因：1) 日本的訂房通常在 2-3 個月前才開放，太早查詢會顯示無空房。2) 這些時段是全球的滑雪旺季，房價會大幅上漲且很快被訂滿，建議您確定行程後盡早預訂。",
+        "details": null,
+        "tip": null,
+        "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
+        "summary_translations": {
+          "en": "On each ski resort introduction page of our website, we have compiled accommodation options that students frequently choose for your reference. Regarding the difficulty of booking during popular periods (such as Christmas, New Year's Eve, and Lunar New Year), there are two main reasons: 1) Bookings in Japan usually open only 2-3 months in advance; searching too early will show no availability. 2) These periods are global peak ski seasons, and room rates will increase significantly and be booked up quickly. We recommend booking as early as possible once your itinerary is confirmed.",
+          "th": "ในหน้าแนะนำสกีรีสอร์ตแต่ละแห่งบนเว็บไซต์ของเรา เราได้รวบรวมตัวเลือกที่พักที่นักเรียนมักจะเลือกไว้ให้คุณอ้างอิงเกี่ยวกับการจองที่พักในช่วงเวลาที่ได้รับความนิยม (เช่น คริสต์มาส, วันส่งท้ายปีเก่า, ตรุษจีน) มีสองสาเหตุหลัก: 1) การจองที่พักในญี่ปุ่นมักจะเปิดให้จองล่วงหน้าเพียง 2-3 เดือนเท่านั้น การค้นหาเร็วเกินไปจะแสดงว่าไม่มีห้องว่าง 2) ช่วงเวลาเหล่านี้เป็นฤดูท่องเที่ยวสกีทั่วโลก ราคาห้องพักจะสูงขึ้นอย่างมากและถูกจองเต็มอย่างรวดเร็ว เราขอแนะนำให้คุณจองล่วงหน้าโดยเร็วที่สุดเมื่อยืนยันแผนการเดินทางแล้ว"
+        },
+        "details_translations": {
+          "en": null,
+          "th": null
+        },
+        "tip_translations": {
+          "en": null,
+          "th": null
+        },
+        "postscript_translations": {
+          "en": "For more information and the latest availability, please refer to the booking system.",
+          "th": "สำหรับข้อมูลเพิ่มเติมและจำนวนที่ว่างล่าสุด โปรดดูที่ระบบการจอง"
+        }
+      },
+      "hot": true,
+      "required_slots": [],
+      "policy_flags": [
+        "NO_MANUAL_MATCH"
+      ],
+      "links": [
+        "{{LINK_SCHEDULE}}",
+        "{{LINK_ARTICLES}}"
+      ],
+      "metadata": {
+        "content_version": 2,
+        "source_language": "zh",
+        "last_updated": "2025-11-05T00:00:00.000Z"
+      },
+      "translation_status": {
+        "zh": {
+          "status": "source",
+          "last_synced_version": 2,
+          "last_updated": "2025-11-05T00:00:00.000Z"
+        },
+        "en": {
+          "status": "complete",
+          "translator": "human_reviewed",
+          "last_synced_version": 2,
+          "last_updated": "2025-11-05T00:00:00.000Z"
+        },
+        "th": {
+          "status": "complete",
+          "translator": "human_reviewed",
+          "last_synced_version": 2,
+          "last_updated": "2025-11-05T00:00:00.000Z"
+        }
+      }
+    },
+    {
+      "id": "faq.service.003",
+      "intent": "SERVICE",
+      "section": "服務範圍與聯絡方式",
+      "section_translations": {
+        "en": "Service Scope and Contact Information",
+        "th": "ขอบเขตการบริการและข้อมูลติดต่อ"
+      },
+      "canonical_question": "你們主要在日本哪些地區或滑雪場提供教練服務？",
+      "canonical_question_translations": {
+        "en": "In which areas or ski resorts in Japan do you mainly provide coaching services?",
+        "th": "คุณให้บริการฝึกสอนในพื้นที่หรือสกีรีสอร์ตใดบ้างในญี่ปุ่นเป็นหลัก?"
+      },
+      "utterance_patterns": [
+        "你們主要在日本哪些地區或滑雪場提供教練服務",
+        "可以在雪場裡授課嗎",
+        "可以在滑雪場內上課嗎",
+        "會不會被驅趕",
+        "會不會被趕走",
+        "會不會被勸離",
+        "輕井澤王子可以授課嗎",
+        "輕井澤王子滑雪場可以上課嗎",
+        "Prince Ski 可以上課嗎",
+        "在某個雪場是否能安排教練授課",
+        "能不能在雪場裡授課",
+        "可不可以在雪場裡授課",
+        "可以在雪場裡授課",
+        "能否在雪場裡授課",
+        "能否在滑雪場內上課",
+        "可以在滑雪場內上課",
+        "能不能在滑雪場內上課",
+        "可不可以在滑雪場內上課",
+        "輕井澤王子能否授課",
+        "輕井澤王子可以授課",
+        "輕井澤王子能不能授課",
+        "輕井澤王子可不可以授課",
+        "輕井澤王子滑雪場能不能上課",
+        "輕井澤王子滑雪場可不可以上課",
+        "輕井澤王子滑雪場可以上課",
+        "輕井澤王子滑雪場能否上課",
+        "Prince Ski 可不可以上課",
+        "Prince Ski 可以上課",
+        "Prince Ski 能不能上課",
+        "Prince Ski 能否上課",
+        "你們主要在日本哪些地區或滑雪場提供教練服務？"
+      ],
+      "utterance_patterns_translations": {
+        "en": [
+          "In which areas or ski resorts in Japan do you mainly provide coaching services?",
+          "Can lessons be taught on the ski slopes?",
+          "Can I take lessons at the ski resort?",
+          "Will I be driven away?",
+          "Will I be kicked out?",
+          "Will I be advised to leave?",
+          "Can Karuizawa Prince teach classes?",
+          "Can you take lessons at Karuizawa Prince Ski Resort?",
+          "Can Prince Ski take lessons?",
+          "Can a coach be arranged for lessons at a certain ski resort?",
+          "Can lessons be given on the ski slopes?",
+          "Can I teach on the ski slopes?",
+          "Can teach lessons at the ski resort.",
+          "Is it possible to teach on the ski slopes?",
+          "Is it possible to take lessons at the ski resort?",
+          "You can take lessons at the ski resort.",
+          "Can one take lessons inside the ski resort?",
+          "Can I take lessons at the ski resort?",
+          "Can Prince Karuizawa teach?",
+          "Karuizawa Prince can give lessons.",
+          "Can Karuizawa Prince offer lessons?",
+          "Can Karuizawa Prince give lessons?",
+          "Can I take lessons at Karuizawa Prince Ski Resort?",
+          "Can I take lessons at Karuizawa Prince Ski Resort?",
+          "Karuizawa Prince Hotel Ski Resort offers lessons.",
+          "Can I take lessons at Karuizawa Prince Ski Resort?",
+          "Prince Ski can take classes.",
+          "Prince Ski can take classes.",
+          "Can Prince Ski attend class?",
+          "Can Prince Ski attend class?",
+          "Which regions or ski resorts in Japan do you primarily provide coaching services in?"
+        ],
+        "th": [
+          "คุณให้บริการฝึกสอนในพื้นที่หรือสกีรีสอร์ตใดบ้างในญี่ปุ่นเป็นหลัก?",
+          "สามารถสอนที่ลานสกีได้ไหม?",
+          "สามารถเรียนที่สกีรีสอร์ทได้ไหม",
+          "จะถูกขับไล่ไหม",
+          "จะถูกไล่ออกหรือไม่",
+          "จะถูกแนะนำให้ออกไปหรือไม่",
+          "คารุอิซาวะปรินซ์สามารถสอนชั้นเรียนได้หรือไม่",
+          "สามารถเรียนที่ Karuizawa Prince Ski Resort ได้หรือไม่?",
+          "เจ้าชายสกีสามารถเรียนได้ไหม",
+          "สามารถจัดหาโค้ชเพื่อสอนที่สกีรีสอร์ทแห่งใดแห่งหนึ่งได้หรือไม่?",
+          "สามารถสอนบนลานสกีได้หรือไม่?",
+          "สามารถสอนบนลานสกีได้หรือไม่",
+          "สามารถสอนบทเรียนที่สกีรีสอร์ทได้",
+          "สามารถสอนบนลานสกีได้หรือไม่?",
+          "สามารถเรียนที่สกีรีสอร์ทได้หรือไม่?",
+          "สามารถเรียนที่ลานสกีได้",
+          "สามารถเรียนภายในสกีรีสอร์ทได้ไหม?",
+          "สามารถเรียนที่สกีรีสอร์ทได้หรือไม่",
+          "เจ้าชายคารุอิซาวะสอนได้ไหม",
+          "Karuizawa Prince สามารถสอนได้",
+          "คารุอิซาวะพรินซ์สามารถสอนได้หรือไม่?",
+          "คารุอิซาวะพรินซ์สามารถสอนได้หรือไม่?",
+          "สามารถเรียนที่ Karuizawa Prince Ski Resort ได้หรือไม่?",
+          "สามารถเรียนที่ Karuizawa Prince Ski Resort ได้หรือไม่?",
+          "สกีรีสอร์ทคารุอิซาวะพรินซ์มีคอร์สเรียน",
+          "สามารถเรียนที่ Karuizawa Prince Ski Resort ได้หรือไม่",
+          "เจ้าชายสกีสามารถเข้าเรียนได้หรือไม่?",
+          "Prince Ski สามารถเข้าเรียนได้",
+          "เจ้าชายสกีเข้าเรียนได้ไหม",
+          "Prince Ski สามารถเข้าเรียนได้ไหม?",
+          "คุณให้บริการโค้ชชิ่งในภูมิภาคหรือสกีรีสอร์ตใดบ้างในญี่ปุ่นเป็นหลัก?"
+        ]
+      },
+      "keywords": [
+        "服務範圍",
+        "日本滑雪場",
+        "教練服務地點",
+        "授課地點"
+      ],
+      "keywords_translations": {
+        "en": [
+          "Service scope",
+          "Japan ski resort",
+          "Coach service location",
+          "Teaching location"
+        ],
+        "th": [
+          "ขอบเขตการบริการ",
+          "ลานสกีญี่ปุ่น",
+          "สถานที่ให้บริการโค้ช",
+          "สถานที่สอน"
+        ]
+      },
+      "crm_tags": [
+        "#服務地點",
+        "#雪場資訊",
+        "#教練服務"
+      ],
+      "crm_tags_translations": {
+        "en": [
+          "#ServiceLocation",
+          "#SkiResortInformation",
+          "#CoachService"
+        ],
+        "th": [
+          "#สถานที่ให้บริการ",
+          "#ข้อมูลลานสกี",
+          "#บริการโค้ช"
+        ]
+      },
+      "answer_template": {
+        "summary": "我們的中文滑雪教練服務遍及日本多個熱門滑雪區域，包含：北海道（札幌、留壽都、富良野）、東北（安比、藏王）、新潟（湯澤地區、苗場）、長野（輕井澤、白馬、野澤）等。您可以在我們的網站首頁或「雪場介紹」頁面，查看所有提供服務的雪場列表。",
+        "details": null,
+        "tip": null,
+        "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
+        "summary_translations": {
+          "en": "Our Chinese-speaking ski instructor services cover many popular ski areas in Japan, including: Hokkaido (Sapporo, Rusutsu, Furano), Tohoku (Appi, Zao), Niigata (Yuzawa area, Naeba), Nagano (Karuizawa, Hakuba, Nozawa), etc. You can view a list of all available ski resorts on our website's homepage or the \"Ski Resort Introduction\" page.",
+          "th": "บริการครูสอนสกีที่พูดภาษาจีนของเราครอบคลุมพื้นที่เล่นสกีท่องเที่ยวยอดนิยมหลายแห่งในญี่ปุ่น ได้แก่ ฮอกไกโด (ซัปโปโร, รูซุตสึ, ฟุราโนะ), โทโฮคุ (อัปปิ, ซาโอ), นีงาตะ (พื้นที่ยูซาวะ, นาเอบะ), นากาโน่ (คารุอิซาวะ, ฮาคุบะ, โนซาวะ) และอื่นๆ คุณสามารถดูรายชื่อสกีรีสอร์ททั้งหมดที่มีบริการได้ที่หน้าแรกของเว็บไซต์ของเรา หรือหน้า \"แนะนำสกีรีสอร์ท\""
+        },
+        "details_translations": {
+          "en": null,
+          "th": null
+        },
+        "tip_translations": {
+          "en": null,
+          "th": null
+        },
+        "postscript_translations": {
+          "en": "For more information and the latest availability, please refer to the reservation system.",
+          "th": "สำหรับข้อมูลเพิ่มเติมและจำนวนที่ว่างล่าสุด โปรดดูที่ระบบการจอง"
+        }
+      },
+      "hot": true,
+      "required_slots": [],
+      "policy_flags": [
+        "NO_MANUAL_MATCH"
+      ],
+      "links": [
+        "{{LINK_SCHEDULE}}"
+      ],
+      "metadata": {
+        "content_version": 2,
+        "source_language": "zh",
+        "last_updated": "2025-11-05T00:00:00.000Z"
+      },
+      "translation_status": {
+        "zh": {
+          "status": "source",
+          "last_synced_version": 2,
+          "last_updated": "2025-11-05T00:00:00.000Z"
+        },
+        "en": {
+          "status": "complete",
+          "translator": "human_reviewed",
+          "last_synced_version": 2,
+          "last_updated": "2025-11-05T00:00:00.000Z"
+        },
+        "th": {
+          "status": "complete",
+          "translator": "human_reviewed",
+          "last_synced_version": 2,
+          "last_updated": "2025-11-05T00:00:00.000Z"
+        }
+      }
+    },
+    {
+      "id": "faq.service.004",
+      "intent": "SERVICE",
+      "section": "服務範圍與聯絡方式",
+      "section_translations": {
+        "en": "Scope of services and contact information",
+        "th": "ขอบเขตการบริการและข้อมูลติดต่อ"
+      },
+      "canonical_question": "我有問題想詢問，請問有提供電話客服嗎？",
+      "canonical_question_translations": {
+        "en": "I have a question, do you provide phone customer service?",
+        "th": "ฉันมีคำถามอยากสอบถาม ไม่ทราบว่ามีบริการคอลเซ็นเตอร์ทางโทรศัพท์หรือไม่?"
+      },
+      "utterance_patterns": [
+        "我有問題想詢問，有提供電話客服嗎",
+        "我有問題想詢問，請問有提供電話客服嗎",
+        "我有問題想詢問，有提供電話客服",
+        "我有問題想詢問，有提供電話客服？",
+        "我有問題想詢問，請問有提供電話客服嗎？"
+      ],
+      "utterance_patterns_translations": {
+        "en": [
+          "I have a question, do you offer phone customer service?",
+          "I have a question, do you provide phone customer service?",
+          "I have a question and would like to inquire, is phone customer service available?",
+          "I have a question, do you provide phone customer service?",
+          "I have a question, do you offer phone customer service?"
+        ],
+        "th": [
+          "ฉันมีคำถาม อยากสอบถามว่ามีบริการลูกค้าทางโทรศัพท์ไหมครับ/คะ",
+          "ฉันมีคำถามอยากสอบถาม ไม่ทราบว่ามีบริการลูกค้าทางโทรศัพท์หรือไม่?",
+          "ฉันมีคำถามที่อยากจะสอบถาม มีบริการลูกค้าทางโทรศัพท์หรือไม่",
+          "ฉันมีคำถาม อยากสอบถามว่ามีบริการลูกค้าทางโทรศัพท์ไหม?",
+          "ฉันมีคำถาม อยากทราบว่ามีบริการลูกค้าทางโทรศัพท์หรือไม่?"
+        ]
+      },
+      "keywords": [
+        "客服",
+        "聯絡方式",
+        "電話客服",
+        "電子郵件",
+        "問題詢問"
+      ],
+      "keywords_translations": {
+        "en": [
+          "Customer Service",
+          "Contact Information",
+          "Phone Customer Service",
+          "Email",
+          "Inquiry"
+        ],
+        "th": [
+          "บริการลูกค้า",
+          "ข้อมูลติดต่อ",
+          "บริการลูกค้าทางโทรศัพท์",
+          "อีเมล",
+          "สอบถามข้อมูล"
+        ]
+      },
+      "crm_tags": [
+        "#聯絡客服",
+        "#客服管道",
+        "#電話支援"
+      ],
+      "crm_tags_translations": {
+        "en": [
+          "#ContactCustomerService",
+          "#CustomerServiceChannels",
+          "#PhoneSupport"
+        ],
+        "th": [
+          "#ติดต่อฝ่ายบริการลูกค้า",
+          "#ช่องทางการบริการลูกค้า",
+          "#การสนับสนุนทางโทรศัพท์"
+        ]
+      },
+      "answer_template": {
+        "summary": "為了確保服務品質與資訊的準確性，我們目前主要透過電子郵件 ( service@diy.ski ) 提供客服。文字記錄能幫助我們更精準地理解您的問題，並完整地追蹤處理進度。我們承諾會盡快回覆您的所有問題。",
+        "details": null,
+        "tip": null,
+        "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
+        "summary_translations": {
+          "en": "To ensure service quality and accuracy of information, we currently primarily provide customer service via email (service@diy.ski). Text records help us understand your questions more precisely and fully track the progress of your case. We promise to respond to all your inquiries as soon as possible.",
+          "th": "เพื่อให้มั่นใจในคุณภาพการบริการและความถูกต้องของข้อมูล ปัจจุบันเราให้บริการลูกค้าหลักผ่านทางอีเมล (service@diy.ski) การบันทึกข้อความช่วยให้เราเข้าใจคำถามของคุณได้อย่างแม่นยำยิ่งขึ้น และติดตามความคืบหน้าของการดำเนินการได้อย่างครบถ้วน เราสัญญาว่าจะตอบทุกคำถามของคุณโดยเร็วที่สุด"
+        },
+        "details_translations": {
+          "en": null,
+          "th": null
+        },
+        "tip_translations": {
+          "en": null,
+          "th": null
+        },
+        "postscript_translations": {
+          "en": "For more information and the latest availability, please refer to the booking system.",
+          "th": "สำหรับข้อมูลเพิ่มเติมและจำนวนที่นั่งว่างล่าสุด โปรดดูที่ระบบการจอง"
+        }
+      },
+      "hot": true,
+      "required_slots": [],
+      "policy_flags": [
+        "NO_MANUAL_MATCH"
+      ],
+      "links": [
+        "{{LINK_SCHEDULE}}"
+      ],
+      "metadata": {
+        "content_version": 2,
+        "source_language": "zh",
+        "last_updated": "2025-11-05T00:00:00.000Z"
+      },
+      "translation_status": {
+        "zh": {
+          "status": "source",
+          "last_synced_version": 2,
+          "last_updated": "2025-11-05T00:00:00.000Z"
+        },
+        "en": {
+          "status": "complete",
+          "translator": "human_reviewed",
+          "last_synced_version": 2,
+          "last_updated": "2025-11-05T00:00:00.000Z"
+        },
+        "th": {
+          "status": "complete",
+          "translator": "human_reviewed",
+          "last_synced_version": 2,
+          "last_updated": "2025-11-05T00:00:00.000Z"
+        }
+      }
+    },
+    {
+      "id": "faq.course.005",
+      "intent": "COURSE",
+      "section": "🧭 課程選擇與內容安排",
+      "section_translations": {
+        "en": "Course selection and content arrangement",
+        "th": "การเลือกหลักสูตรและการจัดเนื้อหา"
+      },
+      "canonical_question": "滑雪課程的課程長度？怎麼上課比較適合初學者？",
+      "canonical_question_translations": {
+        "en": "What is the duration of the ski course? What kind of lessons are more suitable for beginners?",
+        "th": "ระยะเวลาของคอร์สเรียนสกีคือเท่าไหร่? การเรียนแบบไหนที่เหมาะกับผู้เริ่มต้นมากกว่ากัน?"
+      },
+      "utterance_patterns": [
+        "滑雪課程的課程長度怎麼上課比較適合初學者",
+        "課程長度",
+        "上幾小時比較好",
+        "初學者建議上多久",
+        "半天課和全天課差別",
+        "初學課怎麼安排比較好",
+        "滑雪課程的課程長度？怎麼上課比較適合初學者？"
+      ],
+      "utterance_patterns_translations": {
+        "en": [
+          "What is the most suitable lesson length for beginner ski lessons?",
+          "Course length",
+          "Which few hours are better?",
+          "How long is recommended for beginners?",
+          "The difference between half-day and full-day classes.",
+          "How to arrange beginner classes better?",
+          "What is the duration of the ski lessons? What kind of lessons are more suitable for beginners?"
+        ],
+        "th": [
+          "ระยะเวลาของบทเรียนสกีที่เหมาะสมที่สุดสำหรับผู้เริ่มต้นคือเท่าไร?",
+          "ระยะเวลาของหลักสูตร",
+          "ไม่กี่ชั่วโมงไหนดีกว่ากัน?",
+          "ผู้เริ่มต้นควรเรียนนานแค่ไหน",
+          "ความแตกต่างระหว่างชั้นเรียนครึ่งวันและเต็มวัน",
+          "ควรจัดคลาสสำหรับผู้เริ่มต้นอย่างไรดี?",
+          "ระยะเวลาของบทเรียนสกีคือเท่าไร? บทเรียนแบบไหนที่เหมาะสำหรับผู้เริ่มต้นมากกว่ากัน?"
+        ]
+      },
+      "keywords": [
+        "課程長度",
+        "初學者課程",
+        "滑雪教學",
+        "半天課",
+        "全天課"
+      ],
+      "keywords_translations": {
+        "en": [
+          "Course length",
+          "Beginner course",
+          "Ski instruction",
+          "Half-day class",
+          "Full-day class"
+        ],
+        "th": [
+          "ระยะเวลาของหลักสูตร",
+          "หลักสูตรสำหรับผู้เริ่มต้น",
+          "การสอนสกี",
+          "เรียนครึ่งวัน",
+          "เรียนเต็มวัน"
+        ]
+      },
+      "crm_tags": [
+        "#課程時間",
+        "#初學指南",
+        "#滑雪課程"
+      ],
+      "crm_tags_translations": {
+        "en": [
+          "#CourseTime",
+          "#BeginnersGuide",
+          "#SkiLesson"
+        ],
+        "th": [
+          "#เวลาเรียน",
+          "#คู่มือสำหรับผู้เริ่มต้น",
+          "#บทเรียนสกี"
+        ]
+      },
+      "answer_template": {
+        "summary": "除了輕井澤雪場為一堂 2 小時，大部份雪場分為 3 小時上下午半天課及全天課 (時長依雪場會稍有不同 )。初學者建議至少上 8 至 12 小時，才能學習到完整進度，進階者可視自己的程度狀況預訂全日或半日課程。",
+        "details": null,
+        "tip": null,
+        "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
+        "summary_translations": {
+          "en": "Except for Karuizawa Snow Resort, which offers a 2-hour class, most snow resorts offer 3-hour morning or afternoon half-day classes and full-day classes (the duration may vary slightly depending on the snow resort). Beginners are advised to take at least 8 to 12 hours to learn the complete progression, while advanced learners can book full-day or half-day courses depending on their skill level.",
+          "th": "ยกเว้นสกีรีสอร์ทคารุอิซาวะที่มีคลาส 2 ชั่วโมง สกีรีสอร์ทส่วนใหญ่จะเปิดสอนคลาสครึ่งวันช่วงเช้าหรือบ่าย 3 ชั่วโมง และคลาสเต็มวัน (ระยะเวลาอาจแตกต่างกันเล็กน้อยขึ้นอยู่กับสกีรีสอร์ท) ผู้เริ่มต้นควรเรียนอย่างน้อย 8 ถึง 12 ชั่วโมงเพื่อให้เรียนรู้ได้อย่างสมบูรณ์ ส่วนผู้เรียนระดับสูงสามารถจองคอร์สเต็มวันหรือครึ่งวันได้ตามระดับความสามารถของตนเอง"
+        },
+        "details_translations": {
+          "en": null,
+          "th": null
+        },
+        "tip_translations": {
+          "en": null,
+          "th": null
+        },
+        "postscript_translations": {
+          "en": "For more information and the latest availability, please refer to the reservation system.",
+          "th": "สำหรับข้อมูลเพิ่มเติมและจำนวนที่ว่างล่าสุด โปรดดูที่ระบบการจอง"
+        }
+      },
+      "hot": true,
+      "required_slots": [],
+      "policy_flags": [
+        "NO_MANUAL_MATCH"
+      ],
+      "links": [
+        "{{LINK_SCHEDULE}}",
+        "{{LINK_INSTRUCTORS}}"
+      ],
+      "metadata": {
+        "content_version": 2,
+        "source_language": "zh",
+        "last_updated": "2025-11-05T00:00:00.000Z"
+      },
+      "translation_status": {
+        "zh": {
+          "status": "source",
+          "last_synced_version": 2,
+          "last_updated": "2025-11-05T00:00:00.000Z"
+        },
+        "en": {
+          "status": "complete",
+          "translator": "human_reviewed",
+          "last_synced_version": 2,
+          "last_updated": "2025-11-05T00:00:00.000Z"
+        },
+        "th": {
+          "status": "complete",
+          "translator": "human_reviewed",
+          "last_synced_version": 2,
+          "last_updated": "2025-11-05T00:00:00.000Z"
+        }
+      }
+    },
+    {
+      "id": "faq.course.006",
+      "intent": "COURSE",
+      "section": "🧭 課程選擇與內容安排",
+      "section_translations": {
+        "en": "Course selection and content arrangement",
+        "th": "การเลือกหลักสูตรและการจัดเนื้อหา"
+      },
+      "canonical_question": "請問可以指定教練嗎？",
+      "canonical_question_translations": {
+        "en": "May I request a specific coach? / Can I choose a coach?",
+        "th": "ขอเลือกโค้ชได้ไหมครับ/คะ?"
+      },
+      "utterance_patterns": [
+        "請問可以指定教練嗎",
+        "可以指定教練嗎",
+        "可以選教練嗎",
+        "可以挑教練嗎",
+        "可以指定教練",
+        "可以選教練",
+        "可以挑教練",
+        "請問可以指定教練嗎？"
+      ],
+      "utterance_patterns_translations": {
+        "en": [
+          "Can I request a specific coach?",
+          "Can I specify a coach?",
+          "Can I choose a coach?",
+          "Can I choose a coach?",
+          "Can designate a coach.",
+          "You can choose a coach",
+          "Can choose a coach.",
+          "May I request a specific coach? / Can I choose a coach?"
+        ],
+        "th": [
+          "สามารถระบุโค้ชได้ไหม",
+          "สามารถระบุโค้ชได้หรือไม่",
+          "สามารถเลือกโค้ชได้ไหม",
+          "เลือกโค้ชได้ไหมครับ/คะ?",
+          "สามารถระบุโค้ชได้",
+          "สามารถเลือกโค้ชได้",
+          "สามารถเลือกโค้ชได้",
+          "ขอเลือกโค้ชได้ไหมครับ/คะ?"
+        ]
+      },
+      "keywords": [
+        "指定教練",
+        "選擇教練",
+        "預約教練",
+        "教練檔期",
+        "滑雪教練"
+      ],
+      "keywords_translations": {
+        "en": [
+          "Designated coach",
+          "Select a coach",
+          "Book a coach",
+          "Coach's availability",
+          "Ski coach"
+        ],
+        "th": [
+          "โค้ชที่ได้รับมอบหมาย",
+          "เลือกโค้ช",
+          "จองโค้ช",
+          "ตารางเวลาของโค้ช",
+          "โค้ชสกี"
+        ]
+      },
+      "crm_tags": [
+        "#教練選擇",
+        "#預約須知",
+        "#教練安排"
+      ],
+      "crm_tags_translations": {
+        "en": [
+          "#CoachSelection",
+          "#BookingInformation",
+          "#CoachArrangement"
+        ],
+        "th": [
+          "#การเลือกโค้ช",
+          "#ข้อมูลการจอง",
+          "#การจัดโค้ช"
+        ]
+      },
+      "answer_template": {
+        "summary": "可以的，您可以在預約系統中指定您偏好的教練。但請注意，教練的檔期有限，建議您提早預約以確保能預訂到您心儀的教練。",
+        "details": null,
+        "tip": null,
+        "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
+        "summary_translations": {
+          "en": "Yes, you can specify your preferred coach in the booking system. However, please note that coaches have limited availability, so it is recommended to book early to secure your desired coach.",
+          "th": "ได้ครับ/ค่ะ คุณสามารถระบุโค้ชที่คุณต้องการได้ในระบบการจอง อย่างไรก็ตาม โปรดทราบว่าโค้ชมีตารางเวลาจำกัด ดังนั้นจึงแนะนำให้จองล่วงหน้าเพื่อให้แน่ใจว่าคุณจะสามารถจองโค้ชที่คุณต้องการได้"
+        },
+        "details_translations": {
+          "en": null,
+          "th": null
+        },
+        "tip_translations": {
+          "en": null,
+          "th": null
+        },
+        "postscript_translations": {
+          "en": "For more information and the latest availability, please refer to the reservation system.",
+          "th": "สำหรับข้อมูลเพิ่มเติมและจำนวนที่ว่างล่าสุด โปรดดูที่ระบบการจอง"
+        }
+      },
+      "hot": true,
+      "required_slots": [],
+      "policy_flags": [
+        "NO_MANUAL_MATCH"
+      ],
+      "links": [
+        "{{LINK_SCHEDULE}}",
+        "{{LINK_INSTRUCTORS}}"
+      ],
+      "metadata": {
+        "content_version": 2,
+        "source_language": "zh",
+        "last_updated": "2025-11-05T00:00:00.000Z"
+      },
+      "translation_status": {
+        "zh": {
+          "status": "source",
+          "last_synced_version": 2,
+          "last_updated": "2025-11-05T00:00:00.000Z"
+        },
+        "en": {
+          "status": "complete",
+          "translator": "human_reviewed",
+          "last_synced_version": 2,
+          "last_updated": "2025-11-05T00:00:00.000Z"
+        },
+        "th": {
+          "status": "complete",
+          "translator": "human_reviewed",
+          "last_synced_version": 2,
+          "last_updated": "2025-11-05T00:00:00.000Z"
+        }
+      }
+    },
+    {
+      "id": "faq.grouping.007",
+      "intent": "GROUPING",
+      "section": "👨‍👩‍👧‍👦 一起上課安排",
+      "canonical_question": "我可以和朋友或家人一起上課嗎？不同程度能同堂上課嗎？",
+      "utterance_patterns": [
+        "我可以和朋友或家人一起上課嗎不同程度能同堂上課嗎",
+        "我能不能和朋友或家人一起上課嗎不同程度能同堂上課嗎",
+        "我可以和朋友或家人一起上課不同程度能同堂上課",
+        "我可不可以和朋友或家人一起上課不同程度能同堂上課",
+        "我能不能和朋友或家人一起上課不同程度能同堂上課",
+        "我能否和朋友或家人一起上課不同程度能同堂上課",
+        "我可以和朋友或家人一起上課嗎？不同程度能同堂上課嗎？",
+        "我可不可以和朋友或家人一起上課？不同程度能同堂上課？",
+        "我可以和朋友或家人一起上課？不同程度能同堂上課？",
+        "我能否和朋友或家人一起上課？不同程度能同堂上課？",
+        "我能不能和朋友或家人一起上課？不同程度能同堂上課？"
+      ],
+      "required_slots": [
+        "date?",
+        "resort?",
+        "board_type?",
+        "people_total?"
+      ],
+      "policy_flags": [
+        "NO_MANUAL_MATCH"
+      ],
+      "keywords": [
+        "一起上課",
+        "朋友上課",
+        "家人上課",
+        "不同程度",
+        "混合程度",
+        "團體課程",
+        "私人課程"
+      ],
+      "answer_template": {
+        "text": "可以安排同堂，但程度差距較大時，建議分開上課，確保每位學員都能獲得適合的教學進度。",
+        "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
+        "links_inline": false
+      },
+      "links": [
+        "{{LINK_SCHEDULE}}",
+        "{{LINK_INSTRUCTORS}}"
+      ],
+      "crm_tags": [
+        "#同堂安排",
+        "#團體預約",
+        "#程度差異",
+        "#課程諮詢"
+      ],
+      "metadata": {
+        "content_version": 1,
+        "source_language": "zh",
+        "last_updated": "2025-11-05T00:00:00.000Z"
+      },
+      "section_translations": {
+        "en": "Family class arrangement",
+        "th": "การจัดชั้นเรียนสำหรับครอบครัว"
+      },
+      "canonical_question_translations": {
+        "en": "Can I take classes with friends or family? Can different levels attend the same class?",
+        "th": "ฉันสามารถเรียนกับเพื่อนหรือครอบครัวได้หรือไม่? ระดับที่แตกต่างกันสามารถเรียนในชั้นเรียนเดียวกันได้หรือไม่?"
+      },
+      "utterance_patterns_translations": {
+        "en": [
+          "Can I take classes with friends or family if we are at different levels?",
+          "Can I attend classes with friends or family if we are at different levels?",
+          "Can I attend classes with friends or family where we are at different levels but in the same class?",
+          "Can I take classes with friends or family? Can different levels attend the same class?"
+        ],
+        "th": [
+          "ฉันสามารถเรียนกับเพื่อนหรือครอบครัวได้หรือไม่ หากเรามีระดับที่แตกต่างกัน?",
+          "ฉันสามารถเข้าเรียนกับเพื่อนหรือครอบครัวได้หรือไม่ หากเรามีระดับที่แตกต่างกัน?",
+          "ฉันสามารถเข้าเรียนกับเพื่อนหรือครอบครัวที่มีระดับต่างกันแต่อยู่ในชั้นเรียนเดียวกันได้หรือไม่?",
+          "ฉันสามารถเรียนกับเพื่อนหรือครอบครัวได้หรือไม่? ระดับที่แตกต่างกันสามารถเรียนในชั้นเรียนเดียวกันได้หรือไม่?"
+        ]
+      },
+      "keywords_translations": {
+        "en": [
+          "Attend class together",
+          "Friends attend class",
+          "Family attend class",
+          "Different levels",
+          "Mixed levels",
+          "Group class",
+          "Private class"
+        ],
+        "th": [
+          "เรียนด้วยกัน",
+          "เพื่อนเรียน",
+          "ครอบครัวเรียน",
+          "ระดับที่แตกต่างกัน",
+          "ระดับผสม",
+          "คอร์สกลุ่ม",
+          "คอร์สส่วนตัว"
+        ]
+      },
+      "crm_tags_translations": {
+        "en": [
+          "#SameClassArrangement",
+          "#GroupBooking",
+          "#LevelDifference",
+          "#CourseConsultation"
+        ],
+        "th": [
+          "#การจัดเตรียมชั้นเรียนเดียวกัน",
+          "#การจองกลุ่ม",
+          "#ความแตกต่างของระดับ",
+          "#การปรึกษาหลักสูตร"
+        ]
+      },
+      "answer_template_translations": {
+        "summary_translations": {
+          "en": "It is possible to arrange for students to be in the same class, but when there is a significant difference in their proficiency levels, it is recommended to separate them into different classes to ensure that each student receives an appropriate learning pace.",
+          "th": "สามารถจัดให้นักเรียนอยู่ในชั้นเรียนเดียวกันได้ แต่เมื่อมีความแตกต่างอย่างมีนัยสำคัญในระดับความสามารถของพวกเขา ขอแนะนำให้แยกพวกเขาออกเป็นชั้นเรียนที่แตกต่างกัน เพื่อให้แน่ใจว่านักเรียนแต่ละคนจะได้รับความก้าวหน้าในการเรียนรู้ที่เหมาะสม"
+        },
+        "postscript_translations": {
+          "en": "For more information and the latest availability, please refer to the reservation system.",
+          "th": "สำหรับข้อมูลเพิ่มเติมและจำนวนที่ว่างล่าสุด โปรดอ้างอิงจากระบบการจอง"
+        }
+      },
+      "translation_status": {
+        "zh": {
+          "status": "complete",
+          "translator": "human_reviewed"
+        },
+        "en": {
+          "status": "complete",
+          "translator": "human_reviewed"
+        },
+        "th": {
+          "status": "complete",
+          "translator": "human_reviewed"
+        }
+      }
+    },
+    {
+      "id": "faq.grouping.008",
+      "intent": "GROUPING",
+      "section": "👨‍👩‍👧‍👦 一起上課安排",
+      "canonical_question": "成人與小孩可以一起上課嗎？",
+      "utterance_patterns": [
+        "成人與小孩可以一起上課嗎",
+        "成人與小孩能不能一起上課嗎",
+        "成人與小孩可以一起上課",
+        "成人與小孩能不能一起上課",
+        "成人與小孩可不可以一起上課",
+        "成人與小孩能否一起上課",
+        "成人與小孩可以一起上課嗎？",
+        "成人與小孩能否一起上課？",
+        "成人與小孩可不可以一起上課？",
+        "成人與小孩可以一起上課？",
+        "成人與小孩能不能一起上課？"
+      ],
+      "required_slots": [
+        "date?",
+        "resort?",
+        "board_type?",
+        "people_total?"
+      ],
+      "policy_flags": [
+        "NO_MANUAL_MATCH"
+      ],
+      "keywords": [
+        "成人小孩同堂",
+        "親子課程",
+        "兒童滑雪",
+        "成人滑雪",
+        "分開上課",
+        "安全考量",
+        "學習進度"
+      ],
+      "answer_template": {
+        "text": "成人與小孩可以同堂上課，但若小孩年紀較小，教練會優先確保他們的安全與基礎動作練習，因此成人的練習時間可能會相對減少。若您希望成人學習進度不受影響，建議 5 歲以下孩童分開安排課程。",
+        "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
+        "links_inline": false
+      },
+      "links": [
+        "{{LINK_SCHEDULE}}",
+        "{{LINK_INSTRUCTORS}}"
+      ],
+      "crm_tags": [
+        "#親子同堂",
+        "#兒童課程",
+        "#成人課程",
+        "#課程安排"
+      ],
+      "metadata": {
+        "content_version": 1,
+        "source_language": "zh",
+        "last_updated": "2025-11-05T00:00:00.000Z"
+      },
+      "section_translations": {
+        "en": "Family class arrangement",
+        "th": "การจัดชั้นเรียนสำหรับครอบครัว"
+      },
+      "canonical_question_translations": {
+        "en": "Can adults and children take classes together?",
+        "th": "ผู้ใหญ่และเด็กสามารถเรียนด้วยกันได้หรือไม่?"
+      },
+      "utterance_patterns_translations": {
+        "en": [
+          "Can adults and children attend classes together?",
+          "Can adults and children attend classes together?",
+          "Adults and children can attend classes together.",
+          "Can adults and children attend classes together?",
+          "Can adults and children attend class together?",
+          "Can adults and children attend class together?",
+          "Can adults and children take classes together?",
+          "Can adults and children attend class together?",
+          "Can adults and children attend classes together?",
+          "Can adults and children take classes together?",
+          "Can adults and children attend classes together?"
+        ],
+        "th": [
+          "ผู้ใหญ่และเด็กสามารถเข้าเรียนด้วยกันได้ไหม",
+          "ผู้ใหญ่และเด็กสามารถเรียนด้วยกันได้หรือไม่?",
+          "ผู้ใหญ่และเด็กสามารถเข้าเรียนด้วยกันได้",
+          "ผู้ใหญ่และเด็กสามารถเข้าเรียนด้วยกันได้หรือไม่",
+          "ผู้ใหญ่และเด็กสามารถเข้าเรียนด้วยกันได้หรือไม่?",
+          "ผู้ใหญ่และเด็กสามารถเข้าเรียนด้วยกันได้หรือไม่?",
+          "ผู้ใหญ่และเด็กสามารถเรียนด้วยกันได้ไหม?",
+          "ผู้ใหญ่และเด็กสามารถเรียนด้วยกันได้หรือไม่?",
+          "ผู้ใหญ่และเด็กสามารถเรียนด้วยกันได้หรือไม่?",
+          "ผู้ใหญ่และเด็กสามารถเรียนด้วยกันได้ไหม?",
+          "ผู้ใหญ่และเด็กสามารถเรียนด้วยกันได้หรือไม่?"
+        ]
+      },
+      "keywords_translations": {
+        "en": [
+          "Adults and children in the same class",
+          "Parent-child courses",
+          "Children's skiing",
+          "Adult skiing",
+          "Separate classes",
+          "Safety considerations",
+          "Learning progress"
+        ],
+        "th": [
+          "ชั้นเรียนรวมผู้ใหญ่และเด็ก",
+          "หลักสูตรสำหรับผู้ปกครองและเด็ก",
+          "สกีสำหรับเด็ก",
+          "สกีสำหรับผู้ใหญ่",
+          "แยกชั้นเรียน",
+          "ข้อควรพิจารณาด้านความปลอดภัย",
+          "ความก้าวหน้าในการเรียนรู้"
+        ]
+      },
+      "crm_tags_translations": {
+        "en": [
+          "#FamilyLearning",
+          "#ChildrensCourses",
+          "#AdultCourses",
+          "#CourseSchedule"
+        ],
+        "th": [
+          "#กิจกรรมครอบครัว",
+          "#หลักสูตรสำหรับเด็ก",
+          "#หลักสูตรสำหรับผู้ใหญ่",
+          "#การจัดตารางเรียน"
+        ]
+      },
+      "answer_template_translations": {
+        "summary_translations": {
+          "en": "Adults and children can attend classes together, but if the children are younger, the coach will prioritize ensuring their safety and basic movement practice, which may relatively reduce the adults' practice time. If you wish for adults' learning progress to be unaffected, it is recommended to arrange separate classes for children under 5 years old.",
+          "th": "ผู้ใหญ่และเด็กสามารถเข้าเรียนร่วมกันได้ แต่หากเด็กมีอายุน้อยกว่า โค้ชจะให้ความสำคัญกับการดูแลความปลอดภัยและการฝึกการเคลื่อนไหวพื้นฐานของเด็กเป็นอันดับแรก ซึ่งอาจทำให้เวลาฝึกซ้อมของผู้ใหญ่ลดลง หากคุณต้องการให้ความก้าวหน้าในการเรียนรู้ของผู้ใหญ่ไม่ได้รับผลกระทบ ขอแนะนำให้จัดชั้นเรียนแยกต่างหากสำหรับเด็กอายุต่ำกว่า 5 ปี"
+        },
+        "postscript_translations": {
+          "en": "For more information and the latest availability, please refer to the reservation system.",
+          "th": "สำหรับข้อมูลเพิ่มเติมและจำนวนที่ว่างล่าสุด โปรดอ้างอิงจากระบบการจอง"
+        }
+      },
+      "translation_status": {
+        "zh": {
+          "status": "complete",
+          "translator": "human_reviewed"
+        },
+        "en": {
+          "status": "complete",
+          "translator": "human_reviewed"
+        },
+        "th": {
+          "status": "complete",
+          "translator": "human_reviewed"
+        }
+      }
+    },
+    {
+      "id": "faq.general.009",
+      "intent": "GENERAL",
+      "section": "👶 小朋友滑雪與安全保障",
+      "canonical_question": "幾歲可以開始學滑雪？",
+      "utterance_patterns": [
+        "幾歲可以開始學滑雪",
+        "幾歲能不能開始學滑雪",
+        "幾歲可不可以開始學滑雪",
+        "幾歲能否開始學滑雪",
+        "幾歲可以開始學滑雪？",
+        "幾歲可不可以開始學滑雪？",
+        "幾歲能不能開始學滑雪？",
+        "幾歲能否開始學滑雪？"
+      ],
+      "required_slots": [],
+      "policy_flags": [
+        "NO_MANUAL_MATCH"
+      ],
+      "keywords": [
+        "學滑雪年齡",
+        "兒童滑雪",
+        "幼兒滑雪",
+        "一對一教學",
+        "滑雪入門",
+        "滑雪安全",
+        "年齡限制"
+      ],
+      "answer_template": {
+        "text": "建議從3歲以上開始，5歲以下的兒童建議安排一對一教學，提升安全與專注力。",
+        "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
+        "links_inline": false
+      },
+      "links": [
+        "{{LINK_SCHEDULE}}"
+      ],
+      "crm_tags": [
+        "#兒童滑雪",
+        "#年齡限制",
+        "#教學安排",
+        "#安全考量"
+      ],
+      "metadata": {
+        "content_version": 1,
+        "source_language": "zh",
+        "last_updated": "2025-11-05T00:00:00.000Z"
+      },
+      "section_translations": {
+        "en": "Children's Skiing and Safety Assurance",
+        "th": "เด็กเล่นสกีและความปลอดภัย"
+      },
+      "canonical_question_translations": {
+        "en": "At what age can one start learning to ski?",
+        "th": "อายุเท่าไหร่ถึงจะเริ่มเรียนสกีได้?"
+      },
+      "utterance_patterns_translations": {
+        "en": [
+          "At what age can one start learning to ski?",
+          "At what age can one start learning to ski?",
+          "At what age can one start learning to ski?",
+          "At what age can one start learning to ski?",
+          "At what age can one start learning to ski?",
+          "At what age can one start learning to ski?",
+          "At what age can one start learning to ski?",
+          "At what age can one start learning to ski?"
+        ],
+        "th": [
+          "อายุเท่าไหร่ถึงจะเริ่มเรียนสกีได้?",
+          "อายุเท่าไหร่ถึงจะเริ่มเรียนสกีได้?",
+          "อายุเท่าไหร่ถึงจะเริ่มเรียนสกีได้?",
+          "อายุเท่าไหร่ถึงจะเริ่มเรียนสกีได้?",
+          "อายุเท่าไหร่ถึงจะเริ่มเรียนสกีได้?",
+          "อายุเท่าไหร่ถึงจะเริ่มเรียนสกีได้?",
+          "อายุเท่าไหร่ถึงจะเริ่มเรียนสกีได้?",
+          "อายุเท่าไหร่ถึงจะเริ่มเรียนสกีได้?"
+        ]
+      },
+      "keywords_translations": {
+        "en": [
+          "Age for learning to ski",
+          "Children's skiing",
+          "Toddler skiing",
+          "One-on-one instruction",
+          "Introduction to skiing",
+          "Skiing safety",
+          "Age limit"
+        ],
+        "th": [
+          "อายุสำหรับการเรียนสกี",
+          "สกีสำหรับเด็ก",
+          "สกีสำหรับเด็กเล็ก",
+          "การสอนแบบตัวต่อตัว",
+          "การเริ่มต้นเล่นสกี",
+          "ความปลอดภัยในการเล่นสกี",
+          "จำกัดอายุ"
+        ]
+      },
+      "crm_tags_translations": {
+        "en": [
+          "#Children's Skiing",
+          "#Age Limit",
+          "#Teaching Arrangement",
+          "#Safety Considerations"
+        ],
+        "th": [
+          "#สกีสำหรับเด็ก",
+          "#จำกัดอายุ",
+          "#การจัดเตรียมการสอน",
+          "#ข้อควรพิจารณาด้านความปลอดภัย"
+        ]
+      },
+      "answer_template_translations": {
+        "summary_translations": {
+          "en": "It is recommended to start from 3 years old and above. For children under 5 years old, one-on-one instruction is suggested to enhance safety and concentration.",
+          "th": "แนะนำให้เริ่มตั้งแต่ 3 ขวบขึ้นไป สำหรับเด็กอายุต่ำกว่า 5 ขวบ แนะนำให้จัดสอนแบบตัวต่อตัว เพื่อเพิ่มความปลอดภัยและสมาธิ"
+        },
+        "postscript_translations": {
+          "en": "For more information and the latest availability, please refer to the reservation system.",
+          "th": "สำหรับข้อมูลเพิ่มเติมและจำนวนที่ว่างล่าสุด โปรดอ้างอิงจากระบบการจอง"
+        }
+      },
+      "translation_status": {
+        "zh": {
+          "status": "complete",
+          "translator": "human_reviewed"
+        },
+        "en": {
+          "status": "complete",
+          "translator": "human_reviewed"
+        },
+        "th": {
+          "status": "complete",
+          "translator": "human_reviewed"
+        }
+      }
+    },
+    {
+      "id": "faq.general.010",
+      "intent": "GENERAL",
+      "section": "👶 小朋友滑雪與安全保障",
+      "canonical_question": "不同年齡可以同班嗎？",
+      "utterance_patterns": [
+        "不同年齡可以同班嗎",
+        "不同年齡能不能同班嗎",
+        "不同年齡可不可以同班",
+        "不同年齡能不能同班",
+        "不同年齡能否同班",
+        "不同年齡可以同班",
+        "不同年齡可以同班嗎？",
+        "不同年齡可不可以同班？",
+        "不同年齡能不能同班？",
+        "不同年齡可以同班？",
+        "不同年齡能否同班？"
+      ],
+      "required_slots": [],
+      "policy_flags": [
+        "NO_MANUAL_MATCH"
+      ],
+      "keywords": [
+        "不同年齡同班",
+        "混齡教學",
+        "年齡差異",
+        "學習進度",
+        "分開上課",
+        "兒童滑雪"
+      ],
+      "answer_template": {
+        "text": "不建議將3歲、5歲與7歲等年齡層混班，體力與進度差異大，建議分開上課。",
+        "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
+        "links_inline": false
+      },
+      "links": [
+        "{{LINK_SCHEDULE}}"
+      ],
+      "crm_tags": [
+        "#混齡課程",
+        "#教學建議",
+        "#兒童課程",
+        "#學習差異"
+      ],
+      "metadata": {
+        "content_version": 1,
+        "source_language": "zh",
+        "last_updated": "2025-11-05T00:00:00.000Z"
+      },
+      "section_translations": {
+        "en": "Children's Skiing and Safety Assurance",
+        "th": "เด็กเล่นสกีและความปลอดภัย"
+      },
+      "canonical_question_translations": {
+        "en": "Can different ages be in the same class?",
+        "th": "คนต่างวัยสามารถเรียนห้องเดียวกันได้ไหม?"
+      },
+      "utterance_patterns_translations": {
+        "en": [
+          "Can different ages be in the same class?",
+          "Can different ages be in the same class?",
+          "Can different ages be in the same class?",
+          "Can different ages be in the same class?",
+          "Can different ages be in the same class?",
+          "Can different ages be in the same class?",
+          "Can different ages be in the same class?",
+          "Can different ages be in the same class?",
+          "Can different ages be in the same class?",
+          "Can different ages be in the same class?",
+          "Can different ages be in the same class?"
+        ],
+        "th": [
+          "เด็กต่างวัยสามารถเรียนห้องเดียวกันได้หรือไม่?",
+          "เด็กต่างวัยสามารถเรียนห้องเดียวกันได้หรือไม่?",
+          "เด็กต่างวัยสามารถเรียนห้องเดียวกันได้หรือไม่?",
+          "เด็กต่างวัยสามารถเรียนห้องเดียวกันได้หรือไม่?",
+          "เด็กต่างวัยสามารถเรียนห้องเดียวกันได้หรือไม่?",
+          "เด็กต่างวัยสามารถเรียนห้องเดียวกันได้หรือไม่?",
+          "เด็กต่างวัยสามารถเรียนห้องเดียวกันได้หรือไม่?",
+          "เด็กต่างวัยสามารถเรียนห้องเดียวกันได้หรือไม่?",
+          "เด็กต่างวัยสามารถเรียนห้องเดียวกันได้หรือไม่?",
+          "เด็กต่างวัยสามารถเรียนห้องเดียวกันได้หรือไม่?",
+          "เด็กต่างวัยสามารถเรียนห้องเดียวกันได้หรือไม่?"
+        ]
+      },
+      "keywords_translations": {
+        "en": [
+          "Mixed-age class",
+          "Mixed-age teaching",
+          "Age difference",
+          "Learning progress",
+          "Separate classes",
+          "Children's skiing"
+        ],
+        "th": [
+          "ชั้นเรียนรวมอายุ",
+          "การสอนแบบรวมอายุ",
+          "ความแตกต่างของอายุ",
+          "ความก้าวหน้าในการเรียนรู้",
+          "แยกชั้นเรียน",
+          "การเล่นสกีของเด็ก"
+        ]
+      },
+      "crm_tags_translations": {
+        "en": [
+          "#MultiageClass",
+          "#TeachingSuggestions",
+          "#Children'sCourse",
+          "#LearningDifferences"
+        ],
+        "th": [
+          "#การสอนแบบคละชั้นเรียน",
+          "#คำแนะนำการสอน",
+          "#หลักสูตรสำหรับเด็ก",
+          "#ความแตกต่างทางการเรียนรู้"
+        ]
+      },
+      "answer_template_translations": {
+        "summary_translations": {
+          "en": "It is not recommended to mix age groups such as 3, 5, and 7 years old in the same class, as there are significant differences in physical strength and learning progress. It is suggested to separate them for classes.",
+          "th": "ไม่แนะนำให้จัดกลุ่มอายุ 3, 5 และ 7 ปีเรียนรวมกัน เนื่องจากมีความแตกต่างอย่างมากในด้านพละกำลังและความก้าวหน้าในการเรียนรู้ ขอแนะนำให้แยกชั้นเรียน"
+        },
+        "postscript_translations": {
+          "en": "For more information and the latest availability, please refer to the reservation system.",
+          "th": "สำหรับข้อมูลเพิ่มเติมและจำนวนที่ว่างล่าสุด โปรดอ้างอิงจากระบบการจอง"
+        }
+      },
+      "translation_status": {
+        "zh": {
+          "status": "complete",
+          "translator": "human_reviewed"
+        },
+        "en": {
+          "status": "complete",
+          "translator": "human_reviewed"
+        },
+        "th": {
+          "status": "complete",
+          "translator": "human_reviewed"
+        }
+      }
+    },
+    {
+      "id": "faq.general.011",
+      "intent": "GENERAL",
+      "section": "👶 小朋友滑雪與安全保障",
+      "canonical_question": "小朋友上課有哪些安全機制？",
+      "utterance_patterns": [
+        "小朋友上課有哪些安全機制",
+        "小朋友上課有哪些安全機制？"
+      ],
+      "required_slots": [],
+      "policy_flags": [
+        "NO_INSURANCE_BREAKDOWN",
+        "NO_MANUAL_MATCH"
+      ],
+      "keywords": [
+        "兒童滑雪安全",
+        "安全機制",
+        "師生比例",
+        "滑雪保險",
+        "兒童教學經驗",
+        "纜車安全"
+      ],
+      "answer_template": {
+        "text": "每位教練最多帶6人，小孩比例不會過高；全程附滑雪專案保險；教練具備兒童教學經驗，纜車使用時安排大人陪同。",
+        "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
+        "links_inline": false
+      },
+      "links": [
+        "{{LINK_SCHEDULE}}"
+      ],
+      "crm_tags": [
+        "#兒童安全",
+        "#課程保障",
+        "#教學品質",
+        "#滑雪保險"
+      ],
+      "metadata": {
+        "content_version": 1,
+        "source_language": "zh",
+        "last_updated": "2025-11-05T00:00:00.000Z"
+      },
+      "section_translations": {
+        "en": "Children's Skiing and Safety Assurance",
+        "th": "เด็กเล่นสกีและความปลอดภัย"
+      },
+      "canonical_question_translations": {
+        "en": "What safety mechanisms are there for children in class?",
+        "th": "มีกลไกความปลอดภัยอะไรบ้างสำหรับเด็กในชั้นเรียน?"
+      },
+      "utterance_patterns_translations": {
+        "en": [
+          "What safety mechanisms are there for children in class?",
+          "What safety mechanisms are there for children in class?"
+        ],
+        "th": [
+          "มีกลไกความปลอดภัยอะไรบ้างสำหรับเด็กในชั้นเรียน",
+          "มีกลไกความปลอดภัยอะไรบ้างสำหรับเด็กในชั้นเรียน?"
+        ]
+      },
+      "keywords_translations": {
+        "en": [
+          "Children's ski safety",
+          "Safety mechanism",
+          "Teacher-student ratio",
+          "Ski insurance",
+          "Children's teaching experience",
+          "Cable car safety"
+        ],
+        "th": [
+          "ความปลอดภัยในการเล่นสกีของเด็ก",
+          "กลไกความปลอดภัย",
+          "อัตราส่วนครูต่อนักเรียน",
+          "ประกันภัยการเล่นสกี",
+          "ประสบการณ์การสอนเด็ก",
+          "ความปลอดภัยของกระเช้าไฟฟ้า"
+        ]
+      },
+      "crm_tags_translations": {
+        "en": [
+          "#ChildSafety",
+          "#CourseGuarantee",
+          "#TeachingQuality",
+          "#SkiInsurance"
+        ],
+        "th": [
+          "#ความปลอดภัยของเด็ก",
+          "#การรับประกันหลักสูตร",
+          "#คุณภาพการสอน",
+          "#ประกันภัยการเล่นสกี"
+        ]
+      },
+      "answer_template_translations": {
+        "summary_translations": {
+          "en": "Each coach can guide a maximum of 6 people, ensuring the proportion of children is not too high; comprehensive ski-specific insurance is included throughout; coaches have experience teaching children, and adults will accompany children when using the cable car.",
+          "th": "โค้ชแต่ละคนสามารถนำได้สูงสุด 6 คน เพื่อให้แน่ใจว่าสัดส่วนของเด็กไม่สูงเกินไป; มีประกันภัยเฉพาะสำหรับการเล่นสกีครอบคลุมตลอด; โค้ชมีประสบการณ์ในการสอนเด็ก และผู้ใหญ่จะร่วมเดินทางกับเด็กเมื่อใช้กระเช้าไฟฟ้า."
+        },
+        "postscript_translations": {
+          "en": "For more information and the latest availability, please refer to the reservation system.",
+          "th": "สำหรับข้อมูลเพิ่มเติมและจำนวนที่ว่างล่าสุด โปรดอ้างอิงจากระบบการจอง"
+        }
+      },
+      "translation_status": {
+        "zh": {
+          "status": "complete",
+          "translator": "human_reviewed"
+        },
+        "en": {
+          "status": "complete",
+          "translator": "human_reviewed"
+        },
+        "th": {
+          "status": "complete",
+          "translator": "human_reviewed"
+        }
+      }
+    },
+    {
+      "id": "faq.general.012",
+      "intent": "GENERAL",
+      "section": "👶 小朋友滑雪與安全保障",
+      "canonical_question": "兒童保險內容與限制有哪些？",
+      "utterance_patterns": [
+        "兒童保險內容與限制有哪些",
+        "兒童保險內容與限制有哪些？"
+      ],
+      "required_slots": [],
+      "policy_flags": [
+        "NO_MANUAL_MATCH"
+      ],
+      "keywords": [
+        "兒童滑雪保險",
+        "保險內容",
+        "理賠限制",
+        "醫療保障",
+        "緊急救援",
+        "未成年保險"
+      ],
+      "answer_template": {
+        "text": "15歲以下無身故理賠，提供20萬實支實付醫療保障與1萬美元緊急救援補償。",
+        "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
+        "links_inline": false
+      },
+      "links": [
+        "{{LINK_SCHEDULE}}"
+      ],
+      "crm_tags": [
+        "#兒童保險",
+        "#保險理賠",
+        "#安全須知",
+        "#滑雪保障"
+      ],
+      "metadata": {
+        "content_version": 1,
+        "source_language": "zh",
+        "last_updated": "2025-11-05T00:00:00.000Z"
+      },
+      "section_translations": {
+        "en": "Children's Skiing and Safety Assurance",
+        "th": "เด็กเล่นสกีและความปลอดภัย"
+      },
+      "canonical_question_translations": {
+        "en": "What are the coverage and limitations of children's insurance?",
+        "th": "ประกันภัยเด็กมีเนื้อหาและข้อจำกัดอะไรบ้าง?"
+      },
+      "utterance_patterns_translations": {
+        "en": [
+          "What are the contents and limitations of children's insurance?",
+          "What are the contents and limitations of children's insurance?"
+        ],
+        "th": [
+          "เนื้อหาและข้อจำกัดของประกันภัยเด็กมีอะไรบ้าง",
+          "ประกันภัยเด็กมีเนื้อหาและข้อจำกัดอะไรบ้าง?"
+        ]
+      },
+      "keywords_translations": {
+        "en": [
+          "Children's ski insurance",
+          "Insurance coverage",
+          "Claim limitations",
+          "Medical coverage",
+          "Emergency rescue",
+          "Minor insurance"
+        ],
+        "th": [
+          "ประกันภัยสกีสำหรับเด็ก",
+          "ความคุ้มครองประกันภัย",
+          "ข้อจำกัดการเคลม",
+          "ความคุ้มครองทางการแพทย์",
+          "การช่วยเหลือฉุกเฉิน",
+          "ประกันภัยสำหรับผู้เยาว์"
+        ]
+      },
+      "crm_tags_translations": {
+        "en": [
+          "#ChildrensInsurance",
+          "#InsuranceClaim",
+          "#SafetyPrecautions",
+          "#SkiingCoverage"
+        ],
+        "th": [
+          "#ประกันเด็ก",
+          "#การเคลมประกัน",
+          "#ข้อควรระวังด้านความปลอดภัย",
+          "#ความคุ้มครองสกี"
+        ]
+      },
+      "answer_template_translations": {
+        "summary_translations": {
+          "en": "No death benefit for individuals under 15 years old, providing NT$200,000 in actual expense medical coverage and US$10,000 in emergency assistance compensation.",
+          "th": "สำหรับผู้เอาประกันภัยที่มีอายุต่ำกว่า 15 ปี จะไม่มีผลประโยชน์กรณีเสียชีวิต โดยให้ความคุ้มครองค่ารักษาพยาบาลตามจริง 200,000 บาท และค่าชดเชยการช่วยเหลือฉุกเฉิน 10,000 ดอลลาร์สหรัฐฯ."
+        },
+        "postscript_translations": {
+          "en": "For more information and the latest availability, please refer to the reservation system.",
+          "th": "สำหรับข้อมูลเพิ่มเติมและจำนวนที่ว่างล่าสุด โปรดดูที่ระบบการจอง"
+        }
+      },
+      "translation_status": {
+        "zh": {
+          "status": "complete",
+          "translator": "human_reviewed"
+        },
+        "en": {
+          "status": "complete",
+          "translator": "human_reviewed"
+        },
+        "th": {
+          "status": "complete",
+          "translator": "human_reviewed"
+        }
+      }
+    },
+    {
+      "id": "faq.general.013",
+      "intent": "GENERAL",
+      "section": "👶 小朋友滑雪與安全保障",
+      "canonical_question": "小朋友上課需要準備什麼？",
+      "utterance_patterns": [
+        "小朋友上課需要準備什麼",
+        "小朋友上課需要準備什麼？"
+      ],
+      "required_slots": [],
+      "policy_flags": [
+        "NO_MANUAL_MATCH"
+      ],
+      "keywords": [
+        "兒童滑雪裝備",
+        "滑雪準備",
+        "雪衣雪褲",
+        "護具",
+        "洋蔥式穿法",
+        "雪具租借"
+      ],
+      "answer_template": {
+        "text": "雪衣、雪褲、手套、雪襪、毛帽、雪鏡、護具（護臀、護膝、護腕）、防曬用品、保暖衣物、水壺、零食。建議洋蔥式穿法，方便穿脫。雪具（雪板、雪鞋）可於雪場租借。",
+        "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
+        "links_inline": false
+      },
+      "links": [
+        "{{LINK_SCHEDULE}}"
+      ],
+      "crm_tags": [
+        "#兒童裝備",
+        "#滑雪準備",
+        "#安全防護",
+        "#租借資訊"
+      ],
+      "metadata": {
+        "content_version": 1,
+        "source_language": "zh",
+        "last_updated": "2025-11-05T00:00:00.000Z"
+      },
+      "section_translations": {
+        "en": "Children's Skiing and Safety Assurance",
+        "th": "เด็กเล่นสกีและความปลอดภัย"
+      },
+      "canonical_question_translations": {
+        "en": "What do children need to prepare for class?",
+        "th": "เด็กๆ ต้องเตรียมอะไรไปโรงเรียนบ้าง?"
+      },
+      "utterance_patterns_translations": {
+        "en": [
+          "What do children need to prepare for class?",
+          "What do children need to prepare for class?"
+        ],
+        "th": [
+          "เด็กๆ ต้องเตรียมอะไรสำหรับการเรียน?",
+          "เด็กๆ ต้องเตรียมอะไรไปโรงเรียนบ้าง?"
+        ]
+      },
+      "keywords_translations": {
+        "en": [
+          "Children's skiing equipment",
+          "Ski preparation",
+          "Ski jacket and pants",
+          "Protective gear",
+          "Layered dressing",
+          "Ski equipment rental"
+        ],
+        "th": [
+          "อุปกรณ์สกีสำหรับเด็ก",
+          "การเตรียมตัวเล่นสกี",
+          "ชุดสกี",
+          "อุปกรณ์ป้องกัน",
+          "การแต่งตัวแบบเลเยอร์",
+          "การเช่าอุปกรณ์สกี"
+        ]
+      },
+      "crm_tags_translations": {
+        "en": [
+          "#ChildrensGear",
+          "#SkiPreparation",
+          "#SafetyProtection",
+          "#RentalInformation"
+        ],
+        "th": [
+          "#อุปกรณ์สำหรับเด็ก",
+          "#เตรียมเล่นสกี",
+          "#ความปลอดภัย",
+          "#ข้อมูลการเช่า"
+        ]
+      },
+      "answer_template_translations": {
+        "summary_translations": {
+          "en": "Snow jacket, snow pants, gloves, ski socks, beanie, goggles, protective gear (hip pads, knee pads, wrist guards), sunscreen, warm clothing, water bottle, snacks. Layered dressing (onion style) is recommended for easy on and off. Snow gear (snowboards, ski boots) can be rented at the ski resort.",
+          "th": "เสื้อแจ็คเก็ตสกี, กางเกงสกี, ถุงมือ, ถุงเท้าสกี, หมวกไหมพรม, แว่นตากันหิมะ, อุปกรณ์ป้องกัน (สนับสะโพก, สนับเข่า, สนับข้อมือ), ผลิตภัณฑ์กันแดด, เสื้อผ้ากันหนาว, กระติกน้ำ, ขนมขบเคี้ยว. แนะนำให้แต่งตัวแบบเลเยอร์ (สไตล์หัวหอม) เพื่อความสะดวกในการสวมใส่และถอดออก. อุปกรณ์สกี (สโนว์บอร์ด, รองเท้าสกี) สามารถเช่าได้ที่ลานสกี."
+        },
+        "postscript_translations": {
+          "en": "For more information and the latest availability, please refer to the reservation system.",
+          "th": "สำหรับข้อมูลเพิ่มเติมและจำนวนที่ว่างล่าสุด โปรดดูที่ระบบการจอง"
+        }
+      },
+      "translation_status": {
+        "zh": {
+          "status": "complete",
+          "translator": "human_reviewed"
+        },
+        "en": {
+          "status": "complete",
+          "translator": "human_reviewed"
+        },
+        "th": {
+          "status": "complete",
+          "translator": "human_reviewed"
+        }
+      }
+    },
+    {
+      "id": "faq.general.014",
+      "intent": "GENERAL",
+      "section": "👶 小朋友滑雪與安全保障",
+      "canonical_question": "小朋友上課時，家長可以在旁邊陪同或跟拍嗎？",
+      "utterance_patterns": [
+        "小朋友上課時，家長可以在旁邊陪同或跟拍嗎",
+        "小朋友上課時，家長可以在旁邊陪同或跟拍嗎？"
+      ],
+      "required_slots": [],
+      "policy_flags": [
+        "NO_MANUAL_MATCH"
+      ],
+      "keywords": [
+        "家長陪同",
+        "課程跟拍",
+        "安全距離",
+        "教學影響",
+        "滑雪安全",
+        "兒童課程"
+      ],
+      "answer_template": {
+        "text": "可以。但請家長務必與教練保持適當距離，避免影響教學或造成安全疑慮。若需跟拍，請注意自身與他人的安全。",
+        "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
+        "links_inline": false
+      },
+      "links": [
+        "{{LINK_SCHEDULE}}"
+      ],
+      "crm_tags": [
+        "#家長參與",
+        "#課程規範",
+        "#安全考量",
+        "#攝影規定"
+      ],
+      "metadata": {
+        "content_version": 1,
+        "source_language": "zh",
+        "last_updated": "2025-11-05T00:00:00.000Z"
+      },
+      "section_translations": {
+        "en": "Children's Skiing and Safety Assurance",
+        "th": "เด็กเล่นสกีและความปลอดภัย"
+      },
+      "canonical_question_translations": {
+        "en": "Can parents accompany or film their children during class?",
+        "th": "ผู้ปกครองสามารถอยู่ร่วมหรือถ่ายภาพบุตรหลานระหว่างเรียนได้หรือไม่?"
+      },
+      "utterance_patterns_translations": {
+        "en": [
+          "Can parents accompany or film their children during class?",
+          "Can parents accompany or film their children during class?"
+        ],
+        "th": [
+          "ผู้ปกครองสามารถติดตามหรือถ่ายภาพบุตรหลานระหว่างเรียนได้หรือไม่?",
+          "ผู้ปกครองสามารถอยู่ร่วมหรือถ่ายภาพบุตรหลานระหว่างเรียนได้หรือไม่?"
+        ]
+      },
+      "keywords_translations": {
+        "en": [
+          "Parental accompaniment",
+          "Course filming",
+          "Safety distance",
+          "Teaching impact",
+          "Skiing safety",
+          "Children's course"
+        ],
+        "th": [
+          "ผู้ปกครองติดตาม",
+          "การถ่ายทำหลักสูตร",
+          "ระยะปลอดภัย",
+          "ผลกระทบต่อการสอน",
+          "ความปลอดภัยในการเล่นสกี",
+          "หลักสูตรสำหรับเด็ก"
+        ]
+      },
+      "crm_tags_translations": {
+        "en": [
+          "#ParentalInvolvement",
+          "#CurriculumStandards",
+          "#SafetyConsiderations",
+          "#PhotographyRegulations"
+        ],
+        "th": [
+          "#การมีส่วนร่วมของผู้ปกครอง",
+          "#มาตรฐานหลักสูตร",
+          "#ข้อควรพิจารณาด้านความปลอดภัย",
+          "#ข้อกำหนดการถ่ายภาพ"
+        ]
+      },
+      "answer_template_translations": {
+        "summary_translations": {
+          "en": "Yes. However, parents must maintain an appropriate distance from the coach to avoid affecting the teaching or causing safety concerns. If filming is necessary, please be mindful of your own and others' safety.",
+          "th": "ได้ค่ะ แต่ผู้ปกครองต้องรักษาระยะห่างที่เหมาะสมจากโค้ช เพื่อหลีกเลี่ยงผลกระทบต่อการสอนหรือก่อให้เกิดความกังวลด้านความปลอดภัย หากจำเป็นต้องถ่ายภาพ โปรดคำนึงถึงความปลอดภัยของตนเองและผู้อื่น."
+        },
+        "postscript_translations": {
+          "en": "For more information and the latest availability, please refer to the reservation system.",
+          "th": "สำหรับข้อมูลเพิ่มเติมและจำนวนที่ว่างล่าสุด โปรดดูที่ระบบการจอง"
+        }
+      },
+      "translation_status": {
+        "zh": {
+          "status": "complete",
+          "translator": "human_reviewed"
+        },
+        "en": {
+          "status": "complete",
+          "translator": "human_reviewed"
+        },
+        "th": {
+          "status": "complete",
+          "translator": "human_reviewed"
+        }
+      }
+    },
+    {
+      "id": "faq.general.018",
+      "intent": "GENERAL",
+      "section": "🏂 教練與教學安排",
+      "canonical_question": "一位教練最多可以教幾位學員？",
+      "utterance_patterns": [
+        "一位教練最多可以教幾位學員",
+        "一位教練最多可以教幾位學員？"
+      ],
+      "required_slots": [],
+      "policy_flags": [
+        "NO_MANUAL_MATCH"
+      ],
+      "keywords": [
+        "教練人數",
+        "學員人數",
+        "教學品質",
+        "安全考量",
+        "分組教學",
+        "課程人數限制"
+      ],
+      "answer_template": {
+        "text": "為確保教學品質與安全，一位教練最多可帶 4 位學員。若超過 4 位，建議加開課程或分組進行。",
+        "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
+        "links_inline": false
+      },
+      "links": [
+        "{{LINK_SCHEDULE}}"
+      ],
+      "crm_tags": [
+        "#課程人數",
+        "#教學安排",
+        "#安全規範",
+        "#教練比例"
+      ],
+      "metadata": {
+        "content_version": 1,
+        "source_language": "zh",
+        "last_updated": "2025-11-05T00:00:00.000Z"
+      },
+      "section_translations": {
+        "en": "Coach and Teaching Arrangements",
+        "th": "โค้ชและการจัดการเรียนการสอน"
+      },
+      "canonical_question_translations": {
+        "en": "How many students can a coach teach at most?",
+        "th": "โค้ชหนึ่งคนสามารถสอนนักเรียนได้มากที่สุดกี่คน?"
+      },
+      "utterance_patterns_translations": {
+        "en": [
+          "How many students can a coach teach at most?",
+          "How many students can a coach teach at most?"
+        ],
+        "th": [
+          "โค้ชหนึ่งคนสามารถสอนนักเรียนได้มากที่สุดกี่คน?",
+          "โค้ชหนึ่งคนสามารถสอนนักเรียนได้มากที่สุดกี่คน?"
+        ]
+      },
+      "keywords_translations": {
+        "en": [
+          "Number of coaches",
+          "Number of students",
+          "Teaching quality",
+          "Safety considerations",
+          "Group instruction",
+          "Class size limit"
+        ],
+        "th": [
+          "จำนวนโค้ช",
+          "จำนวนนักเรียน",
+          "คุณภาพการสอน",
+          "ข้อควรพิจารณาด้านความปลอดภัย",
+          "การสอนแบบกลุ่ม",
+          "จำกัดจำนวนผู้เรียนในหลักสูตร"
+        ]
+      },
+      "crm_tags_translations": {
+        "en": [
+          "#CourseEnrollment",
+          "#TeachingArrangements",
+          "#SafetyRegulations",
+          "#CoachToStudentRatio"
+        ],
+        "th": [
+          "#จำนวนผู้เรียน",
+          "#การจัดการเรียนการสอน",
+          "#ข้อกำหนดด้านความปลอดภัย",
+          "#อัตราส่วนโค้ชต่อผู้เรียน"
+        ]
+      },
+      "answer_template_translations": {
+        "summary_translations": {
+          "en": "To ensure teaching quality and safety, one instructor can teach a maximum of 4 students. If there are more than 4 students, it is recommended to open additional classes or divide them into groups.",
+          "th": "เพื่อให้มั่นใจในคุณภาพและความปลอดภัยของการสอน ครูผู้สอนหนึ่งคนสามารถดูแลนักเรียนได้สูงสุด 4 คน หากเกิน 4 คน แนะนำให้เปิดชั้นเรียนเพิ่มเติมหรือแบ่งกลุ่ม"
+        },
+        "postscript_translations": {
+          "en": "For more information and the latest availability, please refer to the reservation system.",
+          "th": "สำหรับข้อมูลเพิ่มเติมและจำนวนที่ว่างล่าสุด โปรดดูที่ระบบการจอง"
+        }
+      },
+      "translation_status": {
+        "zh": {
+          "status": "complete",
+          "translator": "human_reviewed"
+        },
+        "en": {
+          "status": "complete",
+          "translator": "human_reviewed"
+        },
+        "th": {
+          "status": "complete",
+          "translator": "human_reviewed"
+        }
+      }
+    }
+  ]
+}

@@ -6,7 +6,9 @@
       "LINK_APPLY_SCHEDULE": "https://booking.diy.ski/apply-schedule",
       "LINK_INSURANCE": "https://diy.ski/insurance_s.php",
       "LINK_ARTICLES": "https://diy.ski/articleList.php",
-      "LINK_ORDER_LIST": "https://booking.diy.ski/order/list"
+      "LINK_ORDER_LIST": "https://booking.diy.ski/order/list",
+      "LINK_SERVICE_EMAIL": "mailto:service@diy.ski",
+      "LINK_FACEBOOK": "https://www.facebook.com/skidiy"
     },
     "policy_notes": [
       "NO_QUOTE: 不口頭報價，請導至系統頁面。",
@@ -18,53 +20,54 @@
     {
       "id": "faq.itinerary.001",
       "intent": "ITINERARY",
-      "section": "行程規劃與周邊",
-      "canonical_question": "應該先訂好機票住宿，還是先預約滑雪教練？",
-      "hot": true,
+      "section": "行程與費用",
+      "canonical_question": "請問滑雪行程費用包含哪些項目？",
       "utterance_patterns": [
-        "應該先訂好機票住宿，還是先預約滑雪教練",
-        "先訂教練還是先訂機票",
-        "先訂教練還是先訂住宿",
-        "要先預約教練嗎",
-        "機票住宿要先訂嗎",
-        "先訂教練比較保險嗎",
-        "要先預約教練",
-        "機票住宿要先訂",
-        "先訂教練比較保險",
-        "應該先訂好機票住宿，還是先預約滑雪教練？"
+        "滑雪行程費用包含什麼",
+        "費用包含",
+        "行程費用",
+        "包含哪些",
+        "行程費用包含哪些項目",
+        "請問滑雪行程費用包含哪些項目？"
       ],
       "required_slots": [],
-      "policy_flags": [
-        "NO_MANUAL_MATCH"
+      "policy_flags": [],
+      "keywords": [
+        "滑雪行程",
+        "費用包含",
+        "滑雪裝備",
+        "纜車票",
+        "滑雪教練"
       ],
       "answer_template": {
-        "text": "我們強烈建議您「先預約教練，再訂機票住宿」。尤其是在旺季，優質的中文教練非常搶手，時常比機票或住宿更早被預約一空。先確認預約到您想要的教練與時段後，再進行後續的旅遊安排，行程會比較有保障。",
-        "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
+        "summary": "滑雪行程費用包含當地交通、住宿、餐食、滑雪教練、滑雪裝備租借、纜車票、保險。",
+        "details": "行程費用涵蓋了您在滑雪期間的各項主要開銷，確保您能無憂享受滑雪樂趣。具體包含：當地交通接駁、舒適住宿、每日餐食、專業滑雪教練指導、全套滑雪裝備租借、雪場纜車票以及旅行保險。不包含項目則為：國際機票、簽證費用及個人性質消費。",
+        "tip": "建議您在出發前仔細核對行程頁面，了解所有包含與不包含的項目，並可根據個人需求加購額外服務。",
         "links_inline": false,
         "text_translations": {
-          "en": "We strongly recommend that you 'book your coach first, then your flights and accommodation.' Especially during peak season, high-quality Chinese-speaking coaches are in high demand and are often fully booked even before flights or accommodation. By confirming your desired coach and time slot first, and then making subsequent travel arrangements, your itinerary will be more secure.",
-          "th": "เราขอแนะนำอย่างยิ่งให้คุณ \"จองโค้ชก่อน แล้วค่อยจองตั๋วเครื่องบินและที่พัก\" โดยเฉพาะอย่างยิ่งในช่วงฤดูท่องเที่ยว โค้ชภาษาจีนที่มีคุณภาพเป็นที่ต้องการอย่างมาก และมักจะถูกจองเต็มเร็วกว่าตั๋วเครื่องบินหรือที่พัก หลังจากยืนยันการจองโค้ชและช่วงเวลาที่คุณต้องการแล้ว การจัดเตรียมการเดินทางในภายหลังจะช่วยให้แผนการเดินทางของคุณมีความมั่นคงมากขึ้น"
+          "en": "Ski trip costs include: local transportation, accommodation, meals, ski instructor, ski equipment rental, lift tickets, insurance. Excludes: airfare, visas, personal expenses.",
+          "th": "ค่าใช้จ่ายทริปสกีประกอบด้วย: การเดินทางในท้องถิ่น, ที่พัก, อาหาร, ผู้สอนสกี, ค่าเช่าอุปกรณ์สกี, ตั๋วลิฟต์, ประกันภัย ไม่รวม: ค่าตั๋วเครื่องบิน, วีซ่า, ค่าใช้จ่ายส่วนตัว"
         },
         "postscript_translations": {
-          "en": "For more information and the latest availability, please refer to the reservation system.",
-          "th": "สำหรับข้อมูลเพิ่มเติมและจำนวนที่ว่างล่าสุด โปรดดูตามที่แสดงในระบบการจอง"
+          "en": "For detailed costs, please refer to the itinerary page.",
+          "th": "สำหรับค่าใช้จ่ายโดยละเอียด โปรดดูที่หน้ากำหนดการเดินทาง"
         }
       },
       "links": [
-        "{{LINK_SCHEDULE}}",
-        "{{LINK_ARTICLES}}"
+        "{{LINK_SCHEDULE}}"
       ],
       "crm_tags": [
-        "#行程規劃"
+        "#費用",
+        "#行程"
       ],
       "metadata": {
-        "content_version": 1,
+        "content_version": 2,
         "source_language": "zh",
-        "last_updated": "2025-10-28T07:36:14.070Z"
+        "last_updated": "2025-11-04T22:51:39.000Z"
       },
       "canonical_question_translations": {
-        "en": "Should I book flights and accommodation first, or reserve a ski instructor first?",
-        "th": "ควรจองตั๋วเครื่องบินและที่พักก่อน หรือจองครูสอนสกีล่วงหน้าก่อนดี?"
+        "en": "What does the ski trip cost include?",
+        "th": "ค่าใช้จ่ายทริปสกีรวมอะไรบ้าง?"
       },
       "translation_status": {
         "zh": {
@@ -75,12 +78,12 @@
         "en": {
           "status": "complete",
           "last_synced_version": 1,
-          "last_updated": "2025-10-28T10:13:38.250688+00:00"
+          "last_updated": "2025-10-28T13:29:02.023893+00:00"
         },
         "th": {
           "status": "complete",
           "last_synced_version": 1,
-          "last_updated": "2025-10-28T10:13:38.250688+00:00"
+          "last_updated": "2025-10-28T13:29:02.023893+00:00"
         }
       }
     },
@@ -259,12 +262,12 @@
         "NO_MANUAL_MATCH"
       ],
       "answer_template": {
-        "text": "為了確保服務品質與資訊的準確性，我們目前主要透過電子郵件 ( admin@diy.ski ) 提供客服。文字記錄能幫助我們更精準地理解您的問題，並完整地追蹤處理進度。我們承諾會盡快回覆您的所有問題。",
+        "text": "為了確保服務品質與資訊的準確性，我們目前主要透過電子郵件 ( service@diy.ski ) 提供客服。文字記錄能幫助我們更精準地理解您的問題，並完整地追蹤處理進度。我們承諾會盡快回覆您的所有問題。",
         "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
         "links_inline": false,
         "text_translations": {
-          "en": "To ensure service quality and accuracy of information, we currently primarily provide customer service via email (admin@diy.ski). Text records help us understand your questions more precisely and fully track the progress of their resolution. We promise to respond to all your inquiries as quickly as possible.",
-          "th": "เพื่อให้มั่นใจในคุณภาพการบริการและความถูกต้องของข้อมูล ปัจจุบันเราให้บริการลูกค้าหลักผ่านทางอีเมล (admin@diy.ski) การบันทึกข้อความช่วยให้เราเข้าใจปัญหาของคุณได้อย่างแม่นยำยิ่งขึ้น และติดตามความคืบหน้าในการแก้ไขได้อย่างสมบูรณ์ เราสัญญาว่าจะตอบกลับทุกคำถามของคุณโดยเร็วที่สุด"
+          "en": "To ensure service quality and accuracy of information, we currently primarily provide customer service via email (service@diy.ski). Text records help us understand your questions more precisely and fully track the progress of their resolution. We promise to respond to all your inquiries as quickly as possible.",
+          "th": "เพื่อให้มั่นใจในคุณภาพการบริการและความถูกต้องของข้อมูล ปัจจุบันเราให้บริการลูกค้าหลักผ่านทางอีเมล (service@diy.ski) การบันทึกข้อความช่วยให้เราเข้าใจปัญหาของคุณได้อย่างแม่นยำยิ่งขึ้น และติดตามความคืบหน้าในการแก้ไขได้อย่างสมบูรณ์ เราสัญญาว่าจะตอบกลับทุกคำถามของคุณโดยเร็วที่สุด"
         },
         "postscript_translations": {
           "en": "For more information and the latest availability, please refer to the reservation system.",
