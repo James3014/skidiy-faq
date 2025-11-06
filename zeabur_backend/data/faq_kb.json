@@ -3148,12 +3148,12 @@
         "NO_MANUAL_MATCH"
       ],
       "answer_template": {
-        "text": "是的，需要先註冊才能使用網站，目前僅提供電子郵件註冊與登入。 \n\n註冊網址：https://booking.diy.ski/schedule",
+        "text": "是的，需要先註冊才能使用網站，目前僅提供電子郵件註冊與登入。\n\n請前往 [LINK:LINK_SCHEDULE|預約系統] 進行註冊。",
         "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
         "links_inline": false,
         "text_translations": {
-          "en": "Yes, you need to register first to use the website. Currently, only email registration and login are provided. Registration URL: https://booking.diy.ski/schedule",
-          "th": "ใช่ ต้องลงทะเบียนก่อนจึงจะสามารถใช้งานเว็บไซต์ได้ ขณะนี้รองรับเฉพาะการลงทะเบียนและเข้าสู่ระบบด้วยอีเมลเท่านั้น\n\nลิงก์ลงทะเบียน: https://booking.diy.ski/schedule"
+          "en": "Yes, you need to register first to use the website. Currently, only email registration and login are provided.\n\nPlease visit [LINK:LINK_SCHEDULE|the registration page] to sign up.",
+          "th": "ใช่ ต้องลงทะเบียนก่อนจึงจะสามารถใช้งานเว็บไซต์ได้ ขณะนี้รองรับเฉพาะการลงทะเบียนและเข้าสู่ระบบด้วยอีเมลเท่านั้น\n\nโปรดไปที่ [LINK:LINK_SCHEDULE|หน้าลงทะเบียน] เพื่อสมัครสมาชิก"
         },
         "postscript_translations": {
           "en": "For more information and the latest availability, please refer to the reservation system.",

@@ -2184,6 +2184,242 @@
           "translator": "human_reviewed"
         }
       }
+    },
+    {
+      "id": "faq.general.015",
+      "intent": "GENERAL",
+      "section": "🏂 教練與教學安排",
+      "canonical_question": "我想連續上好幾天課，能否預約不同的教練？",
+      "utterance_patterns": [
+        "我想連續上好幾天課，能否預約不同的教練？",
+        "我想連續上好幾天課，可不可以預約不同的教練？",
+        "我想連續上好幾天課，能不能預約不同的教練？",
+        "我想連續上好幾天課，可以預約不同的教練嗎？"
+      ],
+      "required_slots": [],
+      "policy_flags": [
+        "NO_MANUAL_MATCH"
+      ],
+      "keywords": [
+        "連續課程",
+        "不同教練",
+        "教練選擇",
+        "學習效果",
+        "預約系統",
+        "指定教練"
+      ],
+      "answer_template": {
+        "text": "可以，但我們更建議盡量跟隨同一位教練上課。因為教練最了解您的學習進度與狀況，能提供連貫性的指導，學習效果會是最好的。您可以在預約系統的篩選器中「指定特定教練」，來查看他所有可預約的時段。",
+        "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
+        "links_inline": false
+      },
+      "links": [
+        "{{LINK_SCHEDULE}}"
+      ],
+      "crm_tags": [
+        "#課程安排",
+        "#教練選擇",
+        "#學習建議",
+        "#預約流程"
+      ],
+      "metadata": {
+        "content_version": 1,
+        "source_language": "zh",
+        "last_updated": "2025-11-05T00:00:00.000Z"
+      },
+      "section_translations": {
+        "en": "Coach and Teaching Arrangements",
+        "th": "โค้ชและการจัดการเรียนการสอน"
+      },
+      "canonical_question_translations": {
+        "en": "I want to take classes for several consecutive days, can I book different coaches?",
+        "th": "ฉันต้องการเรียนหลายวันติดต่อกัน ฉันสามารถจองโค้ชที่แตกต่างกันได้หรือไม่?"
+      },
+      "utterance_patterns_translations": {
+        "en": [
+          "I want to take classes for several consecutive days, can I book different coaches?",
+          "I want to take classes for several consecutive days, can I book different coaches?",
+          "I want to take classes for several consecutive days, can I book different coaches?",
+          "I want to take classes for several consecutive days, can I book different coaches?"
+        ],
+        "th": [
+          "ฉันต้องการเรียนหลายวันติดต่อกัน ฉันสามารถจองโค้ชที่แตกต่างกันได้หรือไม่?",
+          "ฉันต้องการเรียนหลายวันติดต่อกัน ฉันสามารถจองโค้ชที่แตกต่างกันได้หรือไม่?",
+          "ฉันต้องการเรียนหลายวันติดต่อกัน ฉันสามารถจองโค้ชที่แตกต่างกันได้หรือไม่?",
+          "ฉันต้องการเรียนหลายวันติดต่อกัน ฉันสามารถจองโค้ชที่แตกต่างกันได้หรือไม่?"
+        ]
+      },
+      "keywords_translations": {
+        "en": [
+          "Consecutive courses",
+          "Different coaches",
+          "Coach selection",
+          "Learning outcome",
+          "Booking system",
+          "Designated coach"
+        ],
+        "th": [
+          "หลักสูตรต่อเนื่อง",
+          "โค้ชที่แตกต่างกัน",
+          "การเลือกโค้ช",
+          "ผลการเรียนรู้",
+          "ระบบการจอง",
+          "โค้ชที่กำหนด"
+        ]
+      },
+      "crm_tags_translations": {
+        "en": [
+          "#CourseArrangement",
+          "#CoachSelection",
+          "#LearningSuggestions",
+          "#ReservationProcess"
+        ],
+        "th": [
+          "#การจัดหลักสูตร",
+          "#การเลือกโค้ช",
+          "#คำแนะนำการเรียนรู้",
+          "#ขั้นตอนการจอง"
+        ]
+      },
+      "answer_template_translations": {
+        "summary_translations": {
+          "en": "Yes, but we highly recommend trying to stick with the same coach for your lessons. This is because the coach best understands your learning progress and situation, and can provide continuous guidance, which will lead to the best learning outcomes. You can 'specify a particular coach' in the booking system's filter to view all their available time slots.",
+          "th": "ได้ครับ/ค่ะ แต่เราขอแนะนำอย่างยิ่งให้พยายามเรียนกับโค้ชคนเดิม เพราะโค้ชจะเข้าใจความก้าวหน้าและสถานการณ์การเรียนรู้ของคุณได้ดีที่สุด และสามารถให้คำแนะนำที่ต่อเนื่อง ซึ่งจะนำไปสู่ผลลัพธ์การเรียนรู้ที่ดีที่สุด คุณสามารถ 'ระบุโค้ชเฉพาะ' ในตัวกรองของระบบการจองเพื่อดูช่วงเวลาที่โค้ชคนนั้นว่างทั้งหมด"
+        },
+        "postscript_translations": {
+          "en": "For more information and the latest availability, please refer to the reservation system.",
+          "th": "สำหรับข้อมูลเพิ่มเติมและจำนวนที่ว่างล่าสุด โปรดดูที่ระบบการจอง"
+        }
+      },
+      "translation_status": {
+        "zh": {
+          "status": "complete",
+          "translator": "human_reviewed"
+        },
+        "en": {
+          "status": "complete",
+          "translator": "human_reviewed"
+        },
+        "th": {
+          "status": "complete",
+          "translator": "human_reviewed"
+        }
+      }
+    },
+    {
+      "id": "faq.general.016",
+      "intent": "GENERAL",
+      "section": "🏂 教練與教學安排",
+      "canonical_question": "我預約的教練會不會臨時更換？如果更換，新教練的資格如何保證？",
+      "utterance_patterns": [
+        "我預約的教練會不會臨時更換如果更換，新教練的資格如何保證",
+        "我預約的教練會不會臨時更換？如果更換，新教練的資格如何保證？"
+      ],
+      "required_slots": [],
+      "policy_flags": [
+        "NO_MANUAL_MATCH"
+      ],
+      "keywords": [
+        "教練更換",
+        "臨時更換",
+        "教練資格",
+        "國際證照",
+        "緊急狀況",
+        "替代教練"
+      ],
+      "answer_template": {
+        "text": "我們平台的所有教練都必須持有有效的國際滑雪指導員執照。在極少數情況下，若您預約的教練因緊急狀況無法授課，我們會在第一時間通知您，並安排「同等級或更高等級」的合格教練替代。任何教練的更換，我們都會事先與您溝通並取得您的同意。",
+        "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
+        "links_inline": false
+      },
+      "links": [
+        "{{LINK_SCHEDULE}}"
+      ],
+      "crm_tags": [
+        "#教練安排",
+        "#課程變更",
+        "#教練資格",
+        "#緊急應變"
+      ],
+      "metadata": {
+        "content_version": 1,
+        "source_language": "zh",
+        "last_updated": "2025-11-05T00:00:00.000Z"
+      },
+      "section_translations": {
+        "en": "Coach and Teaching Arrangements",
+        "th": "โค้ชและการจัดการเรียนการสอน"
+      },
+      "canonical_question_translations": {
+        "en": "Will my reserved coach be temporarily replaced? If so, how is the qualification of the new coach guaranteed?",
+        "th": "โค้ชที่ฉันจองไว้จะถูกเปลี่ยนกะทันหันหรือไม่? ถ้าเปลี่ยน คุณจะรับประกันคุณสมบัติของโค้ชคนใหม่ได้อย่างไร?"
+      },
+      "utterance_patterns_translations": {
+        "en": [
+          "Will my reserved coach be temporarily replaced? If so, how is the qualification of the new coach guaranteed?",
+          "Will my reserved coach be temporarily replaced? If so, how is the qualification of the new coach guaranteed?"
+        ],
+        "th": [
+          "โค้ชที่ฉันจองไว้จะถูกเปลี่ยนกะทันหันหรือไม่? ถ้าเปลี่ยน คุณจะรับประกันคุณสมบัติของโค้ชคนใหม่ได้อย่างไร?",
+          "โค้ชที่ฉันจองไว้จะถูกเปลี่ยนกะทันหันหรือไม่? ถ้าเปลี่ยน คุณจะรับประกันคุณสมบัติของโค้ชคนใหม่ได้อย่างไร?"
+        ]
+      },
+      "keywords_translations": {
+        "en": [
+          "Coach change",
+          "Temporary replacement",
+          "Coach qualification",
+          "International certification",
+          "Emergency situation",
+          "Substitute coach"
+        ],
+        "th": [
+          "การเปลี่ยนโค้ช",
+          "การเปลี่ยนชั่วคราว",
+          "คุณสมบัติโค้ช",
+          "ใบรับรองระหว่างประเทศ",
+          "สถานการณ์ฉุกเฉิน",
+          "โค้ชสำรอง"
+        ]
+      },
+      "crm_tags_translations": {
+        "en": [
+          "#CoachArrangement",
+          "#CourseChange",
+          "#CoachQualification",
+          "#EmergencyResponse"
+        ],
+        "th": [
+          "#การจัดโค้ช",
+          "#การเปลี่ยนแปลงหลักสูตร",
+          "#คุณสมบัติโค้ช",
+          "#การรับมือเหตุฉุกเฉิน"
+        ]
+      },
+      "answer_template_translations": {
+        "summary_translations": {
+          "en": "All coaches on our platform must hold a valid international ski instructor license. In the rare event that your reserved coach is unable to teach due to an emergency, we will notify you immediately and arrange a qualified coach of \"the same or higher level\" as a replacement. For any coach change, we will communicate with you in advance and obtain your consent.",
+          "th": "โค้ชทุกคนบนแพลตฟอร์มของเราจะต้องมีใบอนุญาตผู้สอนสกีระหว่างประเทศที่ถูกต้อง ในกรณีที่หายากมาก หากโค้ชที่คุณจองไว้ไม่สามารถสอนได้เนื่องจากเหตุฉุกเฉิน เราจะแจ้งให้คุณทราบทันทีและจัดหาโค้ชที่มีคุณสมบัติเหมาะสมใน \"ระดับเดียวกันหรือสูงกว่า\" มาแทนที่ สำหรับการเปลี่ยนแปลงโค้ชใดๆ เราจะสื่อสารกับคุณล่วงหน้าและได้รับความยินยอมจากคุณ"
+        },
+        "postscript_translations": {
+          "en": "For more information and the latest availability, please refer to the reservation system.",
+          "th": "สำหรับข้อมูลเพิ่มเติมและจำนวนที่ว่างล่าสุด โปรดดูที่ระบบการจอง"
+        }
+      },
+      "translation_status": {
+        "zh": {
+          "status": "complete",
+          "translator": "human_reviewed"
+        },
+        "en": {
+          "status": "complete",
+          "translator": "human_reviewed"
+        },
+        "th": {
+          "status": "complete",
+          "translator": "human_reviewed"
+        }
+      }
     }
   ]
 }
