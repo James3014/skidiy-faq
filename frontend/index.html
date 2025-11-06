@@ -2806,6 +2806,17 @@
               ${answer}
               ${postscript}
             </div>
+            <div class="feedback-section">
+              <span class="feedback-label">${currentLanguage === 'en' ? 'Was this helpful?' : currentLanguage === 'th' ? 'มีประโยชน์หรือไม่' : '這個資訊有幫助嗎？'}</span>
+              <div class="feedback-buttons">
+                <button class="btn-helpful" onclick="openFeedbackModal(this)" aria-label="${currentLanguage === 'en' ? 'Helpful' : currentLanguage === 'th' ? 'มีประโยชน์' : '有幫助'}">
+                  👍 ${currentLanguage === 'en' ? 'Helpful' : currentLanguage === 'th' ? 'มีประโยชน์' : '有幫助'}
+                </button>
+                <button class="btn-not-helpful" onclick="openFeedbackModal(this)" aria-label="${currentLanguage === 'en' ? 'Not helpful' : currentLanguage === 'th' ? 'ไม่มีประโยชน์' : '沒幫助'}">
+                  👎 ${currentLanguage === 'en' ? 'Not helpful' : currentLanguage === 'th' ? 'ไม่มีประโยชน์' : '沒幫助'}
+                </button>
+              </div>
+            </div>
           </div>
         `;
       }).join('');
