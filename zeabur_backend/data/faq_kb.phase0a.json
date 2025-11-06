@@ -2063,6 +2063,127 @@
           "translator": "human_reviewed"
         }
       }
+    },
+    {
+      "id": "faq.general.015",
+      "intent": "GENERAL",
+      "section": "🏂 教練與教學安排",
+      "canonical_question": "我想連續上好幾天課，能否預約不同的教練？",
+      "utterance_patterns": [
+        "我想連續上好幾天課，能否預約不同的教練？",
+        "我想連續上好幾天課，可不可以預約不同的教練？",
+        "我想連續上好幾天課，能不能預約不同的教練？",
+        "我想連續上好幾天課，可以預約不同的教練嗎？"
+      ],
+      "required_slots": [],
+      "policy_flags": [
+        "NO_MANUAL_MATCH"
+      ],
+      "keywords": [
+        "連續課程",
+        "不同教練",
+        "教練選擇",
+        "學習效果",
+        "預約系統",
+        "指定教練"
+      ],
+      "answer_template": {
+        "text": "可以，但我們更建議盡量跟隨同一位教練上課。因為教練最了解您的學習進度與狀況，能提供連貫性的指導，學習效果會是最好的。您可以在預約系統的篩選器中「指定特定教練」，來查看他所有可預約的時段。",
+        "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
+        "links_inline": false
+      },
+      "links": [
+        "{{LINK_SCHEDULE}}"
+      ],
+      "crm_tags": [
+        "#課程安排",
+        "#教練選擇",
+        "#學習建議",
+        "#預約流程"
+      ],
+      "metadata": {
+        "content_version": 1,
+        "source_language": "zh",
+        "last_updated": "2025-11-05T00:00:00.000Z"
+      },
+      "section_translations": {
+        "en": "Coach and Teaching Arrangements",
+        "th": "โค้ชและการจัดการเรียนการสอน"
+      },
+      "canonical_question_translations": {
+        "en": "I want to take classes for several consecutive days, can I book different coaches?",
+        "th": "ฉันต้องการเรียนหลายวันติดต่อกัน ฉันสามารถจองโค้ชที่แตกต่างกันได้หรือไม่?"
+      },
+      "utterance_patterns_translations": {
+        "en": [
+          "I want to take classes for several consecutive days, can I book different coaches?",
+          "I want to take classes for several consecutive days, can I book different coaches?",
+          "I want to take classes for several consecutive days, can I book different coaches?",
+          "I want to take classes for several consecutive days, can I book different coaches?"
+        ],
+        "th": [
+          "ฉันต้องการเรียนหลายวันติดต่อกัน ฉันสามารถจองโค้ชที่แตกต่างกันได้หรือไม่?",
+          "ฉันต้องการเรียนหลายวันติดต่อกัน ฉันสามารถจองโค้ชที่แตกต่างกันได้หรือไม่?",
+          "ฉันต้องการเรียนหลายวันติดต่อกัน ฉันสามารถจองโค้ชที่แตกต่างกันได้หรือไม่?",
+          "ฉันต้องการเรียนหลายวันติดต่อกัน ฉันสามารถจองโค้ชที่แตกต่างกันได้หรือไม่?"
+        ]
+      },
+      "keywords_translations": {
+        "en": [
+          "Consecutive courses",
+          "Different coaches",
+          "Coach selection",
+          "Learning outcome",
+          "Booking system",
+          "Designated coach"
+        ],
+        "th": [
+          "หลักสูตรต่อเนื่อง",
+          "โค้ชที่แตกต่างกัน",
+          "การเลือกโค้ช",
+          "ผลการเรียนรู้",
+          "ระบบการจอง",
+          "โค้ชที่กำหนด"
+        ]
+      },
+      "crm_tags_translations": {
+        "en": [
+          "#CourseArrangement",
+          "#CoachSelection",
+          "#LearningSuggestions",
+          "#ReservationProcess"
+        ],
+        "th": [
+          "#การจัดหลักสูตร",
+          "#การเลือกโค้ช",
+          "#คำแนะนำการเรียนรู้",
+          "#ขั้นตอนการจอง"
+        ]
+      },
+      "answer_template_translations": {
+        "summary_translations": {
+          "en": "Yes, but we highly recommend trying to stick with the same coach for your lessons. This is because the coach best understands your learning progress and situation, and can provide continuous guidance, which will lead to the best learning outcomes. You can 'specify a particular coach' in the booking system's filter to view all their available time slots.",
+          "th": "ได้ครับ/ค่ะ แต่เราขอแนะนำอย่างยิ่งให้พยายามเรียนกับโค้ชคนเดิม เพราะโค้ชจะเข้าใจความก้าวหน้าและสถานการณ์การเรียนรู้ของคุณได้ดีที่สุด และสามารถให้คำแนะนำที่ต่อเนื่อง ซึ่งจะนำไปสู่ผลลัพธ์การเรียนรู้ที่ดีที่สุด คุณสามารถ 'ระบุโค้ชเฉพาะ' ในตัวกรองของระบบการจองเพื่อดูช่วงเวลาที่โค้ชคนนั้นว่างทั้งหมด"
+        },
+        "postscript_translations": {
+          "en": "For more information and the latest availability, please refer to the reservation system.",
+          "th": "สำหรับข้อมูลเพิ่มเติมและจำนวนที่ว่างล่าสุด โปรดดูที่ระบบการจอง"
+        }
+      },
+      "translation_status": {
+        "zh": {
+          "status": "complete",
+          "translator": "human_reviewed"
+        },
+        "en": {
+          "status": "complete",
+          "translator": "human_reviewed"
+        },
+        "th": {
+          "status": "complete",
+          "translator": "human_reviewed"
+        }
+      }
     }
   ]
 }

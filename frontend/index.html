@@ -1516,6 +1516,7 @@
     let resortDataCache = null;
     let activeResortRegion = null;
     let linkTokens = {}; // Store link_tokens from faq_kb.json
+    let linkRegistry = null; // Store unified link registry
 
     // API base configuration
     const API_BASE = window.API_BASE || '/api/v1';
@@ -1767,13 +1768,60 @@
       'Pool': { zh: '游泳池', en: 'Pool', th: 'สระว่ายน้ำ' }
     };
 
+    // Resolve link from link_registry or linkTokens
+    // Supports: token (for FAQ), link_name with context (for resort)
+    // Examples:
+    //   resolveLink('LINK_SCHEDULE') -> 'https://booking.diy.ski/schedule'
+    //   resolveLink('official_site', resort) -> 'https://www.example.com'
+    //   resolveLink('google_maps', resort) -> 'https://maps.google.com/?q=...'
+    function resolveLink(linkName, context = null) {
+      let linkDef = null;
+      let url = null;
+
+      // Try to resolve from linkRegistry first (if loaded)
+      if (linkRegistry) {
+        // Check if it's a FAQ link token (e.g., LINK_SCHEDULE)
+        if (linkRegistry.faq && linkRegistry.faq[linkName]) {
+          url = linkRegistry.faq[linkName].url;
+        }
+        // Check if it's a resort link (e.g., official_site) with context
+        else if (linkRegistry.resort && linkRegistry.resort[linkName] && context) {
+          linkDef = linkRegistry.resort[linkName];
+          if (linkDef.url_template) {
+            // Replace {resort.*} variables with actual context values
+            url = linkDef.url_template.replace(/\{resort\.([^}]+)\}/g, (match, path) => {
+              // Handle nested properties like resort.coordinates.lat
+              const parts = path.split('.');
+              let value = context;
+              for (const part of parts) {
+                value = value?.[part];
+              }
+              return value || '';
+            });
+          }
+        }
+      }
+
+      // Fallback to linkTokens from faq_kb.json for FAQ links
+      if (!url && linkTokens[linkName]) {
+        url = linkTokens[linkName];
+      }
+
+      if (!url) {
+        console.warn(`[Link Resolver] Link not found: ${linkName}`, context);
+        return null;
+      }
+
+      return url;
+    }
+
     // Parse FAQ text with [LINK:TOKEN|LABEL] format
     function parseLinksInText(text) {
       if (!text) return '';
 
       // Replace [LINK:TOKEN|LABEL] with <a> tags
       return text.replace(/\[LINK:([A-Z_]+)\|([^\]]+)\]/g, (match, token, label) => {
-        const url = linkTokens[token];
+        const url = resolveLink(token);
         if (!url) {
           console.warn(`[Link Parser] Token not found: ${token}`);
           return label; // Fallback to just the label text
@@ -1833,6 +1881,19 @@
         if (faqEngine.faqData && faqEngine.faqData.meta && faqEngine.faqData.meta.link_tokens) {
           linkTokens = faqEngine.faqData.meta.link_tokens;
           console.log('[Init] Link tokens loaded:', Object.keys(linkTokens).length);
+        }
+
+        // Load link_registry (unified link management)
+        try {
+          const registryResponse = await fetch('/data/link_registry.json');
+          if (registryResponse.ok) {
+            linkRegistry = await registryResponse.json();
+            console.log('[Init] Link registry loaded');
+          } else {
+            console.warn('[Init] Link registry not found, continuing with legacy linkTokens');
+          }
+        } catch (registryError) {
+          console.warn('[Init] Link registry load failed, continuing with legacy linkTokens:', registryError);
         }
 
         console.log(`[Init] FAQ engine initialized with ${allFAQs.length} FAQs`);
@@ -2310,8 +2371,8 @@
             </div>
           ` : ''}
 
-          ${officialSite ? `
-            <a href="${DOMPurify.sanitize(officialSite)}" target="_blank" class="resort-link" onclick="trackResortEngagement(event, 'official_site_click', '${resort.resort_id}', '${DOMPurify.sanitize(primary)}')">
+          ${officialSite || (linkRegistry && linkRegistry.resort && linkRegistry.resort.official_site) ? `
+            <a href="${DOMPurify.sanitize(officialSite || resolveLink('official_site', resort) || '#')}" target="_blank" class="resort-link" onclick="trackResortEngagement(event, 'official_site_click', '${resort.resort_id}', '${DOMPurify.sanitize(primary)}')">
               ${locale.viewOfficialSite}
             </a>
           ` : ''}
