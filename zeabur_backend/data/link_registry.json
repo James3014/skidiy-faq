@@ -101,6 +101,18 @@
       "type": "social",
       "icon": "f",
       "description": "官方 Facebook 粉絲頁"
+    },
+    "LINK_PANDARUMAN": {
+      "name": "LINK_PANDARUMAN",
+      "labels": {
+        "zh": "熊貓滑雪學校",
+        "en": "Pandaruman Ski School",
+        "th": "โรงเรียนสกี Pandaruman"
+      },
+      "url": "https://www.pandaruman.com/",
+      "type": "reference",
+      "icon": "🐼",
+      "description": "專為幼幼兒童（5歲以下）設計的滑雪課程"
     }
   },
   "resort": {
