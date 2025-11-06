@@ -20,6 +20,11 @@ let linkRegistryLoadTime = null;
 /**
  * Load link registry from link_registry.json
  *
+ * Tries multiple possible paths to locate the file:
+ * 1. ../../../data/link_registry.json (development)
+ * 2. ./data/link_registry.json (alternative)
+ * 3. /app/data/link_registry.json (Zeabur container path)
+ *
  * @returns {Promise<Object>} Link registry data
  */
 async function loadLinkRegistry() {
@@ -28,24 +33,35 @@ async function loadLinkRegistry() {
     return linkRegistry;
   }
 
-  const registryPath = path.join(__dirname, '../../../data/link_registry.json');
+  const possiblePaths = [
+    path.join(__dirname, '../../../data/link_registry.json'),
+    path.join(__dirname, './data/link_registry.json'),
+    '/app/data/link_registry.json',
+    path.join(process.cwd(), 'data/link_registry.json'),
+  ];
 
-  try {
-    const content = await fs.readFile(registryPath, 'utf-8');
-    linkRegistry = JSON.parse(content);
-    linkRegistryLoadTime = Date.now();
+  for (const registryPath of possiblePaths) {
+    try {
+      const content = await fs.readFile(registryPath, 'utf-8');
+      linkRegistry = JSON.parse(content);
+      linkRegistryLoadTime = Date.now();
 
-    // Validate structure
-    if (!linkRegistry || typeof linkRegistry !== 'object') {
-      throw new Error('Invalid link registry structure');
+      // Validate structure
+      if (!linkRegistry || typeof linkRegistry !== 'object') {
+        throw new Error('Invalid link registry structure');
+      }
+
+      console.log(`[Links Routes] Loaded link registry from: ${registryPath}`);
+      return linkRegistry;
+    } catch (error) {
+      // Continue to next path
+      continue;
     }
-
-    console.log(`[Links Routes] Loaded link registry from file`);
-    return linkRegistry;
-  } catch (error) {
-    console.error('[Links Routes] Failed to load link registry:', error);
-    throw new AppError('LINKS_LOAD_ERROR', 'Failed to load link registry', 500);
   }
+
+  // If no file found, log all attempted paths and throw error
+  console.error('[Links Routes] Failed to load link registry from any path. Tried:', possiblePaths);
+  throw new AppError('LINKS_LOAD_ERROR', 'Failed to load link registry from any location', 500);
 }
 
 /**
