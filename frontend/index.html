@@ -2246,6 +2246,36 @@
       }
     };
 
+    // Helper function to display resort links dynamically
+    // Usage: displayResortLinks(resortCardElement, ['official_site', 'booking_page'])
+    window.getResortLinksHTML = function(resortCard, linkNames = ['official_site']) {
+      if (!resortCard) return '';
+
+      const linksData = JSON.parse(resortCard.dataset.resortLinks || '{}');
+      const locale = getResortLocale();
+
+      return linkNames.map(linkName => {
+        const url = linksData[linkName];
+        if (!url) return '';
+
+        let label = '';
+        let icon = '';
+
+        // Get label from link_registry
+        if (linkRegistry && linkRegistry.resort && linkRegistry.resort[linkName]) {
+          const linkDef = linkRegistry.resort[linkName];
+          label = linkDef.labels?.[currentLanguage] || linkDef.labels?.zh || linkDef.name;
+          icon = linkDef.icon || '';
+        }
+
+        if (!label) return '';
+
+        return `<a href="${DOMPurify.sanitize(url)}" target="_blank" class="resort-link" onclick="event.stopPropagation(); trackResortEngagement(event, '${linkName}_click', '${resortCard.dataset.resortId}', '')" title="${DOMPurify.sanitize(label)}">
+          ${icon} ${DOMPurify.sanitize(label)}
+        </a>`;
+      }).join(' | ');
+    };
+
     // Create resort card HTML
     function createResortCard(resort) {
       const locale = getResortLocale();
@@ -2260,6 +2290,17 @@
       const amenities = resort.amenities || [];
       const officialSite = resort.official_site || '';
       const transportation = resort.transportation || null;
+
+      // Prepare all resort links for future use (not displayed yet)
+      // These will be shown once the data is available
+      const resortLinks = {
+        official_site: resolveLink('official_site', resort),
+        booking_page: resolveLink('booking_page', resort),
+        google_maps: resolveLink('google_maps', resort),
+        snow_report: resort.snow_report_url ? resolveLink('snow_report', resort) : null
+      };
+      // Store links in data attribute for JavaScript access (not visible to user)
+      const linksDataAttr = JSON.stringify(resortLinks).replace(/"/g, '&quot;');
 
       let adultPrice = pricing.one_day_adult ?? null;
       let childPrice = pricing.one_day_child ?? null;
@@ -2313,7 +2354,7 @@
       }
 
       return `
-        <div class="resort-card collapsible" data-resort-id="${resort.resort_id}" data-expanded="false">
+        <div class="resort-card collapsible" data-resort-id="${resort.resort_id}" data-expanded="false" data-resort-links='${linksDataAttr}'>
           <div class="resort-header clickable" onclick="toggleResortCard(this)">
             <div>
               <div class="resort-name">
