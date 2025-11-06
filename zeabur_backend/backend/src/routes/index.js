@@ -21,6 +21,7 @@ const crmRoutes = require('./crm');
 const contentRoutes = require('./content');
 const eventsRoutes = require('./events');
 const authRoutes = require('./auth');
+const linksRoutes = require('./links');
 
 /**
  * API Routes
@@ -38,6 +39,7 @@ router.use('/analytics', analyticsRoutes); // Analytics and statistics (Phase 7)
 router.use('/content', contentRoutes);   // Markdown content delivery
 router.use('/events', eventsRoutes);     // User event tracking
 router.use('/crm', crmRoutes);           // CRM integration (Phase 9)
+router.use('/links', linksRoutes);       // Link registry management (FAQ and resort links)
 router.use('/auth', authRoutes);         // Development auth helper
 
 // Placeholder route for testing

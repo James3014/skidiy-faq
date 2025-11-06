@@ -1883,14 +1883,17 @@
           console.log('[Init] Link tokens loaded:', Object.keys(linkTokens).length);
         }
 
-        // Load link_registry (unified link management)
+        // Load link_registry (unified link management) from backend API
         try {
-          const registryResponse = await fetch('/data/link_registry.json');
+          const backendUrl = window.BACKEND_URL || 'https://faq-api-v1.zeabur.app/api/v1';
+          const registryResponse = await fetch(`${backendUrl}/links/registry`);
           if (registryResponse.ok) {
-            linkRegistry = await registryResponse.json();
-            console.log('[Init] Link registry loaded');
+            const registryData = await registryResponse.json();
+            // Extract the data object from the API response
+            linkRegistry = registryData.data || registryData;
+            console.log('[Init] Link registry loaded from backend');
           } else {
-            console.warn('[Init] Link registry not found, continuing with legacy linkTokens');
+            console.warn('[Init] Link registry not found at backend, continuing with legacy linkTokens');
           }
         } catch (registryError) {
           console.warn('[Init] Link registry load failed, continuing with legacy linkTokens:', registryError);
