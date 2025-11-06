@@ -59,9 +59,24 @@ async function loadLinkRegistry() {
     }
   }
 
-  // If no file found, log all attempted paths and throw error
-  console.error('[Links Routes] Failed to load link registry from any path. Tried:', possiblePaths);
-  throw new AppError('LINKS_LOAD_ERROR', 'Failed to load link registry from any location', 500);
+  // If no file found, try the fallback JS module (Zeabur deployment)
+  try {
+    console.log('[Links Routes] Trying fallback JavaScript module...');
+    delete require.cache[require.resolve('../data/link_registry.js')]; // Clear cache
+    linkRegistry = require('../data/link_registry.js');
+    linkRegistryLoadTime = Date.now();
+
+    if (!linkRegistry || typeof linkRegistry !== 'object') {
+      throw new Error('Invalid fallback link registry structure');
+    }
+
+    console.log('[Links Routes] Loaded link registry from fallback JavaScript module');
+    return linkRegistry;
+  } catch (fallbackError) {
+    console.error('[Links Routes] Failed to load link registry from any source. File paths tried:', possiblePaths);
+    console.error('[Links Routes] Fallback module error:', fallbackError.message);
+    throw new AppError('LINKS_LOAD_ERROR', 'Failed to load link registry from any location', 500);
+  }
 }
 
 /**
