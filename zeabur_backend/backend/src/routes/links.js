@@ -98,7 +98,7 @@ router.get('/registry', async (req, res, next) => {
   try {
     const registry = await loadLinkRegistry();
 
-    return sendSuccess(res, registry, 'Link registry retrieved successfully');
+    return sendSuccess(res, registry, 200);
   } catch (error) {
     return next(error);
   }
@@ -168,7 +168,7 @@ router.get('/resolve', async (req, res, next) => {
       link_name: link.name,
       url: resolvedUrl,
       labels: link.labels,
-    }, 'Link resolved successfully');
+    }, 200);
   } catch (error) {
     return next(error);
   }
