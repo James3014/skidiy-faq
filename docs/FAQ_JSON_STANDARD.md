@@ -290,6 +290,121 @@
 
 ---
 
+## 🔗 超連結使用指南
+
+### 什麼是超連結？
+
+在 FAQ 答案中引用系統內的重要連結（預約系統、教練介紹、客服信箱等），幫助用戶快速找到相關資訊。
+
+### 語法
+
+使用 `[LINK:TOKEN|標籤]` 格式：
+
+```
+[LINK:LINK_SCHEDULE|預約系統]
+[LINK:LINK_SERVICE_EMAIL|客服信箱]
+[LINK:LINK_INSTRUCTORS|教練介紹]
+```
+
+### 前端自動轉換
+
+前端會自動將上述語法轉換為 HTML 超連結：
+
+```html
+<!-- 在 FAQ 答案中 -->
+"更多資訊請參考 [LINK:LINK_SCHEDULE|預約系統]"
+
+<!-- 前端會自動轉換為 -->
+更多資訊請參考 <a href="https://booking.diy.ski/schedule" target="_blank">預約系統 🔗</a>
+```
+
+### 可用的連結 Token
+
+| Token | 中文標籤 | 連結目標 | 用途 |
+|-------|---------|---------|------|
+| LINK_SCHEDULE | 預約系統 | https://booking.diy.ski/schedule | 課程預約 |
+| LINK_INSTRUCTORS | 教練介紹 | https://diy.ski/instructorList.php | 查詢教練 |
+| LINK_APPLY_SCHEDULE | 申請課程 | https://booking.diy.ski/apply-schedule | 申請自訂課程 |
+| LINK_INSURANCE | 保險資訊 | https://diy.ski/insurance_s.php | 保險方案 |
+| LINK_ARTICLES | 文章資源 | https://diy.ski/articleList.php | 知識文章 |
+| LINK_ORDER_LIST | 訂單查詢 | https://booking.diy.ski/order/list | 查詢訂單 |
+| LINK_SERVICE_EMAIL | 客服信箱 | mailto:service@diy.ski | 聯繫客服 |
+| LINK_FACEBOOK | Facebook | https://www.facebook.com/skidiy | 社群媒體 |
+
+💡 **詳細資訊**：查看 `docs/LINK_MANAGEMENT.md`
+
+### 使用範例
+
+**範例 1：基本連結**
+
+```json
+{
+  "answer_template": {
+    "summary": "我們提供多名認證教練。",
+    "details": "如需了解教練資訊，請參考 [LINK:LINK_INSTRUCTORS|教練介紹頁面]。"
+  }
+}
+```
+
+輸出：
+```
+如需了解教練資訊，請參考 <a href="https://diy.ski/instructorList.php" target="_blank">教練介紹頁面 🔗</a>。
+```
+
+**範例 2：多個連結**
+
+```json
+{
+  "answer_template": {
+    "summary": "預約流程分三步。",
+    "details": "1. 前往 [LINK:LINK_SCHEDULE|預約系統]\n2. 選擇教練和日期\n3. 按 [LINK:LINK_SERVICE_EMAIL|聯繫客服] 確認細節"
+  }
+}
+```
+
+輸出：
+```
+1. 前往 <a href="...">預約系統 🔗</a>
+2. 選擇教練和日期
+3. 按 <a href="mailto:...">✉️ 聯繫客服</a> 確認細節
+```
+
+**範例 3：郵件連結**
+
+```json
+{
+  "answer_template": {
+    "details": "如有任何問題，歡迎 [LINK:LINK_SERVICE_EMAIL|聯繫我們]。"
+  }
+}
+```
+
+### 最佳實踐
+
+✅ **做**：
+- ✅ 在答案中使用超連結引導用戶
+- ✅ 使用簡潔、有意義的標籤（如「預約系統」而非「點擊這裡」）
+- ✅ 限制每個答案最多 3-4 個連結
+- ✅ 確保連結與答案內容相關
+
+❌ **不做**：
+- ❌ 手動輸入 URL（應使用 TOKEN）
+- ❌ 使用模糊的標籤（「更多資訊」）
+- ❌ 過多連結導致答案混亂
+- ❌ 新增連結而不在 link_registry.json 中定義
+
+### 新增自訂連結
+
+如需新增連結，請：
+
+1. 編輯 `zeabur_backend/data/link_registry.json`
+2. 在 `faq` 物件中添加新項目
+3. 在 FAQ 答案中使用新的 TOKEN
+
+詳見 `docs/LINK_MANAGEMENT.md` 第 8 節「維護指南」
+
+---
+
 ## 📋 常見錯誤與修正
 
 ### ❌ 錯誤 1: utterance_patterns_translations 數量不符
