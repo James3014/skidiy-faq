@@ -1,44 +1,30 @@
-# robots.txt for SkiDIY FAQ System
-# https://faq.diy.ski/
+# SkiDIY FAQ 搜尋引擎爬蟲指令
+# Generated automatically on 2025-11-07T14:45:10.003Z
 
-# Allow all crawlers by default
+# 允許所有搜尋引擎爬蟲
 User-agent: *
 Allow: /
+Allow: /faq/
+Allow: /category/
+Allow: /assets/
+Allow: /index.html
 
-# Disallow admin pages
-Disallow: /admin
-Disallow: /analytics
-Disallow: /menu.html
-Disallow: /docs.html
+# 禁止爬蟲的路徑
+Disallow: /admin/
+Disallow: /api/
+Disallow: /*.json
+Disallow: /*.js
+Disallow: /node_modules/
+Disallow: /.git/
 
-# Disallow data files and libraries
-Disallow: *.json
-Disallow: /lib/
-Disallow: /assets/
-Disallow: /scripts/
-
-# Allow CSS and JavaScript
-Allow: /*.js
-Allow: /*.css
-
-# Crawl delay for respectful crawling
+# 搜尋引擎爬蟲延遲設定
 Crawl-delay: 1
+Request-rate: 1/1s
 
-# Google-specific rules
+# Google 特定設定
 User-agent: Googlebot
 Allow: /
-Crawl-delay: 0
+Crawl-delay: 0.5
 
-# Bing-specific rules
-User-agent: Bingbot
-Allow: /
-Crawl-delay: 1
-
-# Prevent bad bots
-User-agent: MJ12bot
-User-agent: AhrefsBot
-User-agent: DotBot
-Disallow: /
-
-# Sitemap location
+# Sitemap 位置
 Sitemap: https://faq.diy.ski/sitemap.xml

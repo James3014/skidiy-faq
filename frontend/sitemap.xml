@@ -1,1610 +1,792 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-         xmlns:xhtml="http://www.w3.org/1999/xhtml">
-
-  <url>
-    <loc>https://faq.diy.ski</loc>
-    <lastmod>2025-11-03</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>1</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/?lang=en</loc>
-    <lastmod>2025-11-03</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>1</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/?lang=th</loc>
-    <lastmod>2025-11-03</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>1</priority>
-  </url>
-
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://faq.diy.ski/</loc>
-    <lastmod>2025-11-03</lastmod>
+    <lastmod>2025-11-07</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <priority>1.0</priority>
   </url>
-  <url>
-    <loc>https://faq.diy.ski/?lang=en</loc>
-    <lastmod>2025-11-03</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/?lang=th</loc>
-    <lastmod>2025-11-03</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-
-  <url>
-    <loc>https://faq.diy.ski/category/%E8%A1%8C%E7%A8%8B%E8%A6%8F%E5%8A%83%E8%88%87%E5%91%A8%E9%82%8A</loc>
-    <lastmod>2025-11-03</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/category/%E8%A1%8C%E7%A8%8B%E8%A6%8F%E5%8A%83%E8%88%87%E5%91%A8%E9%82%8A?lang=en</loc>
-    <lastmod>2025-11-03</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/category/%E8%A1%8C%E7%A8%8B%E8%A6%8F%E5%8A%83%E8%88%87%E5%91%A8%E9%82%8A?lang=th</loc>
-    <lastmod>2025-11-03</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/category/%E6%9C%8D%E5%8B%99%E7%AF%84%E5%9C%8D%E8%88%87%E8%81%AF%E7%B5%A1%E6%96%B9%E5%BC%8F</loc>
-    <lastmod>2025-11-03</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/category/%E6%9C%8D%E5%8B%99%E7%AF%84%E5%9C%8D%E8%88%87%E8%81%AF%E7%B5%A1%E6%96%B9%E5%BC%8F?lang=en</loc>
-    <lastmod>2025-11-03</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/category/%E6%9C%8D%E5%8B%99%E7%AF%84%E5%9C%8D%E8%88%87%E8%81%AF%E7%B5%A1%E6%96%B9%E5%BC%8F?lang=th</loc>
-    <lastmod>2025-11-03</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/category/%F0%9F%A7%AD%20%E8%AA%B2%E7%A8%8B%E9%81%B8%E6%93%87%E8%88%87%E5%85%A7%E5%AE%B9%E5%AE%89%E6%8E%92</loc>
-    <lastmod>2025-11-03</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/category/%F0%9F%A7%AD%20%E8%AA%B2%E7%A8%8B%E9%81%B8%E6%93%87%E8%88%87%E5%85%A7%E5%AE%B9%E5%AE%89%E6%8E%92?lang=en</loc>
-    <lastmod>2025-11-03</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/category/%F0%9F%A7%AD%20%E8%AA%B2%E7%A8%8B%E9%81%B8%E6%93%87%E8%88%87%E5%85%A7%E5%AE%B9%E5%AE%89%E6%8E%92?lang=th</loc>
-    <lastmod>2025-11-03</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/category/%F0%9F%91%A8%E2%80%8D%F0%9F%91%A9%E2%80%8D%F0%9F%91%A7%E2%80%8D%F0%9F%91%A6%20%E4%B8%80%E8%B5%B7%E4%B8%8A%E8%AA%B2%E5%AE%89%E6%8E%92</loc>
-    <lastmod>2025-11-03</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/category/%F0%9F%91%A8%E2%80%8D%F0%9F%91%A9%E2%80%8D%F0%9F%91%A7%E2%80%8D%F0%9F%91%A6%20%E4%B8%80%E8%B5%B7%E4%B8%8A%E8%AA%B2%E5%AE%89%E6%8E%92?lang=en</loc>
-    <lastmod>2025-11-03</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/category/%F0%9F%91%A8%E2%80%8D%F0%9F%91%A9%E2%80%8D%F0%9F%91%A7%E2%80%8D%F0%9F%91%A6%20%E4%B8%80%E8%B5%B7%E4%B8%8A%E8%AA%B2%E5%AE%89%E6%8E%92?lang=th</loc>
-    <lastmod>2025-11-03</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/category/%F0%9F%91%B6%20%E5%B0%8F%E6%9C%8B%E5%8F%8B%E6%BB%91%E9%9B%AA%E8%88%87%E5%AE%89%E5%85%A8%E4%BF%9D%E9%9A%9C</loc>
-    <lastmod>2025-11-03</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/category/%F0%9F%91%B6%20%E5%B0%8F%E6%9C%8B%E5%8F%8B%E6%BB%91%E9%9B%AA%E8%88%87%E5%AE%89%E5%85%A8%E4%BF%9D%E9%9A%9C?lang=en</loc>
-    <lastmod>2025-11-03</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/category/%F0%9F%91%B6%20%E5%B0%8F%E6%9C%8B%E5%8F%8B%E6%BB%91%E9%9B%AA%E8%88%87%E5%AE%89%E5%85%A8%E4%BF%9D%E9%9A%9C?lang=th</loc>
-    <lastmod>2025-11-03</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/category/%F0%9F%8F%82%20%E6%95%99%E7%B7%B4%E8%88%87%E6%95%99%E5%AD%B8%E5%AE%89%E6%8E%92</loc>
-    <lastmod>2025-11-03</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/category/%F0%9F%8F%82%20%E6%95%99%E7%B7%B4%E8%88%87%E6%95%99%E5%AD%B8%E5%AE%89%E6%8E%92?lang=en</loc>
-    <lastmod>2025-11-03</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/category/%F0%9F%8F%82%20%E6%95%99%E7%B7%B4%E8%88%87%E6%95%99%E5%AD%B8%E5%AE%89%E6%8E%92?lang=th</loc>
-    <lastmod>2025-11-03</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/category/%F0%9F%93%8D%20%E9%9B%86%E5%90%88%E5%9C%B0%E9%BB%9E%E8%88%87%E4%BA%A4%E9%80%9A</loc>
-    <lastmod>2025-11-03</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/category/%F0%9F%93%8D%20%E9%9B%86%E5%90%88%E5%9C%B0%E9%BB%9E%E8%88%87%E4%BA%A4%E9%80%9A?lang=en</loc>
-    <lastmod>2025-11-03</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/category/%F0%9F%93%8D%20%E9%9B%86%E5%90%88%E5%9C%B0%E9%BB%9E%E8%88%87%E4%BA%A4%E9%80%9A?lang=th</loc>
-    <lastmod>2025-11-03</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/category/%F0%9F%A7%91%E2%80%8D%F0%9F%8F%AB%20%E6%95%99%E7%B7%B4%E8%B3%87%E8%A8%8A%E8%88%87%E6%95%99%E5%AD%B8%E8%AA%9E%E8%A8%80</loc>
-    <lastmod>2025-11-03</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/category/%F0%9F%A7%91%E2%80%8D%F0%9F%8F%AB%20%E6%95%99%E7%B7%B4%E8%B3%87%E8%A8%8A%E8%88%87%E6%95%99%E5%AD%B8%E8%AA%9E%E8%A8%80?lang=en</loc>
-    <lastmod>2025-11-03</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/category/%F0%9F%A7%91%E2%80%8D%F0%9F%8F%AB%20%E6%95%99%E7%B7%B4%E8%B3%87%E8%A8%8A%E8%88%87%E6%95%99%E5%AD%B8%E8%AA%9E%E8%A8%80?lang=th</loc>
-    <lastmod>2025-11-03</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/category/%F0%9F%93%85%20%E4%B8%80%E8%88%AC%E8%AA%B2%E7%A8%8B%E9%A0%90%E7%B4%84%E8%88%87%E5%AE%89%E6%8E%92</loc>
-    <lastmod>2025-11-03</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/category/%F0%9F%93%85%20%E4%B8%80%E8%88%AC%E8%AA%B2%E7%A8%8B%E9%A0%90%E7%B4%84%E8%88%87%E5%AE%89%E6%8E%92?lang=en</loc>
-    <lastmod>2025-11-03</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/category/%F0%9F%93%85%20%E4%B8%80%E8%88%AC%E8%AA%B2%E7%A8%8B%E9%A0%90%E7%B4%84%E8%88%87%E5%AE%89%E6%8E%92?lang=th</loc>
-    <lastmod>2025-11-03</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/category/%F0%9F%92%B0%20%E8%B2%BB%E7%94%A8%E8%88%87%E6%94%AF%E4%BB%98%E6%96%B9%E5%BC%8F</loc>
-    <lastmod>2025-11-03</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/category/%F0%9F%92%B0%20%E8%B2%BB%E7%94%A8%E8%88%87%E6%94%AF%E4%BB%98%E6%96%B9%E5%BC%8F?lang=en</loc>
-    <lastmod>2025-11-03</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/category/%F0%9F%92%B0%20%E8%B2%BB%E7%94%A8%E8%88%87%E6%94%AF%E4%BB%98%E6%96%B9%E5%BC%8F?lang=th</loc>
-    <lastmod>2025-11-03</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/category/%F0%9F%93%B1%20%E5%B9%B3%E5%8F%B0%E6%93%8D%E4%BD%9C%E8%88%87%E9%A0%90%E7%B4%84%E6%B5%81%E7%A8%8B</loc>
-    <lastmod>2025-11-03</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/category/%F0%9F%93%B1%20%E5%B9%B3%E5%8F%B0%E6%93%8D%E4%BD%9C%E8%88%87%E9%A0%90%E7%B4%84%E6%B5%81%E7%A8%8B?lang=en</loc>
-    <lastmod>2025-11-03</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/category/%F0%9F%93%B1%20%E5%B9%B3%E5%8F%B0%E6%93%8D%E4%BD%9C%E8%88%87%E9%A0%90%E7%B4%84%E6%B5%81%E7%A8%8B?lang=th</loc>
-    <lastmod>2025-11-03</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/category/%F0%9F%9B%9F%20%E5%AE%89%E5%85%A8%E8%88%87%E4%BF%9D%E9%9A%AA</loc>
-    <lastmod>2025-11-03</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/category/%F0%9F%9B%9F%20%E5%AE%89%E5%85%A8%E8%88%87%E4%BF%9D%E9%9A%AA?lang=en</loc>
-    <lastmod>2025-11-03</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/category/%F0%9F%9B%9F%20%E5%AE%89%E5%85%A8%E8%88%87%E4%BF%9D%E9%9A%AA?lang=th</loc>
-    <lastmod>2025-11-03</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/category/%F0%9F%8E%92%20%E8%A3%9D%E5%82%99%E6%BA%96%E5%82%99%E8%88%87%E7%A7%9F%E5%80%9F%E6%B5%81%E7%A8%8B</loc>
-    <lastmod>2025-11-03</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/category/%F0%9F%8E%92%20%E8%A3%9D%E5%82%99%E6%BA%96%E5%82%99%E8%88%87%E7%A7%9F%E5%80%9F%E6%B5%81%E7%A8%8B?lang=en</loc>
-    <lastmod>2025-11-03</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/category/%F0%9F%8E%92%20%E8%A3%9D%E5%82%99%E6%BA%96%E5%82%99%E8%88%87%E7%A7%9F%E5%80%9F%E6%B5%81%E7%A8%8B?lang=th</loc>
-    <lastmod>2025-11-03</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/category/%E9%80%80%E8%B2%BB%E6%A9%9F%E5%88%B6%E8%A6%8F%E5%AE%9A</loc>
-    <lastmod>2025-11-03</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/category/%E9%80%80%E8%B2%BB%E6%A9%9F%E5%88%B6%E8%A6%8F%E5%AE%9A?lang=en</loc>
-    <lastmod>2025-11-03</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/category/%E9%80%80%E8%B2%BB%E6%A9%9F%E5%88%B6%E8%A6%8F%E5%AE%9A?lang=th</loc>
-    <lastmod>2025-11-03</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/category/%F0%9F%93%85%20%E9%A0%90%E7%B4%84%E7%95%B0%E5%8B%95%E8%88%87%E5%8F%96%E6%B6%88</loc>
-    <lastmod>2025-11-03</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/category/%F0%9F%93%85%20%E9%A0%90%E7%B4%84%E7%95%B0%E5%8B%95%E8%88%87%E5%8F%96%E6%B6%88?lang=en</loc>
-    <lastmod>2025-11-03</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/category/%F0%9F%93%85%20%E9%A0%90%E7%B4%84%E7%95%B0%E5%8B%95%E8%88%87%E5%8F%96%E6%B6%88?lang=th</loc>
-    <lastmod>2025-11-03</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/category/%F0%9F%A7%91%E2%80%8D%F0%9F%8F%AB%20%E6%95%99%E7%B7%B4%E8%B3%87%E8%A8%8A%E8%88%87%E8%81%AF%E7%B9%AB</loc>
-    <lastmod>2025-11-03</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/category/%F0%9F%A7%91%E2%80%8D%F0%9F%8F%AB%20%E6%95%99%E7%B7%B4%E8%B3%87%E8%A8%8A%E8%88%87%E8%81%AF%E7%B9%AB?lang=en</loc>
-    <lastmod>2025-11-03</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/category/%F0%9F%A7%91%E2%80%8D%F0%9F%8F%AB%20%E6%95%99%E7%B7%B4%E8%B3%87%E8%A8%8A%E8%88%87%E8%81%AF%E7%B9%AB?lang=th</loc>
-    <lastmod>2025-11-03</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-
   <url>
     <loc>https://faq.diy.ski/faq/faq.itinerary.001</loc>
-    <lastmod>2025-10-28</lastmod>
+    <lastmod>2025-11-07</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.itinerary.001?lang=en</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.itinerary.001?lang=th</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://faq.diy.ski/faq/faq.itinerary.001?lang=zh" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://faq.diy.ski/faq/faq.itinerary.001?lang=en" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://faq.diy.ski/faq/faq.itinerary.001?lang=th" />
   </url>
   <url>
     <loc>https://faq.diy.ski/faq/faq.itinerary.002</loc>
-    <lastmod>2025-10-28</lastmod>
+    <lastmod>2025-11-07</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.itinerary.002?lang=en</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.itinerary.002?lang=th</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://faq.diy.ski/faq/faq.itinerary.002?lang=zh" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://faq.diy.ski/faq/faq.itinerary.002?lang=en" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://faq.diy.ski/faq/faq.itinerary.002?lang=th" />
   </url>
   <url>
     <loc>https://faq.diy.ski/faq/faq.service.003</loc>
-    <lastmod>2025-10-28</lastmod>
+    <lastmod>2025-11-07</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.service.003?lang=en</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.service.003?lang=th</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://faq.diy.ski/faq/faq.service.003?lang=zh" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://faq.diy.ski/faq/faq.service.003?lang=en" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://faq.diy.ski/faq/faq.service.003?lang=th" />
   </url>
   <url>
     <loc>https://faq.diy.ski/faq/faq.service.004</loc>
-    <lastmod>2025-10-28</lastmod>
+    <lastmod>2025-11-07</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.service.004?lang=en</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.service.004?lang=th</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://faq.diy.ski/faq/faq.service.004?lang=zh" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://faq.diy.ski/faq/faq.service.004?lang=en" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://faq.diy.ski/faq/faq.service.004?lang=th" />
   </url>
   <url>
     <loc>https://faq.diy.ski/faq/faq.course.005</loc>
-    <lastmod>2025-10-28</lastmod>
+    <lastmod>2025-11-07</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.course.005?lang=en</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.course.005?lang=th</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://faq.diy.ski/faq/faq.course.005?lang=zh" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://faq.diy.ski/faq/faq.course.005?lang=en" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://faq.diy.ski/faq/faq.course.005?lang=th" />
   </url>
   <url>
     <loc>https://faq.diy.ski/faq/faq.course.006</loc>
-    <lastmod>2025-10-28</lastmod>
+    <lastmod>2025-11-07</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.course.006?lang=en</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.course.006?lang=th</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://faq.diy.ski/faq/faq.course.006?lang=zh" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://faq.diy.ski/faq/faq.course.006?lang=en" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://faq.diy.ski/faq/faq.course.006?lang=th" />
   </url>
   <url>
     <loc>https://faq.diy.ski/faq/faq.grouping.007</loc>
-    <lastmod>2025-10-28</lastmod>
+    <lastmod>2025-11-07</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.grouping.007?lang=en</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.grouping.007?lang=th</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://faq.diy.ski/faq/faq.grouping.007?lang=zh" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://faq.diy.ski/faq/faq.grouping.007?lang=en" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://faq.diy.ski/faq/faq.grouping.007?lang=th" />
   </url>
   <url>
     <loc>https://faq.diy.ski/faq/faq.grouping.008</loc>
-    <lastmod>2025-10-28</lastmod>
+    <lastmod>2025-11-07</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.grouping.008?lang=en</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.grouping.008?lang=th</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://faq.diy.ski/faq/faq.grouping.008?lang=zh" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://faq.diy.ski/faq/faq.grouping.008?lang=en" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://faq.diy.ski/faq/faq.grouping.008?lang=th" />
   </url>
   <url>
     <loc>https://faq.diy.ski/faq/faq.general.009</loc>
-    <lastmod>2025-10-28</lastmod>
+    <lastmod>2025-11-07</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.general.009?lang=en</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.general.009?lang=th</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://faq.diy.ski/faq/faq.general.009?lang=zh" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://faq.diy.ski/faq/faq.general.009?lang=en" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://faq.diy.ski/faq/faq.general.009?lang=th" />
   </url>
   <url>
     <loc>https://faq.diy.ski/faq/faq.general.010</loc>
-    <lastmod>2025-10-28</lastmod>
+    <lastmod>2025-11-07</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.general.010?lang=en</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.general.010?lang=th</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://faq.diy.ski/faq/faq.general.010?lang=zh" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://faq.diy.ski/faq/faq.general.010?lang=en" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://faq.diy.ski/faq/faq.general.010?lang=th" />
   </url>
   <url>
     <loc>https://faq.diy.ski/faq/faq.general.011</loc>
-    <lastmod>2025-10-28</lastmod>
+    <lastmod>2025-11-07</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.general.011?lang=en</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.general.011?lang=th</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://faq.diy.ski/faq/faq.general.011?lang=zh" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://faq.diy.ski/faq/faq.general.011?lang=en" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://faq.diy.ski/faq/faq.general.011?lang=th" />
   </url>
   <url>
     <loc>https://faq.diy.ski/faq/faq.general.012</loc>
-    <lastmod>2025-10-28</lastmod>
+    <lastmod>2025-11-07</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.general.012?lang=en</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.general.012?lang=th</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://faq.diy.ski/faq/faq.general.012?lang=zh" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://faq.diy.ski/faq/faq.general.012?lang=en" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://faq.diy.ski/faq/faq.general.012?lang=th" />
   </url>
   <url>
     <loc>https://faq.diy.ski/faq/faq.general.013</loc>
-    <lastmod>2025-10-28</lastmod>
+    <lastmod>2025-11-07</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.general.013?lang=en</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.general.013?lang=th</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://faq.diy.ski/faq/faq.general.013?lang=zh" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://faq.diy.ski/faq/faq.general.013?lang=en" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://faq.diy.ski/faq/faq.general.013?lang=th" />
   </url>
   <url>
     <loc>https://faq.diy.ski/faq/faq.general.014</loc>
-    <lastmod>2025-10-28</lastmod>
+    <lastmod>2025-11-07</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.general.014?lang=en</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.general.014?lang=th</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://faq.diy.ski/faq/faq.general.014?lang=zh" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://faq.diy.ski/faq/faq.general.014?lang=en" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://faq.diy.ski/faq/faq.general.014?lang=th" />
   </url>
   <url>
     <loc>https://faq.diy.ski/faq/faq.general.015</loc>
-    <lastmod>2025-10-28</lastmod>
+    <lastmod>2025-11-07</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.general.015?lang=en</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.general.015?lang=th</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://faq.diy.ski/faq/faq.general.015?lang=zh" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://faq.diy.ski/faq/faq.general.015?lang=en" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://faq.diy.ski/faq/faq.general.015?lang=th" />
   </url>
   <url>
     <loc>https://faq.diy.ski/faq/faq.general.016</loc>
-    <lastmod>2025-10-28</lastmod>
+    <lastmod>2025-11-07</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.general.016?lang=en</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.general.016?lang=th</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://faq.diy.ski/faq/faq.general.016?lang=zh" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://faq.diy.ski/faq/faq.general.016?lang=en" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://faq.diy.ski/faq/faq.general.016?lang=th" />
   </url>
   <url>
     <loc>https://faq.diy.ski/faq/faq.general.017</loc>
-    <lastmod>2025-10-28</lastmod>
+    <lastmod>2025-11-07</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.general.017?lang=en</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.general.017?lang=th</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://faq.diy.ski/faq/faq.general.017?lang=zh" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://faq.diy.ski/faq/faq.general.017?lang=en" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://faq.diy.ski/faq/faq.general.017?lang=th" />
   </url>
   <url>
     <loc>https://faq.diy.ski/faq/faq.general.018</loc>
-    <lastmod>2025-10-28</lastmod>
+    <lastmod>2025-11-07</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.general.018?lang=en</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.general.018?lang=th</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://faq.diy.ski/faq/faq.general.018?lang=zh" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://faq.diy.ski/faq/faq.general.018?lang=en" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://faq.diy.ski/faq/faq.general.018?lang=th" />
   </url>
   <url>
     <loc>https://faq.diy.ski/faq/faq.general.019</loc>
-    <lastmod>2025-10-28</lastmod>
+    <lastmod>2025-11-07</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.general.019?lang=en</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.general.019?lang=th</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://faq.diy.ski/faq/faq.general.019?lang=zh" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://faq.diy.ski/faq/faq.general.019?lang=en" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://faq.diy.ski/faq/faq.general.019?lang=th" />
   </url>
   <url>
     <loc>https://faq.diy.ski/faq/faq.general.020</loc>
-    <lastmod>2025-10-28</lastmod>
+    <lastmod>2025-11-07</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.general.020?lang=en</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.general.020?lang=th</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://faq.diy.ski/faq/faq.general.020?lang=zh" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://faq.diy.ski/faq/faq.general.020?lang=en" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://faq.diy.ski/faq/faq.general.020?lang=th" />
   </url>
   <url>
     <loc>https://faq.diy.ski/faq/faq.general.021</loc>
-    <lastmod>2025-10-28</lastmod>
+    <lastmod>2025-11-07</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.general.021?lang=en</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.general.021?lang=th</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://faq.diy.ski/faq/faq.general.021?lang=zh" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://faq.diy.ski/faq/faq.general.021?lang=en" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://faq.diy.ski/faq/faq.general.021?lang=th" />
   </url>
   <url>
     <loc>https://faq.diy.ski/faq/faq.general.022</loc>
-    <lastmod>2025-10-28</lastmod>
+    <lastmod>2025-11-07</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.general.022?lang=en</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.general.022?lang=th</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://faq.diy.ski/faq/faq.general.022?lang=zh" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://faq.diy.ski/faq/faq.general.022?lang=en" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://faq.diy.ski/faq/faq.general.022?lang=th" />
   </url>
   <url>
     <loc>https://faq.diy.ski/faq/faq.general.023</loc>
-    <lastmod>2025-10-28</lastmod>
+    <lastmod>2025-11-07</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.general.023?lang=en</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.general.023?lang=th</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://faq.diy.ski/faq/faq.general.023?lang=zh" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://faq.diy.ski/faq/faq.general.023?lang=en" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://faq.diy.ski/faq/faq.general.023?lang=th" />
   </url>
   <url>
     <loc>https://faq.diy.ski/faq/faq.general.024</loc>
-    <lastmod>2025-10-28</lastmod>
+    <lastmod>2025-11-07</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.general.024?lang=en</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.general.024?lang=th</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://faq.diy.ski/faq/faq.general.024?lang=zh" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://faq.diy.ski/faq/faq.general.024?lang=en" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://faq.diy.ski/faq/faq.general.024?lang=th" />
   </url>
   <url>
     <loc>https://faq.diy.ski/faq/faq.general.025</loc>
-    <lastmod>2025-10-28</lastmod>
+    <lastmod>2025-11-07</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.general.025?lang=en</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.general.025?lang=th</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://faq.diy.ski/faq/faq.general.025?lang=zh" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://faq.diy.ski/faq/faq.general.025?lang=en" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://faq.diy.ski/faq/faq.general.025?lang=th" />
   </url>
   <url>
     <loc>https://faq.diy.ski/faq/faq.general.026</loc>
-    <lastmod>2025-10-28</lastmod>
+    <lastmod>2025-11-07</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.general.026?lang=en</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.general.026?lang=th</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://faq.diy.ski/faq/faq.general.026?lang=zh" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://faq.diy.ski/faq/faq.general.026?lang=en" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://faq.diy.ski/faq/faq.general.026?lang=th" />
   </url>
   <url>
     <loc>https://faq.diy.ski/faq/faq.general.027</loc>
-    <lastmod>2025-10-28</lastmod>
+    <lastmod>2025-11-07</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.general.027?lang=en</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.general.027?lang=th</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://faq.diy.ski/faq/faq.general.027?lang=zh" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://faq.diy.ski/faq/faq.general.027?lang=en" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://faq.diy.ski/faq/faq.general.027?lang=th" />
   </url>
   <url>
     <loc>https://faq.diy.ski/faq/faq.general.028</loc>
-    <lastmod>2025-10-28</lastmod>
+    <lastmod>2025-11-07</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.general.028?lang=en</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.general.028?lang=th</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://faq.diy.ski/faq/faq.general.028?lang=zh" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://faq.diy.ski/faq/faq.general.028?lang=en" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://faq.diy.ski/faq/faq.general.028?lang=th" />
   </url>
   <url>
     <loc>https://faq.diy.ski/faq/faq.general.029</loc>
-    <lastmod>2025-10-28</lastmod>
+    <lastmod>2025-11-07</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.general.029?lang=en</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.general.029?lang=th</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://faq.diy.ski/faq/faq.general.029?lang=zh" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://faq.diy.ski/faq/faq.general.029?lang=en" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://faq.diy.ski/faq/faq.general.029?lang=th" />
   </url>
   <url>
     <loc>https://faq.diy.ski/faq/faq.general.030</loc>
-    <lastmod>2025-10-28</lastmod>
+    <lastmod>2025-11-07</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.general.030?lang=en</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.general.030?lang=th</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://faq.diy.ski/faq/faq.general.030?lang=zh" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://faq.diy.ski/faq/faq.general.030?lang=en" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://faq.diy.ski/faq/faq.general.030?lang=th" />
   </url>
   <url>
     <loc>https://faq.diy.ski/faq/faq.general.031</loc>
-    <lastmod>2025-10-28</lastmod>
+    <lastmod>2025-11-07</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.general.031?lang=en</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.general.031?lang=th</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://faq.diy.ski/faq/faq.general.031?lang=zh" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://faq.diy.ski/faq/faq.general.031?lang=en" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://faq.diy.ski/faq/faq.general.031?lang=th" />
   </url>
   <url>
     <loc>https://faq.diy.ski/faq/faq.general.032</loc>
-    <lastmod>2025-10-28</lastmod>
+    <lastmod>2025-11-07</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.general.032?lang=en</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.general.032?lang=th</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://faq.diy.ski/faq/faq.general.032?lang=zh" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://faq.diy.ski/faq/faq.general.032?lang=en" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://faq.diy.ski/faq/faq.general.032?lang=th" />
   </url>
   <url>
     <loc>https://faq.diy.ski/faq/faq.general.033</loc>
-    <lastmod>2025-10-28</lastmod>
+    <lastmod>2025-11-07</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.general.033?lang=en</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.general.033?lang=th</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://faq.diy.ski/faq/faq.general.033?lang=zh" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://faq.diy.ski/faq/faq.general.033?lang=en" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://faq.diy.ski/faq/faq.general.033?lang=th" />
   </url>
   <url>
     <loc>https://faq.diy.ski/faq/faq.general.034</loc>
-    <lastmod>2025-10-28</lastmod>
+    <lastmod>2025-11-07</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.general.034?lang=en</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.general.034?lang=th</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://faq.diy.ski/faq/faq.general.034?lang=zh" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://faq.diy.ski/faq/faq.general.034?lang=en" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://faq.diy.ski/faq/faq.general.034?lang=th" />
   </url>
   <url>
     <loc>https://faq.diy.ski/faq/faq.general.035</loc>
-    <lastmod>2025-10-28</lastmod>
+    <lastmod>2025-11-07</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.general.035?lang=en</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.general.035?lang=th</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://faq.diy.ski/faq/faq.general.035?lang=zh" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://faq.diy.ski/faq/faq.general.035?lang=en" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://faq.diy.ski/faq/faq.general.035?lang=th" />
   </url>
   <url>
     <loc>https://faq.diy.ski/faq/faq.general.036</loc>
-    <lastmod>2025-10-28</lastmod>
+    <lastmod>2025-11-07</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.general.036?lang=en</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.general.036?lang=th</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://faq.diy.ski/faq/faq.general.036?lang=zh" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://faq.diy.ski/faq/faq.general.036?lang=en" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://faq.diy.ski/faq/faq.general.036?lang=th" />
   </url>
   <url>
     <loc>https://faq.diy.ski/faq/faq.general.037</loc>
-    <lastmod>2025-10-28</lastmod>
+    <lastmod>2025-11-07</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.general.037?lang=en</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.general.037?lang=th</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://faq.diy.ski/faq/faq.general.037?lang=zh" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://faq.diy.ski/faq/faq.general.037?lang=en" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://faq.diy.ski/faq/faq.general.037?lang=th" />
   </url>
   <url>
     <loc>https://faq.diy.ski/faq/faq.general.038</loc>
-    <lastmod>2025-10-28</lastmod>
+    <lastmod>2025-11-07</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.general.038?lang=en</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.general.038?lang=th</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://faq.diy.ski/faq/faq.general.038?lang=zh" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://faq.diy.ski/faq/faq.general.038?lang=en" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://faq.diy.ski/faq/faq.general.038?lang=th" />
   </url>
   <url>
     <loc>https://faq.diy.ski/faq/faq.general.039</loc>
-    <lastmod>2025-10-28</lastmod>
+    <lastmod>2025-11-07</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.general.039?lang=en</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.general.039?lang=th</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://faq.diy.ski/faq/faq.general.039?lang=zh" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://faq.diy.ski/faq/faq.general.039?lang=en" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://faq.diy.ski/faq/faq.general.039?lang=th" />
   </url>
   <url>
     <loc>https://faq.diy.ski/faq/faq.general.040</loc>
-    <lastmod>2025-10-28</lastmod>
+    <lastmod>2025-11-07</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.general.040?lang=en</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.general.040?lang=th</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://faq.diy.ski/faq/faq.general.040?lang=zh" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://faq.diy.ski/faq/faq.general.040?lang=en" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://faq.diy.ski/faq/faq.general.040?lang=th" />
   </url>
   <url>
     <loc>https://faq.diy.ski/faq/faq.general.041</loc>
-    <lastmod>2025-10-28</lastmod>
+    <lastmod>2025-11-07</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.general.041?lang=en</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.general.041?lang=th</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://faq.diy.ski/faq/faq.general.041?lang=zh" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://faq.diy.ski/faq/faq.general.041?lang=en" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://faq.diy.ski/faq/faq.general.041?lang=th" />
   </url>
   <url>
     <loc>https://faq.diy.ski/faq/faq.general.042</loc>
-    <lastmod>2025-10-28</lastmod>
+    <lastmod>2025-11-07</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.general.042?lang=en</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.general.042?lang=th</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://faq.diy.ski/faq/faq.general.042?lang=zh" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://faq.diy.ski/faq/faq.general.042?lang=en" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://faq.diy.ski/faq/faq.general.042?lang=th" />
   </url>
   <url>
     <loc>https://faq.diy.ski/faq/faq.general.043</loc>
-    <lastmod>2025-10-28</lastmod>
+    <lastmod>2025-11-07</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.general.043?lang=en</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.general.043?lang=th</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://faq.diy.ski/faq/faq.general.043?lang=zh" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://faq.diy.ski/faq/faq.general.043?lang=en" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://faq.diy.ski/faq/faq.general.043?lang=th" />
   </url>
   <url>
     <loc>https://faq.diy.ski/faq/faq.general.044</loc>
-    <lastmod>2025-10-28</lastmod>
+    <lastmod>2025-11-07</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.general.044?lang=en</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.general.044?lang=th</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://faq.diy.ski/faq/faq.general.044?lang=zh" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://faq.diy.ski/faq/faq.general.044?lang=en" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://faq.diy.ski/faq/faq.general.044?lang=th" />
   </url>
   <url>
     <loc>https://faq.diy.ski/faq/faq.general.045</loc>
-    <lastmod>2025-10-28</lastmod>
+    <lastmod>2025-11-07</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.general.045?lang=en</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.general.045?lang=th</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://faq.diy.ski/faq/faq.general.045?lang=zh" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://faq.diy.ski/faq/faq.general.045?lang=en" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://faq.diy.ski/faq/faq.general.045?lang=th" />
   </url>
   <url>
     <loc>https://faq.diy.ski/faq/faq.general.046</loc>
-    <lastmod>2025-10-28</lastmod>
+    <lastmod>2025-11-07</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.general.046?lang=en</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.general.046?lang=th</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://faq.diy.ski/faq/faq.general.046?lang=zh" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://faq.diy.ski/faq/faq.general.046?lang=en" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://faq.diy.ski/faq/faq.general.046?lang=th" />
   </url>
   <url>
     <loc>https://faq.diy.ski/faq/faq.general.047</loc>
-    <lastmod>2025-10-28</lastmod>
+    <lastmod>2025-11-07</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.general.047?lang=en</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.general.047?lang=th</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://faq.diy.ski/faq/faq.general.047?lang=zh" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://faq.diy.ski/faq/faq.general.047?lang=en" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://faq.diy.ski/faq/faq.general.047?lang=th" />
   </url>
   <url>
     <loc>https://faq.diy.ski/faq/faq.general.048</loc>
-    <lastmod>2025-10-28</lastmod>
+    <lastmod>2025-11-07</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.general.048?lang=en</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.general.048?lang=th</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://faq.diy.ski/faq/faq.general.048?lang=zh" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://faq.diy.ski/faq/faq.general.048?lang=en" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://faq.diy.ski/faq/faq.general.048?lang=th" />
   </url>
   <url>
     <loc>https://faq.diy.ski/faq/faq.general.049</loc>
-    <lastmod>2025-10-28</lastmod>
+    <lastmod>2025-11-07</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.general.049?lang=en</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.general.049?lang=th</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://faq.diy.ski/faq/faq.general.049?lang=zh" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://faq.diy.ski/faq/faq.general.049?lang=en" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://faq.diy.ski/faq/faq.general.049?lang=th" />
   </url>
   <url>
     <loc>https://faq.diy.ski/faq/faq.general.050</loc>
-    <lastmod>2025-10-28</lastmod>
+    <lastmod>2025-11-07</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.general.050?lang=en</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.general.050?lang=th</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://faq.diy.ski/faq/faq.general.050?lang=zh" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://faq.diy.ski/faq/faq.general.050?lang=en" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://faq.diy.ski/faq/faq.general.050?lang=th" />
   </url>
   <url>
     <loc>https://faq.diy.ski/faq/faq.general.051</loc>
-    <lastmod>2025-10-28</lastmod>
+    <lastmod>2025-11-07</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.general.051?lang=en</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.general.051?lang=th</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://faq.diy.ski/faq/faq.general.051?lang=zh" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://faq.diy.ski/faq/faq.general.051?lang=en" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://faq.diy.ski/faq/faq.general.051?lang=th" />
   </url>
   <url>
     <loc>https://faq.diy.ski/faq/faq.general.052</loc>
-    <lastmod>2025-10-28</lastmod>
+    <lastmod>2025-11-07</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.general.052?lang=en</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.general.052?lang=th</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://faq.diy.ski/faq/faq.general.052?lang=zh" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://faq.diy.ski/faq/faq.general.052?lang=en" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://faq.diy.ski/faq/faq.general.052?lang=th" />
   </url>
   <url>
     <loc>https://faq.diy.ski/faq/faq.general.053</loc>
-    <lastmod>2025-10-28</lastmod>
+    <lastmod>2025-11-07</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.general.053?lang=en</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.general.053?lang=th</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://faq.diy.ski/faq/faq.general.053?lang=zh" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://faq.diy.ski/faq/faq.general.053?lang=en" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://faq.diy.ski/faq/faq.general.053?lang=th" />
   </url>
   <url>
     <loc>https://faq.diy.ski/faq/faq.general.054</loc>
-    <lastmod>2025-10-28</lastmod>
+    <lastmod>2025-11-07</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.general.054?lang=en</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.general.054?lang=th</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://faq.diy.ski/faq/faq.general.054?lang=zh" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://faq.diy.ski/faq/faq.general.054?lang=en" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://faq.diy.ski/faq/faq.general.054?lang=th" />
   </url>
   <url>
     <loc>https://faq.diy.ski/faq/faq.general.055</loc>
-    <lastmod>2025-10-28</lastmod>
+    <lastmod>2025-11-07</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.general.055?lang=en</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.general.055?lang=th</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://faq.diy.ski/faq/faq.general.055?lang=zh" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://faq.diy.ski/faq/faq.general.055?lang=en" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://faq.diy.ski/faq/faq.general.055?lang=th" />
   </url>
   <url>
     <loc>https://faq.diy.ski/faq/faq.general.056</loc>
-    <lastmod>2025-10-28</lastmod>
+    <lastmod>2025-11-07</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.general.056?lang=en</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.general.056?lang=th</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://faq.diy.ski/faq/faq.general.056?lang=zh" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://faq.diy.ski/faq/faq.general.056?lang=en" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://faq.diy.ski/faq/faq.general.056?lang=th" />
   </url>
   <url>
     <loc>https://faq.diy.ski/faq/faq.general.057</loc>
-    <lastmod>2025-10-28</lastmod>
+    <lastmod>2025-11-07</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.general.057?lang=en</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.general.057?lang=th</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://faq.diy.ski/faq/faq.general.057?lang=zh" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://faq.diy.ski/faq/faq.general.057?lang=en" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://faq.diy.ski/faq/faq.general.057?lang=th" />
   </url>
   <url>
     <loc>https://faq.diy.ski/faq/faq.general.058</loc>
-    <lastmod>2025-10-28</lastmod>
+    <lastmod>2025-11-07</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.general.058?lang=en</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.general.058?lang=th</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://faq.diy.ski/faq/faq.general.058?lang=zh" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://faq.diy.ski/faq/faq.general.058?lang=en" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://faq.diy.ski/faq/faq.general.058?lang=th" />
   </url>
   <url>
     <loc>https://faq.diy.ski/faq/faq.general.059</loc>
-    <lastmod>2025-10-28</lastmod>
+    <lastmod>2025-11-07</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.general.059?lang=en</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.general.059?lang=th</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://faq.diy.ski/faq/faq.general.059?lang=zh" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://faq.diy.ski/faq/faq.general.059?lang=en" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://faq.diy.ski/faq/faq.general.059?lang=th" />
   </url>
   <url>
     <loc>https://faq.diy.ski/faq/faq.general.060</loc>
-    <lastmod>2025-10-28</lastmod>
+    <lastmod>2025-11-07</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.general.060?lang=en</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.general.060?lang=th</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://faq.diy.ski/faq/faq.general.060?lang=zh" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://faq.diy.ski/faq/faq.general.060?lang=en" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://faq.diy.ski/faq/faq.general.060?lang=th" />
   </url>
   <url>
     <loc>https://faq.diy.ski/faq/faq.gear.061</loc>
-    <lastmod>2025-10-28</lastmod>
+    <lastmod>2025-11-07</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.gear.061?lang=en</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.gear.061?lang=th</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://faq.diy.ski/faq/faq.gear.061?lang=zh" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://faq.diy.ski/faq/faq.gear.061?lang=en" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://faq.diy.ski/faq/faq.gear.061?lang=th" />
   </url>
   <url>
     <loc>https://faq.diy.ski/faq/faq.gear.062</loc>
-    <lastmod>2025-10-28</lastmod>
+    <lastmod>2025-11-07</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.gear.062?lang=en</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.gear.062?lang=th</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://faq.diy.ski/faq/faq.gear.062?lang=zh" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://faq.diy.ski/faq/faq.gear.062?lang=en" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://faq.diy.ski/faq/faq.gear.062?lang=th" />
   </url>
   <url>
     <loc>https://faq.diy.ski/faq/faq.refund_policy.063</loc>
-    <lastmod>2025-10-28</lastmod>
+    <lastmod>2025-11-07</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.refund_policy.063?lang=en</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.refund_policy.063?lang=th</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://faq.diy.ski/faq/faq.refund_policy.063?lang=zh" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://faq.diy.ski/faq/faq.refund_policy.063?lang=en" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://faq.diy.ski/faq/faq.refund_policy.063?lang=th" />
   </url>
   <url>
     <loc>https://faq.diy.ski/faq/faq.booking.064</loc>
-    <lastmod>2025-10-28</lastmod>
+    <lastmod>2025-11-07</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.booking.064?lang=en</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.booking.064?lang=th</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://faq.diy.ski/faq/faq.booking.064?lang=zh" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://faq.diy.ski/faq/faq.booking.064?lang=en" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://faq.diy.ski/faq/faq.booking.064?lang=th" />
   </url>
   <url>
     <loc>https://faq.diy.ski/faq/faq.booking.065</loc>
-    <lastmod>2025-10-28</lastmod>
+    <lastmod>2025-11-07</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.booking.065?lang=en</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.booking.065?lang=th</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://faq.diy.ski/faq/faq.booking.065?lang=zh" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://faq.diy.ski/faq/faq.booking.065?lang=en" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://faq.diy.ski/faq/faq.booking.065?lang=th" />
   </url>
   <url>
     <loc>https://faq.diy.ski/faq/faq.booking.066</loc>
-    <lastmod>2025-10-28</lastmod>
+    <lastmod>2025-11-07</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.booking.066?lang=en</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.booking.066?lang=th</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://faq.diy.ski/faq/faq.booking.066?lang=zh" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://faq.diy.ski/faq/faq.booking.066?lang=en" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://faq.diy.ski/faq/faq.booking.066?lang=th" />
   </url>
   <url>
     <loc>https://faq.diy.ski/faq/faq.instructor.067</loc>
-    <lastmod>2025-10-28</lastmod>
+    <lastmod>2025-11-07</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.instructor.067?lang=en</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.instructor.067?lang=th</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://faq.diy.ski/faq/faq.instructor.067?lang=zh" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://faq.diy.ski/faq/faq.instructor.067?lang=en" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://faq.diy.ski/faq/faq.instructor.067?lang=th" />
   </url>
   <url>
     <loc>https://faq.diy.ski/faq/faq.instructor.068</loc>
-    <lastmod>2025-10-28</lastmod>
+    <lastmod>2025-11-07</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.instructor.068?lang=en</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.instructor.068?lang=th</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://faq.diy.ski/faq/faq.instructor.068?lang=zh" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://faq.diy.ski/faq/faq.instructor.068?lang=en" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://faq.diy.ski/faq/faq.instructor.068?lang=th" />
   </url>
   <url>
     <loc>https://faq.diy.ski/faq/faq.kids.069</loc>
-    <lastmod>2025-10-28</lastmod>
+    <lastmod>2025-11-07</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.kids.069?lang=en</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.kids.069?lang=th</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://faq.diy.ski/faq/faq.kids.069?lang=zh" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://faq.diy.ski/faq/faq.kids.069?lang=en" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://faq.diy.ski/faq/faq.kids.069?lang=th" />
   </url>
   <url>
     <loc>https://faq.diy.ski/faq/faq.kids.070</loc>
-    <lastmod>2025-10-28</lastmod>
+    <lastmod>2025-11-07</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.kids.070?lang=en</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://faq.diy.ski/faq/faq.kids.070?lang=th</loc>
-    <lastmod>2025-10-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://faq.diy.ski/faq/faq.kids.070?lang=zh" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://faq.diy.ski/faq/faq.kids.070?lang=en" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://faq.diy.ski/faq/faq.kids.070?lang=th" />
   </url>
   <url>
     <loc>https://faq.diy.ski/faq/faq.kids.071</loc>
-    <lastmod>2025-10-28</lastmod>
+    <lastmod>2025-11-07</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://faq.diy.ski/faq/faq.kids.071?lang=zh" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://faq.diy.ski/faq/faq.kids.071?lang=en" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://faq.diy.ski/faq/faq.kids.071?lang=th" />
   </url>
   <url>
-    <loc>https://faq.diy.ski/faq/faq.kids.071?lang=en</loc>
-    <lastmod>2025-10-28</lastmod>
+    <loc>https://faq.diy.ski/category/section-e8a18ce7</loc>
+    <lastmod>2025-11-07</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://faq.diy.ski/category/section-e8a18ce7?lang=zh" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://faq.diy.ski/category/section-e8a18ce7?lang=en" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://faq.diy.ski/category/section-e8a18ce7?lang=th" />
   </url>
   <url>
-    <loc>https://faq.diy.ski/faq/faq.kids.071?lang=th</loc>
-    <lastmod>2025-10-28</lastmod>
+    <loc>https://faq.diy.ski/category/section-e69c8de5</loc>
+    <lastmod>2025-11-07</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://faq.diy.ski/category/section-e69c8de5?lang=zh" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://faq.diy.ski/category/section-e69c8de5?lang=en" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://faq.diy.ski/category/section-e69c8de5?lang=th" />
+  </url>
+  <url>
+    <loc>https://faq.diy.ski/category/section-f09fa7ad</loc>
+    <lastmod>2025-11-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://faq.diy.ski/category/section-f09fa7ad?lang=zh" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://faq.diy.ski/category/section-f09fa7ad?lang=en" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://faq.diy.ski/category/section-f09fa7ad?lang=th" />
+  </url>
+  <url>
+    <loc>https://faq.diy.ski/category/section-f09f91a8</loc>
+    <lastmod>2025-11-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://faq.diy.ski/category/section-f09f91a8?lang=zh" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://faq.diy.ski/category/section-f09f91a8?lang=en" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://faq.diy.ski/category/section-f09f91a8?lang=th" />
+  </url>
+  <url>
+    <loc>https://faq.diy.ski/category/section-f09f91b6</loc>
+    <lastmod>2025-11-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://faq.diy.ski/category/section-f09f91b6?lang=zh" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://faq.diy.ski/category/section-f09f91b6?lang=en" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://faq.diy.ski/category/section-f09f91b6?lang=th" />
+  </url>
+  <url>
+    <loc>https://faq.diy.ski/category/section-f09f8f82</loc>
+    <lastmod>2025-11-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://faq.diy.ski/category/section-f09f8f82?lang=zh" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://faq.diy.ski/category/section-f09f8f82?lang=en" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://faq.diy.ski/category/section-f09f8f82?lang=th" />
+  </url>
+  <url>
+    <loc>https://faq.diy.ski/category/section-f09f938d</loc>
+    <lastmod>2025-11-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://faq.diy.ski/category/section-f09f938d?lang=zh" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://faq.diy.ski/category/section-f09f938d?lang=en" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://faq.diy.ski/category/section-f09f938d?lang=th" />
+  </url>
+  <url>
+    <loc>https://faq.diy.ski/category/section-f09fa791</loc>
+    <lastmod>2025-11-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://faq.diy.ski/category/section-f09fa791?lang=zh" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://faq.diy.ski/category/section-f09fa791?lang=en" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://faq.diy.ski/category/section-f09fa791?lang=th" />
+  </url>
+  <url>
+    <loc>https://faq.diy.ski/category/section-f09f9385</loc>
+    <lastmod>2025-11-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://faq.diy.ski/category/section-f09f9385?lang=zh" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://faq.diy.ski/category/section-f09f9385?lang=en" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://faq.diy.ski/category/section-f09f9385?lang=th" />
+  </url>
+  <url>
+    <loc>https://faq.diy.ski/category/section-f09f92b0</loc>
+    <lastmod>2025-11-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://faq.diy.ski/category/section-f09f92b0?lang=zh" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://faq.diy.ski/category/section-f09f92b0?lang=en" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://faq.diy.ski/category/section-f09f92b0?lang=th" />
+  </url>
+  <url>
+    <loc>https://faq.diy.ski/category/section-f09f93b1</loc>
+    <lastmod>2025-11-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://faq.diy.ski/category/section-f09f93b1?lang=zh" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://faq.diy.ski/category/section-f09f93b1?lang=en" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://faq.diy.ski/category/section-f09f93b1?lang=th" />
+  </url>
+  <url>
+    <loc>https://faq.diy.ski/category/section-f09f9b9f</loc>
+    <lastmod>2025-11-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://faq.diy.ski/category/section-f09f9b9f?lang=zh" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://faq.diy.ski/category/section-f09f9b9f?lang=en" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://faq.diy.ski/category/section-f09f9b9f?lang=th" />
+  </url>
+  <url>
+    <loc>https://faq.diy.ski/category/section-f09f8e92</loc>
+    <lastmod>2025-11-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://faq.diy.ski/category/section-f09f8e92?lang=zh" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://faq.diy.ski/category/section-f09f8e92?lang=en" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://faq.diy.ski/category/section-f09f8e92?lang=th" />
+  </url>
+  <url>
+    <loc>https://faq.diy.ski/category/section-e98080e8</loc>
+    <lastmod>2025-11-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://faq.diy.ski/category/section-e98080e8?lang=zh" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://faq.diy.ski/category/section-e98080e8?lang=en" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://faq.diy.ski/category/section-e98080e8?lang=th" />
+  </url>
+  <url>
+    <loc>https://faq.diy.ski/category/section-f09f9385</loc>
+    <lastmod>2025-11-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://faq.diy.ski/category/section-f09f9385?lang=zh" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://faq.diy.ski/category/section-f09f9385?lang=en" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://faq.diy.ski/category/section-f09f9385?lang=th" />
+  </url>
+  <url>
+    <loc>https://faq.diy.ski/category/section-f09fa791</loc>
+    <lastmod>2025-11-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://faq.diy.ski/category/section-f09fa791?lang=zh" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://faq.diy.ski/category/section-f09fa791?lang=en" />
+    <xhtml:link rel="alternate" hreflang="th" href="https://faq.diy.ski/category/section-f09fa791?lang=th" />
   </url>
 </urlset>
