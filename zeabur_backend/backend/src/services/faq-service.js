@@ -173,7 +173,8 @@ class FAQService {
     // Production (Zeabur): /src/src/services -> ../data = /src/src/data
     // Development: __dirname/../../ -> ../../../data
     const dataDir = process.env.FAQ_DATA_DIR || path.join(__dirname, '../data');
-    this.dataPath = path.join(dataDir, 'faq_kb.json');
+    // Use phase0a version (includes translations), keep faq_kb.json as backup
+    this.dataPath = path.join(dataDir, 'faq_kb.phase0a.json');
     this.backupPath = path.join(dataDir, 'faq_kb.backup.json');
     this.backupDir = path.join(dataDir, 'backups');
 

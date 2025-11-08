@@ -30,8 +30,8 @@ class RAGEngine {
    * @returns {Promise<void>}
    */
   async initialize() {
-    // Load FAQ data
-    const faqPath = this.config.faqPath || path.join(__dirname, '../../../../data/faq_kb.json');
+    // Load FAQ data (use phase0a version with translations, keep faq_kb.json as backup)
+    const faqPath = this.config.faqPath || path.join(__dirname, '../../../../data/faq_kb.phase0a.json');
 
     if (!fs.existsSync(faqPath)) {
       throw new Error(`FAQ data not found at: ${faqPath}`);

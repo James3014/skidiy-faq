@@ -4,7 +4,7 @@ const path = require('path');
 const TRANSLATION_LANGUAGES = ['en', 'th'];
 
 function loadFAQData() {
-  const dataPath = path.join(__dirname, '../data/faq_kb.json');
+  const dataPath = path.join(__dirname, '../data/faq_kb.phase0a.json');
   const raw = fs.readFileSync(dataPath, 'utf-8');
   return JSON.parse(raw);
 }

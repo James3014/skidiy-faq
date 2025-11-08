@@ -13,7 +13,7 @@ function ensureString(obj, key) {
 }
 
 function migrate() {
-  const dataPath = path.join(__dirname, '../data/faq_kb.json');
+  const dataPath = path.join(__dirname, '../data/faq_kb.phase0a.json');
   const raw = fs.readFileSync(dataPath, 'utf-8');
   const json = JSON.parse(raw);
 

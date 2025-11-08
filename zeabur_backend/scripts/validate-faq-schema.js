@@ -25,7 +25,7 @@ function log(message, color = 'reset') {
 
 function main() {
   // Get FAQ file path from command line or use default
-  const faqFilePath = process.argv[2] || path.join(__dirname, '../faq_kb.json');
+  const faqFilePath = process.argv[2] || path.join(__dirname, '../data/faq_kb.phase0a.json');
 
   log('\n=== FAQ Schema Validation ===\n', 'cyan');
   log(`Validating: ${faqFilePath}`, 'blue');

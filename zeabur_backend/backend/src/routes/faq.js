@@ -29,7 +29,8 @@ async function loadFAQData() {
     return faqData;
   }
 
-  const dataPath = path.join(__dirname, '../../../data/faq_kb.json');
+  // Use phase0a version (includes translations), keep faq_kb.json as backup
+  const dataPath = path.join(__dirname, '../../../data/faq_kb.phase0a.json');
 
   try {
     const content = await fs.readFile(dataPath, 'utf-8');
