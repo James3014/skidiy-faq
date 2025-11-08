@@ -1466,3 +1466,5 @@ cat data/customer_inquiries.jsonl | jq '.' > inquiries_formatted.json
 ---
 
 **祝使用愉快！如有問題請參考本文檔或聯繫開發團隊。** 🎿
+
+<\!-- Deployment trigger: 2025-11-08 15:29:54 -->
