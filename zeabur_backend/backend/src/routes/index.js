@@ -22,6 +22,7 @@ const contentRoutes = require('./content');
 const eventsRoutes = require('./events');
 const authRoutes = require('./auth');
 const linksRoutes = require('./links');
+const adminRoutes = require('./admin');
 
 /**
  * API Routes
@@ -41,6 +42,7 @@ router.use('/events', eventsRoutes);     // User event tracking
 router.use('/crm', crmRoutes);           // CRM integration (Phase 9)
 router.use('/links', linksRoutes);       // Link registry management (FAQ and resort links)
 router.use('/auth', authRoutes);         // Development auth helper
+router.use('/admin', adminRoutes);       // System administration (analytics reset, etc.)
 
 // Placeholder route for testing
 router.get('/placeholder', (req, res) => {
