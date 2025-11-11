@@ -340,4 +340,37 @@ router.get('/', async (req, res, next) => {
   }
 });
 
+// DEBUG: Check which file is actually being loaded
+router.get('/debug/file-info', async (req, res, next) => {
+  try {
+    const dataPath = path.join(__dirname, '../../../data/faq_kb.phase0a.json');
+    const fs = require('fs').promises;
+
+    const stats = await fs.stat(dataPath);
+    const content = await fs.readFile(dataPath, 'utf-8');
+    const data = JSON.parse(content);
+
+    res.json({
+      success: true,
+      data: {
+        filePath: dataPath,
+        fileSize: stats.size,
+        fileModified: stats.mtime,
+        faqCount: data.items?.length || 0,
+        firstFAQ: {
+          id: data.items?.[0]?.id,
+          question: data.items?.[0]?.canonical_question?.substring(0, 50),
+          tags: data.items?.[0]?.crm_tags
+        }
+      }
+    });
+  } catch (error) {
+    res.json({
+      success: false,
+      error: error.message,
+      stack: error.stack
+    });
+  }
+});
+
 module.exports = router;
