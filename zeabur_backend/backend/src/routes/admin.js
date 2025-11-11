@@ -73,14 +73,18 @@ router.post('/reset-analytics', requireAdminAuth, async (req, res, next) => {
     const dbPath = process.env.SQLITE_DB_PATH || path.join(__dirname, '../../../data/analytics.db');
     const db = new Database(dbPath);
 
-    // Query current stats
+    // Query current stats (all analytics tables)
     const beforeStats = {
       search_queries: db.prepare('SELECT COUNT(*) as count FROM search_queries').get().count,
       faq_views: db.prepare('SELECT COUNT(*) as count FROM faq_views').get().count,
-      feedback: db.prepare('SELECT COUNT(*) as count FROM feedback').get().count
+      feedback: db.prepare('SELECT COUNT(*) as count FROM feedback').get().count,
+      tag_clicks: db.prepare('SELECT COUNT(*) as count FROM tag_clicks').get().count,
+      resort_clicks: db.prepare('SELECT COUNT(*) as count FROM resort_clicks').get().count,
+      section_views: db.prepare('SELECT COUNT(*) as count FROM section_views').get().count,
+      llm_usage: db.prepare('SELECT COUNT(*) as count FROM llm_usage').get().count
     };
 
-    let deletedStats = { search_queries: 0, faq_views: 0, feedback: 0 };
+    let deletedStats = { search_queries: 0, faq_views: 0, feedback: 0, tag_clicks: 0, resort_clicks: 0, section_views: 0, llm_usage: 0 };
     let cutoffDate = null;
 
     if (mode === 'keep-days') {
@@ -93,7 +97,11 @@ router.post('/reset-analytics', requireAdminAuth, async (req, res, next) => {
       deletedStats = {
         search_queries: db.prepare('SELECT COUNT(*) as count FROM search_queries WHERE timestamp < ?').get(cutoffDate).count,
         faq_views: db.prepare('SELECT COUNT(*) as count FROM faq_views WHERE timestamp < ?').get(cutoffDate).count,
-        feedback: db.prepare('SELECT COUNT(*) as count FROM feedback WHERE timestamp < ?').get(cutoffDate).count
+        feedback: db.prepare('SELECT COUNT(*) as count FROM feedback WHERE timestamp < ?').get(cutoffDate).count,
+        tag_clicks: db.prepare('SELECT COUNT(*) as count FROM tag_clicks WHERE timestamp < ?').get(cutoffDate).count,
+        resort_clicks: db.prepare('SELECT COUNT(*) as count FROM resort_clicks WHERE timestamp < ?').get(cutoffDate).count,
+        section_views: db.prepare('SELECT COUNT(*) as count FROM section_views WHERE timestamp < ?').get(cutoffDate).count,
+        llm_usage: db.prepare('SELECT COUNT(*) as count FROM llm_usage WHERE timestamp < ?').get(cutoffDate).count
       };
 
       if (!dryRun) {
@@ -101,6 +109,10 @@ router.post('/reset-analytics', requireAdminAuth, async (req, res, next) => {
         db.prepare('DELETE FROM search_queries WHERE timestamp < ?').run(cutoffDate);
         db.prepare('DELETE FROM faq_views WHERE timestamp < ?').run(cutoffDate);
         db.prepare('DELETE FROM feedback WHERE timestamp < ?').run(cutoffDate);
+        db.prepare('DELETE FROM tag_clicks WHERE timestamp < ?').run(cutoffDate);
+        db.prepare('DELETE FROM resort_clicks WHERE timestamp < ?').run(cutoffDate);
+        db.prepare('DELETE FROM section_views WHERE timestamp < ?').run(cutoffDate);
+        db.prepare('DELETE FROM llm_usage WHERE timestamp < ?').run(cutoffDate);
         db.exec('COMMIT');
         db.exec('VACUUM');
       }
@@ -113,6 +125,10 @@ router.post('/reset-analytics', requireAdminAuth, async (req, res, next) => {
         db.exec('DELETE FROM search_queries');
         db.exec('DELETE FROM faq_views');
         db.exec('DELETE FROM feedback');
+        db.exec('DELETE FROM tag_clicks');
+        db.exec('DELETE FROM resort_clicks');
+        db.exec('DELETE FROM section_views');
+        db.exec('DELETE FROM llm_usage');
         db.exec('COMMIT');
         db.exec('VACUUM');
       }
@@ -122,7 +138,11 @@ router.post('/reset-analytics', requireAdminAuth, async (req, res, next) => {
     const afterStats = dryRun ? beforeStats : {
       search_queries: db.prepare('SELECT COUNT(*) as count FROM search_queries').get().count,
       faq_views: db.prepare('SELECT COUNT(*) as count FROM faq_views').get().count,
-      feedback: db.prepare('SELECT COUNT(*) as count FROM feedback').get().count
+      feedback: db.prepare('SELECT COUNT(*) as count FROM feedback').get().count,
+      tag_clicks: db.prepare('SELECT COUNT(*) as count FROM tag_clicks').get().count,
+      resort_clicks: db.prepare('SELECT COUNT(*) as count FROM resort_clicks').get().count,
+      section_views: db.prepare('SELECT COUNT(*) as count FROM section_views').get().count,
+      llm_usage: db.prepare('SELECT COUNT(*) as count FROM llm_usage').get().count
     };
 
     db.close();
@@ -185,7 +205,7 @@ router.get('/analytics-stats', requireAdminAuth, async (req, res, next) => {
     // Get database file size
     const dbSize = fs.existsSync(dbPath) ? fs.statSync(dbPath).size : 0;
 
-    // Get table stats
+    // Get table stats (all analytics tables)
     const tables = {
       search_queries: {
         count: db.prepare('SELECT COUNT(*) as count FROM search_queries').get().count,
@@ -201,6 +221,26 @@ router.get('/analytics-stats', requireAdminAuth, async (req, res, next) => {
         count: db.prepare('SELECT COUNT(*) as count FROM feedback').get().count,
         oldest: db.prepare('SELECT MIN(timestamp) as date FROM feedback').get().date,
         newest: db.prepare('SELECT MAX(timestamp) as date FROM feedback').get().date
+      },
+      tag_clicks: {
+        count: db.prepare('SELECT COUNT(*) as count FROM tag_clicks').get().count,
+        oldest: db.prepare('SELECT MIN(timestamp) as date FROM tag_clicks').get().date,
+        newest: db.prepare('SELECT MAX(timestamp) as date FROM tag_clicks').get().date
+      },
+      resort_clicks: {
+        count: db.prepare('SELECT COUNT(*) as count FROM resort_clicks').get().count,
+        oldest: db.prepare('SELECT MIN(timestamp) as date FROM resort_clicks').get().date,
+        newest: db.prepare('SELECT MAX(timestamp) as date FROM resort_clicks').get().date
+      },
+      section_views: {
+        count: db.prepare('SELECT COUNT(*) as count FROM section_views').get().count,
+        oldest: db.prepare('SELECT MIN(timestamp) as date FROM section_views').get().date,
+        newest: db.prepare('SELECT MAX(timestamp) as date FROM section_views').get().date
+      },
+      llm_usage: {
+        count: db.prepare('SELECT COUNT(*) as count FROM llm_usage').get().count,
+        oldest: db.prepare('SELECT MIN(timestamp) as date FROM llm_usage').get().date,
+        newest: db.prepare('SELECT MAX(timestamp) as date FROM llm_usage').get().date
       }
     };
 
