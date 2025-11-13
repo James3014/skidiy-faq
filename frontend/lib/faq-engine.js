@@ -77,25 +77,21 @@ class FAQEngine {
   prepareLocalizedContent(faq) {
     if (!faq) return {};
 
-    // IMPORTANT: Always recalculate, don't use cached localized data
-    // This ensures we always read from the latest answer_template.text
     const localized = {};
 
     FAQ_LANGUAGES.forEach(lang => {
       const isSource = lang === FAQ_DEFAULT_LANGUAGE;
       localized[lang] = {};
 
-      // Question field
+      // Localize question with fallback to default language
       localized[lang].question = isSource
         ? sanitizeText(faq.canonical_question)
         : sanitizeText(faq.canonical_question_translations?.[lang]) || sanitizeText(faq.canonical_question);
 
-      // Answer field - ALWAYS read from answer_template.text (unified field)
-      // This field is now provided by backend API as summary + details combined
-      const answerText = sanitizeText(faq.answer_template?.text);
-      localized[lang].answer = answerText;
+      // Answer from unified text field (backend has already merged summary + details)
+      localized[lang].answer = sanitizeText(faq.answer_template?.text);
 
-      // Postscript field
+      // Localize postscript with fallback to default language
       localized[lang].postscript = isSource
         ? sanitizeText(faq.answer_template?.postscript)
         : sanitizeText(faq.answer_template?.postscript_translations?.[lang]) || sanitizeText(faq.answer_template?.postscript);
@@ -110,9 +106,14 @@ class FAQEngine {
       return { question: '', answer: '', postscript: '' };
     }
 
-    // IMPORTANT: Always recalculate localized content to ensure we read fresh data
-    // Don't rely on cached faq.localized property which may be stale
-    const localized = this.prepareLocalizedContent(faq);
+    // Optimization: Use cached localized content if available
+    // Only recalculate if cache is missing (first call)
+    let localized = faq.localized;
+    if (!localized) {
+      // First call: Calculate and cache
+      localized = this.prepareLocalizedContent(faq);
+    }
+
     const preferred = [language, FAQ_DEFAULT_LANGUAGE];
 
     const question = preferred.map(lang => localized?.[lang]?.question).find(Boolean) || '';
