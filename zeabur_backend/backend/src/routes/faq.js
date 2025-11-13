@@ -314,7 +314,10 @@ router.get('/:faq_id', async (req, res, next) => {
         summary,
         details,
         tip,
-        postscript
+        postscript,
+        // LINUS PRINCIPLE: Provide unified 'text' field for frontend compatibility
+        // Frontend expects answer_template.text, so we provide combined summary + details
+        text: [summary, details].filter(Boolean).join('\n\n') || ''
       }
     };
 
