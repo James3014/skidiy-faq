@@ -28,21 +28,23 @@ const APP_VERSION = '1.0.1'; // Trigger rebuild
 
 // Initialize analytics service
 // LINUS PRINCIPLE: Single source of truth for database path
-// Must be explicitly set via SQLITE_DB_PATH environment variable
-// No fallbacks, no guessing - be explicit or fail fast
+// Primary: SQLITE_DB_PATH environment variable (explicitly set)
+// Emergency fallback: /app/data/analytics.db (for Zeabur Volume)
 let analyticsService;
 try {
-  const dbPath = process.env.SQLITE_DB_PATH;
-  if (!dbPath) {
-    throw new Error('SQLITE_DB_PATH environment variable is required');
-  }
+  const dbPath = process.env.SQLITE_DB_PATH || '/app/data/analytics.db';
+  logger.info('Attempting to initialize analytics service', {
+    path: dbPath,
+    envVarSet: !!process.env.SQLITE_DB_PATH,
+  });
   analyticsService = new AnalyticsService(dbPath);
-  logger.info('Analytics service initialized', {
+  logger.info('Analytics service initialized successfully', {
     path: dbPath,
   });
 } catch (error) {
   logger.error('Failed to initialize analytics service', {
     error: error.message,
+    path: process.env.SQLITE_DB_PATH || '/app/data/analytics.db',
   });
 }
 

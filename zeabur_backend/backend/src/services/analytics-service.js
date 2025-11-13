@@ -10,19 +10,17 @@ const fs = require('fs');
 
 class AnalyticsService {
   constructor(dbPath) {
-    // LINUS PRINCIPLE: Require explicit path - no defaults, no guessing
-    // Single source of truth must be SQLITE_DB_PATH env var
-    if (!dbPath) {
-      throw new Error('AnalyticsService requires explicit dbPath argument or SQLITE_DB_PATH environment variable');
-    }
+    // LINUS PRINCIPLE: Use explicit path if provided
+    // If not, use emergency fallback for Zeabur Volume compatibility
+    const finalPath = dbPath || process.env.SQLITE_DB_PATH || '/app/data/analytics.db';
 
-    const dataDir = path.dirname(dbPath);
+    const dataDir = path.dirname(finalPath);
     if (!fs.existsSync(dataDir)) {
       fs.mkdirSync(dataDir, { recursive: true });
     }
 
-    console.log('[Analytics Service] Using database path:', dbPath);
-    this.db = new Database(dbPath);
+    console.log('[Analytics Service] Using database path:', finalPath);
+    this.db = new Database(finalPath);
     this.initializeTables();
   }
 
