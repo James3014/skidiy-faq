@@ -320,8 +320,12 @@ class HrefLangManager {
     // Inject hreflang tags
     this.injectHrefLangTags();
 
-    // Validate setup in development
-    if (process.env.NODE_ENV === 'development' || window.location.hostname === 'localhost') {
+    // Validate setup in development (browser-safe environment detection)
+    const isDevelopment = window.location.hostname === 'localhost' ||
+                          window.location.hostname.includes('localhost') ||
+                          window.location.hostname.includes('127.0.0.1');
+
+    if (isDevelopment) {
       const validation = this.validateHrefLangSetup();
       if (!validation.isValid) {
         console.warn('[SEO] hreflang validation issues:', validation.errors);
