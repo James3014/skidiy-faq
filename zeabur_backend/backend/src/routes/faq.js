@@ -144,16 +144,28 @@ router.post('/search', async (req, res, next) => {
         const question = item[questionField] || item.canonical_question;
         const answerObj = item.answer_template || {};
 
-        // Build answer from summary + details (multi-language aware)
+        // Build answer from available fields with priority:
+        // Priority 1: text field (used by 65 FAQs)
+        // Priority 2: summary + details fields (used by 6 FAQs)
+        // Priority 3: translations (if available)
         let answer = '';
         if (language !== 'zh') {
-          // Try to get translated summary and details
-          const summaryTrans = answerObj.summary_translations?.[language] || answerObj.summary || '';
-          const detailsTrans = answerObj.details_translations?.[language] || answerObj.details || '';
-          answer = [summaryTrans, detailsTrans].filter(Boolean).join('\n\n');
+          // For non-Chinese languages, try translations first, then fallback to Chinese
+          const textTrans = answerObj.text_translations?.[language];
+          const summaryTrans = answerObj.summary_translations?.[language];
+          const detailsTrans = answerObj.details_translations?.[language];
+
+          if (textTrans) {
+            answer = textTrans;
+          } else if (summaryTrans || detailsTrans) {
+            answer = [summaryTrans || '', detailsTrans || ''].filter(Boolean).join('\n\n');
+          } else {
+            // Fallback to Chinese if no translation available
+            answer = answerObj.text || [answerObj.summary || '', answerObj.details || ''].filter(Boolean).join('\n\n');
+          }
         } else {
-          // Chinese: use summary + details
-          answer = [answerObj.summary, answerObj.details].filter(Boolean).join('\n\n');
+          // Chinese: prefer 'text' field, fallback to summary + details
+          answer = answerObj.text || [answerObj.summary || '', answerObj.details || ''].filter(Boolean).join('\n\n');
         }
 
         // Calculate simple match score
@@ -252,10 +264,15 @@ router.get('/all', async (req, res, next) => {
     const transformedItems = (data.items || []).map(item => {
       const baseTemplate = item.answer_template || {};
 
-      // Build answer text from summary + details (use Chinese defaults)
-      const summary = baseTemplate.summary || '';
-      const details = baseTemplate.details || '';
-      const text = [summary, details].filter(Boolean).join('\n\n') || '';
+      // Build answer text with priority:
+      // 1. If text already exists, use it (most FAQs use this format)
+      // 2. Otherwise, combine summary + details (legacy format for early FAQs)
+      let text = baseTemplate.text || '';
+      if (!text) {
+        const summary = baseTemplate.summary || '';
+        const details = baseTemplate.details || '';
+        text = [summary, details].filter(Boolean).join('\n\n') || '';
+      }
 
       return {
         ...item,
@@ -321,20 +338,48 @@ router.get('/:faq_id', async (req, res, next) => {
     const questionField = language !== 'zh' ? `canonical_question_${language}` : 'canonical_question';
     const baseTemplate = faqItem.answer_template || {};
 
-    // Build localized answer components
+    // Build localized answer components with priority:
+    // Priority 1: text field (used by 65 FAQs)
+    // Priority 2: summary + details fields (used by 6 FAQs)
+    // Priority 3: translations (if available)
+    let text = '';
     let summary = '';
     let details = '';
     let tip = '';
     let postscript = '';
 
     if (language !== 'zh') {
-      summary = baseTemplate.summary_translations?.[language] || baseTemplate.summary || '';
-      details = baseTemplate.details_translations?.[language] || baseTemplate.details || '';
+      // For non-Chinese languages, try translations first
+      const textTrans = baseTemplate.text_translations?.[language];
+      const summaryTrans = baseTemplate.summary_translations?.[language];
+      const detailsTrans = baseTemplate.details_translations?.[language];
+
+      if (textTrans) {
+        text = textTrans;
+      } else if (summaryTrans || detailsTrans) {
+        summary = summaryTrans || '';
+        details = detailsTrans || '';
+        text = [summary, details].filter(Boolean).join('\n\n');
+      } else {
+        // Fallback to Chinese if no translation available
+        text = baseTemplate.text || '';
+        if (!text) {
+          summary = baseTemplate.summary || '';
+          details = baseTemplate.details || '';
+          text = [summary, details].filter(Boolean).join('\n\n');
+        }
+      }
+
       tip = baseTemplate.tip_translations?.[language] || baseTemplate.tip || '';
       postscript = baseTemplate.postscript_translations?.[language] || baseTemplate.postscript || '';
     } else {
-      summary = baseTemplate.summary || '';
-      details = baseTemplate.details || '';
+      // Chinese: prefer 'text' field, fallback to summary + details
+      text = baseTemplate.text || '';
+      if (!text) {
+        summary = baseTemplate.summary || '';
+        details = baseTemplate.details || '';
+        text = [summary, details].filter(Boolean).join('\n\n');
+      }
       tip = baseTemplate.tip || '';
       postscript = baseTemplate.postscript || '';
     }
@@ -349,8 +394,8 @@ router.get('/:faq_id', async (req, res, next) => {
         tip,
         postscript,
         // LINUS PRINCIPLE: Provide unified 'text' field for frontend compatibility
-        // Frontend expects answer_template.text, so we provide combined summary + details
-        text: [summary, details].filter(Boolean).join('\n\n') || ''
+        // Frontend expects answer_template.text with the complete answer
+        text
       }
     };
 

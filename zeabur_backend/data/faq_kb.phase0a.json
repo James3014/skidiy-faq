@@ -959,26 +959,9 @@
         "私人課程"
       ],
       "answer_template": {
-        "summary": "我們強烈建議您「先預約教練，再訂機票住宿」。尤其是在旺季，優質的中文教練非常搶手，時常比機票或住宿更早被預約一空。",
-        "details": "先確認預約到您想要的教練與時段後，再進行後續的旅遊安排，行程會比較有保障。",
-        "tip": "旺季期間建議提早 2-3 個月預約，以確保能選擇理想的教練與時段。",
+        "text": "可以安排同堂，但程度差距較大時，建議分開上課，確保每位學員都能獲得適合的教學進度。",
         "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
-        "summary_translations": {
-          "en": "We strongly recommend that you \"book your coach first, then book your flights and accommodation.\" Especially during peak season, high-quality Chinese coaches are in high demand and are often fully booked earlier than flights or accommodation.",
-          "th": "เราขอแนะนำอย่างยิ่งให้คุณ \"จองโค้ชก่อน แล้วค่อยจองตั๋วเครื่องบินและที่พัก\" โดยเฉพาะอย่างยิ่งในช่วงฤดูท่องเที่ยว โค้ชภาษาจีนที่มีคุณภาพเป็นที่ต้องการอย่างมาก และมักจะถูกจองเต็มเร็วกว่าตั๋วเครื่องบินหรือที่พัก"
-        },
-        "details_translations": {
-          "en": null,
-          "th": null
-        },
-        "tip_translations": {
-          "en": null,
-          "th": null
-        },
-        "postscript_translations": {
-          "en": "For more information and the latest availability, please refer to the reservation system.",
-          "th": "สำหรับข้อมูลเพิ่มเติมและจำนวนที่ว่างล่าสุด โปรดดูที่ระบบการจอง"
-        }
+        "links_inline": false
       },
       "links": [
         "{{LINK_SCHEDULE}}",
@@ -1127,26 +1110,9 @@
         "學習進度"
       ],
       "answer_template": {
-        "summary": "我們強烈建議您「先預約教練，再訂機票住宿」。尤其是在旺季，優質的中文教練非常搶手，時常比機票或住宿更早被預約一空。",
-        "details": "先確認預約到您想要的教練與時段後，再進行後續的旅遊安排，行程會比較有保障。",
-        "tip": "旺季期間建議提早 2-3 個月預約，以確保能選擇理想的教練與時段。",
+        "text": "成人與小孩可以同堂上課，但若小孩年紀較小，教練會優先確保他們的安全與基礎動作練習，因此成人的練習時間可能會相對減少。若您希望成人學習進度不受影響，建議 5 歲以下孩童分開安排課程。",
         "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
-        "summary_translations": {
-          "en": "We strongly recommend that you \"book your coach first, then book your flights and accommodation.\" Especially during peak season, high-quality Chinese coaches are in high demand and are often fully booked earlier than flights or accommodation.",
-          "th": "เราขอแนะนำอย่างยิ่งให้คุณ \"จองโค้ชก่อน แล้วค่อยจองตั๋วเครื่องบินและที่พัก\" โดยเฉพาะอย่างยิ่งในช่วงฤดูท่องเที่ยว โค้ชภาษาจีนที่มีคุณภาพเป็นที่ต้องการอย่างมาก และมักจะถูกจองเต็มเร็วกว่าตั๋วเครื่องบินหรือที่พัก"
-        },
-        "details_translations": {
-          "en": null,
-          "th": null
-        },
-        "tip_translations": {
-          "en": null,
-          "th": null
-        },
-        "postscript_translations": {
-          "en": "For more information and the latest availability, please refer to the reservation system.",
-          "th": "สำหรับข้อมูลเพิ่มเติมและจำนวนที่ว่างล่าสุด โปรดดูที่ระบบการจอง"
-        }
+        "links_inline": false
       },
       "links": [
         "{{LINK_SCHEDULE}}",
@@ -1287,26 +1253,9 @@
         "年齡限制"
       ],
       "answer_template": {
-        "summary": "我們強烈建議您「先預約教練，再訂機票住宿」。尤其是在旺季，優質的中文教練非常搶手，時常比機票或住宿更早被預約一空。",
-        "details": "先確認預約到您想要的教練與時段後，再進行後續的旅遊安排，行程會比較有保障。",
-        "tip": "旺季期間建議提早 2-3 個月預約，以確保能選擇理想的教練與時段。",
+        "text": "建議從3歲以上開始，5歲以下的兒童建議安排一對一教學，提升安全與專注力。",
         "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
-        "summary_translations": {
-          "en": "We strongly recommend that you \"book your coach first, then book your flights and accommodation.\" Especially during peak season, high-quality Chinese coaches are in high demand and are often fully booked earlier than flights or accommodation.",
-          "th": "เราขอแนะนำอย่างยิ่งให้คุณ \"จองโค้ชก่อน แล้วค่อยจองตั๋วเครื่องบินและที่พัก\" โดยเฉพาะอย่างยิ่งในช่วงฤดูท่องเที่ยว โค้ชภาษาจีนที่มีคุณภาพเป็นที่ต้องการอย่างมาก และมักจะถูกจองเต็มเร็วกว่าตั๋วเครื่องบินหรือที่พัก"
-        },
-        "details_translations": {
-          "en": null,
-          "th": null
-        },
-        "tip_translations": {
-          "en": null,
-          "th": null
-        },
-        "postscript_translations": {
-          "en": "For more information and the latest availability, please refer to the reservation system.",
-          "th": "สำหรับข้อมูลเพิ่มเติมและจำนวนที่ว่างล่าสุด โปรดดูที่ระบบการจอง"
-        }
+        "links_inline": false
       },
       "links": [
         "{{LINK_SCHEDULE}}"
@@ -1442,26 +1391,9 @@
         "兒童滑雪"
       ],
       "answer_template": {
-        "summary": "我們強烈建議您「先預約教練，再訂機票住宿」。尤其是在旺季，優質的中文教練非常搶手，時常比機票或住宿更早被預約一空。",
-        "details": "先確認預約到您想要的教練與時段後，再進行後續的旅遊安排，行程會比較有保障。",
-        "tip": "旺季期間建議提早 2-3 個月預約，以確保能選擇理想的教練與時段。",
+        "text": "不建議將3歲、5歲與7歲等年齡層混班，體力與進度差異大，建議分開上課。",
         "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
-        "summary_translations": {
-          "en": "We strongly recommend that you \"book your coach first, then book your flights and accommodation.\" Especially during peak season, high-quality Chinese coaches are in high demand and are often fully booked earlier than flights or accommodation.",
-          "th": "เราขอแนะนำอย่างยิ่งให้คุณ \"จองโค้ชก่อน แล้วค่อยจองตั๋วเครื่องบินและที่พัก\" โดยเฉพาะอย่างยิ่งในช่วงฤดูท่องเที่ยว โค้ชภาษาจีนที่มีคุณภาพเป็นที่ต้องการอย่างมาก และมักจะถูกจองเต็มเร็วกว่าตั๋วเครื่องบินหรือที่พัก"
-        },
-        "details_translations": {
-          "en": null,
-          "th": null
-        },
-        "tip_translations": {
-          "en": null,
-          "th": null
-        },
-        "postscript_translations": {
-          "en": "For more information and the latest availability, please refer to the reservation system.",
-          "th": "สำหรับข้อมูลเพิ่มเติมและจำนวนที่ว่างล่าสุด โปรดดูที่ระบบการจอง"
-        }
+        "links_inline": false
       },
       "links": [
         "{{LINK_SCHEDULE}}"
@@ -1593,26 +1525,9 @@
         "纜車安全"
       ],
       "answer_template": {
-        "summary": "我們強烈建議您「先預約教練，再訂機票住宿」。尤其是在旺季，優質的中文教練非常搶手，時常比機票或住宿更早被預約一空。",
-        "details": "先確認預約到您想要的教練與時段後，再進行後續的旅遊安排，行程會比較有保障。",
-        "tip": "旺季期間建議提早 2-3 個月預約，以確保能選擇理想的教練與時段。",
+        "text": "每位教練最多帶6人，小孩比例不會過高；全程附滑雪專案保險；教練具備兒童教學經驗，纜車使用時安排大人陪同。",
         "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
-        "summary_translations": {
-          "en": "We strongly recommend that you \"book your coach first, then book your flights and accommodation.\" Especially during peak season, high-quality Chinese coaches are in high demand and are often fully booked earlier than flights or accommodation.",
-          "th": "เราขอแนะนำอย่างยิ่งให้คุณ \"จองโค้ชก่อน แล้วค่อยจองตั๋วเครื่องบินและที่พัก\" โดยเฉพาะอย่างยิ่งในช่วงฤดูท่องเที่ยว โค้ชภาษาจีนที่มีคุณภาพเป็นที่ต้องการอย่างมาก และมักจะถูกจองเต็มเร็วกว่าตั๋วเครื่องบินหรือที่พัก"
-        },
-        "details_translations": {
-          "en": null,
-          "th": null
-        },
-        "tip_translations": {
-          "en": null,
-          "th": null
-        },
-        "postscript_translations": {
-          "en": "For more information and the latest availability, please refer to the reservation system.",
-          "th": "สำหรับข้อมูลเพิ่มเติมและจำนวนที่ว่างล่าสุด โปรดดูที่ระบบการจอง"
-        }
+        "links_inline": false
       },
       "links": [
         "{{LINK_SCHEDULE}}"
@@ -1725,26 +1640,9 @@
         "未成年保險"
       ],
       "answer_template": {
-        "summary": "我們強烈建議您「先預約教練，再訂機票住宿」。尤其是在旺季，優質的中文教練非常搶手，時常比機票或住宿更早被預約一空。",
-        "details": "先確認預約到您想要的教練與時段後，再進行後續的旅遊安排，行程會比較有保障。",
-        "tip": "旺季期間建議提早 2-3 個月預約，以確保能選擇理想的教練與時段。",
+        "text": "15歲以下無身故理賠，提供20萬實支實付醫療保障與1萬美元緊急救援補償。",
         "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
-        "summary_translations": {
-          "en": "We strongly recommend that you \"book your coach first, then book your flights and accommodation.\" Especially during peak season, high-quality Chinese coaches are in high demand and are often fully booked earlier than flights or accommodation.",
-          "th": "เราขอแนะนำอย่างยิ่งให้คุณ \"จองโค้ชก่อน แล้วค่อยจองตั๋วเครื่องบินและที่พัก\" โดยเฉพาะอย่างยิ่งในช่วงฤดูท่องเที่ยว โค้ชภาษาจีนที่มีคุณภาพเป็นที่ต้องการอย่างมาก และมักจะถูกจองเต็มเร็วกว่าตั๋วเครื่องบินหรือที่พัก"
-        },
-        "details_translations": {
-          "en": null,
-          "th": null
-        },
-        "tip_translations": {
-          "en": null,
-          "th": null
-        },
-        "postscript_translations": {
-          "en": "For more information and the latest availability, please refer to the reservation system.",
-          "th": "สำหรับข้อมูลเพิ่มเติมและจำนวนที่ว่างล่าสุด โปรดดูที่ระบบการจอง"
-        }
+        "links_inline": false
       },
       "links": [
         "{{LINK_SCHEDULE}}"
@@ -1857,26 +1755,9 @@
         "雪具租借"
       ],
       "answer_template": {
-        "summary": "我們強烈建議您「先預約教練，再訂機票住宿」。尤其是在旺季，優質的中文教練非常搶手，時常比機票或住宿更早被預約一空。",
-        "details": "先確認預約到您想要的教練與時段後，再進行後續的旅遊安排，行程會比較有保障。",
-        "tip": "旺季期間建議提早 2-3 個月預約，以確保能選擇理想的教練與時段。",
+        "text": "雪衣、雪褲、手套、雪襪、毛帽、雪鏡、護具（護臀、護膝、護腕）、防曬用品、保暖衣物、水壺、零食。建議洋蔥式穿法，方便穿脫。雪具（雪板、雪鞋）可於雪場租借。",
         "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
-        "summary_translations": {
-          "en": "We strongly recommend that you \"book your coach first, then book your flights and accommodation.\" Especially during peak season, high-quality Chinese coaches are in high demand and are often fully booked earlier than flights or accommodation.",
-          "th": "เราขอแนะนำอย่างยิ่งให้คุณ \"จองโค้ชก่อน แล้วค่อยจองตั๋วเครื่องบินและที่พัก\" โดยเฉพาะอย่างยิ่งในช่วงฤดูท่องเที่ยว โค้ชภาษาจีนที่มีคุณภาพเป็นที่ต้องการอย่างมาก และมักจะถูกจองเต็มเร็วกว่าตั๋วเครื่องบินหรือที่พัก"
-        },
-        "details_translations": {
-          "en": null,
-          "th": null
-        },
-        "tip_translations": {
-          "en": null,
-          "th": null
-        },
-        "postscript_translations": {
-          "en": "For more information and the latest availability, please refer to the reservation system.",
-          "th": "สำหรับข้อมูลเพิ่มเติมและจำนวนที่ว่างล่าสุด โปรดดูที่ระบบการจอง"
-        }
+        "links_inline": false
       },
       "links": [
         "{{LINK_SCHEDULE}}"
@@ -1989,26 +1870,9 @@
         "兒童課程"
       ],
       "answer_template": {
-        "summary": "我們強烈建議您「先預約教練，再訂機票住宿」。尤其是在旺季，優質的中文教練非常搶手，時常比機票或住宿更早被預約一空。",
-        "details": "先確認預約到您想要的教練與時段後，再進行後續的旅遊安排，行程會比較有保障。",
-        "tip": "旺季期間建議提早 2-3 個月預約，以確保能選擇理想的教練與時段。",
+        "text": "可以。但請家長務必與教練保持適當距離，避免影響教學或造成安全疑慮。若需跟拍，請注意自身與他人的安全。",
         "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
-        "summary_translations": {
-          "en": "We strongly recommend that you \"book your coach first, then book your flights and accommodation.\" Especially during peak season, high-quality Chinese coaches are in high demand and are often fully booked earlier than flights or accommodation.",
-          "th": "เราขอแนะนำอย่างยิ่งให้คุณ \"จองโค้ชก่อน แล้วค่อยจองตั๋วเครื่องบินและที่พัก\" โดยเฉพาะอย่างยิ่งในช่วงฤดูท่องเที่ยว โค้ชภาษาจีนที่มีคุณภาพเป็นที่ต้องการอย่างมาก และมักจะถูกจองเต็มเร็วกว่าตั๋วเครื่องบินหรือที่พัก"
-        },
-        "details_translations": {
-          "en": null,
-          "th": null
-        },
-        "tip_translations": {
-          "en": null,
-          "th": null
-        },
-        "postscript_translations": {
-          "en": "For more information and the latest availability, please refer to the reservation system.",
-          "th": "สำหรับข้อมูลเพิ่มเติมและจำนวนที่ว่างล่าสุด โปรดดูที่ระบบการจอง"
-        }
+        "links_inline": false
       },
       "links": [
         "{{LINK_SCHEDULE}}"
@@ -2123,26 +1987,9 @@
         "指定教練"
       ],
       "answer_template": {
-        "summary": "我們強烈建議您「先預約教練，再訂機票住宿」。尤其是在旺季，優質的中文教練非常搶手，時常比機票或住宿更早被預約一空。",
-        "details": "先確認預約到您想要的教練與時段後，再進行後續的旅遊安排，行程會比較有保障。",
-        "tip": "旺季期間建議提早 2-3 個月預約，以確保能選擇理想的教練與時段。",
+        "text": "可以，但我們更建議盡量跟隨同一位教練上課。因為教練最了解您的學習進度與狀況，能提供連貫性的指導，學習效果會是最好的。您可以在預約系統的篩選器中「指定特定教練」，來查看他所有可預約的時段。",
         "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
-        "summary_translations": {
-          "en": "We strongly recommend that you \"book your coach first, then book your flights and accommodation.\" Especially during peak season, high-quality Chinese coaches are in high demand and are often fully booked earlier than flights or accommodation.",
-          "th": "เราขอแนะนำอย่างยิ่งให้คุณ \"จองโค้ชก่อน แล้วค่อยจองตั๋วเครื่องบินและที่พัก\" โดยเฉพาะอย่างยิ่งในช่วงฤดูท่องเที่ยว โค้ชภาษาจีนที่มีคุณภาพเป็นที่ต้องการอย่างมาก และมักจะถูกจองเต็มเร็วกว่าตั๋วเครื่องบินหรือที่พัก"
-        },
-        "details_translations": {
-          "en": null,
-          "th": null
-        },
-        "tip_translations": {
-          "en": null,
-          "th": null
-        },
-        "postscript_translations": {
-          "en": "For more information and the latest availability, please refer to the reservation system.",
-          "th": "สำหรับข้อมูลเพิ่มเติมและจำนวนที่ว่างล่าสุด โปรดดูที่ระบบการจอง"
-        }
+        "links_inline": false
       },
       "links": [
         "{{LINK_SCHEDULE}}"
@@ -2259,26 +2106,9 @@
         "替代教練"
       ],
       "answer_template": {
-        "summary": "我們強烈建議您「先預約教練，再訂機票住宿」。尤其是在旺季，優質的中文教練非常搶手，時常比機票或住宿更早被預約一空。",
-        "details": "先確認預約到您想要的教練與時段後，再進行後續的旅遊安排，行程會比較有保障。",
-        "tip": "旺季期間建議提早 2-3 個月預約，以確保能選擇理想的教練與時段。",
+        "text": "我們平台的所有教練都必須持有有效的國際滑雪指導員執照。在極少數情況下，若您預約的教練因緊急狀況無法授課，我們會在第一時間通知您，並安排「同等級或更高等級」的合格教練替代。任何教練的更換，我們都會事先與您溝通並取得您的同意。",
         "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
-        "summary_translations": {
-          "en": "We strongly recommend that you \"book your coach first, then book your flights and accommodation.\" Especially during peak season, high-quality Chinese coaches are in high demand and are often fully booked earlier than flights or accommodation.",
-          "th": "เราขอแนะนำอย่างยิ่งให้คุณ \"จองโค้ชก่อน แล้วค่อยจองตั๋วเครื่องบินและที่พัก\" โดยเฉพาะอย่างยิ่งในช่วงฤดูท่องเที่ยว โค้ชภาษาจีนที่มีคุณภาพเป็นที่ต้องการอย่างมาก และมักจะถูกจองเต็มเร็วกว่าตั๋วเครื่องบินหรือที่พัก"
-        },
-        "details_translations": {
-          "en": null,
-          "th": null
-        },
-        "tip_translations": {
-          "en": null,
-          "th": null
-        },
-        "postscript_translations": {
-          "en": "For more information and the latest availability, please refer to the reservation system.",
-          "th": "สำหรับข้อมูลเพิ่มเติมและจำนวนที่ว่างล่าสุด โปรดดูที่ระบบการจอง"
-        }
+        "links_inline": false
       },
       "links": [
         "{{LINK_SCHEDULE}}"
@@ -2450,26 +2280,9 @@
         ]
       },
       "answer_template": {
-        "summary": "我們強烈建議您「先預約教練，再訂機票住宿」。尤其是在旺季，優質的中文教練非常搶手，時常比機票或住宿更早被預約一空。",
-        "details": "先確認預約到您想要的教練與時段後，再進行後續的旅遊安排，行程會比較有保障。",
-        "tip": "旺季期間建議提早 2-3 個月預約，以確保能選擇理想的教練與時段。",
+        "text": "部分教練，特別是需要從較遠地區移動至該雪場的教練，可能會設定最少課程預約時數，以符合交通與時間成本。這是教練個人的設定，我們平台會尊重教練的開課條件。因此，若您希望預約該教練，建議您能滿足其最低預約要求，或選擇其他沒有此限制的教練。",
         "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
-        "summary_translations": {
-          "en": "We strongly recommend that you \"book your coach first, then book your flights and accommodation.\" Especially during peak season, high-quality Chinese coaches are in high demand and are often fully booked earlier than flights or accommodation.",
-          "th": "เราขอแนะนำอย่างยิ่งให้คุณ \"จองโค้ชก่อน แล้วค่อยจองตั๋วเครื่องบินและที่พัก\" โดยเฉพาะอย่างยิ่งในช่วงฤดูท่องเที่ยว โค้ชภาษาจีนที่มีคุณภาพเป็นที่ต้องการอย่างมาก และมักจะถูกจองเต็มเร็วกว่าตั๋วเครื่องบินหรือที่พัก"
-        },
-        "details_translations": {
-          "en": null,
-          "th": null
-        },
-        "tip_translations": {
-          "en": null,
-          "th": null
-        },
-        "postscript_translations": {
-          "en": "For more information and the latest availability, please refer to the reservation system.",
-          "th": "สำหรับข้อมูลเพิ่มเติมและจำนวนที่ว่างล่าสุด โปรดดูที่ระบบการจอง"
-        }
+        "links_inline": false
       },
       "answer_template_translations": {
         "summary_translations": {
@@ -2547,26 +2360,9 @@
         "課程人數限制"
       ],
       "answer_template": {
-        "summary": "我們強烈建議您「先預約教練，再訂機票住宿」。尤其是在旺季，優質的中文教練非常搶手，時常比機票或住宿更早被預約一空。",
-        "details": "先確認預約到您想要的教練與時段後，再進行後續的旅遊安排，行程會比較有保障。",
-        "tip": "旺季期間建議提早 2-3 個月預約，以確保能選擇理想的教練與時段。",
+        "text": "為確保教學品質與安全，一位教練最多可帶 4 位學員。若超過 4 位，建議加開課程或分組進行。",
         "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
-        "summary_translations": {
-          "en": "We strongly recommend that you \"book your coach first, then book your flights and accommodation.\" Especially during peak season, high-quality Chinese coaches are in high demand and are often fully booked earlier than flights or accommodation.",
-          "th": "เราขอแนะนำอย่างยิ่งให้คุณ \"จองโค้ชก่อน แล้วค่อยจองตั๋วเครื่องบินและที่พัก\" โดยเฉพาะอย่างยิ่งในช่วงฤดูท่องเที่ยว โค้ชภาษาจีนที่มีคุณภาพเป็นที่ต้องการอย่างมาก และมักจะถูกจองเต็มเร็วกว่าตั๋วเครื่องบินหรือที่พัก"
-        },
-        "details_translations": {
-          "en": null,
-          "th": null
-        },
-        "tip_translations": {
-          "en": null,
-          "th": null
-        },
-        "postscript_translations": {
-          "en": "For more information and the latest availability, please refer to the reservation system.",
-          "th": "สำหรับข้อมูลเพิ่มเติมและจำนวนที่ว่างล่าสุด โปรดดูที่ระบบการจอง"
-        }
+        "links_inline": false
       },
       "links": [
         "{{LINK_SCHEDULE}}"
@@ -2717,26 +2513,9 @@
         ]
       },
       "answer_template": {
-        "summary": "我們強烈建議您「先預約教練，再訂機票住宿」。尤其是在旺季，優質的中文教練非常搶手，時常比機票或住宿更早被預約一空。",
-        "details": "先確認預約到您想要的教練與時段後，再進行後續的旅遊安排，行程會比較有保障。",
-        "tip": "旺季期間建議提早 2-3 個月預約，以確保能選擇理想的教練與時段。",
+        "text": "從穿脫裝備、基礎姿勢、平地行走、跌倒與站起，到轉彎與煞車技巧，會依學員程度量身調整。",
         "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
-        "summary_translations": {
-          "en": "We strongly recommend that you \"book your coach first, then book your flights and accommodation.\" Especially during peak season, high-quality Chinese coaches are in high demand and are often fully booked earlier than flights or accommodation.",
-          "th": "เราขอแนะนำอย่างยิ่งให้คุณ \"จองโค้ชก่อน แล้วค่อยจองตั๋วเครื่องบินและที่พัก\" โดยเฉพาะอย่างยิ่งในช่วงฤดูท่องเที่ยว โค้ชภาษาจีนที่มีคุณภาพเป็นที่ต้องการอย่างมาก และมักจะถูกจองเต็มเร็วกว่าตั๋วเครื่องบินหรือที่พัก"
-        },
-        "details_translations": {
-          "en": null,
-          "th": null
-        },
-        "tip_translations": {
-          "en": null,
-          "th": null
-        },
-        "postscript_translations": {
-          "en": "For more information and the latest availability, please refer to the reservation system.",
-          "th": "สำหรับข้อมูลเพิ่มเติมและจำนวนที่ว่างล่าสุด โปรดดูที่ระบบการจอง"
-        }
+        "links_inline": false
       },
       "answer_template_translations": {
         "summary_translations": {
@@ -2849,26 +2628,9 @@
         ]
       },
       "answer_template": {
-        "summary": "我們強烈建議您「先預約教練，再訂機票住宿」。尤其是在旺季，優質的中文教練非常搶手，時常比機票或住宿更早被預約一空。",
-        "details": "先確認預約到您想要的教練與時段後，再進行後續的旅遊安排，行程會比較有保障。",
-        "tip": "旺季期間建議提早 2-3 個月預約，以確保能選擇理想的教練與時段。",
+        "text": "若久未滑雪或技巧不確定，建議可先上初學課讓教練評估與調整。",
         "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
-        "summary_translations": {
-          "en": "We strongly recommend that you \"book your coach first, then book your flights and accommodation.\" Especially during peak season, high-quality Chinese coaches are in high demand and are often fully booked earlier than flights or accommodation.",
-          "th": "เราขอแนะนำอย่างยิ่งให้คุณ \"จองโค้ชก่อน แล้วค่อยจองตั๋วเครื่องบินและที่พัก\" โดยเฉพาะอย่างยิ่งในช่วงฤดูท่องเที่ยว โค้ชภาษาจีนที่มีคุณภาพเป็นที่ต้องการอย่างมาก และมักจะถูกจองเต็มเร็วกว่าตั๋วเครื่องบินหรือที่พัก"
-        },
-        "details_translations": {
-          "en": null,
-          "th": null
-        },
-        "tip_translations": {
-          "en": null,
-          "th": null
-        },
-        "postscript_translations": {
-          "en": "For more information and the latest availability, please refer to the reservation system.",
-          "th": "สำหรับข้อมูลเพิ่มเติมและจำนวนที่ว่างล่าสุด โปรดดูที่ระบบการจอง"
-        }
+        "links_inline": false
       },
       "answer_template_translations": {
         "summary_translations": {
@@ -2975,26 +2737,9 @@
         ]
       },
       "answer_template": {
-        "summary": "我們強烈建議您「先預約教練，再訂機票住宿」。尤其是在旺季，優質的中文教練非常搶手，時常比機票或住宿更早被預約一空。",
-        "details": "先確認預約到您想要的教練與時段後，再進行後續的旅遊安排，行程會比較有保障。",
-        "tip": "旺季期間建議提早 2-3 個月預約，以確保能選擇理想的教練與時段。",
+        "text": "集合地點會依各滑雪場有所不同，請於預約後參考網站說明或與教練確認。",
         "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
-        "summary_translations": {
-          "en": "We strongly recommend that you \"book your coach first, then book your flights and accommodation.\" Especially during peak season, high-quality Chinese coaches are in high demand and are often fully booked earlier than flights or accommodation.",
-          "th": "เราขอแนะนำอย่างยิ่งให้คุณ \"จองโค้ชก่อน แล้วค่อยจองตั๋วเครื่องบินและที่พัก\" โดยเฉพาะอย่างยิ่งในช่วงฤดูท่องเที่ยว โค้ชภาษาจีนที่มีคุณภาพเป็นที่ต้องการอย่างมาก และมักจะถูกจองเต็มเร็วกว่าตั๋วเครื่องบินหรือที่พัก"
-        },
-        "details_translations": {
-          "en": null,
-          "th": null
-        },
-        "tip_translations": {
-          "en": null,
-          "th": null
-        },
-        "postscript_translations": {
-          "en": "For more information and the latest availability, please refer to the reservation system.",
-          "th": "สำหรับข้อมูลเพิ่มเติมและจำนวนที่ว่างล่าสุด โปรดดูที่ระบบการจอง"
-        }
+        "links_inline": false
       },
       "answer_template_translations": {
         "summary_translations": {
@@ -3113,26 +2858,9 @@
         ]
       },
       "answer_template": {
-        "summary": "我們強烈建議您「先預約教練，再訂機票住宿」。尤其是在旺季，優質的中文教練非常搶手，時常比機票或住宿更早被預約一空。",
-        "details": "先確認預約到您想要的教練與時段後，再進行後續的旅遊安排，行程會比較有保障。",
-        "tip": "旺季期間建議提早 2-3 個月預約，以確保能選擇理想的教練與時段。",
+        "text": "是的，我們的教練皆持有國際滑雪證照，如：\n\n* 紐西蘭滑雪指導員協會 (NZSIA)  \n* 加拿大滑雪指導員聯盟 (CASI)  \n* 美國滑雪指導員協會 (PSIA)\n\n我們要求教練需具備有效證照並參與定期升級，例如 Level 2 或 Level 3 考試",
         "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
-        "summary_translations": {
-          "en": "We strongly recommend that you \"book your coach first, then book your flights and accommodation.\" Especially during peak season, high-quality Chinese coaches are in high demand and are often fully booked earlier than flights or accommodation.",
-          "th": "เราขอแนะนำอย่างยิ่งให้คุณ \"จองโค้ชก่อน แล้วค่อยจองตั๋วเครื่องบินและที่พัก\" โดยเฉพาะอย่างยิ่งในช่วงฤดูท่องเที่ยว โค้ชภาษาจีนที่มีคุณภาพเป็นที่ต้องการอย่างมาก และมักจะถูกจองเต็มเร็วกว่าตั๋วเครื่องบินหรือที่พัก"
-        },
-        "details_translations": {
-          "en": null,
-          "th": null
-        },
-        "tip_translations": {
-          "en": null,
-          "th": null
-        },
-        "postscript_translations": {
-          "en": "For more information and the latest availability, please refer to the reservation system.",
-          "th": "สำหรับข้อมูลเพิ่มเติมและจำนวนที่ว่างล่าสุด โปรดดูที่ระบบการจอง"
-        }
+        "links_inline": false
       },
       "answer_template_translations": {
         "summary_translations": {
@@ -3245,26 +2973,9 @@
         ]
       },
       "answer_template": {
-        "summary": "我們強烈建議您「先預約教練，再訂機票住宿」。尤其是在旺季，優質的中文教練非常搶手，時常比機票或住宿更早被預約一空。",
-        "details": "先確認預約到您想要的教練與時段後，再進行後續的旅遊安排，行程會比較有保障。",
-        "tip": "旺季期間建議提早 2-3 個月預約，以確保能選擇理想的教練與時段。",
+        "text": "有，我們教練有豐富的兒童教學經驗，也熟悉年長者學習步調。對於學習進度差異大的學生，建議分開上課以利教學品質。",
         "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
-        "summary_translations": {
-          "en": "We strongly recommend that you \"book your coach first, then book your flights and accommodation.\" Especially during peak season, high-quality Chinese coaches are in high demand and are often fully booked earlier than flights or accommodation.",
-          "th": "เราขอแนะนำอย่างยิ่งให้คุณ \"จองโค้ชก่อน แล้วค่อยจองตั๋วเครื่องบินและที่พัก\" โดยเฉพาะอย่างยิ่งในช่วงฤดูท่องเที่ยว โค้ชภาษาจีนที่มีคุณภาพเป็นที่ต้องการอย่างมาก และมักจะถูกจองเต็มเร็วกว่าตั๋วเครื่องบินหรือที่พัก"
-        },
-        "details_translations": {
-          "en": null,
-          "th": null
-        },
-        "tip_translations": {
-          "en": null,
-          "th": null
-        },
-        "postscript_translations": {
-          "en": "For more information and the latest availability, please refer to the reservation system.",
-          "th": "สำหรับข้อมูลเพิ่มเติมและจำนวนที่ว่างล่าสุด โปรดดูที่ระบบการจอง"
-        }
+        "links_inline": false
       },
       "answer_template_translations": {
         "summary_translations": {
@@ -3371,26 +3082,9 @@
         ]
       },
       "answer_template": {
-        "summary": "我們強烈建議您「先預約教練，再訂機票住宿」。尤其是在旺季，優質的中文教練非常搶手，時常比機票或住宿更早被預約一空。",
-        "details": "先確認預約到您想要的教練與時段後，再進行後續的旅遊安排，行程會比較有保障。",
-        "tip": "旺季期間建議提早 2-3 個月預約，以確保能選擇理想的教練與時段。",
+        "text": "* 中文：所有教練皆為台灣人，中文流利  \n* 英文：皆具備基本英文教學能力，部分可全英文或廣東話授課  \n* 泰文：目前無提供",
         "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
-        "summary_translations": {
-          "en": "We strongly recommend that you \"book your coach first, then book your flights and accommodation.\" Especially during peak season, high-quality Chinese coaches are in high demand and are often fully booked earlier than flights or accommodation.",
-          "th": "เราขอแนะนำอย่างยิ่งให้คุณ \"จองโค้ชก่อน แล้วค่อยจองตั๋วเครื่องบินและที่พัก\" โดยเฉพาะอย่างยิ่งในช่วงฤดูท่องเที่ยว โค้ชภาษาจีนที่มีคุณภาพเป็นที่ต้องการอย่างมาก และมักจะถูกจองเต็มเร็วกว่าตั๋วเครื่องบินหรือที่พัก"
-        },
-        "details_translations": {
-          "en": null,
-          "th": null
-        },
-        "tip_translations": {
-          "en": null,
-          "th": null
-        },
-        "postscript_translations": {
-          "en": "For more information and the latest availability, please refer to the reservation system.",
-          "th": "สำหรับข้อมูลเพิ่มเติมและจำนวนที่ว่างล่าสุด โปรดดูที่ระบบการจอง"
-        }
+        "links_inline": false
       },
       "answer_template_translations": {
         "summary_translations": {
@@ -3497,26 +3191,9 @@
         ]
       },
       "answer_template": {
-        "summary": "我們強烈建議您「先預約教練，再訂機票住宿」。尤其是在旺季，優質的中文教練非常搶手，時常比機票或住宿更早被預約一空。",
-        "details": "先確認預約到您想要的教練與時段後，再進行後續的旅遊安排，行程會比較有保障。",
-        "tip": "旺季期間建議提早 2-3 個月預約，以確保能選擇理想的教練與時段。",
+        "text": "教練皆具備處理各種程度學員的能力，會根據您的程度調整內容與場地。教學理念與履歷可參考教練介紹頁面。",
         "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
-        "summary_translations": {
-          "en": "We strongly recommend that you \"book your coach first, then book your flights and accommodation.\" Especially during peak season, high-quality Chinese coaches are in high demand and are often fully booked earlier than flights or accommodation.",
-          "th": "เราขอแนะนำอย่างยิ่งให้คุณ \"จองโค้ชก่อน แล้วค่อยจองตั๋วเครื่องบินและที่พัก\" โดยเฉพาะอย่างยิ่งในช่วงฤดูท่องเที่ยว โค้ชภาษาจีนที่มีคุณภาพเป็นที่ต้องการอย่างมาก และมักจะถูกจองเต็มเร็วกว่าตั๋วเครื่องบินหรือที่พัก"
-        },
-        "details_translations": {
-          "en": null,
-          "th": null
-        },
-        "tip_translations": {
-          "en": null,
-          "th": null
-        },
-        "postscript_translations": {
-          "en": "For more information and the latest availability, please refer to the reservation system.",
-          "th": "สำหรับข้อมูลเพิ่มเติมและจำนวนที่ว่างล่าสุด โปรดดูที่ระบบการจอง"
-        }
+        "links_inline": false
       },
       "answer_template_translations": {
         "summary_translations": {
@@ -3650,26 +3327,9 @@
         ]
       },
       "answer_template": {
-        "summary": "我們強烈建議您「先預約教練，再訂機票住宿」。尤其是在旺季，優質的中文教練非常搶手，時常比機票或住宿更早被預約一空。",
-        "details": "先確認預約到您想要的教練與時段後，再進行後續的旅遊安排，行程會比較有保障。",
-        "tip": "旺季期間建議提早 2-3 個月預約，以確保能選擇理想的教練與時段。",
+        "text": "可以。預約時可選擇指定教練，建議提早預約熱門時段。若無特定偏好，可選擇系統安排合適教練。",
         "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
-        "summary_translations": {
-          "en": "We strongly recommend that you \"book your coach first, then book your flights and accommodation.\" Especially during peak season, high-quality Chinese coaches are in high demand and are often fully booked earlier than flights or accommodation.",
-          "th": "เราขอแนะนำอย่างยิ่งให้คุณ \"จองโค้ชก่อน แล้วค่อยจองตั๋วเครื่องบินและที่พัก\" โดยเฉพาะอย่างยิ่งในช่วงฤดูท่องเที่ยว โค้ชภาษาจีนที่มีคุณภาพเป็นที่ต้องการอย่างมาก และมักจะถูกจองเต็มเร็วกว่าตั๋วเครื่องบินหรือที่พัก"
-        },
-        "details_translations": {
-          "en": null,
-          "th": null
-        },
-        "tip_translations": {
-          "en": null,
-          "th": null
-        },
-        "postscript_translations": {
-          "en": "For more information and the latest availability, please refer to the reservation system.",
-          "th": "สำหรับข้อมูลเพิ่มเติมและจำนวนที่ว่างล่าสุด โปรดดูที่ระบบการจอง"
-        }
+        "links_inline": false
       },
       "answer_template_translations": {
         "summary_translations": {
@@ -3803,26 +3463,9 @@
         ]
       },
       "answer_template": {
-        "summary": "我們強烈建議您「先預約教練，再訂機票住宿」。尤其是在旺季，優質的中文教練非常搶手，時常比機票或住宿更早被預約一空。",
-        "details": "先確認預約到您想要的教練與時段後，再進行後續的旅遊安排，行程會比較有保障。",
-        "tip": "旺季期間建議提早 2-3 個月預約，以確保能選擇理想的教練與時段。",
+        "text": "教練通常會於課程前七天主動聯繫您。如您希望更早聯絡，也可在預約時備註需求，我們將協助安排。",
         "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
-        "summary_translations": {
-          "en": "We strongly recommend that you \"book your coach first, then book your flights and accommodation.\" Especially during peak season, high-quality Chinese coaches are in high demand and are often fully booked earlier than flights or accommodation.",
-          "th": "เราขอแนะนำอย่างยิ่งให้คุณ \"จองโค้ชก่อน แล้วค่อยจองตั๋วเครื่องบินและที่พัก\" โดยเฉพาะอย่างยิ่งในช่วงฤดูท่องเที่ยว โค้ชภาษาจีนที่มีคุณภาพเป็นที่ต้องการอย่างมาก และมักจะถูกจองเต็มเร็วกว่าตั๋วเครื่องบินหรือที่พัก"
-        },
-        "details_translations": {
-          "en": null,
-          "th": null
-        },
-        "tip_translations": {
-          "en": null,
-          "th": null
-        },
-        "postscript_translations": {
-          "en": "For more information and the latest availability, please refer to the reservation system.",
-          "th": "สำหรับข้อมูลเพิ่มเติมและจำนวนที่ว่างล่าสุด โปรดดูที่ระบบการจอง"
-        }
+        "links_inline": false
       },
       "answer_template_translations": {
         "summary_translations": {
@@ -3929,26 +3572,9 @@
         ]
       },
       "answer_template": {
-        "summary": "我們強烈建議您「先預約教練，再訂機票住宿」。尤其是在旺季，優質的中文教練非常搶手，時常比機票或住宿更早被預約一空。",
-        "details": "先確認預約到您想要的教練與時段後，再進行後續的旅遊安排，行程會比較有保障。",
-        "tip": "旺季期間建議提早 2-3 個月預約，以確保能選擇理想的教練與時段。",
+        "text": "預約成功後系統會寄出通知信，教練會依照訂單上的主要聯絡資訊與您聯繫，並於上課前確認集合地點與時間，請確保您的 Email 正確且能聯絡到您。",
         "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
-        "summary_translations": {
-          "en": "We strongly recommend that you \"book your coach first, then book your flights and accommodation.\" Especially during peak season, high-quality Chinese coaches are in high demand and are often fully booked earlier than flights or accommodation.",
-          "th": "เราขอแนะนำอย่างยิ่งให้คุณ \"จองโค้ชก่อน แล้วค่อยจองตั๋วเครื่องบินและที่พัก\" โดยเฉพาะอย่างยิ่งในช่วงฤดูท่องเที่ยว โค้ชภาษาจีนที่มีคุณภาพเป็นที่ต้องการอย่างมาก และมักจะถูกจองเต็มเร็วกว่าตั๋วเครื่องบินหรือที่พัก"
-        },
-        "details_translations": {
-          "en": null,
-          "th": null
-        },
-        "tip_translations": {
-          "en": null,
-          "th": null
-        },
-        "postscript_translations": {
-          "en": "For more information and the latest availability, please refer to the reservation system.",
-          "th": "สำหรับข้อมูลเพิ่มเติมและจำนวนที่ว่างล่าสุด โปรดดูที่ระบบการจอง"
-        }
+        "links_inline": false
       },
       "answer_template_translations": {
         "summary_translations": {
@@ -4082,26 +3708,9 @@
         ]
       },
       "answer_template": {
-        "summary": "我們強烈建議您「先預約教練，再訂機票住宿」。尤其是在旺季，優質的中文教練非常搶手，時常比機票或住宿更早被預約一空。",
-        "details": "先確認預約到您想要的教練與時段後，再進行後續的旅遊安排，行程會比較有保障。",
-        "tip": "旺季期間建議提早 2-3 個月預約，以確保能選擇理想的教練與時段。",
+        "text": "可參考：\n\n教練個人介紹頁面：含證照、理念、風格、照片與影片\n\nFacebook社團：可加入「Skidiy日本自助滑雪討論區」，查看學員分享的心得與教練評價\n\n教學紀錄：部分教練會附上教學影片連結",
         "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
-        "summary_translations": {
-          "en": "We strongly recommend that you \"book your coach first, then book your flights and accommodation.\" Especially during peak season, high-quality Chinese coaches are in high demand and are often fully booked earlier than flights or accommodation.",
-          "th": "เราขอแนะนำอย่างยิ่งให้คุณ \"จองโค้ชก่อน แล้วค่อยจองตั๋วเครื่องบินและที่พัก\" โดยเฉพาะอย่างยิ่งในช่วงฤดูท่องเที่ยว โค้ชภาษาจีนที่มีคุณภาพเป็นที่ต้องการอย่างมาก และมักจะถูกจองเต็มเร็วกว่าตั๋วเครื่องบินหรือที่พัก"
-        },
-        "details_translations": {
-          "en": null,
-          "th": null
-        },
-        "tip_translations": {
-          "en": null,
-          "th": null
-        },
-        "postscript_translations": {
-          "en": "For more information and the latest availability, please refer to the reservation system.",
-          "th": "สำหรับข้อมูลเพิ่มเติมและจำนวนที่ว่างล่าสุด โปรดดูที่ระบบการจอง"
-        }
+        "links_inline": false
       },
       "answer_template_translations": {
         "summary_translations": {
@@ -4235,26 +3844,9 @@
         ]
       },
       "answer_template": {
-        "summary": "我們強烈建議您「先預約教練，再訂機票住宿」。尤其是在旺季，優質的中文教練非常搶手，時常比機票或住宿更早被預約一空。",
-        "details": "先確認預約到您想要的教練與時段後，再進行後續的旅遊安排，行程會比較有保障。",
-        "tip": "旺季期間建議提早 2-3 個月預約，以確保能選擇理想的教練與時段。",
+        "text": "可以的。若您想更換課程項目，請盡早透過 Email 或官方聯繫方式通知我們客服人員，並提供您的訂單編號。我們將為您查詢原教練是否同時具備您想更換的項目之教學資格。若原教練無法配合，我們將會為您協調其他教練，或提供其他可行的方案。",
         "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
-        "summary_translations": {
-          "en": "We strongly recommend that you \"book your coach first, then book your flights and accommodation.\" Especially during peak season, high-quality Chinese coaches are in high demand and are often fully booked earlier than flights or accommodation.",
-          "th": "เราขอแนะนำอย่างยิ่งให้คุณ \"จองโค้ชก่อน แล้วค่อยจองตั๋วเครื่องบินและที่พัก\" โดยเฉพาะอย่างยิ่งในช่วงฤดูท่องเที่ยว โค้ชภาษาจีนที่มีคุณภาพเป็นที่ต้องการอย่างมาก และมักจะถูกจองเต็มเร็วกว่าตั๋วเครื่องบินหรือที่พัก"
-        },
-        "details_translations": {
-          "en": null,
-          "th": null
-        },
-        "tip_translations": {
-          "en": null,
-          "th": null
-        },
-        "postscript_translations": {
-          "en": "For more information and the latest availability, please refer to the reservation system.",
-          "th": "สำหรับข้อมูลเพิ่มเติมและจำนวนที่ว่างล่าสุด โปรดดูที่ระบบการจอง"
-        }
+        "links_inline": false
       },
       "answer_template_translations": {
         "summary_translations": {
@@ -4388,26 +3980,9 @@
         ]
       },
       "answer_template": {
-        "summary": "我們強烈建議您「先預約教練，再訂機票住宿」。尤其是在旺季，優質的中文教練非常搶手，時常比機票或住宿更早被預約一空。",
-        "details": "先確認預約到您想要的教練與時段後，再進行後續的旅遊安排，行程會比較有保障。",
-        "tip": "旺季期間建議提早 2-3 個月預約，以確保能選擇理想的教練與時段。",
+        "text": "若要更改已確認的課程日期或時間，請您盡快與我們的客服聯繫。我們將會為您詢問原教練在新的時段是否仍有空檔。如果教練可以配合，我們將為您修改訂單。如果教練無法配合，我們會嘗試為您協調其他教練，或者您也可以選擇依照我們的取消政策來處理原訂單。",
         "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
-        "summary_translations": {
-          "en": "We strongly recommend that you \"book your coach first, then book your flights and accommodation.\" Especially during peak season, high-quality Chinese coaches are in high demand and are often fully booked earlier than flights or accommodation.",
-          "th": "เราขอแนะนำอย่างยิ่งให้คุณ \"จองโค้ชก่อน แล้วค่อยจองตั๋วเครื่องบินและที่พัก\" โดยเฉพาะอย่างยิ่งในช่วงฤดูท่องเที่ยว โค้ชภาษาจีนที่มีคุณภาพเป็นที่ต้องการอย่างมาก และมักจะถูกจองเต็มเร็วกว่าตั๋วเครื่องบินหรือที่พัก"
-        },
-        "details_translations": {
-          "en": null,
-          "th": null
-        },
-        "tip_translations": {
-          "en": null,
-          "th": null
-        },
-        "postscript_translations": {
-          "en": "For more information and the latest availability, please refer to the reservation system.",
-          "th": "สำหรับข้อมูลเพิ่มเติมและจำนวนที่ว่างล่าสุด โปรดดูที่ระบบการจอง"
-        }
+        "links_inline": false
       },
       "answer_template_translations": {
         "summary_translations": {
@@ -4514,26 +4089,9 @@
         ]
       },
       "answer_template": {
-        "summary": "我們強烈建議您「先預約教練，再訂機票住宿」。尤其是在旺季，優質的中文教練非常搶手，時常比機票或住宿更早被預約一空。",
-        "details": "先確認預約到您想要的教練與時段後，再進行後續的旅遊安排，行程會比較有保障。",
-        "tip": "旺季期間建議提早 2-3 個月預約，以確保能選擇理想的教練與時段。",
+        "text": "依情況而定。若您想增加或減少人數，請直接在後台訂單選擇，系統將自動重新計算費用。若您想「增加」堂數但要合併在同一個訂單，最快的方式是請您「自行取消原訂單，然後重新預約一個正確內容的新訂單」。因為這涉及到費用重新計算與金流，取消重訂能確保您的費用正確無誤。只要符合我們的退訂政策，取消是不會收取額外費用的。若要「減少」堂數請直接連繫客服處理。\n\n您可在 [LINK:LINK_ORDER_LIST|訂單查詢] 頁面檢視您的訂單。",
         "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
-        "summary_translations": {
-          "en": "We strongly recommend that you \"book your coach first, then book your flights and accommodation.\" Especially during peak season, high-quality Chinese coaches are in high demand and are often fully booked earlier than flights or accommodation.",
-          "th": "เราขอแนะนำอย่างยิ่งให้คุณ \"จองโค้ชก่อน แล้วค่อยจองตั๋วเครื่องบินและที่พัก\" โดยเฉพาะอย่างยิ่งในช่วงฤดูท่องเที่ยว โค้ชภาษาจีนที่มีคุณภาพเป็นที่ต้องการอย่างมาก และมักจะถูกจองเต็มเร็วกว่าตั๋วเครื่องบินหรือที่พัก"
-        },
-        "details_translations": {
-          "en": null,
-          "th": null
-        },
-        "tip_translations": {
-          "en": null,
-          "th": null
-        },
-        "postscript_translations": {
-          "en": "For more information and the latest availability, please refer to the reservation system.",
-          "th": "สำหรับข้อมูลเพิ่มเติมและจำนวนที่ว่างล่าสุด โปรดดูที่ระบบการจอง"
-        }
+        "links_inline": false
       },
       "answer_template_translations": {
         "summary_translations": {
@@ -4667,26 +4225,9 @@
         ]
       },
       "answer_template": {
-        "summary": "我們強烈建議您「先預約教練，再訂機票住宿」。尤其是在旺季，優質的中文教練非常搶手，時常比機票或住宿更早被預約一空。",
-        "details": "先確認預約到您想要的教練與時段後，再進行後續的旅遊安排，行程會比較有保障。",
-        "tip": "旺季期間建議提早 2-3 個月預約，以確保能選擇理想的教練與時段。",
+        "text": "可以。預約成功後訂單可以修改。建議先預約原始人數，方便保險填寫名單（四天滑雪保險）。在開課前增加學員，請務必在課程開始前補齊新學員的保險資料，以確保課程當日保險生效。",
         "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
-        "summary_translations": {
-          "en": "We strongly recommend that you \"book your coach first, then book your flights and accommodation.\" Especially during peak season, high-quality Chinese coaches are in high demand and are often fully booked earlier than flights or accommodation.",
-          "th": "เราขอแนะนำอย่างยิ่งให้คุณ \"จองโค้ชก่อน แล้วค่อยจองตั๋วเครื่องบินและที่พัก\" โดยเฉพาะอย่างยิ่งในช่วงฤดูท่องเที่ยว โค้ชภาษาจีนที่มีคุณภาพเป็นที่ต้องการอย่างมาก และมักจะถูกจองเต็มเร็วกว่าตั๋วเครื่องบินหรือที่พัก"
-        },
-        "details_translations": {
-          "en": null,
-          "th": null
-        },
-        "tip_translations": {
-          "en": null,
-          "th": null
-        },
-        "postscript_translations": {
-          "en": "For more information and the latest availability, please refer to the reservation system.",
-          "th": "สำหรับข้อมูลเพิ่มเติมและจำนวนที่ว่างล่าสุด โปรดดูที่ระบบการจอง"
-        }
+        "links_inline": false
       },
       "answer_template_translations": {
         "summary_translations": {
@@ -4812,26 +4353,9 @@
         ]
       },
       "answer_template": {
-        "summary": "我們強烈建議您「先預約教練，再訂機票住宿」。尤其是在旺季，優質的中文教練非常搶手，時常比機票或住宿更早被預約一空。",
-        "details": "先確認預約到您想要的教練與時段後，再進行後續的旅遊安排，行程會比較有保障。",
-        "tip": "旺季期間建議提早 2-3 個月預約，以確保能選擇理想的教練與時段。",
+        "text": "是的。前一天可修改人數；若為當天更改，須透過後台手動處理，請提前告知教練。",
         "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
-        "summary_translations": {
-          "en": "We strongly recommend that you \"book your coach first, then book your flights and accommodation.\" Especially during peak season, high-quality Chinese coaches are in high demand and are often fully booked earlier than flights or accommodation.",
-          "th": "เราขอแนะนำอย่างยิ่งให้คุณ \"จองโค้ชก่อน แล้วค่อยจองตั๋วเครื่องบินและที่พัก\" โดยเฉพาะอย่างยิ่งในช่วงฤดูท่องเที่ยว โค้ชภาษาจีนที่มีคุณภาพเป็นที่ต้องการอย่างมาก และมักจะถูกจองเต็มเร็วกว่าตั๋วเครื่องบินหรือที่พัก"
-        },
-        "details_translations": {
-          "en": null,
-          "th": null
-        },
-        "tip_translations": {
-          "en": null,
-          "th": null
-        },
-        "postscript_translations": {
-          "en": "For more information and the latest availability, please refer to the reservation system.",
-          "th": "สำหรับข้อมูลเพิ่มเติมและจำนวนที่ว่างล่าสุด โปรดดูที่ระบบการจอง"
-        }
+        "links_inline": false
       },
       "answer_template_translations": {
         "summary_translations": {
@@ -4944,26 +4468,9 @@
         ]
       },
       "answer_template": {
-        "summary": "我們強烈建議您「先預約教練，再訂機票住宿」。尤其是在旺季，優質的中文教練非常搶手，時常比機票或住宿更早被預約一空。",
-        "details": "先確認預約到您想要的教練與時段後，再進行後續的旅遊安排，行程會比較有保障。",
-        "tip": "旺季期間建議提早 2-3 個月預約，以確保能選擇理想的教練與時段。",
+        "text": "系統會寄發預約成功通知信。教練通常會在 3 天內確認，若由系統協調其他教練，可能需等候約兩週。",
         "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
-        "summary_translations": {
-          "en": "We strongly recommend that you \"book your coach first, then book your flights and accommodation.\" Especially during peak season, high-quality Chinese coaches are in high demand and are often fully booked earlier than flights or accommodation.",
-          "th": "เราขอแนะนำอย่างยิ่งให้คุณ \"จองโค้ชก่อน แล้วค่อยจองตั๋วเครื่องบินและที่พัก\" โดยเฉพาะอย่างยิ่งในช่วงฤดูท่องเที่ยว โค้ชภาษาจีนที่มีคุณภาพเป็นที่ต้องการอย่างมาก และมักจะถูกจองเต็มเร็วกว่าตั๋วเครื่องบินหรือที่พัก"
-        },
-        "details_translations": {
-          "en": null,
-          "th": null
-        },
-        "tip_translations": {
-          "en": null,
-          "th": null
-        },
-        "postscript_translations": {
-          "en": "For more information and the latest availability, please refer to the reservation system.",
-          "th": "สำหรับข้อมูลเพิ่มเติมและจำนวนที่ว่างล่าสุด โปรดดูที่ระบบการจอง"
-        }
+        "links_inline": false
       },
       "answer_template_translations": {
         "summary_translations": {
@@ -5097,26 +4604,9 @@
         ]
       },
       "answer_template": {
-        "summary": "我們強烈建議您「先預約教練，再訂機票住宿」。尤其是在旺季，優質的中文教練非常搶手，時常比機票或住宿更早被預約一空。",
-        "details": "先確認預約到您想要的教練與時段後，再進行後續的旅遊安排，行程會比較有保障。",
-        "tip": "旺季期間建議提早 2-3 個月預約，以確保能選擇理想的教練與時段。",
+        "text": "可以。建議一開始就以預計人數預約，有利保險安排與費用試算。網站可試算不同人數的折扣優惠。",
         "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
-        "summary_translations": {
-          "en": "We strongly recommend that you \"book your coach first, then book your flights and accommodation.\" Especially during peak season, high-quality Chinese coaches are in high demand and are often fully booked earlier than flights or accommodation.",
-          "th": "เราขอแนะนำอย่างยิ่งให้คุณ \"จองโค้ชก่อน แล้วค่อยจองตั๋วเครื่องบินและที่พัก\" โดยเฉพาะอย่างยิ่งในช่วงฤดูท่องเที่ยว โค้ชภาษาจีนที่มีคุณภาพเป็นที่ต้องการอย่างมาก และมักจะถูกจองเต็มเร็วกว่าตั๋วเครื่องบินหรือที่พัก"
-        },
-        "details_translations": {
-          "en": null,
-          "th": null
-        },
-        "tip_translations": {
-          "en": null,
-          "th": null
-        },
-        "postscript_translations": {
-          "en": "For more information and the latest availability, please refer to the reservation system.",
-          "th": "สำหรับข้อมูลเพิ่มเติมและจำนวนที่ว่างล่าสุด โปรดดูที่ระบบการจอง"
-        }
+        "links_inline": false
       },
       "answer_template_translations": {
         "summary_translations": {
@@ -5251,26 +4741,9 @@
         ]
       },
       "answer_template": {
-        "summary": "我們強烈建議您「先預約教練，再訂機票住宿」。尤其是在旺季，優質的中文教練非常搶手，時常比機票或住宿更早被預約一空。",
-        "details": "先確認預約到您想要的教練與時段後，再進行後續的旅遊安排，行程會比較有保障。",
-        "tip": "旺季期間建議提早 2-3 個月預約，以確保能選擇理想的教練與時段。",
+        "text": "可以，教練可協助拍照或錄影。",
         "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
-        "summary_translations": {
-          "en": "We strongly recommend that you \"book your coach first, then book your flights and accommodation.\" Especially during peak season, high-quality Chinese coaches are in high demand and are often fully booked earlier than flights or accommodation.",
-          "th": "เราขอแนะนำอย่างยิ่งให้คุณ \"จองโค้ชก่อน แล้วค่อยจองตั๋วเครื่องบินและที่พัก\" โดยเฉพาะอย่างยิ่งในช่วงฤดูท่องเที่ยว โค้ชภาษาจีนที่มีคุณภาพเป็นที่ต้องการอย่างมาก และมักจะถูกจองเต็มเร็วกว่าตั๋วเครื่องบินหรือที่พัก"
-        },
-        "details_translations": {
-          "en": null,
-          "th": null
-        },
-        "tip_translations": {
-          "en": null,
-          "th": null
-        },
-        "postscript_translations": {
-          "en": "For more information and the latest availability, please refer to the reservation system.",
-          "th": "สำหรับข้อมูลเพิ่มเติมและจำนวนที่ว่างล่าสุด โปรดดูที่ระบบการจอง"
-        }
+        "links_inline": false
       },
       "answer_template_translations": {
         "summary_translations": {
@@ -5383,26 +4856,9 @@
         ]
       },
       "answer_template": {
-        "summary": "我們強烈建議您「先預約教練，再訂機票住宿」。尤其是在旺季，優質的中文教練非常搶手，時常比機票或住宿更早被預約一空。",
-        "details": "先確認預約到您想要的教練與時段後，再進行後續的旅遊安排，行程會比較有保障。",
-        "tip": "旺季期間建議提早 2-3 個月預約，以確保能選擇理想的教練與時段。",
+        "text": "依現場狀況與學習進度而定。如可行建議購買單次纜車票應對彈性需求。",
         "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
-        "summary_translations": {
-          "en": "We strongly recommend that you \"book your coach first, then book your flights and accommodation.\" Especially during peak season, high-quality Chinese coaches are in high demand and are often fully booked earlier than flights or accommodation.",
-          "th": "เราขอแนะนำอย่างยิ่งให้คุณ \"จองโค้ชก่อน แล้วค่อยจองตั๋วเครื่องบินและที่พัก\" โดยเฉพาะอย่างยิ่งในช่วงฤดูท่องเที่ยว โค้ชภาษาจีนที่มีคุณภาพเป็นที่ต้องการอย่างมาก และมักจะถูกจองเต็มเร็วกว่าตั๋วเครื่องบินหรือที่พัก"
-        },
-        "details_translations": {
-          "en": null,
-          "th": null
-        },
-        "tip_translations": {
-          "en": null,
-          "th": null
-        },
-        "postscript_translations": {
-          "en": "For more information and the latest availability, please refer to the reservation system.",
-          "th": "สำหรับข้อมูลเพิ่มเติมและจำนวนที่ว่างล่าสุด โปรดดูที่ระบบการจอง"
-        }
+        "links_inline": false
       },
       "answer_template_translations": {
         "summary_translations": {
@@ -5509,26 +4965,9 @@
         ]
       },
       "answer_template": {
-        "summary": "我們強烈建議您「先預約教練，再訂機票住宿」。尤其是在旺季，優質的中文教練非常搶手，時常比機票或住宿更早被預約一空。",
-        "details": "先確認預約到您想要的教練與時段後，再進行後續的旅遊安排，行程會比較有保障。",
-        "tip": "旺季期間建議提早 2-3 個月預約，以確保能選擇理想的教練與時段。",
+        "text": "教練不在滑雪場時需特別申請，通常需達 4–6 堂課，並支付訂金。教練有 2 天時間評估，若拒絕／逾時，我們會人工改派下一位合適教練，且每次改派都會重新起算 48 小時的回覆時間，最終無法配合將全額退費。若申請需要改派教練，請勿申請退費。",
         "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
-        "summary_translations": {
-          "en": "We strongly recommend that you \"book your coach first, then book your flights and accommodation.\" Especially during peak season, high-quality Chinese coaches are in high demand and are often fully booked earlier than flights or accommodation.",
-          "th": "เราขอแนะนำอย่างยิ่งให้คุณ \"จองโค้ชก่อน แล้วค่อยจองตั๋วเครื่องบินและที่พัก\" โดยเฉพาะอย่างยิ่งในช่วงฤดูท่องเที่ยว โค้ชภาษาจีนที่มีคุณภาพเป็นที่ต้องการอย่างมาก และมักจะถูกจองเต็มเร็วกว่าตั๋วเครื่องบินหรือที่พัก"
-        },
-        "details_translations": {
-          "en": null,
-          "th": null
-        },
-        "tip_translations": {
-          "en": null,
-          "th": null
-        },
-        "postscript_translations": {
-          "en": "For more information and the latest availability, please refer to the reservation system.",
-          "th": "สำหรับข้อมูลเพิ่มเติมและจำนวนที่ว่างล่าสุด โปรดดูที่ระบบการจอง"
-        }
+        "links_inline": false
       },
       "answer_template_translations": {
         "summary_translations": {
@@ -5635,26 +5074,9 @@
         ]
       },
       "answer_template": {
-        "summary": "我們強烈建議您「先預約教練，再訂機票住宿」。尤其是在旺季，優質的中文教練非常搶手，時常比機票或住宿更早被預約一空。",
-        "details": "先確認預約到您想要的教練與時段後，再進行後續的旅遊安排，行程會比較有保障。",
-        "tip": "旺季期間建議提早 2-3 個月預約，以確保能選擇理想的教練與時段。",
+        "text": "課程費用包含教練教學與滑雪保險。纜車票（雪票）與裝備租借費用需自理。部分滑雪場提供學生優惠與早鳥票連結，建議提前查詢。部分雪場的雪鏡與手套需購買，無法租借。",
         "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
-        "summary_translations": {
-          "en": "We strongly recommend that you \"book your coach first, then book your flights and accommodation.\" Especially during peak season, high-quality Chinese coaches are in high demand and are often fully booked earlier than flights or accommodation.",
-          "th": "เราขอแนะนำอย่างยิ่งให้คุณ \"จองโค้ชก่อน แล้วค่อยจองตั๋วเครื่องบินและที่พัก\" โดยเฉพาะอย่างยิ่งในช่วงฤดูท่องเที่ยว โค้ชภาษาจีนที่มีคุณภาพเป็นที่ต้องการอย่างมาก และมักจะถูกจองเต็มเร็วกว่าตั๋วเครื่องบินหรือที่พัก"
-        },
-        "details_translations": {
-          "en": null,
-          "th": null
-        },
-        "tip_translations": {
-          "en": null,
-          "th": null
-        },
-        "postscript_translations": {
-          "en": "For more information and the latest availability, please refer to the reservation system.",
-          "th": "สำหรับข้อมูลเพิ่มเติมและจำนวนที่ว่างล่าสุด โปรดดูที่ระบบการจอง"
-        }
+        "links_inline": false
       },
       "answer_template_translations": {
         "summary_translations": {
@@ -5789,26 +5211,9 @@
         ]
       },
       "answer_template": {
-        "summary": "我們強烈建議您「先預約教練，再訂機票住宿」。尤其是在旺季，優質的中文教練非常搶手，時常比機票或住宿更早被預約一空。",
-        "details": "先確認預約到您想要的教練與時段後，再進行後續的旅遊安排，行程會比較有保障。",
-        "tip": "旺季期間建議提早 2-3 個月預約，以確保能選擇理想的教練與時段。",
+        "text": "預約課程時僅需線上刷卡支付訂金，尾款可於上課當日以日幣現金支付給教練。",
         "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
-        "summary_translations": {
-          "en": "We strongly recommend that you \"book your coach first, then book your flights and accommodation.\" Especially during peak season, high-quality Chinese coaches are in high demand and are often fully booked earlier than flights or accommodation.",
-          "th": "เราขอแนะนำอย่างยิ่งให้คุณ \"จองโค้ชก่อน แล้วค่อยจองตั๋วเครื่องบินและที่พัก\" โดยเฉพาะอย่างยิ่งในช่วงฤดูท่องเที่ยว โค้ชภาษาจีนที่มีคุณภาพเป็นที่ต้องการอย่างมาก และมักจะถูกจองเต็มเร็วกว่าตั๋วเครื่องบินหรือที่พัก"
-        },
-        "details_translations": {
-          "en": null,
-          "th": null
-        },
-        "tip_translations": {
-          "en": null,
-          "th": null
-        },
-        "postscript_translations": {
-          "en": "For more information and the latest availability, please refer to the reservation system.",
-          "th": "สำหรับข้อมูลเพิ่มเติมและจำนวนที่ว่างล่าสุด โปรดดูที่ระบบการจอง"
-        }
+        "links_inline": false
       },
       "answer_template_translations": {
         "summary_translations": {
@@ -5942,26 +5347,9 @@
         ]
       },
       "answer_template": {
-        "summary": "我們強烈建議您「先預約教練，再訂機票住宿」。尤其是在旺季，優質的中文教練非常搶手，時常比機票或住宿更早被預約一空。",
-        "details": "先確認預約到您想要的教練與時段後，再進行後續的旅遊安排，行程會比較有保障。",
-        "tip": "旺季期間建議提早 2-3 個月預約，以確保能選擇理想的教練與時段。",
+        "text": "* 兩個月前取消：訂金全額退費  \n* 一個月前取消：退還 50% 訂金  \n* 一個月內取消：訂金不退   \n* 退款皆需扣除 3–3.5% 刷卡手續費。若因教練更換或疫情等特殊情況，可能提供延期或全額退費方案。",
         "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
-        "summary_translations": {
-          "en": "We strongly recommend that you \"book your coach first, then book your flights and accommodation.\" Especially during peak season, high-quality Chinese coaches are in high demand and are often fully booked earlier than flights or accommodation.",
-          "th": "เราขอแนะนำอย่างยิ่งให้คุณ \"จองโค้ชก่อน แล้วค่อยจองตั๋วเครื่องบินและที่พัก\" โดยเฉพาะอย่างยิ่งในช่วงฤดูท่องเที่ยว โค้ชภาษาจีนที่มีคุณภาพเป็นที่ต้องการอย่างมาก และมักจะถูกจองเต็มเร็วกว่าตั๋วเครื่องบินหรือที่พัก"
-        },
-        "details_translations": {
-          "en": null,
-          "th": null
-        },
-        "tip_translations": {
-          "en": null,
-          "th": null
-        },
-        "postscript_translations": {
-          "en": "For more information and the latest availability, please refer to the reservation system.",
-          "th": "สำหรับข้อมูลเพิ่มเติมและจำนวนที่ว่างล่าสุด โปรดดูที่ระบบการจอง"
-        }
+        "links_inline": false
       },
       "answer_template_translations": {
         "summary_translations": {
@@ -6068,26 +5456,9 @@
         ]
       },
       "answer_template": {
-        "summary": "我們強烈建議您「先預約教練，再訂機票住宿」。尤其是在旺季，優質的中文教練非常搶手，時常比機票或住宿更早被預約一空。",
-        "details": "先確認預約到您想要的教練與時段後，再進行後續的旅遊安排，行程會比較有保障。",
-        "tip": "旺季期間建議提早 2-3 個月預約，以確保能選擇理想的教練與時段。",
+        "text": "* 訂金：線上刷卡由平台收取  \n* 尾款：現場交由教練收取日幣現金",
         "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
-        "summary_translations": {
-          "en": "We strongly recommend that you \"book your coach first, then book your flights and accommodation.\" Especially during peak season, high-quality Chinese coaches are in high demand and are often fully booked earlier than flights or accommodation.",
-          "th": "เราขอแนะนำอย่างยิ่งให้คุณ \"จองโค้ชก่อน แล้วค่อยจองตั๋วเครื่องบินและที่พัก\" โดยเฉพาะอย่างยิ่งในช่วงฤดูท่องเที่ยว โค้ชภาษาจีนที่มีคุณภาพเป็นที่ต้องการอย่างมาก และมักจะถูกจองเต็มเร็วกว่าตั๋วเครื่องบินหรือที่พัก"
-        },
-        "details_translations": {
-          "en": null,
-          "th": null
-        },
-        "tip_translations": {
-          "en": null,
-          "th": null
-        },
-        "postscript_translations": {
-          "en": "For more information and the latest availability, please refer to the reservation system.",
-          "th": "สำหรับข้อมูลเพิ่มเติมและจำนวนที่ว่างล่าสุด โปรดดูที่ระบบการจอง"
-        }
+        "links_inline": false
       },
       "answer_template_translations": {
         "summary_translations": {
@@ -6191,26 +5562,9 @@
         ]
       },
       "answer_template": {
-        "summary": "我們強烈建議您「先預約教練，再訂機票住宿」。尤其是在旺季，優質的中文教練非常搶手，時常比機票或住宿更早被預約一空。",
-        "details": "先確認預約到您想要的教練與時段後，再進行後續的旅遊安排，行程會比較有保障。",
-        "tip": "旺季期間建議提早 2-3 個月預約，以確保能選擇理想的教練與時段。",
+        "text": "部分教練因證照等級或規則有「指定費」；是否加價以系統顯示與教練介紹為準；若由系統自動指派，是否加收會在頁面或確認信載明。",
         "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
-        "summary_translations": {
-          "en": "We strongly recommend that you \"book your coach first, then book your flights and accommodation.\" Especially during peak season, high-quality Chinese coaches are in high demand and are often fully booked earlier than flights or accommodation.",
-          "th": "เราขอแนะนำอย่างยิ่งให้คุณ \"จองโค้ชก่อน แล้วค่อยจองตั๋วเครื่องบินและที่พัก\" โดยเฉพาะอย่างยิ่งในช่วงฤดูท่องเที่ยว โค้ชภาษาจีนที่มีคุณภาพเป็นที่ต้องการอย่างมาก และมักจะถูกจองเต็มเร็วกว่าตั๋วเครื่องบินหรือที่พัก"
-        },
-        "details_translations": {
-          "en": null,
-          "th": null
-        },
-        "tip_translations": {
-          "en": null,
-          "th": null
-        },
-        "postscript_translations": {
-          "en": "For more information and the latest availability, please refer to the reservation system.",
-          "th": "สำหรับข้อมูลเพิ่มเติมและจำนวนที่ว่างล่าสุด โปรดดูที่ระบบการจอง"
-        }
+        "links_inline": false
       },
       "answer_template_translations": {
         "summary_translations": {
@@ -6317,26 +5671,9 @@
         ]
       },
       "answer_template": {
-        "summary": "我們強烈建議您「先預約教練，再訂機票住宿」。尤其是在旺季，優質的中文教練非常搶手，時常比機票或住宿更早被預約一空。",
-        "details": "先確認預約到您想要的教練與時段後，再進行後續的旅遊安排，行程會比較有保障。",
-        "tip": "旺季期間建議提早 2-3 個月預約，以確保能選擇理想的教練與時段。",
+        "text": "我們的教練預約系統是即時更新的。如果您看到的時段顯示為灰色或無法點選，代表該時段的教練已經被預約滿了。特別是在旺季（如聖誕、新年、農曆春節）和熱門雪場，建議您提早 2-3 個月預約。您也可以嘗試搜尋鄰近的其他雪場，或調整您的旅遊日期，看看是否有可預約的時段。",
         "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
-        "summary_translations": {
-          "en": "We strongly recommend that you \"book your coach first, then book your flights and accommodation.\" Especially during peak season, high-quality Chinese coaches are in high demand and are often fully booked earlier than flights or accommodation.",
-          "th": "เราขอแนะนำอย่างยิ่งให้คุณ \"จองโค้ชก่อน แล้วค่อยจองตั๋วเครื่องบินและที่พัก\" โดยเฉพาะอย่างยิ่งในช่วงฤดูท่องเที่ยว โค้ชภาษาจีนที่มีคุณภาพเป็นที่ต้องการอย่างมาก และมักจะถูกจองเต็มเร็วกว่าตั๋วเครื่องบินหรือที่พัก"
-        },
-        "details_translations": {
-          "en": null,
-          "th": null
-        },
-        "tip_translations": {
-          "en": null,
-          "th": null
-        },
-        "postscript_translations": {
-          "en": "For more information and the latest availability, please refer to the reservation system.",
-          "th": "สำหรับข้อมูลเพิ่มเติมและจำนวนที่ว่างล่าสุด โปรดดูที่ระบบการจอง"
-        }
+        "links_inline": false
       },
       "answer_template_translations": {
         "summary_translations": {
@@ -6443,26 +5780,9 @@
         ]
       },
       "answer_template": {
-        "summary": "我們強烈建議您「先預約教練，再訂機票住宿」。尤其是在旺季，優質的中文教練非常搶手，時常比機票或住宿更早被預約一空。",
-        "details": "先確認預約到您想要的教練與時段後，再進行後續的旅遊安排，行程會比較有保障。",
-        "tip": "旺季期間建議提早 2-3 個月預約，以確保能選擇理想的教練與時段。",
+        "text": "我們的付款頁面設有保護機制，連結具有時效性。如果您未完成付款就離開頁面，該筆「未成立」的訂單將會在約20分鐘後自動取消，您原本選擇的時段也會被釋出。屆時，您只需要回到網站，重新進行一次您想要的預約即可。",
         "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
-        "summary_translations": {
-          "en": "We strongly recommend that you \"book your coach first, then book your flights and accommodation.\" Especially during peak season, high-quality Chinese coaches are in high demand and are often fully booked earlier than flights or accommodation.",
-          "th": "เราขอแนะนำอย่างยิ่งให้คุณ \"จองโค้ชก่อน แล้วค่อยจองตั๋วเครื่องบินและที่พัก\" โดยเฉพาะอย่างยิ่งในช่วงฤดูท่องเที่ยว โค้ชภาษาจีนที่มีคุณภาพเป็นที่ต้องการอย่างมาก และมักจะถูกจองเต็มเร็วกว่าตั๋วเครื่องบินหรือที่พัก"
-        },
-        "details_translations": {
-          "en": null,
-          "th": null
-        },
-        "tip_translations": {
-          "en": null,
-          "th": null
-        },
-        "postscript_translations": {
-          "en": "For more information and the latest availability, please refer to the reservation system.",
-          "th": "สำหรับข้อมูลเพิ่มเติมและจำนวนที่ว่างล่าสุด โปรดดูที่ระบบการจอง"
-        }
+        "links_inline": false
       },
       "answer_template_translations": {
         "summary_translations": {
@@ -6569,26 +5889,9 @@
         ]
       },
       "answer_template": {
-        "summary": "我們強烈建議您「先預約教練，再訂機票住宿」。尤其是在旺季，優質的中文教練非常搶手，時常比機票或住宿更早被預約一空。",
-        "details": "先確認預約到您想要的教練與時段後，再進行後續的旅遊安排，行程會比較有保障。",
-        "tip": "旺季期間建議提早 2-3 個月預約，以確保能選擇理想的教練與時段。",
+        "text": "如果您沒有收到驗證信，請先仔細檢查您的「垃圾郵件」信箱。若垃圾信箱也沒有，很可能是您先前已用同一個Email註冊過。請您嘗試使用「忘記密碼」功能來重設密碼並登入。若問題持續，請提供您註冊的Email，讓客服人員為您查詢處理。",
         "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
-        "summary_translations": {
-          "en": "We strongly recommend that you \"book your coach first, then book your flights and accommodation.\" Especially during peak season, high-quality Chinese coaches are in high demand and are often fully booked earlier than flights or accommodation.",
-          "th": "เราขอแนะนำอย่างยิ่งให้คุณ \"จองโค้ชก่อน แล้วค่อยจองตั๋วเครื่องบินและที่พัก\" โดยเฉพาะอย่างยิ่งในช่วงฤดูท่องเที่ยว โค้ชภาษาจีนที่มีคุณภาพเป็นที่ต้องการอย่างมาก และมักจะถูกจองเต็มเร็วกว่าตั๋วเครื่องบินหรือที่พัก"
-        },
-        "details_translations": {
-          "en": null,
-          "th": null
-        },
-        "tip_translations": {
-          "en": null,
-          "th": null
-        },
-        "postscript_translations": {
-          "en": "For more information and the latest availability, please refer to the reservation system.",
-          "th": "สำหรับข้อมูลเพิ่มเติมและจำนวนที่ว่างล่าสุด โปรดดูที่ระบบการจอง"
-        }
+        "links_inline": false
       },
       "answer_template_translations": {
         "summary_translations": {
@@ -6695,26 +5998,9 @@
         ]
       },
       "answer_template": {
-        "summary": "我們強烈建議您「先預約教練，再訂機票住宿」。尤其是在旺季，優質的中文教練非常搶手，時常比機票或住宿更早被預約一空。",
-        "details": "先確認預約到您想要的教練與時段後，再進行後續的旅遊安排，行程會比較有保障。",
-        "tip": "旺季期間建議提早 2-3 個月預約，以確保能選擇理想的教練與時段。",
+        "text": "預約流程會根據教練是否開課有所不同。\n\n* 若有教練開課，您可在網站上直接預約並完成訂單。  \n* 若無教練開課，需申請開課並等待教練同意。  \n* 預約成功後會收到通知信，後續保險、上課提醒等資訊也會寄送給您。",
         "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
-        "summary_translations": {
-          "en": "We strongly recommend that you \"book your coach first, then book your flights and accommodation.\" Especially during peak season, high-quality Chinese coaches are in high demand and are often fully booked earlier than flights or accommodation.",
-          "th": "เราขอแนะนำอย่างยิ่งให้คุณ \"จองโค้ชก่อน แล้วค่อยจองตั๋วเครื่องบินและที่พัก\" โดยเฉพาะอย่างยิ่งในช่วงฤดูท่องเที่ยว โค้ชภาษาจีนที่มีคุณภาพเป็นที่ต้องการอย่างมาก และมักจะถูกจองเต็มเร็วกว่าตั๋วเครื่องบินหรือที่พัก"
-        },
-        "details_translations": {
-          "en": null,
-          "th": null
-        },
-        "tip_translations": {
-          "en": null,
-          "th": null
-        },
-        "postscript_translations": {
-          "en": "For more information and the latest availability, please refer to the reservation system.",
-          "th": "สำหรับข้อมูลเพิ่มเติมและจำนวนที่ว่างล่าสุด โปรดดูที่ระบบการจอง"
-        }
+        "links_inline": false
       },
       "answer_template_translations": {
         "summary_translations": {
@@ -6849,26 +6135,9 @@
         ]
       },
       "answer_template": {
-        "summary": "我們強烈建議您「先預約教練，再訂機票住宿」。尤其是在旺季，優質的中文教練非常搶手，時常比機票或住宿更早被預約一空。",
-        "details": "先確認預約到您想要的教練與時段後，再進行後續的旅遊安排，行程會比較有保障。",
-        "tip": "旺季期間建議提早 2-3 個月預約，以確保能選擇理想的教練與時段。",
+        "text": "是的，需要先註冊才能使用網站，目前僅提供電子郵件註冊與登入。\n\n請前往 [LINK:LINK_SCHEDULE|預約系統] 進行註冊。",
         "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
-        "summary_translations": {
-          "en": "We strongly recommend that you \"book your coach first, then book your flights and accommodation.\" Especially during peak season, high-quality Chinese coaches are in high demand and are often fully booked earlier than flights or accommodation.",
-          "th": "เราขอแนะนำอย่างยิ่งให้คุณ \"จองโค้ชก่อน แล้วค่อยจองตั๋วเครื่องบินและที่พัก\" โดยเฉพาะอย่างยิ่งในช่วงฤดูท่องเที่ยว โค้ชภาษาจีนที่มีคุณภาพเป็นที่ต้องการอย่างมาก และมักจะถูกจองเต็มเร็วกว่าตั๋วเครื่องบินหรือที่พัก"
-        },
-        "details_translations": {
-          "en": null,
-          "th": null
-        },
-        "tip_translations": {
-          "en": null,
-          "th": null
-        },
-        "postscript_translations": {
-          "en": "For more information and the latest availability, please refer to the reservation system.",
-          "th": "สำหรับข้อมูลเพิ่มเติมและจำนวนที่ว่างล่าสุด โปรดดูที่ระบบการจอง"
-        }
+        "links_inline": false
       },
       "answer_template_translations": {
         "summary_translations": {
@@ -6993,26 +6262,9 @@
         ]
       },
       "answer_template": {
-        "summary": "我們強烈建議您「先預約教練，再訂機票住宿」。尤其是在旺季，優質的中文教練非常搶手，時常比機票或住宿更早被預約一空。",
-        "details": "先確認預約到您想要的教練與時段後，再進行後續的旅遊安排，行程會比較有保障。",
-        "tip": "旺季期間建議提早 2-3 個月預約，以確保能選擇理想的教練與時段。",
+        "text": "可在網站查詢開課教練與費用：[LINK:LINK_SCHEDULE|預約系統]\n\n教練介紹頁面：[LINK:LINK_INSTRUCTORS|教練介紹]\n\n篩選條件包括：\n\n* 雙板/單板  \n* 上課地點（如是否在神樂）  \n* 可預約時段（半日或全日）",
         "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
-        "summary_translations": {
-          "en": "We strongly recommend that you \"book your coach first, then book your flights and accommodation.\" Especially during peak season, high-quality Chinese coaches are in high demand and are often fully booked earlier than flights or accommodation.",
-          "th": "เราขอแนะนำอย่างยิ่งให้คุณ \"จองโค้ชก่อน แล้วค่อยจองตั๋วเครื่องบินและที่พัก\" โดยเฉพาะอย่างยิ่งในช่วงฤดูท่องเที่ยว โค้ชภาษาจีนที่มีคุณภาพเป็นที่ต้องการอย่างมาก และมักจะถูกจองเต็มเร็วกว่าตั๋วเครื่องบินหรือที่พัก"
-        },
-        "details_translations": {
-          "en": null,
-          "th": null
-        },
-        "tip_translations": {
-          "en": null,
-          "th": null
-        },
-        "postscript_translations": {
-          "en": "For more information and the latest availability, please refer to the reservation system.",
-          "th": "สำหรับข้อมูลเพิ่มเติมและจำนวนที่ว่างล่าสุด โปรดดูที่ระบบการจอง"
-        }
+        "links_inline": false
       },
       "answer_template_translations": {
         "summary_translations": {
@@ -7125,26 +6377,9 @@
         ]
       },
       "answer_template": {
-        "summary": "我們強烈建議您「先預約教練，再訂機票住宿」。尤其是在旺季，優質的中文教練非常搶手，時常比機票或住宿更早被預約一空。",
-        "details": "先確認預約到您想要的教練與時段後，再進行後續的旅遊安排，行程會比較有保障。",
-        "tip": "旺季期間建議提早 2-3 個月預約，以確保能選擇理想的教練與時段。",
+        "text": "* 若教練開課，預約可即時成立。  \n* 若需申請開課，教練會於 2 天內回覆是否接受。  \n* 若該教練無法配合，系統會詢問其他教練，若皆無法配合，將取消訂單並退費。  \n* 特定雪場如輕井澤需住宿王子飯店才能預約，若不符規定，預約可能取消。",
         "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
-        "summary_translations": {
-          "en": "We strongly recommend that you \"book your coach first, then book your flights and accommodation.\" Especially during peak season, high-quality Chinese coaches are in high demand and are often fully booked earlier than flights or accommodation.",
-          "th": "เราขอแนะนำอย่างยิ่งให้คุณ \"จองโค้ชก่อน แล้วค่อยจองตั๋วเครื่องบินและที่พัก\" โดยเฉพาะอย่างยิ่งในช่วงฤดูท่องเที่ยว โค้ชภาษาจีนที่มีคุณภาพเป็นที่ต้องการอย่างมาก และมักจะถูกจองเต็มเร็วกว่าตั๋วเครื่องบินหรือที่พัก"
-        },
-        "details_translations": {
-          "en": null,
-          "th": null
-        },
-        "tip_translations": {
-          "en": null,
-          "th": null
-        },
-        "postscript_translations": {
-          "en": "For more information and the latest availability, please refer to the reservation system.",
-          "th": "สำหรับข้อมูลเพิ่มเติมและจำนวนที่ว่างล่าสุด โปรดดูที่ระบบการจอง"
-        }
+        "links_inline": false
       },
       "answer_template_translations": {
         "summary_translations": {
@@ -7257,26 +6492,9 @@
         ]
       },
       "answer_template": {
-        "summary": "我們強烈建議您「先預約教練，再訂機票住宿」。尤其是在旺季，優質的中文教練非常搶手，時常比機票或住宿更早被預約一空。",
-        "details": "先確認預約到您想要的教練與時段後，再進行後續的旅遊安排，行程會比較有保障。",
-        "tip": "旺季期間建議提早 2-3 個月預約，以確保能選擇理想的教練與時段。",
+        "text": "* 預約成功通知信件  \n* 保險與上課提醒通知信  \n* 您也可隨時於網站查詢訂單：[LINK:LINK_ORDER_LIST|訂單查詢]\n\nQ：上課前需要準備什麼？平台會提醒嗎？\n\nA：建議準備：\n\n* 雪具（雪板、雪鞋）可先行租借  \n* 安全帽與護具（防摔褲、膝、手腕護具）建議自備  \n* 雪衣褲、手套、雪鏡等基本裝備  \n* 雪票：部分雪場提供優惠購票連結  \n* 機票、住宿、交通等個人安排\n\n提醒方式：\n\n* 上課前 7 天教練會主動聯繫確認  \n* 系統會寄出提醒信與保險通知表單",
         "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
-        "summary_translations": {
-          "en": "We strongly recommend that you \"book your coach first, then book your flights and accommodation.\" Especially during peak season, high-quality Chinese coaches are in high demand and are often fully booked earlier than flights or accommodation.",
-          "th": "เราขอแนะนำอย่างยิ่งให้คุณ \"จองโค้ชก่อน แล้วค่อยจองตั๋วเครื่องบินและที่พัก\" โดยเฉพาะอย่างยิ่งในช่วงฤดูท่องเที่ยว โค้ชภาษาจีนที่มีคุณภาพเป็นที่ต้องการอย่างมาก และมักจะถูกจองเต็มเร็วกว่าตั๋วเครื่องบินหรือที่พัก"
-        },
-        "details_translations": {
-          "en": null,
-          "th": null
-        },
-        "tip_translations": {
-          "en": null,
-          "th": null
-        },
-        "postscript_translations": {
-          "en": "For more information and the latest availability, please refer to the reservation system.",
-          "th": "สำหรับข้อมูลเพิ่มเติมและจำนวนที่ว่างล่าสุด โปรดดูที่ระบบการจอง"
-        }
+        "links_inline": false
       },
       "answer_template_translations": {
         "summary_translations": {
@@ -7390,26 +6608,9 @@
         ]
       },
       "answer_template": {
-        "summary": "我們強烈建議您「先預約教練，再訂機票住宿」。尤其是在旺季，優質的中文教練非常搶手，時常比機票或住宿更早被預約一空。",
-        "details": "先確認預約到您想要的教練與時段後，再進行後續的旅遊安排，行程會比較有保障。",
-        "tip": "旺季期間建議提早 2-3 個月預約，以確保能選擇理想的教練與時段。",
+        "text": "* 教練會於上課前一週左右主動聯繫，告知集合地點與時間  \n* 集合地點資訊會公布於網站雪場說明中  \n* 若未收到聯繫，可主動聯絡客服或平台協助轉達  \n* 每個雪場集合地點略有不同，建議再次與教練確認",
         "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
-        "summary_translations": {
-          "en": "We strongly recommend that you \"book your coach first, then book your flights and accommodation.\" Especially during peak season, high-quality Chinese coaches are in high demand and are often fully booked earlier than flights or accommodation.",
-          "th": "เราขอแนะนำอย่างยิ่งให้คุณ \"จองโค้ชก่อน แล้วค่อยจองตั๋วเครื่องบินและที่พัก\" โดยเฉพาะอย่างยิ่งในช่วงฤดูท่องเที่ยว โค้ชภาษาจีนที่มีคุณภาพเป็นที่ต้องการอย่างมาก และมักจะถูกจองเต็มเร็วกว่าตั๋วเครื่องบินหรือที่พัก"
-        },
-        "details_translations": {
-          "en": null,
-          "th": null
-        },
-        "tip_translations": {
-          "en": null,
-          "th": null
-        },
-        "postscript_translations": {
-          "en": "For more information and the latest availability, please refer to the reservation system.",
-          "th": "สำหรับข้อมูลเพิ่มเติมและจำนวนที่ว่างล่าสุด โปรดดูที่ระบบการจอง"
-        }
+        "links_inline": false
       },
       "answer_template_translations": {
         "summary_translations": {
@@ -7516,26 +6717,9 @@
         ]
       },
       "answer_template": {
-        "summary": "我們強烈建議您「先預約教練，再訂機票住宿」。尤其是在旺季，優質的中文教練非常搶手，時常比機票或住宿更早被預約一空。",
-        "details": "先確認預約到您想要的教練與時段後，再進行後續的旅遊安排，行程會比較有保障。",
-        "tip": "旺季期間建議提早 2-3 個月預約，以確保能選擇理想的教練與時段。",
+        "text": "SKIDIY 課程皆含富邦滑雪專案保險，有效期為課程首日起四天。保障如下：\n\n* 意外身故與殘廢：100 萬（15 歲以下不適用）  \n* 意外醫療實支實付：30 萬  \n* 15 歲以下：20 萬 \\+ 1 萬美元緊急救援",
         "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
-        "summary_translations": {
-          "en": "We strongly recommend that you \"book your coach first, then book your flights and accommodation.\" Especially during peak season, high-quality Chinese coaches are in high demand and are often fully booked earlier than flights or accommodation.",
-          "th": "เราขอแนะนำอย่างยิ่งให้คุณ \"จองโค้ชก่อน แล้วค่อยจองตั๋วเครื่องบินและที่พัก\" โดยเฉพาะอย่างยิ่งในช่วงฤดูท่องเที่ยว โค้ชภาษาจีนที่มีคุณภาพเป็นที่ต้องการอย่างมาก และมักจะถูกจองเต็มเร็วกว่าตั๋วเครื่องบินหรือที่พัก"
-        },
-        "details_translations": {
-          "en": null,
-          "th": null
-        },
-        "tip_translations": {
-          "en": null,
-          "th": null
-        },
-        "postscript_translations": {
-          "en": "For more information and the latest availability, please refer to the reservation system.",
-          "th": "สำหรับข้อมูลเพิ่มเติมและจำนวนที่ว่างล่าสุด โปรดดูที่ระบบการจอง"
-        }
+        "links_inline": false
       },
       "answer_template_translations": {
         "summary_translations": {
@@ -7670,26 +6854,9 @@
         ]
       },
       "answer_template": {
-        "summary": "我們強烈建議您「先預約教練，再訂機票住宿」。尤其是在旺季，優質的中文教練非常搶手，時常比機票或住宿更早被預約一空。",
-        "details": "先確認預約到您想要的教練與時段後，再進行後續的旅遊安排，行程會比較有保障。",
-        "tip": "旺季期間建議提早 2-3 個月預約，以確保能選擇理想的教練與時段。",
+        "text": "是的，課程費用內含的富邦滑雪專案保險是我們為保障所有學員而提供的，屬於課程的一部分，無法單獨取消或退費。此保險主要針對「滑雪活動中發生的意外傷害」進行理賠。請特別注意，若您已自行投保富邦產險的旅遊平安險，可能會因保險公司的「重複投保」規定而無法承保我們的專案，但課程費用與內容不變。",
         "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
-        "summary_translations": {
-          "en": "We strongly recommend that you \"book your coach first, then book your flights and accommodation.\" Especially during peak season, high-quality Chinese coaches are in high demand and are often fully booked earlier than flights or accommodation.",
-          "th": "เราขอแนะนำอย่างยิ่งให้คุณ \"จองโค้ชก่อน แล้วค่อยจองตั๋วเครื่องบินและที่พัก\" โดยเฉพาะอย่างยิ่งในช่วงฤดูท่องเที่ยว โค้ชภาษาจีนที่มีคุณภาพเป็นที่ต้องการอย่างมาก และมักจะถูกจองเต็มเร็วกว่าตั๋วเครื่องบินหรือที่พัก"
-        },
-        "details_translations": {
-          "en": null,
-          "th": null
-        },
-        "tip_translations": {
-          "en": null,
-          "th": null
-        },
-        "postscript_translations": {
-          "en": "For more information and the latest availability, please refer to the reservation system.",
-          "th": "สำหรับข้อมูลเพิ่มเติมและจำนวนที่ว่างล่าสุด โปรดดูที่ระบบการจอง"
-        }
+        "links_inline": false
       },
       "answer_template_translations": {
         "summary_translations": {
@@ -7803,26 +6970,9 @@
         ]
       },
       "answer_template": {
-        "summary": "我們強烈建議您「先預約教練，再訂機票住宿」。尤其是在旺季，優質的中文教練非常搶手，時常比機票或住宿更早被預約一空。",
-        "details": "先確認預約到您想要的教練與時段後，再進行後續的旅遊安排，行程會比較有保障。",
-        "tip": "旺季期間建議提早 2-3 個月預約，以確保能選擇理想的教練與時段。",
+        "text": "保險投保作業會於上課前約一週完成，不會個別寄發保單，您可登入官網「帳號 → 訂單資訊」填寫，或使用我們提供的專用表單連結完成。可於「訂單資訊」中查詢所有學員的保險填寫狀態。",
         "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
-        "summary_translations": {
-          "en": "We strongly recommend that you \"book your coach first, then book your flights and accommodation.\" Especially during peak season, high-quality Chinese coaches are in high demand and are often fully booked earlier than flights or accommodation.",
-          "th": "เราขอแนะนำอย่างยิ่งให้คุณ \"จองโค้ชก่อน แล้วค่อยจองตั๋วเครื่องบินและที่พัก\" โดยเฉพาะอย่างยิ่งในช่วงฤดูท่องเที่ยว โค้ชภาษาจีนที่มีคุณภาพเป็นที่ต้องการอย่างมาก และมักจะถูกจองเต็มเร็วกว่าตั๋วเครื่องบินหรือที่พัก"
-        },
-        "details_translations": {
-          "en": null,
-          "th": null
-        },
-        "tip_translations": {
-          "en": null,
-          "th": null
-        },
-        "postscript_translations": {
-          "en": "For more information and the latest availability, please refer to the reservation system.",
-          "th": "สำหรับข้อมูลเพิ่มเติมและจำนวนที่ว่างล่าสุด โปรดดูที่ระบบการจอง"
-        }
+        "links_inline": false
       },
       "answer_template_translations": {
         "summary_translations": {
@@ -7957,26 +7107,9 @@
         ]
       },
       "answer_template": {
-        "summary": "我們強烈建議您「先預約教練，再訂機票住宿」。尤其是在旺季，優質的中文教練非常搶手，時常比機票或住宿更早被預約一空。",
-        "details": "先確認預約到您想要的教練與時段後，再進行後續的旅遊安排，行程會比較有保障。",
-        "tip": "旺季期間建議提早 2-3 個月預約，以確保能選擇理想的教練與時段。",
+        "text": "平台會提供協助，並指引聯繫保險窗口。 您需準備以下理賠文件：\n\n* 海外診斷書、醫療收據、出院摘要（住院者）  \n* 護照出入境證明、健保核退文件",
         "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
-        "summary_translations": {
-          "en": "We strongly recommend that you \"book your coach first, then book your flights and accommodation.\" Especially during peak season, high-quality Chinese coaches are in high demand and are often fully booked earlier than flights or accommodation.",
-          "th": "เราขอแนะนำอย่างยิ่งให้คุณ \"จองโค้ชก่อน แล้วค่อยจองตั๋วเครื่องบินและที่พัก\" โดยเฉพาะอย่างยิ่งในช่วงฤดูท่องเที่ยว โค้ชภาษาจีนที่มีคุณภาพเป็นที่ต้องการอย่างมาก และมักจะถูกจองเต็มเร็วกว่าตั๋วเครื่องบินหรือที่พัก"
-        },
-        "details_translations": {
-          "en": null,
-          "th": null
-        },
-        "tip_translations": {
-          "en": null,
-          "th": null
-        },
-        "postscript_translations": {
-          "en": "For more information and the latest availability, please refer to the reservation system.",
-          "th": "สำหรับข้อมูลเพิ่มเติมและจำนวนที่ว่างล่าสุด โปรดดูที่ระบบการจอง"
-        }
+        "links_inline": false
       },
       "answer_template_translations": {
         "summary_translations": {
@@ -8111,26 +7244,9 @@
         ]
       },
       "answer_template": {
-        "summary": "我們強烈建議您「先預約教練，再訂機票住宿」。尤其是在旺季，優質的中文教練非常搶手，時常比機票或住宿更早被預約一空。",
-        "details": "先確認預約到您想要的教練與時段後，再進行後續的旅遊安排，行程會比較有保障。",
-        "tip": "旺季期間建議提早 2-3 個月預約，以確保能選擇理想的教練與時段。",
+        "text": "可以。請提供診斷證明，我們會協助退課。退費金額會扣除保險費與刷卡手續費後退款。",
         "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
-        "summary_translations": {
-          "en": "We strongly recommend that you \"book your coach first, then book your flights and accommodation.\" Especially during peak season, high-quality Chinese coaches are in high demand and are often fully booked earlier than flights or accommodation.",
-          "th": "เราขอแนะนำอย่างยิ่งให้คุณ \"จองโค้ชก่อน แล้วค่อยจองตั๋วเครื่องบินและที่พัก\" โดยเฉพาะอย่างยิ่งในช่วงฤดูท่องเที่ยว โค้ชภาษาจีนที่มีคุณภาพเป็นที่ต้องการอย่างมาก และมักจะถูกจองเต็มเร็วกว่าตั๋วเครื่องบินหรือที่พัก"
-        },
-        "details_translations": {
-          "en": null,
-          "th": null
-        },
-        "tip_translations": {
-          "en": null,
-          "th": null
-        },
-        "postscript_translations": {
-          "en": "For more information and the latest availability, please refer to the reservation system.",
-          "th": "สำหรับข้อมูลเพิ่มเติมและจำนวนที่ว่างล่าสุด โปรดดูที่ระบบการจอง"
-        }
+        "links_inline": false
       },
       "answer_template_translations": {
         "summary_translations": {
@@ -8244,26 +7360,9 @@
         ]
       },
       "answer_template": {
-        "summary": "我們強烈建議您「先預約教練，再訂機票住宿」。尤其是在旺季，優質的中文教練非常搶手，時常比機票或住宿更早被預約一空。",
-        "details": "先確認預約到您想要的教練與時段後，再進行後續的旅遊安排，行程會比較有保障。",
-        "tip": "旺季期間建議提早 2-3 個月預約，以確保能選擇理想的教練與時段。",
+        "text": "有，未滿15歲不適用身故項目，其他給付另有規定（如上所述）。",
         "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
-        "summary_translations": {
-          "en": "We strongly recommend that you \"book your coach first, then book your flights and accommodation.\" Especially during peak season, high-quality Chinese coaches are in high demand and are often fully booked earlier than flights or accommodation.",
-          "th": "เราขอแนะนำอย่างยิ่งให้คุณ \"จองโค้ชก่อน แล้วค่อยจองตั๋วเครื่องบินและที่พัก\" โดยเฉพาะอย่างยิ่งในช่วงฤดูท่องเที่ยว โค้ชภาษาจีนที่มีคุณภาพเป็นที่ต้องการอย่างมาก และมักจะถูกจองเต็มเร็วกว่าตั๋วเครื่องบินหรือที่พัก"
-        },
-        "details_translations": {
-          "en": null,
-          "th": null
-        },
-        "tip_translations": {
-          "en": null,
-          "th": null
-        },
-        "postscript_translations": {
-          "en": "For more information and the latest availability, please refer to the reservation system.",
-          "th": "สำหรับข้อมูลเพิ่มเติมและจำนวนที่ว่างล่าสุด โปรดดูที่ระบบการจอง"
-        }
+        "links_inline": false
       },
       "answer_template_translations": {
         "summary_translations": {
@@ -8371,26 +7470,9 @@
         ]
       },
       "answer_template": {
-        "summary": "我們強烈建議您「先預約教練，再訂機票住宿」。尤其是在旺季，優質的中文教練非常搶手，時常比機票或住宿更早被預約一空。",
-        "details": "先確認預約到您想要的教練與時段後，再進行後續的旅遊安排，行程會比較有保障。",
-        "tip": "旺季期間建議提早 2-3 個月預約，以確保能選擇理想的教練與時段。",
+        "text": "請保留：\n\n* 原文收據正本  \n* 診斷書與出院摘要影本  \n* 健保核退資料  \n* 回台補件文件（健保局關防、診斷書副本、理賠申請書、存摺影本）",
         "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
-        "summary_translations": {
-          "en": "We strongly recommend that you \"book your coach first, then book your flights and accommodation.\" Especially during peak season, high-quality Chinese coaches are in high demand and are often fully booked earlier than flights or accommodation.",
-          "th": "เราขอแนะนำอย่างยิ่งให้คุณ \"จองโค้ชก่อน แล้วค่อยจองตั๋วเครื่องบินและที่พัก\" โดยเฉพาะอย่างยิ่งในช่วงฤดูท่องเที่ยว โค้ชภาษาจีนที่มีคุณภาพเป็นที่ต้องการอย่างมาก และมักจะถูกจองเต็มเร็วกว่าตั๋วเครื่องบินหรือที่พัก"
-        },
-        "details_translations": {
-          "en": null,
-          "th": null
-        },
-        "tip_translations": {
-          "en": null,
-          "th": null
-        },
-        "postscript_translations": {
-          "en": "For more information and the latest availability, please refer to the reservation system.",
-          "th": "สำหรับข้อมูลเพิ่มเติมและจำนวนที่ว่างล่าสุด โปรดดูที่ระบบการจอง"
-        }
+        "links_inline": false
       },
       "answer_template_translations": {
         "summary_translations": {
@@ -8530,26 +7612,9 @@
         ]
       },
       "answer_template": {
-        "summary": "我們強烈建議您「先預約教練，再訂機票住宿」。尤其是在旺季，優質的中文教練非常搶手，時常比機票或住宿更早被預約一空。",
-        "details": "先確認預約到您想要的教練與時段後，再進行後續的旅遊安排，行程會比較有保障。",
-        "tip": "旺季期間建議提早 2-3 個月預約，以確保能選擇理想的教練與時段。",
+        "text": "是的，我們強烈建議您「提早至少1小時」抵達雪場，並在與教練約定的集合時間前，完成「租借雪具」和「購買雪票」這兩件事。因為租借裝備需要時間試穿，旺季時也可能需要排隊。將這些都準備好，才能準時開始上課，確保您的上課時間不被壓縮。如果您不確定要買哪種雪票，可以等見到教練後，聽從他的建議再迅速購買。\n\nQ：沒有裝備可以參加嗎？租借流程怎麼辦？\n\nA：可以參加，但需自行安排裝備租借，課程不含裝備：\n\n* 自行租借：建議提早至雪場附近租借店處理  \n* 教練建議：可先詢問教練推薦的租借店家與流程  \n* 可租借：雪板、雪鞋、頭盔  \n* 建議自備：雪鏡、手套、防摔褲、護膝等（多數店家不提供）  \n* 教學資訊：網站整理部分租借教學與地點可供參考",
         "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
-        "summary_translations": {
-          "en": "We strongly recommend that you \"book your coach first, then book your flights and accommodation.\" Especially during peak season, high-quality Chinese coaches are in high demand and are often fully booked earlier than flights or accommodation.",
-          "th": "เราขอแนะนำอย่างยิ่งให้คุณ \"จองโค้ชก่อน แล้วค่อยจองตั๋วเครื่องบินและที่พัก\" โดยเฉพาะอย่างยิ่งในช่วงฤดูท่องเที่ยว โค้ชภาษาจีนที่มีคุณภาพเป็นที่ต้องการอย่างมาก และมักจะถูกจองเต็มเร็วกว่าตั๋วเครื่องบินหรือที่พัก"
-        },
-        "details_translations": {
-          "en": null,
-          "th": null
-        },
-        "tip_translations": {
-          "en": null,
-          "th": null
-        },
-        "postscript_translations": {
-          "en": "For more information and the latest availability, please refer to the reservation system.",
-          "th": "สำหรับข้อมูลเพิ่มเติมและจำนวนที่ว่างล่าสุด โปรดดูที่ระบบการจอง"
-        }
+        "links_inline": false
       },
       "answer_template_translations": {
         "summary_translations": {
@@ -8699,26 +7764,9 @@
         ]
       },
       "answer_template": {
-        "summary": "我們強烈建議您「先預約教練，再訂機票住宿」。尤其是在旺季，優質的中文教練非常搶手，時常比機票或住宿更早被預約一空。",
-        "details": "先確認預約到您想要的教練與時段後，再進行後續的旅遊安排，行程會比較有保障。",
-        "tip": "旺季期間建議提早 2-3 個月預約，以確保能選擇理想的教練與時段。",
+        "text": "* 可租借：雪板、雪鞋、頭盔  \n* 建議自備：雪鏡、手套、雪衣褲、防摔褲、護膝  \n* 其他準備提醒：機票、護照、交通、雪票與住宿等請提前安排好",
         "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
-        "summary_translations": {
-          "en": "We strongly recommend that you \"book your coach first, then book your flights and accommodation.\" Especially during peak season, high-quality Chinese coaches are in high demand and are often fully booked earlier than flights or accommodation.",
-          "th": "เราขอแนะนำอย่างยิ่งให้คุณ \"จองโค้ชก่อน แล้วค่อยจองตั๋วเครื่องบินและที่พัก\" โดยเฉพาะอย่างยิ่งในช่วงฤดูท่องเที่ยว โค้ชภาษาจีนที่มีคุณภาพเป็นที่ต้องการอย่างมาก และมักจะถูกจองเต็มเร็วกว่าตั๋วเครื่องบินหรือที่พัก"
-        },
-        "details_translations": {
-          "en": null,
-          "th": null
-        },
-        "tip_translations": {
-          "en": null,
-          "th": null
-        },
-        "postscript_translations": {
-          "en": "For more information and the latest availability, please refer to the reservation system.",
-          "th": "สำหรับข้อมูลเพิ่มเติมและจำนวนที่ว่างล่าสุด โปรดดูที่ระบบการจอง"
-        }
+        "links_inline": false
       },
       "answer_template_translations": {
         "summary_translations": {
@@ -8874,26 +7922,9 @@
         ]
       },
       "answer_template": {
-        "summary": "我們強烈建議您「先預約教練，再訂機票住宿」。尤其是在旺季，優質的中文教練非常搶手，時常比機票或住宿更早被預約一空。",
-        "details": "先確認預約到您想要的教練與時段後，再進行後續的旅遊安排，行程會比較有保障。",
-        "tip": "旺季期間建議提早 2-3 個月預約，以確保能選擇理想的教練與時段。",
+        "text": "以「雪場是否營運」為判斷：若雪場關閉則退費；只要纜車有營運，下雪／下雨／變冷皆屬正常上課。",
         "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
-        "summary_translations": {
-          "en": "We strongly recommend that you \"book your coach first, then book your flights and accommodation.\" Especially during peak season, high-quality Chinese coaches are in high demand and are often fully booked earlier than flights or accommodation.",
-          "th": "เราขอแนะนำอย่างยิ่งให้คุณ \"จองโค้ชก่อน แล้วค่อยจองตั๋วเครื่องบินและที่พัก\" โดยเฉพาะอย่างยิ่งในช่วงฤดูท่องเที่ยว โค้ชภาษาจีนที่มีคุณภาพเป็นที่ต้องการอย่างมาก และมักจะถูกจองเต็มเร็วกว่าตั๋วเครื่องบินหรือที่พัก"
-        },
-        "details_translations": {
-          "en": null,
-          "th": null
-        },
-        "tip_translations": {
-          "en": null,
-          "th": null
-        },
-        "postscript_translations": {
-          "en": "For more information and the latest availability, please refer to the reservation system.",
-          "th": "สำหรับข้อมูลเพิ่มเติมและจำนวนที่ว่างล่าสุด โปรดดูที่ระบบการจอง"
-        }
+        "links_inline": false
       },
       "answer_template_translations": {
         "summary_translations": {
@@ -9043,26 +8074,9 @@
         ]
       },
       "answer_template": {
-        "summary": "我們強烈建議您「先預約教練，再訂機票住宿」。尤其是在旺季，優質的中文教練非常搶手，時常比機票或住宿更早被預約一空。",
-        "details": "先確認預約到您想要的教練與時段後，再進行後續的旅遊安排，行程會比較有保障。",
-        "tip": "旺季期間建議提早 2-3 個月預約，以確保能選擇理想的教練與時段。",
-        "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
-        "summary_translations": {
-          "en": "We strongly recommend that you \"book your coach first, then book your flights and accommodation.\" Especially during peak season, high-quality Chinese coaches are in high demand and are often fully booked earlier than flights or accommodation.",
-          "th": "เราขอแนะนำอย่างยิ่งให้คุณ \"จองโค้ชก่อน แล้วค่อยจองตั๋วเครื่องบินและที่พัก\" โดยเฉพาะอย่างยิ่งในช่วงฤดูท่องเที่ยว โค้ชภาษาจีนที่มีคุณภาพเป็นที่ต้องการอย่างมาก และมักจะถูกจองเต็มเร็วกว่าตั๋วเครื่องบินหรือที่พัก"
-        },
-        "details_translations": {
-          "en": null,
-          "th": null
-        },
-        "tip_translations": {
-          "en": null,
-          "th": null
-        },
-        "postscript_translations": {
-          "en": "For more information and the latest availability, please refer to the reservation system.",
-          "th": "สำหรับข้อมูลเพิ่มเติมและจำนวนที่ว่างล่าสุด โปรดดูที่ระบบการจอง"
-        }
+        "text": "若需更改已確認的日期或時間，請盡快與客服聯繫並提供訂單編號。我們會協調原教練可行時段；若無法配合，將提供其他可行安排或依規定處理。",
+        "postscript": "更多資訊以預約系統與訂單頁為準。",
+        "links_inline": false
       },
       "answer_template_translations": {
         "summary_translations": {
@@ -9215,26 +8229,9 @@
         ]
       },
       "answer_template": {
-        "summary": "我們強烈建議您「先預約教練，再訂機票住宿」。尤其是在旺季，優質的中文教練非常搶手，時常比機票或住宿更早被預約一空。",
-        "details": "先確認預約到您想要的教練與時段後，再進行後續的旅遊安排，行程會比較有保障。",
-        "tip": "旺季期間建議提早 2-3 個月預約，以確保能選擇理想的教練與時段。",
-        "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
-        "summary_translations": {
-          "en": "We strongly recommend that you \"book your coach first, then book your flights and accommodation.\" Especially during peak season, high-quality Chinese coaches are in high demand and are often fully booked earlier than flights or accommodation.",
-          "th": "เราขอแนะนำอย่างยิ่งให้คุณ \"จองโค้ชก่อน แล้วค่อยจองตั๋วเครื่องบินและที่พัก\" โดยเฉพาะอย่างยิ่งในช่วงฤดูท่องเที่ยว โค้ชภาษาจีนที่มีคุณภาพเป็นที่ต้องการอย่างมาก และมักจะถูกจองเต็มเร็วกว่าตั๋วเครื่องบินหรือที่พัก"
-        },
-        "details_translations": {
-          "en": null,
-          "th": null
-        },
-        "tip_translations": {
-          "en": null,
-          "th": null
-        },
-        "postscript_translations": {
-          "en": "For more information and the latest availability, please refer to the reservation system.",
-          "th": "สำหรับข้อมูลเพิ่มเติมและจำนวนที่ว่างล่าสุด โปรดดูที่ระบบการจอง"
-        }
+        "text": "可提出人數異動申請，我們將視教練負荷與安全評估調整安排。請於訂單頁或來信客服說明欲異動的人數與成員。",
+        "postscript": "實際是否可異動以當下教練負荷與政策為準。",
+        "links_inline": false
       },
       "answer_template_translations": {
         "summary_translations": {
@@ -9407,26 +8404,9 @@
         ]
       },
       "answer_template": {
-        "summary": "我們強烈建議您「先預約教練，再訂機票住宿」。尤其是在旺季，優質的中文教練非常搶手，時常比機票或住宿更早被預約一空。",
-        "details": "先確認預約到您想要的教練與時段後，再進行後續的旅遊安排，行程會比較有保障。",
-        "tip": "旺季期間建議提早 2-3 個月預約，以確保能選擇理想的教練與時段。",
-        "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
-        "summary_translations": {
-          "en": "We strongly recommend that you \"book your coach first, then book your flights and accommodation.\" Especially during peak season, high-quality Chinese coaches are in high demand and are often fully booked earlier than flights or accommodation.",
-          "th": "เราขอแนะนำอย่างยิ่งให้คุณ \"จองโค้ชก่อน แล้วค่อยจองตั๋วเครื่องบินและที่พัก\" โดยเฉพาะอย่างยิ่งในช่วงฤดูท่องเที่ยว โค้ชภาษาจีนที่มีคุณภาพเป็นที่ต้องการอย่างมาก และมักจะถูกจองเต็มเร็วกว่าตั๋วเครื่องบินหรือที่พัก"
-        },
-        "details_translations": {
-          "en": null,
-          "th": null
-        },
-        "tip_translations": {
-          "en": null,
-          "th": null
-        },
-        "postscript_translations": {
-          "en": "For more information and the latest availability, please refer to the reservation system.",
-          "th": "สำหรับข้อมูลเพิ่มเติมและจำนวนที่ว่างล่าสุด โปรดดูที่ระบบการจอง"
-        }
+        "text": "可取消預約，依取消時間點與政策計價。請先至訂單頁查看狀態與可用操作；若需協助再來信客服。",
+        "postscript": "詳細退費機制請參考退費規定頁。",
+        "links_inline": false
       },
       "answer_template_translations": {
         "summary_translations": {
@@ -9592,26 +8572,9 @@
         ]
       },
       "answer_template": {
-        "summary": "我們強烈建議您「先預約教練，再訂機票住宿」。尤其是在旺季，優質的中文教練非常搶手，時常比機票或住宿更早被預約一空。",
-        "details": "先確認預約到您想要的教練與時段後，再進行後續的旅遊安排，行程會比較有保障。",
-        "tip": "旺季期間建議提早 2-3 個月預約，以確保能選擇理想的教練與時段。",
-        "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
-        "summary_translations": {
-          "en": "We strongly recommend that you \"book your coach first, then book your flights and accommodation.\" Especially during peak season, high-quality Chinese coaches are in high demand and are often fully booked earlier than flights or accommodation.",
-          "th": "เราขอแนะนำอย่างยิ่งให้คุณ \"จองโค้ชก่อน แล้วค่อยจองตั๋วเครื่องบินและที่พัก\" โดยเฉพาะอย่างยิ่งในช่วงฤดูท่องเที่ยว โค้ชภาษาจีนที่มีคุณภาพเป็นที่ต้องการอย่างมาก และมักจะถูกจองเต็มเร็วกว่าตั๋วเครื่องบินหรือที่พัก"
-        },
-        "details_translations": {
-          "en": null,
-          "th": null
-        },
-        "tip_translations": {
-          "en": null,
-          "th": null
-        },
-        "postscript_translations": {
-          "en": "For more information and the latest availability, please refer to the reservation system.",
-          "th": "สำหรับข้อมูลเพิ่มเติมและจำนวนที่ว่างล่าสุด โปรดดูที่ระบบการจอง"
-        }
+        "text": "可以於預約系統指定教練，或依滑雪程度與偏好挑選。建議先瀏覽教練列表與介紹頁，包含證照、風格與可授課時段。",
+        "postscript": "熱門教練建議提早預約。",
+        "links_inline": false
       },
       "answer_template_translations": {
         "summary_translations": {
@@ -9764,26 +8727,9 @@
         ]
       },
       "answer_template": {
-        "summary": "我們強烈建議您「先預約教練，再訂機票住宿」。尤其是在旺季，優質的中文教練非常搶手，時常比機票或住宿更早被預約一空。",
-        "details": "先確認預約到您想要的教練與時段後，再進行後續的旅遊安排，行程會比較有保障。",
-        "tip": "旺季期間建議提早 2-3 個月預約，以確保能選擇理想的教練與時段。",
-        "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
-        "summary_translations": {
-          "en": "We strongly recommend that you \"book your coach first, then book your flights and accommodation.\" Especially during peak season, high-quality Chinese coaches are in high demand and are often fully booked earlier than flights or accommodation.",
-          "th": "เราขอแนะนำอย่างยิ่งให้คุณ \"จองโค้ชก่อน แล้วค่อยจองตั๋วเครื่องบินและที่พัก\" โดยเฉพาะอย่างยิ่งในช่วงฤดูท่องเที่ยว โค้ชภาษาจีนที่มีคุณภาพเป็นที่ต้องการอย่างมาก และมักจะถูกจองเต็มเร็วกว่าตั๋วเครื่องบินหรือที่พัก"
-        },
-        "details_translations": {
-          "en": null,
-          "th": null
-        },
-        "tip_translations": {
-          "en": null,
-          "th": null
-        },
-        "postscript_translations": {
-          "en": "For more information and the latest availability, please refer to the reservation system.",
-          "th": "สำหรับข้อมูลเพิ่มเติมและจำนวนที่ว่างล่าสุด โปรดดูที่ระบบการจอง"
-        }
+        "text": "教練通常會於課程前約 7 天主動與您聯繫，確認集合地點與上課細節。若需提前聯絡，請於備註中說明，我們會協助安排。",
+        "postscript": "請確保訂單聯絡資訊正確可用。",
+        "links_inline": false
       },
       "answer_template_translations": {
         "summary_translations": {
@@ -9926,26 +8872,9 @@
         ]
       },
       "answer_template": {
-        "summary": "我們強烈建議您「先預約教練，再訂機票住宿」。尤其是在旺季，優質的中文教練非常搶手，時常比機票或住宿更早被預約一空。",
-        "details": "先確認預約到您想要的教練與時段後，再進行後續的旅遊安排，行程會比較有保障。",
-        "tip": "旺季期間建議提早 2-3 個月預約，以確保能選擇理想的教練與時段。",
-        "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
-        "summary_translations": {
-          "en": "We strongly recommend that you \"book your coach first, then book your flights and accommodation.\" Especially during peak season, high-quality Chinese coaches are in high demand and are often fully booked earlier than flights or accommodation.",
-          "th": "เราขอแนะนำอย่างยิ่งให้คุณ \"จองโค้ชก่อน แล้วค่อยจองตั๋วเครื่องบินและที่พัก\" โดยเฉพาะอย่างยิ่งในช่วงฤดูท่องเที่ยว โค้ชภาษาจีนที่มีคุณภาพเป็นที่ต้องการอย่างมาก และมักจะถูกจองเต็มเร็วกว่าตั๋วเครื่องบินหรือที่พัก"
-        },
-        "details_translations": {
-          "en": null,
-          "th": null
-        },
-        "tip_translations": {
-          "en": null,
-          "th": null
-        },
-        "postscript_translations": {
-          "en": "For more information and the latest availability, please refer to the reservation system.",
-          "th": "สำหรับข้อมูลเพิ่มเติมและจำนวนที่ว่างล่าสุด โปรดดูที่ระบบการจอง"
-        }
+        "text": "建議 3 歲以上開始，5 歲以下建議安排一對一，提升安全與專注力。若與其他孩童同堂，需有大人熟悉滑雪陪同。",
+        "postscript": "實際安排依當日安全與教學評估為準。",
+        "links_inline": false
       },
       "answer_template_translations": {
         "summary_translations": {
@@ -10061,26 +8990,9 @@
         ]
       },
       "answer_template": {
-        "summary": "我們強烈建議您「先預約教練，再訂機票住宿」。尤其是在旺季，優質的中文教練非常搶手，時常比機票或住宿更早被預約一空。",
-        "details": "先確認預約到您想要的教練與時段後，再進行後續的旅遊安排，行程會比較有保障。",
-        "tip": "旺季期間建議提早 2-3 個月預約，以確保能選擇理想的教練與時段。",
-        "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
-        "summary_translations": {
-          "en": "We strongly recommend that you \"book your coach first, then book your flights and accommodation.\" Especially during peak season, high-quality Chinese coaches are in high demand and are often fully booked earlier than flights or accommodation.",
-          "th": "เราขอแนะนำอย่างยิ่งให้คุณ \"จองโค้ชก่อน แล้วค่อยจองตั๋วเครื่องบินและที่พัก\" โดยเฉพาะอย่างยิ่งในช่วงฤดูท่องเที่ยว โค้ชภาษาจีนที่มีคุณภาพเป็นที่ต้องการอย่างมาก และมักจะถูกจองเต็มเร็วกว่าตั๋วเครื่องบินหรือที่พัก"
-        },
-        "details_translations": {
-          "en": null,
-          "th": null
-        },
-        "tip_translations": {
-          "en": null,
-          "th": null
-        },
-        "postscript_translations": {
-          "en": "For more information and the latest availability, please refer to the reservation system.",
-          "th": "สำหรับข้อมูลเพิ่มเติมและจำนวนที่ว่างล่าสุด โปรดดูที่ระบบการจอง"
-        }
+        "text": "15 歲以下無身故理賠，提供醫療與緊急救援保障。詳細內容請參考保險說明頁。",
+        "postscript": "以保單條款與官網說明為準。",
+        "links_inline": false
       },
       "answer_template_translations": {
         "summary_translations": {
@@ -10197,26 +9109,9 @@
         ]
       },
       "answer_template": {
-        "summary": "我們強烈建議您「先預約教練，再訂機票住宿」。尤其是在旺季，優質的中文教練非常搶手，時常比機票或住宿更早被預約一空。",
-        "details": "先確認預約到您想要的教練與時段後，再進行後續的旅遊安排，行程會比較有保障。",
-        "tip": "旺季期間建議提早 2-3 個月預約，以確保能選擇理想的教練與時段。",
-        "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
-        "summary_translations": {
-          "en": "We strongly recommend that you \"book your coach first, then book your flights and accommodation.\" Especially during peak season, high-quality Chinese coaches are in high demand and are often fully booked earlier than flights or accommodation.",
-          "th": "เราขอแนะนำอย่างยิ่งให้คุณ \"จองโค้ชก่อน แล้วค่อยจองตั๋วเครื่องบินและที่พัก\" โดยเฉพาะอย่างยิ่งในช่วงฤดูท่องเที่ยว โค้ชภาษาจีนที่มีคุณภาพเป็นที่ต้องการอย่างมาก และมักจะถูกจองเต็มเร็วกว่าตั๋วเครื่องบินหรือที่พัก"
-        },
-        "details_translations": {
-          "en": null,
-          "th": null
-        },
-        "tip_translations": {
-          "en": null,
-          "th": null
-        },
-        "postscript_translations": {
-          "en": "For more information and the latest availability, please refer to the reservation system.",
-          "th": "สำหรับข้อมูลเพิ่มเติมและจำนวนที่ว่างล่าสุด โปรดดูที่ระบบการจอง"
-        }
+        "text": "每位教練有帶團人數上限；全程附保險；兒童乘坐纜車時安排大人陪同；教練具備兒童教學經驗。",
+        "postscript": "依當日安全為最高原則。",
+        "links_inline": false
       },
       "answer_template_translations": {
         "summary_translations": {
