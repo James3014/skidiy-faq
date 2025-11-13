@@ -9,16 +9,20 @@ const path = require('path');
 const fs = require('fs');
 
 class AnalyticsService {
-  constructor(dbPath = null) {
-    const enforcedPath = dbPath || process.env.SQLITE_DB_PATH || path.join(__dirname, '../../../data/analytics.db');
-    const dataDir = path.dirname(enforcedPath);
+  constructor(dbPath) {
+    // LINUS PRINCIPLE: Require explicit path - no defaults, no guessing
+    // Single source of truth must be SQLITE_DB_PATH env var
+    if (!dbPath) {
+      throw new Error('AnalyticsService requires explicit dbPath argument or SQLITE_DB_PATH environment variable');
+    }
+
+    const dataDir = path.dirname(dbPath);
     if (!fs.existsSync(dataDir)) {
       fs.mkdirSync(dataDir, { recursive: true });
     }
-    process.env.SQLITE_DB_PATH = enforcedPath;
 
-    console.log('[Analytics Service] Using database path:', enforcedPath);
-    this.db = new Database(enforcedPath);
+    console.log('[Analytics Service] Using database path:', dbPath);
+    this.db = new Database(dbPath);
     this.initializeTables();
   }
 
