@@ -130,26 +130,27 @@ router.post('/search', async (req, res, next) => {
         const answerField = language !== 'zh' ? `text_${language}` : 'text';
 
         const question = item[questionField] || item.canonical_question;
-        const answer = item.answer_template[answerField] || item.answer_template.text;
+        const answerObj = item.answer_template || {};
+        const answer = answerObj[answerField] || answerObj.text || '';
 
         // Calculate simple match score
         let score = 0;
 
         // Exact match in question
-        if (question.toLowerCase().includes(queryLower)) {
+        if (question && question.toLowerCase().includes(queryLower)) {
           score += 0.5;
         }
 
         // Match in utterance patterns
         if (item.utterance_patterns && Array.isArray(item.utterance_patterns)) {
           const hasMatch = item.utterance_patterns.some(pattern =>
-            pattern.toLowerCase().includes(queryLower)
+            pattern && pattern.toLowerCase().includes(queryLower)
           );
           if (hasMatch) score += 0.3;
         }
 
         // Match in answer
-        if (answer.toLowerCase().includes(queryLower)) {
+        if (answer && answer.toLowerCase().includes(queryLower)) {
           score += 0.1;
         }
 
