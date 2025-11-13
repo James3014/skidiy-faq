@@ -138,13 +138,21 @@ router.post('/search', async (req, res, next) => {
 
     const results = data.items
       .map(item => {
-        // Phase 1 optimization: All FAQs have unified 'text' field
         const questionField = language !== 'zh' ? `canonical_question_${language}` : 'canonical_question';
         const question = item[questionField] || item.canonical_question;
         const answerObj = item.answer_template || {};
 
-        // Multi-language support with fallback to Chinese
-        const answer = answerObj.text_translations?.[language] || answerObj.text || '';
+        // LINUS PRINCIPLE: Generate 'text' field if missing
+        // Fallback: Compose from summary + details if 'text' doesn't exist
+        let answer = answerObj.text_translations?.[language] || answerObj.text;
+        if (!answer) {
+          // Fallback: Compose from summary + details
+          const parts = [];
+          if (answerObj.summary) parts.push(answerObj.summary);
+          if (answerObj.details) parts.push(answerObj.details);
+          answer = parts.join(' ');
+        }
+        answer = answer || '';
 
         // Calculate simple match score
         let score = 0;
@@ -238,12 +246,31 @@ router.get('/all', async (req, res, next) => {
   try {
     const data = await loadFAQData();
 
-    // After Phase 1 optimization: All FAQs now have unified 'text' field
-    // No transformation needed - data layer handles format unification
+    // LINUS PRINCIPLE: Fix missing 'text' field in answer_template
+    // Some FAQ data may only have summary + details, not unified 'text'
+    // Generate 'text' field at API layer if it's missing
+    const itemsWithText = (data.items || []).map(item => {
+      if (!item.answer_template) {
+        return item;
+      }
+
+      const template = item.answer_template;
+
+      // If 'text' field is missing or empty, compose it from summary + details
+      if (!template.text) {
+        const parts = [];
+        if (template.summary) parts.push(template.summary);
+        if (template.details) parts.push(template.details);
+        template.text = parts.join('\n\n');
+      }
+
+      return item;
+    });
+
     sendSuccess(res, {
-      items: data.items || [],
+      items: itemsWithText,
       metadata: data.metadata || data.meta || {},
-      total: (data.items || []).length
+      total: itemsWithText.length
     }, 200, {
       timestamp: new Date().toISOString(),
       'Cache-Control': 'public, max-age=300' // Cache for 5 minutes
@@ -290,12 +317,27 @@ router.get('/:faq_id', async (req, res, next) => {
     }
 
     // Build localized response
-    // Phase 1 optimization: All FAQs have unified 'text' field
     const questionField = language !== 'zh' ? `canonical_question_${language}` : 'canonical_question';
     const baseTemplate = faqItem.answer_template || {};
 
-    // Simple multi-language support with fallback to Chinese
-    let text = baseTemplate.text_translations?.[language] || baseTemplate.text || '';
+    // LINUS PRINCIPLE: Generate 'text' field if missing
+    // Fallback: Compose from summary + details if 'text' field doesn't exist
+    let text = baseTemplate.text_translations?.[language] || baseTemplate.text;
+    if (!text && language === 'zh') {
+      // If no translated text and no unified text, compose from summary + details
+      const parts = [];
+      if (baseTemplate.summary) parts.push(baseTemplate.summary);
+      if (baseTemplate.details) parts.push(baseTemplate.details);
+      text = parts.join('\n\n');
+    } else if (!text) {
+      // For other languages, try fallback to Chinese version
+      const parts = [];
+      if (baseTemplate.summary) parts.push(baseTemplate.summary);
+      if (baseTemplate.details) parts.push(baseTemplate.details);
+      text = parts.join('\n\n');
+    }
+    text = text || '';
+
     let tip = baseTemplate.tip_translations?.[language] || baseTemplate.tip || '';
     let postscript = baseTemplate.postscript_translations?.[language] || baseTemplate.postscript || '';
 
