@@ -4,6 +4,8 @@
  * Handles FAQ search and retrieval endpoints
  * - POST /api/v1/faq/search - Search FAQs with query string
  * - GET /api/v1/faq/:faq_id - Get specific FAQ by ID
+ *
+ * Version: 2.0 (Force Zeabur rebuild - 2025-11-13)
  */
 
 const express = require('express');
