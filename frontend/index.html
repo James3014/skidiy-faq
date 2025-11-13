@@ -3295,11 +3295,19 @@
         const resultContainer = document.getElementById('resultsList');
         const localized = faqEngine.getLocalizedContent(faq, currentLanguage);
         const question = DOMPurify.sanitize(localized.question || faq.canonical_question || '');
+        const answer = parseLinksInText(localized.answer || '無答案內容');
+        const postscript = localized.postscript
+          ? `<div class="faq-postscript">${parseLinksInText(localized.postscript)}</div>`
+          : '';
         const singleResultHTML = `
           <div class="faq-item" data-faq-id="${faq.id}" data-source="${source}" data-position="1" data-query="">
             <div class="faq-header">
               <div class="faq-question">${question}</div>
               <span class="faq-toggle-icon">▼</span>
+            </div>
+            <div class="faq-answer">
+              ${answer}
+              ${postscript}
             </div>
           </div>`;
         resultContainer.innerHTML = singleResultHTML;
