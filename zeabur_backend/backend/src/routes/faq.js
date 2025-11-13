@@ -138,35 +138,13 @@ router.post('/search', async (req, res, next) => {
 
     const results = data.items
       .map(item => {
-        // Get localized fields based on language
+        // Phase 1 optimization: All FAQs have unified 'text' field
         const questionField = language !== 'zh' ? `canonical_question_${language}` : 'canonical_question';
-
         const question = item[questionField] || item.canonical_question;
         const answerObj = item.answer_template || {};
 
-        // Build answer from available fields with priority:
-        // Priority 1: text field (used by 65 FAQs)
-        // Priority 2: summary + details fields (used by 6 FAQs)
-        // Priority 3: translations (if available)
-        let answer = '';
-        if (language !== 'zh') {
-          // For non-Chinese languages, try translations first, then fallback to Chinese
-          const textTrans = answerObj.text_translations?.[language];
-          const summaryTrans = answerObj.summary_translations?.[language];
-          const detailsTrans = answerObj.details_translations?.[language];
-
-          if (textTrans) {
-            answer = textTrans;
-          } else if (summaryTrans || detailsTrans) {
-            answer = [summaryTrans || '', detailsTrans || ''].filter(Boolean).join('\n\n');
-          } else {
-            // Fallback to Chinese if no translation available
-            answer = answerObj.text || [answerObj.summary || '', answerObj.details || ''].filter(Boolean).join('\n\n');
-          }
-        } else {
-          // Chinese: prefer 'text' field, fallback to summary + details
-          answer = answerObj.text || [answerObj.summary || '', answerObj.details || ''].filter(Boolean).join('\n\n');
-        }
+        // Multi-language support with fallback to Chinese
+        const answer = answerObj.text_translations?.[language] || answerObj.text || '';
 
         // Calculate simple match score
         let score = 0;
@@ -260,35 +238,12 @@ router.get('/all', async (req, res, next) => {
   try {
     const data = await loadFAQData();
 
-    // Transform items to include unified answer_template.text field
-    const transformedItems = (data.items || []).map(item => {
-      const baseTemplate = item.answer_template || {};
-
-      // Build answer text with priority:
-      // 1. If text already exists, use it (most FAQs use this format)
-      // 2. Otherwise, combine summary + details (legacy format for early FAQs)
-      let text = baseTemplate.text || '';
-      if (!text) {
-        const summary = baseTemplate.summary || '';
-        const details = baseTemplate.details || '';
-        text = [summary, details].filter(Boolean).join('\n\n') || '';
-      }
-
-      return {
-        ...item,
-        answer_template: {
-          ...baseTemplate,
-          // LINUS PRINCIPLE: Provide unified 'text' field for frontend compatibility
-          // Frontend expects answer_template.text with combined summary + details
-          text
-        }
-      };
-    });
-
+    // After Phase 1 optimization: All FAQs now have unified 'text' field
+    // No transformation needed - data layer handles format unification
     sendSuccess(res, {
-      items: transformedItems,
+      items: data.items || [],
       metadata: data.metadata || data.meta || {},
-      total: transformedItems.length
+      total: (data.items || []).length
     }, 200, {
       timestamp: new Date().toISOString(),
       'Cache-Control': 'public, max-age=300' // Cache for 5 minutes
@@ -335,67 +290,23 @@ router.get('/:faq_id', async (req, res, next) => {
     }
 
     // Build localized response
+    // Phase 1 optimization: All FAQs have unified 'text' field
     const questionField = language !== 'zh' ? `canonical_question_${language}` : 'canonical_question';
     const baseTemplate = faqItem.answer_template || {};
 
-    // Build localized answer components with priority:
-    // Priority 1: text field (used by 65 FAQs)
-    // Priority 2: summary + details fields (used by 6 FAQs)
-    // Priority 3: translations (if available)
-    let text = '';
-    let summary = '';
-    let details = '';
-    let tip = '';
-    let postscript = '';
-
-    if (language !== 'zh') {
-      // For non-Chinese languages, try translations first
-      const textTrans = baseTemplate.text_translations?.[language];
-      const summaryTrans = baseTemplate.summary_translations?.[language];
-      const detailsTrans = baseTemplate.details_translations?.[language];
-
-      if (textTrans) {
-        text = textTrans;
-      } else if (summaryTrans || detailsTrans) {
-        summary = summaryTrans || '';
-        details = detailsTrans || '';
-        text = [summary, details].filter(Boolean).join('\n\n');
-      } else {
-        // Fallback to Chinese if no translation available
-        text = baseTemplate.text || '';
-        if (!text) {
-          summary = baseTemplate.summary || '';
-          details = baseTemplate.details || '';
-          text = [summary, details].filter(Boolean).join('\n\n');
-        }
-      }
-
-      tip = baseTemplate.tip_translations?.[language] || baseTemplate.tip || '';
-      postscript = baseTemplate.postscript_translations?.[language] || baseTemplate.postscript || '';
-    } else {
-      // Chinese: prefer 'text' field, fallback to summary + details
-      text = baseTemplate.text || '';
-      if (!text) {
-        summary = baseTemplate.summary || '';
-        details = baseTemplate.details || '';
-        text = [summary, details].filter(Boolean).join('\n\n');
-      }
-      tip = baseTemplate.tip || '';
-      postscript = baseTemplate.postscript || '';
-    }
+    // Simple multi-language support with fallback to Chinese
+    let text = baseTemplate.text_translations?.[language] || baseTemplate.text || '';
+    let tip = baseTemplate.tip_translations?.[language] || baseTemplate.tip || '';
+    let postscript = baseTemplate.postscript_translations?.[language] || baseTemplate.postscript || '';
 
     const response = {
       ...faqItem,
       canonical_question: faqItem[questionField] || faqItem.canonical_question,
       answer_template: {
         ...baseTemplate,
-        summary,
-        details,
+        text,
         tip,
-        postscript,
-        // LINUS PRINCIPLE: Provide unified 'text' field for frontend compatibility
-        // Frontend expects answer_template.text with the complete answer
-        text
+        postscript
       }
     };
 

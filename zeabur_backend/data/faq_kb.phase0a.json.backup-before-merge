@@ -106,8 +106,7 @@
         "postscript_translations": {
           "en": "For more information and the latest availability, please refer to the reservation system.",
           "th": "สำหรับข้อมูลเพิ่มเติมและจำนวนที่ว่างล่าสุด โปรดดูที่ระบบการจอง"
-        },
-        "text": "我們強烈建議您「先預約教練，再訂機票住宿」。尤其是在旺季，優質的中文教練非常搶手，時常比機票或住宿更早被預約一空。\n\n先確認預約到您想要的教練與時段後，再進行後續的旅遊安排，行程會比較有保障。"
+        }
       },
       "hot": true,
       "required_slots": [],
@@ -271,8 +270,7 @@
         "postscript_translations": {
           "en": "For more information and the latest availability, please refer to the booking system.",
           "th": "สำหรับข้อมูลเพิ่มเติมและจำนวนที่ว่างล่าสุด โปรดดูที่ระบบการจอง"
-        },
-        "text": "我們在網站的各雪場介紹頁面中，有整理學員們較常選擇的住宿選項供您參考。關於熱門時段（如聖誕、跨年、農曆新年）訂房困難，主要有兩個原因：1) 日本的訂房通常在 2-3 個月前才開放，太早查詢會顯示無空房。2) 這些時段是全球的滑雪旺季，房價會大幅上漲且很快被訂滿，建議您確定行程後盡早預訂。"
+        }
       },
       "hot": true,
       "required_slots": [],
@@ -479,8 +477,7 @@
         "postscript_translations": {
           "en": "For more information and the latest availability, please refer to the reservation system.",
           "th": "สำหรับข้อมูลเพิ่มเติมและจำนวนที่ว่างล่าสุด โปรดดูที่ระบบการจอง"
-        },
-        "text": "我們的中文滑雪教練服務遍及日本多個熱門滑雪區域，包含：北海道（札幌、留壽都、富良野）、東北（安比、藏王）、新潟（湯澤地區、苗場）、長野（輕井澤、白馬、野澤）等。您可以在我們的網站首頁或「雪場介紹」頁面，查看所有提供服務的雪場列表。"
+        }
       },
       "hot": true,
       "required_slots": [],
@@ -611,8 +608,7 @@
         "postscript_translations": {
           "en": "For more information and the latest availability, please refer to the booking system.",
           "th": "สำหรับข้อมูลเพิ่มเติมและจำนวนที่นั่งว่างล่าสุด โปรดดูที่ระบบการจอง"
-        },
-        "text": "為了確保服務品質與資訊的準確性，我們目前主要透過電子郵件 ( service@diy.ski ) 提供客服。文字記錄能幫助我們更精準地理解您的問題，並完整地追蹤處理進度。我們承諾會盡快回覆您的所有問題。"
+        }
       },
       "hot": true,
       "required_slots": [],
@@ -749,8 +745,7 @@
         "postscript_translations": {
           "en": "For more information and the latest availability, please refer to the reservation system.",
           "th": "สำหรับข้อมูลเพิ่มเติมและจำนวนที่ว่างล่าสุด โปรดดูที่ระบบการจอง"
-        },
-        "text": "除了輕井澤雪場為一堂 2 小時，大部份雪場分為 3 小時上下午半天課及全天課 (時長依雪場會稍有不同 )。初學者建議至少上 8 至 12 小時，才能學習到完整進度，進階者可視自己的程度狀況預訂全日或半日課程。"
+        }
       },
       "hot": true,
       "required_slots": [],
@@ -891,8 +886,7 @@
         "postscript_translations": {
           "en": "For more information and the latest availability, please refer to the reservation system.",
           "th": "สำหรับข้อมูลเพิ่มเติมและจำนวนที่ว่างล่าสุด โปรดดูที่ระบบการจอง"
-        },
-        "text": "可以的，您可以在預約系統中指定您偏好的教練。但請注意，教練的檔期有限，建議您提早預約以確保能預訂到您心儀的教練。"
+        }
       },
       "hot": true,
       "required_slots": [],
