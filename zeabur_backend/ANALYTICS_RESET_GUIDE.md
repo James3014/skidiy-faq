@@ -73,9 +73,10 @@ Content-Type: application/json
 X-Admin-Token: <你的管理員 token>
 
 {
-  "mode": "all",          // 或 "keep-days"
-  "keepDays": 7,          // mode=keep-days 時必填
-  "dryRun": false         // true=預覽，false=實際執行
+  "mode": "all",             // 或 "keep-days"
+  "keepDays": 7,             // keep-days 模式時，至少 7 天
+  "dryRun": false,           // true=預覽，false=實際執行
+  "confirm": "ERASE_ALL_DATA" // mode=all 時必填，避免誤刪
 }
 ```
 
@@ -84,7 +85,12 @@ X-Admin-Token: <你的管理員 token>
 | 參數 | 類型 | 必填 | 說明 |
 |------|------|------|------|
 | `mode` | string | ❌ | 清除模式：`all`（全部清除，預設）或 `keep-days`（保留最近 N 天） |
-| `keepDays` | number | ❌ | 保留天數（當 mode=keep-days 時必填） |
+| `keepDays` | number | ❌ | 保留天數（mode=keep-days，且 ≥7） |
+| `confirm` | string | ⛔ | mode=all 時必填，預設值 `ERASE_ALL_DATA` |
+
+> ⚠️ **安全機制**：要刪除全部資料時，必須在 body 加上 `"confirm": "ERASE_ALL_DATA"`（可透過環境變數 `ANALYTICS_RESET_CONFIRM` 自訂）。
+>
+> 📏 **保留天數下限**：`keep-days` 模式會自動套用至少 7 天（可用 `ANALYTICS_MIN_KEEP_DAYS` 覆寫）。
 | `dryRun` | boolean | ❌ | 預覽模式（預設 false） |
 
 **回應**
@@ -218,7 +224,8 @@ curl -X POST https://faq-api-v1.zeabur.app/api/v1/admin/reset-analytics \
   -H "X-Admin-Token: YOUR_ADMIN_TOKEN" \
   -d '{
     "mode": "all",
-    "dryRun": false
+    "dryRun": false,
+    "confirm": "ERASE_ALL_DATA"
   }'
 ```
 
@@ -303,7 +310,7 @@ curl "https://faq-api-v1.zeabur.app/api/v1/admin/health?token=YOUR_TOKEN"
 **建議**：
 - 先用 `dryRun: true` 預覽
 - 重要資料先匯出備份
-- 小規模測試（如 `keepDays: 1`）
+- 小規模測試（例如 `keepDays: 7`）
 
 ### Q2: 清除需要多久時間？
 

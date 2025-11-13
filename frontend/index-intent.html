@@ -1129,6 +1129,7 @@
     let currentSection = null;
     let searchDebounce = null;
     let currentLanguage = 'zh';
+    let lastSearchQuery = '';
 
     // API base configuration
     const API_BASE = window.API_BASE || '/api/v1';
@@ -1270,22 +1271,46 @@
       console.log('[Sidebar] Click handlers attached to', document.querySelectorAll('.sidebar-section').length, 'sections');
     }
 
-    // Track FAQ views and clicks for analytics
-    async function trackFAQView(faqId, clicked = false) {
+    const FAQ_SESSION_KEY = 'faq_session_id';
+
+    function getFaqSessionId() {
+      try {
+        const storage = window.sessionStorage || window.localStorage;
+        let id = storage.getItem(FAQ_SESSION_KEY);
+        if (!id) {
+          id = (window.crypto?.randomUUID?.() || `sess_${Date.now()}_${Math.random().toString(16).slice(2)}`);
+          storage.setItem(FAQ_SESSION_KEY, id);
+        }
+        return id;
+      } catch (error) {
+        console.warn('[Analytics] Failed to access storage for session id:', error);
+        return `sess_${Date.now()}`;
+      }
+    }
+
+    async function trackFAQInteraction({ faqId, source = 'search_results', position = null, clicked = true, query = null }) {
+      if (!faqId) return;
+
+      const payload = {
+        faq_id: faqId,
+        clicked,
+        language: currentLanguage || 'zh',
+        source,
+        position: typeof position === 'number' ? position : null,
+        query_text: query || lastSearchQuery || null,
+        session_id: getFaqSessionId(),
+        timestamp: new Date().toISOString()
+      };
+
       try {
         await fetch(`${API_BASE}/analytics/track-faq-view`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            faq_id: faqId,
-            clicked: clicked,
-            timestamp: new Date().toISOString()
-          })
+          body: JSON.stringify(payload)
         });
-        console.log(`[Analytics] Tracked ${clicked ? 'click' : 'view'} for ${faqId}`);
+        console.log(`[Analytics] Tracked FAQ interaction (${payload.source}) for ${faqId}`);
       } catch (error) {
-        console.warn('[Analytics] Failed to track FAQ view:', error);
-        // Fail silently - analytics should not block user experience
+        console.warn('[Analytics] Failed to track FAQ interaction:', error);
       }
     }
 
@@ -1624,7 +1649,7 @@
         const localized = faqEngine.getLocalizedContent(faq, currentLanguage);
         const question = DOMPurify.sanitize(localized.question || faq.canonical_question || '');
         return `
-        <div class="hot-faq-item" onclick="showFAQDetail('${faq.id}')">
+        <div class="hot-faq-item" onclick="showFAQDetail('${faq.id}', 'hot_list')">
           ${question}
         </div>
       `;
@@ -1653,7 +1678,10 @@
       document.getElementById('modalTitle').textContent = title;
 
       // Generate FAQ items HTML
-      const faqsHtml = faqs.map(faq => {
+      const modalSource = 'section_modal';
+      const safeModalSource = DOMPurify.sanitize(modalSource);
+
+      const faqsHtml = faqs.map((faq, index) => {
         const confidence = faq.score ? Math.round((1 - faq.score) * 100) : 100;
         const confidenceClass = confidence >= 80 ? 'confidence-high' :
                                confidence >= 60 ? 'confidence-medium' : 'confidence-low';
@@ -1665,7 +1693,7 @@
         const confidenceLabel = i18n ? i18n.t('confidence') : '信心度';
 
         return `
-          <div class="faq-item" data-faq-id="${faq.id}">
+          <div class="faq-item" data-faq-id="${faq.id}" data-source="${safeModalSource}" data-position="${index + 1}" data-query="">
             <div class="faq-header">
               <div class="faq-question">
                 ${question}
@@ -1703,6 +1731,7 @@
     async function performSearch() {
       const query = document.getElementById('searchInput').value.trim();
       if (!query) return;
+      lastSearchQuery = query;
 
       document.getElementById('loadingState').classList.remove('hidden');
       document.getElementById('initialView').classList.add('hidden');
@@ -1756,7 +1785,7 @@
 
         // Display FAQ results (always)
         const faqs = results.map(r => ({...r.item, score: r.score}));
-        displayFAQs(faqs, '搜尋結果', searchTime, resortResults);
+        displayFAQs(faqs, '搜尋結果', searchTime, resortResults, 'search_results');
 
       } catch (error) {
         console.error('Search failed:', error);
@@ -1802,7 +1831,7 @@
       if (recommendations && recommendations.length > 0) {
         const recList = document.getElementById('recommendationsList');
         recList.innerHTML = recommendations.map(rec => `
-          <div class="recommendation-item" onclick="showFAQDetail('${rec.faq_id}')">
+          <div class="recommendation-item" onclick="showFAQDetail('${rec.faq_id}', 'intent_recommendation')">
             ${rec.question} <span style="color: #999;">(${Math.round(rec.confidence * 100)}%)</span>
           </div>
         `).join('');
@@ -1820,7 +1849,7 @@
     }
 
     // Display FAQs
-    function displayFAQs(faqs, title, searchTime = null, resortResults = []) {
+    function displayFAQs(faqs, title, searchTime = null, resortResults = [], source = 'search_results') {
       document.getElementById('loadingState').classList.add('hidden');
       document.getElementById('initialView').classList.add('hidden');
       document.getElementById('resultsSection').classList.remove('hidden');
@@ -1853,10 +1882,16 @@
         `;
       }
 
-      const resultsHTML = faqs.map(faq => {
+      const safeSourceAttr = DOMPurify.sanitize(source || 'search_results');
+      const safeQueryAttr = source === 'search_results'
+        ? DOMPurify.sanitize(lastSearchQuery || '')
+        : '';
+
+      const resultsHTML = faqs.map((faq, index) => {
         const confidence = faq.score ? Math.round((1 - faq.score) * 100) : 100;
         const confidenceClass = confidence >= 80 ? 'confidence-high' :
                                confidence >= 60 ? 'confidence-medium' : 'confidence-low';
+        const position = index + 1;
 
         const localized = faqEngine.getLocalizedContent(faq, currentLanguage);
         const question = DOMPurify.sanitize(localized.question || faq.canonical_question || '');
@@ -1866,7 +1901,7 @@
           : '';
 
         return `
-          <div class="faq-item" data-faq-id="${faq.id}">
+          <div class="faq-item" data-faq-id="${faq.id}" data-position="${position}" data-source="${safeSourceAttr}" data-query="${safeQueryAttr}">
             <div class="faq-header">
               <div class="faq-question">
                 ${question}
@@ -1898,29 +1933,35 @@
     function toggleFAQItem(item) {
       const wasExpanded = item.classList.contains('expanded');
 
-      // Optional: Close all other items (uncomment if you want only one open at a time)
-      // document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('expanded'));
-
-      // Toggle this item
       if (wasExpanded) {
         item.classList.remove('expanded');
       } else {
         item.classList.add('expanded');
 
-        // Track FAQ click when expanding
         const faqId = item.dataset.faqId;
         if (faqId) {
-          trackFAQView(faqId, true);
+          const source = item.dataset.source || 'search_results';
+          const storedQuery = item.dataset.query;
+          const query = storedQuery && storedQuery.length > 0
+            ? storedQuery
+            : (source === 'search_results' ? lastSearchQuery : null);
+          const position = parseInt(item.dataset.position || '', 10);
+          trackFAQInteraction({
+            faqId,
+            source,
+            position: Number.isNaN(position) ? null : position,
+            clicked: true,
+            query
+          });
         }
       }
     }
 
     // Show FAQ detail (hot FAQ click or recommendation click)
-    function showFAQDetail(faqId) {
-      console.log('[showFAQDetail] Called with faqId:', faqId);
+    function showFAQDetail(faqId, source = 'hot_list') {
+      console.log('[showFAQDetail] Called with faqId:', faqId, 'source:', source);
 
-      // Track the hot FAQ click
-      trackFAQView(faqId, true);
+      trackFAQInteraction({ faqId, source, clicked: true, position: null, query: null });
 
       // First check if the FAQ is already in the results
       const item = document.querySelector(`.faq-item[data-faq-id="${faqId}"]`);
@@ -1938,19 +1979,26 @@
       console.log('[showFAQDetail] FAQ not in results, searching in allFAQs');
       const faq = allFAQs.find(f => f.id === faqId);
       if (faq) {
-        console.log('[showFAQDetail] Found FAQ, calling displayFAQs');
-        // Display this single FAQ
-        displayFAQs([faq], '熱門問題');
+        console.log('[showFAQDetail] Rendering single FAQ card for', faqId);
+
+        const resultContainer = document.getElementById('resultsList');
+        const singleResultHTML = `
+          <div class="faq-item" data-faq-id="${faq.id}" data-source="${source}" data-position="1" data-query="">
+            <div class="faq-header">
+              <div class="faq-question">${DOMPurify.sanitize(faq.canonical_question)}</div>
+              <span class="faq-toggle-icon">▼</span>
+            </div>
+          </div>`;
+        resultContainer.innerHTML = singleResultHTML;
+        document.querySelectorAll('.faq-item').forEach(item => {
+          item.addEventListener('click', () => toggleFAQItem(item));
+        });
         hideIntentPanel();
 
-        // Expand it automatically after a short delay to allow rendering
-        setTimeout(() => {
-          const newItem = document.querySelector(`.faq-item[data-faq-id="${faqId}"]`);
-          if (newItem && !newItem.classList.contains('expanded')) {
-            console.log('[showFAQDetail] Expanding newly rendered FAQ');
-            toggleFAQItem(newItem);
-          }
-        }, 100);
+        const newItem = document.querySelector(`.faq-item[data-faq-id="${faqId}"]`);
+        if (newItem && !newItem.classList.contains('expanded')) {
+          toggleFAQItem(newItem);
+        }
       } else {
         console.error('[showFAQDetail] FAQ not found:', faqId);
       }

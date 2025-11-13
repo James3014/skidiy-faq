@@ -84,9 +84,12 @@ zeabur/
 │   │       ├── zh.json          # 中文
 │   │       ├── en.json          # 英文
 │   │       └── th.json          # 泰文
-│   └── faq_kb.json              # FAQ 知識庫（71+ 條目）
 │
 └── zeabur_backend/              # 後端 API
+    ├── data/
+    │   ├── analytics.db         # SQLite 分析資料庫
+    │   ├── customer_inquiries.jsonl
+    │   └── faq_kb.phase0a.json  # FAQ 知識庫（唯一來源）
     └── backend/
         ├── src/
         │   ├── server.js        # Express 伺服器
@@ -101,9 +104,6 @@ zeabur/
         │   │   ├── llm-manager.js
         │   │   └── analytics-service.js
         │   └── middleware/      # 中介層
-        ├── data/
-        │   ├── analytics.db     # SQLite 分析資料庫
-        │   └── customer_inquiries.jsonl
         └── package.json
 ```
 
@@ -178,8 +178,8 @@ FAQ_INSIGHTS_API_KEYS=your-insights-api-key
 #### 3. 配置 Volume 永久儲存（重要！）
 
 **為什麼需要配置 Volume？**
-- SQLite 資料庫預設儲存在 `/tmp/analytics.db`（臨時目錄）
-- Zeabur 重新部署或容器重啟後，`/tmp` 會被清空
+- SQLite 資料庫部署時應固定掛載在 `/data/analytics.db`（Volume）
+- Zeabur 重新部署或容器重啟後，未掛 Volume 的資料夾（如 `/tmp`）會被清空
 - 配置 Volume 後，資料將永久保存在 `/data/analytics.db`
 
 **快速配置步驟**:
@@ -259,7 +259,7 @@ const API_BASE = '/api/v1';  // 相對路徑，由 Zeabur 自動路由
 
 ### Analytics API（新增）
 
-#### 1. 追蹤 FAQ 點擊/瀏覽
+#### 1. 追蹤 FAQ 互動
 ```bash
 POST /api/v1/analytics/track-faq-view
 Content-Type: application/json
@@ -267,6 +267,10 @@ Content-Type: application/json
 {
   "faq_id": "faq.instructor.001",
   "clicked": true,
+  "language": "zh",
+  "source": "search_results",
+  "position": 1,
+  "query_text": "如何預約教練",
   "timestamp": "2025-11-01T08:00:00.000Z"
 }
 ```
@@ -282,13 +286,21 @@ Response:
     "hot_faqs": [
       {
         "faq_id": "faq.instructor.001",
-        "views": 150,
         "clicks": 45,
-        "click_rate": 0.30
+        "unique_sessions": 32,
+        "last_clicked_at": "2025-11-01T08:00:00.000Z"
       }
     ],
     "period_days": 30,
-    "total_faqs": 5
+    "total_faqs": 5,
+    "by_language": [
+      { "language": "zh", "clicks": 40 },
+      { "language": "en", "clicks": 5 }
+    ],
+    "by_source": [
+      { "source": "search_results", "clicks": 35 },
+      { "source": "hot_list", "clicks": 10 }
+    ]
   }
 }
 ```
@@ -365,7 +377,7 @@ POST /api/v1/intent/analyze
 #### 技術改進
 - 移除 `faqEngine.setLanguage()` 錯誤呼叫
 - API_BASE 配置分離（本地 vs 生產環境）
-- 新增 `trackFAQView()` 工具函數
+- 新增 `trackFAQInteraction()` 工具函數，記錄語系 / 來源 / 排序資訊
 
 #### 檔案變更
 - `frontend/index-intent.html` - 新增動態熱門 FAQ 邏輯
@@ -397,7 +409,7 @@ POST /api/v1/intent/analyze
 
 ### 新增 FAQ
 
-編輯 `frontend/faq_kb.json`：
+編輯 `zeabur_backend/data/faq_kb.phase0a.json`：
 
 ```json
 {
@@ -437,12 +449,17 @@ SQLite `analytics.db` 包含：
 ```sql
 CREATE TABLE faq_views (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
+  view_id TEXT UNIQUE,
   faq_id TEXT NOT NULL,
   query_id TEXT,
+  query_text TEXT,
   position INTEGER DEFAULT 0,
+  source TEXT,
   clicked INTEGER DEFAULT 0,
-  timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
-  time_to_click_ms INTEGER
+  time_to_click_ms INTEGER,
+  language TEXT DEFAULT 'zh',
+  session_id TEXT,
+  timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 ```
 

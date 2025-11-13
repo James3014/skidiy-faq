@@ -28,12 +28,12 @@
 │  SPA 動態搜尋 (index.html)              │
 │  - 使用者直接搜尋 FAQ                  │
 │  - 即時語言切換（中/英/泰）            │
-│  - 展示 faq_kb.json 的所有內容         │
+│  - 展示 faq_kb.phase0a.json 的所有內容         │
 └─────────────────────────────────────────┘
            ↑ 讀取
            │
     ┌──────────────┐
-    │ faq_kb.json  │  ← 唯一的真實資料來源 (Single Source of Truth)
+    │ faq_kb.phase0a.json  │  ← 唯一的真實資料來源 (Single Source of Truth)
     └──────────────┘
            ↑ 讀取
            │
@@ -47,7 +47,7 @@
 
 ### 📌 關鍵原則
 
-- **單一資料來源**: 所有內容都來自 `zeabur_backend/data/faq_kb.json`
+- **單一資料來源**: 所有內容都來自 `zeabur_backend/data/faq_kb.phase0a.json`
 - **自動生成靜態頁面**: 修改 JSON 後執行生成腳本，自動產出 213 個 HTML
 - **無手工編輯 HTML**: 靜態頁面由腳本生成，不需手工修改
 - **三語言必須完整**: 新增 FAQ 時必須提供中文、英文、泰文的完整翻譯
@@ -182,15 +182,15 @@ faq.refund_policy - 退費機制
 - [ ] `crm_tags_translations` 個數 = `crm_tags` 個數
 - [ ] `answer_template.text_translations.en` 和 `.th` 都存在
 
-#### 步驟 4：新增到 faq_kb.json
+#### 步驟 4：新增到 faq_kb.phase0a.json
 
 ```bash
 # 1. 編輯 FAQ 資料檔案
-vi zeabur_backend/data/faq_kb.json
+vi zeabur_backend/data/faq_kb.phase0a.json
 
 # 2. 在 items 陣列末尾新增你的 FAQ
 # 3. 確保 JSON 格式正確（可用 jq 驗證）
-jq . zeabur_backend/data/faq_kb.json > /dev/null && echo "✅ JSON 格式正確"
+jq . zeabur_backend/data/faq_kb.phase0a.json > /dev/null && echo "✅ JSON 格式正確"
 ```
 
 #### 步驟 5：執行驗證腳本
@@ -269,13 +269,13 @@ grep "hreflang" frontend/faq/faq.booking.067-zh.html
 git status
 
 # 預期：
-# modified:   zeabur_backend/data/faq_kb.json
+# modified:   zeabur_backend/data/faq_kb.phase0a.json
 # modified:   frontend/faq/ (新增 3 個 HTML 檔)
 # modified:   frontend/sitemap.xml
 # 等等
 
 # 2. 新增檔案
-git add zeabur_backend/data/faq_kb.json
+git add zeabur_backend/data/faq_kb.phase0a.json
 git add frontend/faq/
 git add frontend/sitemap.xml
 git add frontend/robots.txt
@@ -314,8 +314,8 @@ curl https://faq.diy.ski/faq/faq.booking.067-zh.html | head -20
 #### 步驟 1：定位 FAQ
 
 ```bash
-# 在 zeabur_backend/data/faq_kb.json 中找到要修改的 FAQ
-grep -A 10 '"id": "faq.booking.064"' zeabur_backend/data/faq_kb.json
+# 在 zeabur_backend/data/faq_kb.phase0a.json 中找到要修改的 FAQ
+grep -A 10 '"id": "faq.booking.064"' zeabur_backend/data/faq_kb.phase0a.json
 ```
 
 #### 步驟 2：修改內容
@@ -361,7 +361,7 @@ head -50 frontend/faq/faq.booking.064-zh.html | grep -E "<title>|<h1>|canonical"
 #### 步驟 5：提交修改
 
 ```bash
-git add zeabur_backend/data/faq_kb.json
+git add zeabur_backend/data/faq_kb.phase0a.json
 git add frontend/faq/
 git add frontend/sitemap.xml
 
@@ -381,11 +381,11 @@ git push origin main
 
 ### 🗑️ 刪除已發布的 FAQ
 
-#### 步驟 1：從 faq_kb.json 移除
+#### 步驟 1：從 faq_kb.phase0a.json 移除
 
 ```bash
 # 1. 編輯檔案
-vi zeabur_backend/data/faq_kb.json
+vi zeabur_backend/data/faq_kb.phase0a.json
 
 # 2. 刪除該 FAQ 的整個 JSON 物件
 # 例如移除：
@@ -405,7 +405,7 @@ node scripts/gen-seo-files.js
 #### 步驟 3：提交刪除
 
 ```bash
-git add zeabur_backend/data/faq_kb.json
+git add zeabur_backend/data/faq_kb.phase0a.json
 git add frontend/faq/
 git add frontend/sitemap.xml
 
@@ -502,7 +502,7 @@ git push origin main
 
 ```bash
 # ===== 步驟 1: 修改 JSON ═════
-vi zeabur_backend/data/faq_kb.json
+vi zeabur_backend/data/faq_kb.phase0a.json
 # 新增、修改或刪除 FAQ
 
 # ===== 步驟 2: 驗證 ═════
@@ -519,7 +519,7 @@ ls frontend/faq/ | wc -l           # 應該是 213 或更多
 curl https://faq.diy.ski/faq/faq.booking.067-zh.html | head -20  # 在本地驗證
 
 # ===== 步驟 5: 提交 GitHub ═════
-git add zeabur_backend/data/faq_kb.json
+git add zeabur_backend/data/faq_kb.phase0a.json
 git add frontend/faq/
 git add frontend/category/
 git add frontend/sitemap.xml
@@ -566,7 +566,7 @@ $ node scripts/generate-static-faq-pages.js
 # Error: JSON parse error at line 123
 
 解決：
-jq . zeabur_backend/data/faq_kb.json  # 找出具體錯誤位置
+jq . zeabur_backend/data/faq_kb.phase0a.json  # 找出具體錯誤位置
 # 修正 JSON 後重試
 
 # 錯誤 2: 翻譯個數不符
@@ -587,10 +587,10 @@ $ node scripts/validate-all.js
 git log --oneline | head -5
 
 # 回到刪除前的狀態
-git show <commit-hash>:zeabur_backend/data/faq_kb.json > temp.json
+git show <commit-hash>:zeabur_backend/data/faq_kb.phase0a.json > temp.json
 
 # 從 temp.json 復制被刪除的 FAQ 物件
-# 貼回 faq_kb.json
+# 貼回 faq_kb.phase0a.json
 ```
 
 ### Q4: 修改 FAQ 後，靜態頁面多久才會更新？
@@ -598,7 +598,7 @@ git show <commit-hash>:zeabur_backend/data/faq_kb.json > temp.json
 **A**: 分為兩個階段：
 
 ```
-本地修改 faq_kb.json
+本地修改 faq_kb.phase0a.json
     ↓ (執行生成腳本，立即）
 靜態頁面在 frontend/faq/ 更新
     ↓ (git commit + push)
@@ -619,7 +619,7 @@ git show <commit-hash>:zeabur_backend/data/faq_kb.json > temp.json
 
 ### Q6: 我想修改某個 LINK token 的 URL，怎麼做？
 
-**A**: **不要**在 faq_kb.json 修改，改在 meta.link_tokens.json：
+**A**: **不要**在 faq_kb.phase0a.json 修改，改在 meta.link_tokens.json：
 
 ```bash
 # 編輯連結配置
@@ -654,7 +654,7 @@ node scripts/generate-static-faq-pages.js
 - [ ] 翻譯關鍵字（英文 + 泰文）
 
 編輯階段：
-- [ ] 新增 FAQ JSON 到 faq_kb.json
+- [ ] 新增 FAQ JSON 到 faq_kb.phase0a.json
 - [ ] 確保 JSON 格式正確
 - [ ] 檢查所有翻譯個數相符
 
@@ -677,7 +677,7 @@ node scripts/generate-static-faq-pages.js
 
 ```
 編輯階段：
-- [ ] 修改 faq_kb.json
+- [ ] 修改 faq_kb.phase0a.json
 - [ ] 如果改了問題，同時改英文和泰文
 - [ ] 如果改了 utterance_patterns，同時改翻譯版本
 
@@ -708,7 +708,7 @@ node scripts/generate-static-faq-pages.js
 
 1. **JSON 格式錯誤**
    ```bash
-   jq . zeabur_backend/data/faq_kb.json
+   jq . zeabur_backend/data/faq_kb.phase0a.json
    ```
 
 2. **翻譯個數不符**

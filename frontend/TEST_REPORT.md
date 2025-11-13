@@ -251,7 +251,7 @@ Response:
 
 ### 4.1 FAQ 知識庫統計
 
-**資料來源**: `data/faq_kb.json`
+**資料來源**: `data/faq_kb.phase0a.json`
 
 | 項目 | 數量 |
 |------|------|

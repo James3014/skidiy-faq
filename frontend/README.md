@@ -121,7 +121,7 @@
 ┌──────────────────────────────────────────────────────────────────┐
 │                       Data Layer                                 │
 ├──────────────────────────────────────────────────────────────────┤
-│  faq_kb.json      resort_kb.json    analytics.db                 │
+│  faq_kb.phase0a.json      resort_kb.json    analytics.db                 │
 │  (71 FAQ items)   (42 resorts)     (SQLite)                      │
 │  customer_inquiries.jsonl (CRM logs)                             │
 └──────────────────────────────────────────────────────────────────┘
@@ -998,7 +998,7 @@ OLLAMA_MODEL=llama2
 
 ### FAQ 知識庫配置
 
-**檔案**: `data/faq_kb.json`
+**檔案**: `data/faq_kb.phase0a.json`
 
 **格式**:
 ```json
@@ -1100,7 +1100,7 @@ node validate-faq-schema.js
 │   ├── package.json
 │   └── .env
 ├── data/                        # 資料檔案
-│   ├── faq_kb.json              # FAQ 知識庫 (71 items)
+│   ├── faq_kb.phase0a.json              # FAQ 知識庫 (71 items)
 │   ├── resort_kb.json           # 雪場資料庫 (42 resorts)
 │   ├── analytics.db             # SQLite 分析資料庫
 │   └── customer_inquiries.jsonl # CRM 日誌
@@ -1145,7 +1145,7 @@ node validate-faq-schema.js
 
 ### 新增 FAQ
 
-1. 編輯 `data/faq_kb.json`
+1. 編輯 `data/faq_kb.phase0a.json`
 2. 添加新的 FAQ 項目:
 
 ```json
@@ -1360,7 +1360,7 @@ GEMINI_API_KEY=your_api_key_here
 ### Q6: 如何新增自訂 FAQ？
 
 **步驟**:
-1. 編輯 `data/faq_kb.json`
+1. 編輯 `data/faq_kb.phase0a.json`
 2. 按照現有格式添加新項目
 3. 執行驗證: `node scripts/validate-faq-schema.js`
 4. 重啟後端: `cd backend && npm start`

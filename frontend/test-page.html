@@ -235,12 +235,13 @@
         }
       },
       {
-        name: '檢查 faq_kb.json 資料來源',
+        name: '檢查 faq_kb.phase0a.json 資料來源 (API)',
         test: async () => {
-          const response = await fetch(`${FRONTEND_ORIGIN}/faq_kb.json`);
+          const response = await fetch(`${API_BASE}/faq/all`);
           if (!response.ok) throw new Error(`HTTP ${response.status}`);
-          const data = await response.json();
-          return { items: data.items?.length || 0 };
+          const payload = await response.json();
+          const items = payload.data?.items || payload.items || [];
+          return { items: items.length };
         }
       }
     ];

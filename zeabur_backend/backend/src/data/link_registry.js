@@ -13,7 +13,7 @@ module.exports = {
     "version": "1.0.0",
     "description": "統一的連結管理系統，支持 FAQ 和雪場資訊",
     "last_updated": "2025-11-06T00:00:00Z",
-    "migration_note": "Phase 1: 雪場連結由此管理。Phase 2: FAQ 連結將遷移至此（目前仍在 faq_kb.json）"
+    "migration_note": "Phase 1: 雪場連結由此管理。Phase 2: FAQ 連結將遷移至此（目前仍在 faq_kb.phase0a.json 的 meta.link_tokens）"
   },
   "faq": {
     "LINK_SCHEDULE": {

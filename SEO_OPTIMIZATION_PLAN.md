@@ -40,7 +40,7 @@
 
 1. ✅ **FAQ 內容豐富**: 70+ 條多語言 FAQ
 2. ✅ **多語言支援**: 中文、英文、泰文
-3. ✅ **結構化數據**: faq_kb.json 包含標準 schema
+3. ✅ **結構化數據**: faq_kb.phase0a.json 包含標準 schema
 4. ✅ **即時搜尋**: 使用 Fuse.js 提供快速模糊搜尋
 5. ✅ **響應式設計**: 手機友善
 
@@ -368,7 +368,7 @@ const path = require('path');
  */
 
 class SitemapGenerator {
-  constructor(faqDataPath = './frontend/faq_kb.json') {
+  constructor(faqDataPath = './zeabur_backend/data/faq_kb.phase0a.json') {
     this.faqData = JSON.parse(fs.readFileSync(faqDataPath, 'utf-8'));
     this.baseUrl = 'https://faq.diy.ski';
     this.languages = ['zh', 'en', 'th'];

@@ -2,11 +2,14 @@
 import json
 import re
 from datetime import datetime, timezone
+from pathlib import Path
 
 def optimize_faqs():
     print("--- Script starting ---")
-    input_path = '/Users/jameschen/Downloads/diyski/crm/03_FAQ與知識庫/zeabur/zeabur_backend/data/faq_kb.json'
-    output_path = '/Users/jameschen/Downloads/diyski/crm/03_FAQ與知識庫/zeabur/zeabur_backend/data/faq_kb.phase0a.json'
+    repo_root = Path(__file__).resolve().parent.parent
+    phase0a_path = repo_root / 'zeabur_backend' / 'data' / 'faq_kb.phase0a.json'
+    input_path = phase0a_path
+    output_path = phase0a_path
 
     print(f"Reading input file: {input_path}")
     try:

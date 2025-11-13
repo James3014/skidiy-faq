@@ -7,7 +7,7 @@
 
 ## 執行摘要
 
-本專案旨在將現有的 FAQ 知識庫系統（faq_kb.json）升級為一個完整的、生產級的客戶服務工具，涵蓋以下四個核心功能模組：
+本專案旨在將現有的 FAQ 知識庫系統（faq_kb.phase0a.json）升級為一個完整的、生產級的客戶服務工具，涵蓋以下四個核心功能模組：
 
 1. **互動式 FAQ 搜尋與導覽系統** - 實現 FAQ 3.0 規格中的 Hybrid 模式（導覽+快搜）
 2. **FAQ 資料驗證與管理工具** - JSON Schema 驗證、資料完整性檢查、自動化測試
@@ -22,7 +22,7 @@
 - Q: CRM 整合部署方式 - FAQ 系統與 tagger.html 是同一個 HTML 文件還是分離的兩個應用？ → A: 分離的兩個應用 - FAQ 系統獨立為 faq-search.html，CRM tagger 保持現有 tagger.html，透過共用的 JavaScript 模組（faq-engine.js）和後端 API 互通資料，實現關注點分離和獨立部署
 - Q: 多語言支援範圍 → A: 支援中文（主要）、英文、泰文；日文保留結構但內容翻譯列為未來增強功能
 - Q: Analytics 資料儲存方案 - 使用 localStorage（有限）、後端 API（需要架設）、還是 Google Analytics？ → A: 後端 API + 簡單資料庫（SQLite 或 JSON 文件）- 符合混合架構，提供資料持久性和深度分析能力，可跨用戶分析趨勢、生成報表，並自主控制隱私合規
-- Q: Intent Detection 模型選擇 - 純規則引擎（關鍵字匹配）vs. ML 模型（如需要，訓練資料來源？）vs. LLM API？ → A: 規則引擎為基礎 + LLM API 作為可選增強層 - 80% 簡單查詢用規則引擎快速處理（<100ms），信心分數 <75% 時可選呼叫 LLM API（GPT-4/Claude）提供自然語言回答，支援未來聊天機器人場景；faq_kb.json 作為 LLM 的知識庫（RAG 模式），確保回答準確性；後端 API 預留 use_llm 參數實現漸進式升級
+- Q: Intent Detection 模型選擇 - 純規則引擎（關鍵字匹配）vs. ML 模型（如需要，訓練資料來源？）vs. LLM API？ → A: 規則引擎為基礎 + LLM API 作為可選增強層 - 80% 簡單查詢用規則引擎快速處理（<100ms），信心分數 <75% 時可選呼叫 LLM API（GPT-4/Claude）提供自然語言回答，支援未來聊天機器人場景；faq_kb.phase0a.json 作為 LLM 的知識庫（RAG 模式），確保回答準確性；後端 API 預留 use_llm 參數實現漸進式升級
 - Q: 移動端體驗 - 是否需要 PWA 離線支援？還是僅響應式網頁？ → A: 僅響應式網頁 - 使用 CSS media queries（斷點 768px、1024px）確保在手機、平板、桌面都能正常使用，不實作離線功能（PWA），符合 MVP 原則降低開發複雜度，未來如需離線支援可漸進升級
 
 ## User Scenarios & Testing *(mandatory)*
@@ -79,7 +79,7 @@
 
 **角色**: FAQ 內容維護人員
 
-內容管理員新增或修改 faq_kb.json 後，需要驗證 JSON 格式正確、所有必要欄位存在、連結有效、中文內容沒有亂碼。
+內容管理員新增或修改 faq_kb.phase0a.json 後，需要驗證 JSON 格式正確、所有必要欄位存在、連結有效、中文內容沒有亂碼。
 
 **Why this priority**: 資料品質直接影響用戶體驗。自動化驗證能防止人為錯誤，確保系統穩定性。這是 P2 因為它支援 P1 的功能運作。
 
@@ -91,7 +91,7 @@
 
 **Acceptance Scenarios**:
 
-1. **Given** 管理員修改了 faq_kb.json, **When** 執行 `make validate` 命令, **Then** 系統檢查所有 FAQ 項目的 schema 合規性，並在 5 秒內輸出驗證報告
+1. **Given** 管理員修改了 faq_kb.phase0a.json, **When** 執行 `make validate` 命令, **Then** 系統檢查所有 FAQ 項目的 schema 合規性，並在 5 秒內輸出驗證報告
 2. **Given** 某個 FAQ 項目缺少 `canonical_question` 欄位, **When** 執行驗證, **Then** 報告顯示錯誤：「❌ faq.itinerary.001: 缺少必要欄位 'canonical_question'」
 3. **Given** FAQ 項目中包含連結 `{{LINK_SCHEDULE}}`, **When** 執行驗證, **Then** 系統檢查 meta.link_tokens 中是否定義了 LINK_SCHEDULE，並驗證該 URL 是否可訪問（HTTP 200/301/302）
 4. **Given** 某個 `answer_template.text` 包含亂碼或非 UTF-8 字元, **When** 執行驗證, **Then** 報告顯示警告：「⚠️ faq.payment.003: 檢測到潛在編碼問題」
@@ -187,11 +187,11 @@
 - **錯字連續**: 輸入「改機改機改機」→ 模糊匹配仍返回「改期」結果
 
 #### 資料驗證相關
-- **JSON 格式錯誤**: faq_kb.json 缺少逗號或括號 → 驗證器顯示具體行號和錯誤位置
+- **JSON 格式錯誤**: faq_kb.phase0a.json 缺少逗號或括號 → 驗證器顯示具體行號和錯誤位置
 - **循環引用**: FAQ A 的 related_faqs 包含 FAQ B，FAQ B 又包含 FAQ A → 檢測並警告
 - **斷鏈**: 連結指向 404 頁面 → 驗證器標記為錯誤，並建議移除或更新
 - **編碼混亂**: 文件混合使用 UTF-8 和 Big5 → 檢測並強制轉換為 UTF-8
-- **巨大 JSON**: faq_kb.json 超過 10MB → 驗證器警告效能問題，建議分割
+- **巨大 JSON**: faq_kb.phase0a.json 超過 10MB → 驗證器警告效能問題，建議分割
 
 #### 智能推薦相關
 - **模糊意圖**: 輸入「預約」（可能是新預約、改期、查詢） → 返回多個類別的 FAQ，要求用戶澄清
@@ -264,7 +264,7 @@
   - GENERAL（一般詢問）
 - **FR-019**: Intent Detection 準確率必須達到 85% 以上（基於測試集驗證）；規則引擎為主要實作方式
 - **FR-019a**: 系統必須支援可選的 LLM 增強模式（use_llm 參數），當規則引擎信心分數 <75% 時可呼叫 LLM API（GPT-4/Claude）進行意圖理解和自然語言回答生成
-- **FR-019b**: LLM 模式必須使用 faq_kb.json 作為知識庫（RAG），確保回答內容基於已驗證的 FAQ 資料
+- **FR-019b**: LLM 模式必須使用 faq_kb.phase0a.json 作為知識庫（RAG），確保回答內容基於已驗證的 FAQ 資料
 - **FR-020**: 系統必須實作 Slot Extraction，支援提取：
   - resort_name（雪場名稱，支援中日英別名）
   - date（日期，支援多種格式：YYYY-MM-DD、MM/DD、X月X日）
@@ -504,7 +504,7 @@ FAQ 使用記錄（CRM 整合）
 
 ### Constitution 合規性
 - [ ] 遵循「簡潔優於抽象」- 無不必要的抽象層
-- [ ] 資料驅動設計 - 系統行為由 faq_kb.json 定義
+- [ ] 資料驅動設計 - 系統行為由 faq_kb.phase0a.json 定義
 - [ ] 中文優先支援 - UTF-8、分詞、模糊匹配
 - [ ] 效能為必需品 - 所有指標符合 NFR
 - [ ] 測試與驗證 - `make validate` 整合
@@ -532,7 +532,7 @@ FAQ 使用記錄（CRM 整合）
    - **建議**: 先手動執行，後續整合到 CI/CD
 2. **多租戶支援**: 是否需要支援多個雪場（如 DIY.SKI 有多個品牌）的獨立 FAQ？
    - **建議**: 單租戶為主，透過 section 分類區分雪場即可
-3. **備份與版本控制**: faq_kb.json 是否需要內建版本歷史（類似 Git）還是依賴外部版本控制？
+3. **備份與版本控制**: faq_kb.phase0a.json 是否需要內建版本歷史（類似 Git）還是依賴外部版本控制？
    - **建議**: 依賴 Git 版本控制，不在應用內實作版本歷史
 
 **註**: 這些問題不影響核心架構設計，可在實作過程中根據實際需求調整。

@@ -20,7 +20,12 @@ const path = require('path');
 const args = process.argv.slice(2);
 const dryRun = args.includes('--dry-run');
 const keepDaysIndex = args.indexOf('--keep-days');
-const keepDays = keepDaysIndex >= 0 ? parseInt(args[keepDaysIndex + 1]) : null;
+const MIN_KEEP_DAYS = parseInt(process.env.ANALYTICS_MIN_KEEP_DAYS || '7', 10);
+let keepDays = keepDaysIndex >= 0 ? parseInt(args[keepDaysIndex + 1]) : null;
+if (keepDays && keepDays < MIN_KEEP_DAYS) {
+  console.warn(`⚠️ keepDays 不得少於 ${MIN_KEEP_DAYS} 天，已自動調整。`);
+  keepDays = MIN_KEEP_DAYS;
+}
 
 // 資料庫路徑
 const dbPath = path.join(__dirname, '../../data/analytics.db');

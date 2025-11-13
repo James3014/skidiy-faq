@@ -30,7 +30,7 @@ class RAGEngine {
    * @returns {Promise<void>}
    */
   async initialize() {
-    // Load FAQ data (use phase0a version with translations, keep faq_kb.json as backup)
+    // Load FAQ data (phase0a is canonical; legacy exports are read-only backups)
     const faqPath = this.config.faqPath || path.join(__dirname, '../../../../data/faq_kb.phase0a.json');
 
     if (!fs.existsSync(faqPath)) {

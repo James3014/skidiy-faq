@@ -252,7 +252,7 @@ class FAQEngine {
     ↓
 我審查翻譯品質並修正
     ↓
-加入 faq_kb.json
+加入 faq_kb.phase0a.json
     ↓
 前端快取初始化時載入
     ↓
@@ -289,7 +289,7 @@ class FAQEngine {
 ✅ Method B (推薦)
 ─────────────────
 初始化時：
-  - 載入 faq_kb.json
+  - 載入 faq_kb.phase0a.json
   - 建立翻譯快取 (300ms)
 
 切換語言時：
@@ -359,7 +359,7 @@ class FAQEngine {
   - 泰文翻譯是否準確
   - 專有名詞是否統一
 
-**產出**: 優化後的 `zeabur_backend/data/faq_kb.json`
+**產出**: 優化後的 `zeabur_backend/data/faq_kb.phase0a.json`
 
 **成功條件**:
 - ✅ 71 個 FAQ 全部優化完成
@@ -380,7 +380,7 @@ class FAQEngine {
   **檔案**: `scripts/generate-static-faq-pages.js`
 
   **功能**:
-  - 讀取 `faq_kb.json`
+  - 讀取 `faq_kb.phase0a.json`
   - 為每個 FAQ × 每種語言生成 HTML 頁面
   - 輸出路徑: `frontend/faq/{faq_id}-{lang}.html`
   - 總計輸出: 213 個頁面（71 FAQ × 3 語言）
@@ -485,7 +485,7 @@ class FAQEngine {
     ↓
 你審核確認
     ↓
-加入 faq_kb.json
+加入 faq_kb.phase0a.json
     ↓
 跑一次生成腳本（5 分鐘）
     ↓

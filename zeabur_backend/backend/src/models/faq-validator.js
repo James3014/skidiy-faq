@@ -1,7 +1,7 @@
 /**
  * FAQ Schema Validator
  *
- * Validates faq_kb.json against the JSON Schema defined in contracts/faq-schema.json
+ * Validates faq_kb.phase0a.json against the JSON Schema defined in contracts/faq-schema.json
  * Uses AJV (Another JSON Schema Validator) for validation
  */
 
@@ -170,7 +170,7 @@ class FAQValidator {
 
   /**
    * Load and validate FAQ file
-   * @param {string} filePath - Path to faq_kb.json
+   * @param {string} filePath - Path to faq_kb.phase0a.json
    * @returns {Object} - { valid: boolean, errors: array, data: object }
    */
   validateFile(filePath) {

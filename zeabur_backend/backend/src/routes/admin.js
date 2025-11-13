@@ -56,15 +56,37 @@ function requireAdminAuth(req, res, next) {
  */
 router.post('/reset-analytics', requireAdminAuth, async (req, res, next) => {
   try {
-    const { mode = 'all', keepDays, dryRun = false } = req.body;
+    const {
+      mode = 'all',
+      keepDays,
+      dryRun = false,
+      confirm: confirmToken
+    } = req.body;
+
+    const MIN_KEEP_DAYS = parseInt(process.env.ANALYTICS_MIN_KEEP_DAYS || '7', 10);
+    const HARD_CONFIRM_TOKEN = process.env.ANALYTICS_RESET_CONFIRM || 'ERASE_ALL_DATA';
 
     // Validate parameters
-    if (mode === 'keep-days' && (!keepDays || keepDays < 1)) {
+    if (mode === 'keep-days') {
+      const keep = parseInt(keepDays || MIN_KEEP_DAYS, 10);
+      if (!keep || Number.isNaN(keep) || keep < MIN_KEEP_DAYS) {
+        return res.status(400).json({
+          success: false,
+          error: {
+            code: 'VALIDATION_ERROR',
+            message: `keepDays must be >= ${MIN_KEEP_DAYS} when mode is "keep-days"`
+          }
+        });
+      }
+    }
+
+    // Only require confirmation if not in dryRun mode
+    if (mode === 'all' && !dryRun && confirmToken !== HARD_CONFIRM_TOKEN) {
       return res.status(400).json({
         success: false,
         error: {
           code: 'VALIDATION_ERROR',
-          message: 'keepDays must be a positive integer when mode is "keep-days"'
+          message: `Confirm token required. Provide "confirm": "${HARD_CONFIRM_TOKEN}" to erase all analytics.`
         }
       });
     }
@@ -75,44 +97,44 @@ router.post('/reset-analytics', requireAdminAuth, async (req, res, next) => {
 
     // Query current stats (all analytics tables)
     const beforeStats = {
-      search_queries: db.prepare('SELECT COUNT(*) as count FROM search_queries').get().count,
       faq_views: db.prepare('SELECT COUNT(*) as count FROM faq_views').get().count,
-      feedback: db.prepare('SELECT COUNT(*) as count FROM feedback').get().count,
       tag_clicks: db.prepare('SELECT COUNT(*) as count FROM tag_clicks').get().count,
       resort_clicks: db.prepare('SELECT COUNT(*) as count FROM resort_clicks').get().count,
       section_views: db.prepare('SELECT COUNT(*) as count FROM section_views').get().count,
-      llm_usage: db.prepare('SELECT COUNT(*) as count FROM llm_usage').get().count
+      llm_usage: db.prepare('SELECT COUNT(*) as count FROM llm_usage').get().count,
+      provider_stats: db.prepare('SELECT COUNT(*) as count FROM provider_stats').get().count
     };
 
-    let deletedStats = { search_queries: 0, faq_views: 0, feedback: 0, tag_clicks: 0, resort_clicks: 0, section_views: 0, llm_usage: 0 };
+    let deletedStats = { faq_views: 0, tag_clicks: 0, resort_clicks: 0, section_views: 0, llm_usage: 0, provider_stats: 0 };
     let cutoffDate = null;
+    let effectiveKeepDays = null;
 
     if (mode === 'keep-days') {
       // Keep recent N days
       const cutoff = new Date();
-      cutoff.setDate(cutoff.getDate() - keepDays);
+      const daysToKeep = Math.max(parseInt(keepDays || MIN_KEEP_DAYS, 10), MIN_KEEP_DAYS);
+      effectiveKeepDays = daysToKeep;
+      cutoff.setDate(cutoff.getDate() - daysToKeep);
       cutoffDate = cutoff.toISOString();
 
       // Query how many will be deleted
       deletedStats = {
-        search_queries: db.prepare('SELECT COUNT(*) as count FROM search_queries WHERE timestamp < ?').get(cutoffDate).count,
         faq_views: db.prepare('SELECT COUNT(*) as count FROM faq_views WHERE timestamp < ?').get(cutoffDate).count,
-        feedback: db.prepare('SELECT COUNT(*) as count FROM feedback WHERE timestamp < ?').get(cutoffDate).count,
         tag_clicks: db.prepare('SELECT COUNT(*) as count FROM tag_clicks WHERE timestamp < ?').get(cutoffDate).count,
         resort_clicks: db.prepare('SELECT COUNT(*) as count FROM resort_clicks WHERE timestamp < ?').get(cutoffDate).count,
         section_views: db.prepare('SELECT COUNT(*) as count FROM section_views WHERE timestamp < ?').get(cutoffDate).count,
-        llm_usage: db.prepare('SELECT COUNT(*) as count FROM llm_usage WHERE timestamp < ?').get(cutoffDate).count
+        llm_usage: db.prepare('SELECT COUNT(*) as count FROM llm_usage WHERE timestamp < ?').get(cutoffDate).count,
+        provider_stats: db.prepare('SELECT COUNT(*) as count FROM provider_stats WHERE updated_at < ?').get(cutoffDate).count
       };
 
       if (!dryRun) {
         db.exec('BEGIN TRANSACTION');
-        db.prepare('DELETE FROM search_queries WHERE timestamp < ?').run(cutoffDate);
         db.prepare('DELETE FROM faq_views WHERE timestamp < ?').run(cutoffDate);
-        db.prepare('DELETE FROM feedback WHERE timestamp < ?').run(cutoffDate);
         db.prepare('DELETE FROM tag_clicks WHERE timestamp < ?').run(cutoffDate);
         db.prepare('DELETE FROM resort_clicks WHERE timestamp < ?').run(cutoffDate);
         db.prepare('DELETE FROM section_views WHERE timestamp < ?').run(cutoffDate);
         db.prepare('DELETE FROM llm_usage WHERE timestamp < ?').run(cutoffDate);
+        db.prepare('DELETE FROM provider_stats WHERE updated_at < ?').run(cutoffDate);
         db.exec('COMMIT');
         db.exec('VACUUM');
       }
@@ -122,13 +144,12 @@ router.post('/reset-analytics', requireAdminAuth, async (req, res, next) => {
 
       if (!dryRun) {
         db.exec('BEGIN TRANSACTION');
-        db.exec('DELETE FROM search_queries');
         db.exec('DELETE FROM faq_views');
-        db.exec('DELETE FROM feedback');
         db.exec('DELETE FROM tag_clicks');
         db.exec('DELETE FROM resort_clicks');
         db.exec('DELETE FROM section_views');
         db.exec('DELETE FROM llm_usage');
+        db.exec('DELETE FROM provider_stats');
         db.exec('COMMIT');
         db.exec('VACUUM');
       }
@@ -136,13 +157,12 @@ router.post('/reset-analytics', requireAdminAuth, async (req, res, next) => {
 
     // Query final stats
     const afterStats = dryRun ? beforeStats : {
-      search_queries: db.prepare('SELECT COUNT(*) as count FROM search_queries').get().count,
       faq_views: db.prepare('SELECT COUNT(*) as count FROM faq_views').get().count,
-      feedback: db.prepare('SELECT COUNT(*) as count FROM feedback').get().count,
       tag_clicks: db.prepare('SELECT COUNT(*) as count FROM tag_clicks').get().count,
       resort_clicks: db.prepare('SELECT COUNT(*) as count FROM resort_clicks').get().count,
       section_views: db.prepare('SELECT COUNT(*) as count FROM section_views').get().count,
-      llm_usage: db.prepare('SELECT COUNT(*) as count FROM llm_usage').get().count
+      llm_usage: db.prepare('SELECT COUNT(*) as count FROM llm_usage').get().count,
+      provider_stats: db.prepare('SELECT COUNT(*) as count FROM provider_stats').get().count
     };
 
     db.close();
@@ -160,7 +180,7 @@ router.post('/reset-analytics', requireAdminAuth, async (req, res, next) => {
       success: true,
       data: {
         mode,
-        keepDays: mode === 'keep-days' ? keepDays : null,
+        keepDays: effectiveKeepDays,
         cutoffDate: mode === 'keep-days' ? cutoffDate : null,
         dryRun,
         before: beforeStats,

@@ -32,7 +32,7 @@
                ▼
 ┌─────────────────────────────────────┐
 │    Data Sources                     │
-│  - faq_kb.json (FAQ 資料)           │
+│  - faq_kb.phase0a.json (FAQ 資料)           │
 │  - resort_kb.json (雪場資料)        │
 └─────────────────────────────────────┘
 ```
@@ -40,7 +40,7 @@
 ### 層級關係
 
 1. **Legacy Layer** (向後相容)：
-   - `faq_kb.json` 的 `meta.link_tokens`
+   - `faq_kb.phase0a.json` 的 `meta.link_tokens`
    - `resort_kb.json` 的 `official_site` 欄位
 
 2. **Registry Layer** (新方案)：
@@ -298,7 +298,7 @@ const html = getResortLinksHTML(card, ['official_site', 'google_maps', 'booking_
 ### Phase 1：當前狀態（已完成）
 
 ```
-faq_kb.json (link_tokens) ────┐
+faq_kb.phase0a.json (link_tokens) ────┐
                               ├─→ FAQ 顯示
 link_registry.json ────────────┘
 
@@ -323,10 +323,10 @@ link_registry.json ────┐
 ```
 
 **步驟**：
-1. 將 `faq_kb.json` 的 `meta.link_tokens` 複製到 `link_registry.json`
+1. 將 `faq_kb.phase0a.json` 的 `meta.link_tokens` 複製到 `link_registry.json`
 2. 測試 FAQ 頁面，確認所有連結正常
 3. 更新文檔，說明遷移完成
-4. 刪除 `faq_kb.json` 的 `link_tokens`（保留向後相容代碼）
+4. 刪除 `faq_kb.phase0a.json` 的 `link_tokens`（保留向後相容代碼）
 
 **預計時間**：Phase 2 結束後 1-2 週
 
@@ -453,7 +453,7 @@ console.log(resort);  // 查看上下文物件
 
 - **主檔案**：`zeabur_backend/data/link_registry.json`
 - **前端實現**：`frontend/index.html`（resolveLink, parseLinksInText, getResortLinksHTML）
-- **FAQ 資料**：`zeabur_backend/data/faq_kb.json`（使用連結）
+- **FAQ 資料**：`zeabur_backend/data/faq_kb.phase0a.json`（使用連結）
 - **雪場資料**：`zeabur_backend/data/resort_kb.json`（dynamic URL 來源）
 - **文檔**：`docs/LINK_MANAGEMENT.md`（此檔案）
 - **使用示例**：`docs/FAQ_JSON_STANDARD.md`

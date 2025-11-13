@@ -10,26 +10,15 @@ const fs = require('fs');
 
 class AnalyticsService {
   constructor(dbPath = null) {
-    // Use /tmp for Zeabur deployment, fallback to local data directory
-    let finalPath;
-    if (dbPath) {
-      finalPath = dbPath;
-    } else if (process.env.SQLITE_DB_PATH) {
-      finalPath = process.env.SQLITE_DB_PATH;
-    } else if (process.env.NODE_ENV === 'production') {
-      // For production (Zeabur), use /tmp which is writable
-      finalPath = '/tmp/analytics.db';
-    } else {
-      // For local development, use data directory
-      const dataDir = path.join(__dirname, '../../../data');
-      if (!fs.existsSync(dataDir)) {
-        fs.mkdirSync(dataDir, { recursive: true });
-      }
-      finalPath = path.join(dataDir, 'analytics.db');
+    const enforcedPath = dbPath || process.env.SQLITE_DB_PATH || path.join(__dirname, '../../../data/analytics.db');
+    const dataDir = path.dirname(enforcedPath);
+    if (!fs.existsSync(dataDir)) {
+      fs.mkdirSync(dataDir, { recursive: true });
     }
+    process.env.SQLITE_DB_PATH = enforcedPath;
 
-    console.log('[Analytics Service] Using database path:', finalPath);
-    this.db = new Database(finalPath);
+    console.log('[Analytics Service] Using database path:', enforcedPath);
+    this.db = new Database(enforcedPath);
     this.initializeTables();
   }
 
@@ -79,12 +68,16 @@ class AnalyticsService {
 
       CREATE TABLE IF NOT EXISTS faq_views (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
+        view_id TEXT UNIQUE,
         faq_id TEXT NOT NULL,
-        query_id INTEGER,
+        query_id TEXT,
+        query_text TEXT,
         position INTEGER DEFAULT 0,
+        source TEXT,
         clicked BOOLEAN DEFAULT 0,
         time_to_click_ms INTEGER,
         language TEXT DEFAULT 'zh',
+        session_id TEXT,
         timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
       );
 
@@ -92,6 +85,8 @@ class AnalyticsService {
       CREATE INDEX IF NOT EXISTS idx_faq_views_timestamp ON faq_views(timestamp);
       CREATE INDEX IF NOT EXISTS idx_faq_views_clicked ON faq_views(clicked);
       CREATE INDEX IF NOT EXISTS idx_faq_views_language ON faq_views(language);
+      CREATE INDEX IF NOT EXISTS idx_faq_views_source ON faq_views(source);
+      CREATE INDEX IF NOT EXISTS idx_faq_views_session ON faq_views(session_id);
 
       CREATE TABLE IF NOT EXISTS section_views (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -148,6 +143,10 @@ class AnalyticsService {
       }
     };
 
+    ensureColumn('faq_views', 'view_id', "ALTER TABLE faq_views ADD COLUMN view_id TEXT", null);
+    ensureColumn('faq_views', 'query_text', "ALTER TABLE faq_views ADD COLUMN query_text TEXT", null);
+    ensureColumn('faq_views', 'source', "ALTER TABLE faq_views ADD COLUMN source TEXT", null);
+    ensureColumn('faq_views', 'session_id', "ALTER TABLE faq_views ADD COLUMN session_id TEXT", null);
     ensureColumn('faq_views', 'language', "ALTER TABLE faq_views ADD COLUMN language TEXT DEFAULT 'zh'", 'zh');
     ensureColumn('tag_clicks', 'language', "ALTER TABLE tag_clicks ADD COLUMN language TEXT DEFAULT 'zh'", 'zh');
     ensureColumn('section_views', 'language', "ALTER TABLE section_views ADD COLUMN language TEXT DEFAULT 'zh'", 'zh');

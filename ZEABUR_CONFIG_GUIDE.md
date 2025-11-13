@@ -119,7 +119,7 @@ git push origin main
 ```
 
 ✅ 如果看到 `/data/analytics.db`，表示配置成功！
-❌ 如果看到 `/tmp/analytics.db`，表示環境變數未生效，請重新檢查步驟 3。
+❌ 如果看到 `/data/analytics.db`，表示環境變數未生效，請重新檢查步驟 3。
 
 ### 5.2 測試 API 連接
 
@@ -164,7 +164,7 @@ curl "https://faq-api-v1.zeabur.app/api/v1/analytics/stats"
    - 用於 Zeabur Volume: `/data/analytics.db`
 
 2. **生產環境預設路徑**（`NODE_ENV=production`）
-   - `/tmp/analytics.db`（❌ 重啟後會遺失）
+   - `/data/analytics.db`（❌ 重啟後會遺失）
 
 3. **開發環境預設路徑**
    - `../data/analytics.db`（本地開發用）
@@ -194,7 +194,7 @@ curl "https://faq-api-v1.zeabur.app/api/v1/analytics/stats"
 
 ## 🔧 疑難排解
 
-### 問題 1: 日誌顯示 `/tmp/analytics.db`
+### 問題 1: 日誌顯示 `/data/analytics.db`
 
 **原因**: 環境變數 `SQLITE_DB_PATH` 未生效
 

@@ -7,7 +7,7 @@
 
 ## Summary
 
-本專案將現有的 FAQ 知識庫系統（faq_kb.json）升級為完整的生產級客戶服務工具，採用**混合架構**：前端使用 Fuse.js 實現快速搜尋（<100ms），後端 API 提供 intent detection、智能推薦（規則引擎 + 可選 LLM 增強）、analytics 和 CRM 整合。系統支援中英泰三語，獨立部署為 faq-search.html（公開訪問）和 tagger.html（CRM 內部），透過共用 JavaScript 模組和 RESTful API 互通。
+本專案將現有的 FAQ 知識庫系統（faq_kb.phase0a.json）升級為完整的生產級客戶服務工具，採用**混合架構**：前端使用 Fuse.js 實現快速搜尋（<100ms），後端 API 提供 intent detection、智能推薦（規則引擎 + 可選 LLM 增強）、analytics 和 CRM 整合。系統支援中英泰三語，獨立部署為 faq-search.html（公開訪問）和 tagger.html（CRM 內部），透過共用 JavaScript 模組和 RESTful API 互通。
 
 ## Technical Context
 
@@ -21,7 +21,7 @@
 - 開發工具: esbuild (打包，可選), prettier (格式化)
 
 **Storage**:
-- FAQ 資料: faq_kb.json (版本控制於 Git)
+- FAQ 資料: faq_kb.phase0a.json (版本控制於 Git)
 - Analytics: SQLite (analytics.db) 或 JSON 文件 (analytics.jsonl)
 - CRM 整合: customer_inquiries.jsonl (JSONL append-only log)
 
@@ -69,7 +69,7 @@
 - **註**: LLM 增強層為可選，不增加必要複雜度
 
 ### ✅ II. 資料驅動設計 (Data-Driven Design)
-- **Pass**: FAQ 行為完全由 faq_kb.json 定義
+- **Pass**: FAQ 行為完全由 faq_kb.phase0a.json 定義
 - **Pass**: Intent detection 基於 utterance_patterns 和關鍵字字典
 - **Pass**: Slot extraction 使用明確 regex patterns (可配置)
 - **Pass**: 新增 FAQ 無需修改程式碼
@@ -153,7 +153,7 @@ specs/001-faq-system-upgrade/
 │   │   │   ├── llm-client.js        # LLM API 客戶端（可選）
 │   │   │   └── analytics-logger.js  # Analytics 記錄
 │   │   ├── models/
-│   │   │   ├── faq-loader.js        # 載入 faq_kb.json
+│   │   │   ├── faq-loader.js        # 載入 faq_kb.phase0a.json
 │   │   │   └── analytics-db.js      # SQLite 操作
 │   │   └── utils/
 │   │       ├── validator.js         # 輸入驗證
@@ -174,7 +174,7 @@ specs/001-faq-system-upgrade/
 │   └── faq-engine.js                # 複製到 frontend/lib/
 │
 ├── data/                            # 資料文件
-│   ├── faq_kb.json                  # FAQ 知識庫（主要）
+│   ├── faq_kb.phase0a.json                  # FAQ 知識庫（主要）
 │   ├── analytics.db                 # SQLite 資料庫（生成）
 │   └── customer_inquiries.jsonl     # CRM 整合日誌（append）
 │
@@ -259,7 +259,7 @@ specs/001-faq-system-upgrade/
 
 3. **LLM 整合方案**
    - API 選擇（OpenAI GPT-4 vs Anthropic Claude vs 自架）
-   - Prompt engineering 策略（RAG 如何使用 faq_kb.json）
+   - Prompt engineering 策略（RAG 如何使用 faq_kb.phase0a.json）
    - 成本控制機制（rate limiting、快取策略）
    - 錯誤處理（API timeout、quota exceeded）
 
@@ -312,7 +312,7 @@ OpenAPI 3.0 規格，定義以下 endpoint：
 - `GET /api/v1/analytics/report` - 生成報表
 
 ### contracts/faq-schema.json
-JSON Schema 定義 faq_kb.json 結構，用於 `make validate`
+JSON Schema 定義 faq_kb.phase0a.json 結構，用於 `make validate`
 
 ### quickstart.md
 開發環境設置指南：

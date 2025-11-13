@@ -129,7 +129,7 @@ Week 1-2: 你的任務
 Week 2-3: 我的任務
   ├─ 檢查翻譯品質
   ├─ 優化格式
-  ├─ 入庫到 faq_kb.json
+  ├─ 入庫到 faq_kb.phase0a.json
   └─ 生成靜態頁面
 
 Week 3 結束: 第一批 FAQ 上線 ✅

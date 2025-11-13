@@ -14,7 +14,7 @@ const { errorHandler, notFoundHandler } = require('./middleware/error-handler');
 const logger = require('./utils/logger');
 const { formatSuccess } = require('./utils/response-formatter');
 const routes = require('./routes');
-const AnalyticsDB = require('./models/analytics-db');
+const AnalyticsService = require('./services/analytics-service');
 
 // Initialize Express app
 const app = express();
@@ -24,15 +24,17 @@ const PORT = process.env.PORT || 3000;
 const NODE_ENV = process.env.NODE_ENV || 'development';
 const SERVER_START_TIME = Date.now();
 
-// Initialize database
-let analyticsDB;
+// Initialize analytics service
+let analyticsService;
 try {
-  analyticsDB = new AnalyticsDB();
-  logger.info('Analytics database initialized', {
-    path: analyticsDB.dbPath,
+  const enforcedPath = process.env.SQLITE_DB_PATH || path.join(__dirname, '../data/analytics.db');
+  process.env.SQLITE_DB_PATH = enforcedPath;
+  analyticsService = new AnalyticsService(enforcedPath);
+  logger.info('Analytics service initialized', {
+    path: enforcedPath,
   });
 } catch (error) {
-  logger.error('Failed to initialize analytics database', {
+  logger.error('Failed to initialize analytics service', {
     error: error.message,
   });
 }
@@ -71,9 +73,10 @@ app.get('/health', (req, res) => {
 
   // Test database connection
   let dbStatus = 'disconnected';
-  if (analyticsDB) {
+  if (analyticsService?.db) {
     try {
-      dbStatus = analyticsDB.testConnection() ? 'connected' : 'error';
+      analyticsService.db.prepare('SELECT 1').get();
+      dbStatus = 'connected';
     } catch (error) {
       dbStatus = 'error';
       logger.error('Database health check failed', { error: error.message });
@@ -132,9 +135,9 @@ process.on('SIGTERM', () => {
     logger.info('HTTP server closed');
 
     // Close database connection
-    if (analyticsDB) {
-      analyticsDB.close();
-      logger.info('Database connection closed');
+    if (analyticsService?.db) {
+      analyticsService.db.close();
+      logger.info('Analytics database connection closed');
     }
 
     process.exit(0);
@@ -147,9 +150,9 @@ process.on('SIGINT', () => {
     logger.info('HTTP server closed');
 
     // Close database connection
-    if (analyticsDB) {
-      analyticsDB.close();
-      logger.info('Database connection closed');
+    if (analyticsService?.db) {
+      analyticsService.db.close();
+      logger.info('Analytics database connection closed');
     }
 
     process.exit(0);

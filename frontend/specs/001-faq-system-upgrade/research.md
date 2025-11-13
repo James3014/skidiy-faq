@@ -360,16 +360,22 @@ CREATE INDEX idx_normalized ON search_queries(normalized_query);
 
 CREATE TABLE faq_views (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
+  view_id TEXT UNIQUE,
   faq_id TEXT NOT NULL,
-  query_id INTEGER,
-  position INTEGER,  -- 搜尋結果中的位置
+  query_id TEXT,
+  query_text TEXT,
+  position INTEGER,
+  source TEXT,
   clicked BOOLEAN DEFAULT 0,
-  timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
-  FOREIGN KEY (query_id) REFERENCES search_queries(id)
+  time_to_click_ms INTEGER,
+  language TEXT DEFAULT 'zh',
+  session_id TEXT,
+  timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE INDEX idx_faq_id ON faq_views(faq_id);
 CREATE INDEX idx_timestamp_faq ON faq_views(timestamp, faq_id);
+CREATE INDEX idx_faq_language ON faq_views(language);
 
 CREATE TABLE zero_result_queries (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -753,7 +759,7 @@ async function initFAQSearch() {
 
   // 建立新索引
   console.log('Building Fuse index...');
-  const faqData = await fetch('/crm/03_FAQ與知識庫/faq_kb.json').then(r => r.json());
+  const faqData = await fetch('/crm/03_FAQ與知識庫/faq_kb.phase0a.json').then(r => r.json());
   const fuse = new Fuse(processData(faqData.items), fuseOptions);
 
   // 快取索引（可選，Fuse.js 不直接支援序列化）

@@ -17,7 +17,7 @@ const path = require('path');
 // Configuration
 const CONFIG = {
   baseUrl: 'https://faq.diy.ski',
-  faqDataPath: './frontend/faq_kb.json',
+  faqDataPath: './zeabur_backend/data/faq_kb.phase0a.json',
   outputDir: './frontend',
   languages: ['zh', 'en', 'th'],
   defaultLanguage: 'zh',

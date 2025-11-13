@@ -11,8 +11,8 @@
  *
  * Options:
  *   --dry-run     : Show proposed changes without modifying files
- *   --input FILE  : Input FAQ file (default: frontend/faq_kb.json)
- *   --output FILE : Output FAQ file (default: frontend/faq_kb.json)
+ *   --input FILE  : Input FAQ file (default: zeabur_backend/data/faq_kb.phase0a.json)
+ *   --output FILE : Output FAQ file (default: zeabur_backend/data/faq_kb.phase0a.json)
  */
 
 const fs = require('fs');
@@ -24,8 +24,9 @@ const dryRun = args.includes('--dry-run');
 const inputIndex = args.indexOf('--input');
 const outputIndex = args.indexOf('--output');
 
-const inputFile = inputIndex >= 0 ? args[inputIndex + 1] : 'frontend/faq_kb.json';
-const outputFile = outputIndex >= 0 ? args[outputIndex + 1] : 'frontend/faq_kb.json';
+const defaultFaqPath = path.join('zeabur_backend', 'data', 'faq_kb.phase0a.json');
+const inputFile = inputIndex >= 0 ? args[inputIndex + 1] : defaultFaqPath;
+const outputFile = outputIndex >= 0 ? args[outputIndex + 1] : defaultFaqPath;
 
 console.log('='.repeat(60));
 console.log('FAQ Re-tagging Script');

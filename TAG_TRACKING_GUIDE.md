@@ -330,8 +330,8 @@ node retag-faqs.js --dry-run
 ==============================================================
 FAQ Re-tagging Script
 ==============================================================
-Input:  frontend/faq_kb.json
-Output: frontend/faq_kb.json
+Input:  zeabur_backend/data/faq_kb.phase0a.json
+Output: zeabur_backend/data/faq_kb.phase0a.json
 Mode:   DRY RUN (no changes)
 ==============================================================
 
@@ -376,7 +376,7 @@ node retag-faqs.js
 
 **會自動**:
 1. 創建備份 `faq_kb.backup.{timestamp}.json`
-2. 更新 `frontend/faq_kb.json`
+2. 更新 `zeabur_backend/data/faq_kb.phase0a.json`
 3. 顯示變更摘要
 
 #### 3. 指定輸入/輸出檔案
@@ -700,11 +700,12 @@ SELECT * FROM tag_clicks ORDER BY timestamp DESC LIMIT 10;
    node retag-faqs.js
    ```
 4. 檢查是否創建備份檔案
-5. 檢查 `frontend/faq_kb.json` 是否更新
+5. 檢查 `zeabur_backend/data/faq_kb.phase0a.json` 是否更新
 6. 重新載入前端，檢查 tags 是否變更
 7. 如需回復，使用備份檔案:
    ```bash
-   cp frontend/faq_kb.backup.*.json frontend/faq_kb.json
+   # 備份輸出於 zeabur_backend/data/backups
+   cp zeabur_backend/data/backups/backup_*.json zeabur_backend/data/faq_kb.phase0a.json
    ```
 
 ---
@@ -738,7 +739,7 @@ SELECT * FROM tag_clicks ORDER BY timestamp DESC LIMIT 10;
 **A**: 可能原因：
 1. FAQ tags 拼寫錯誤 (多餘空格、全形/半形符號)
 2. Tag 大小寫不一致
-3. 資料格式問題 → 檢查 `faq_kb.json` 的 `crm_tags` 欄位
+3. 資料格式問題 → 檢查 `faq_kb.phase0a.json` 的 `crm_tags` 欄位
 
 ### Q5: localStorage 儲存滿了？
 
@@ -752,10 +753,11 @@ localStorage.removeItem('tagClicks');
 **A**: 使用自動備份：
 ```bash
 # 找到最近的備份
-ls -lt frontend/faq_kb.backup.*.json | head -1
+ls -lt zeabur_backend/data/backups/ | head -1
 
 # 恢復
-cp frontend/faq_kb.backup.1730556840123.json frontend/faq_kb.json
+cp zeabur_backend/data/backups/backup_1730556840123_faq.booking.001.json \
+   zeabur_backend/data/faq_kb.phase0a.json
 ```
 
 ### Q7: 後端資料庫損壞？
@@ -776,7 +778,7 @@ npm start  # 會自動重建 schema
 #### 前端
 - `frontend/index.html` - 主頁面 (雪場搜尋、FAQ Tag 顯示與追蹤)
 - `frontend/analytics.html` - Admin Dashboard (Tag 分析 tab)
-- `frontend/faq_kb.json` - FAQ 資料 (含 crm_tags)
+- `zeabur_backend/data/faq_kb.phase0a.json` - FAQ 資料 (含 crm_tags)
 - `frontend/resort_kb.json` - 雪場資料 (含 amenities)
 
 #### 後端

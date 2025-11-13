@@ -68,7 +68,7 @@ Auto-generated from all feature plans. Last updated: 2025-10-13
 │   │   └── middleware/          # Express 中介層
 │   └── tests/                   # 後端測試
 ├── data/                        # 資料檔案
-│   ├── faq_kb.json              # FAQ 知識庫（71+ 項目）
+│   ├── faq_kb.phase0a.json      # FAQ 知識庫（唯一來源）
 │   ├── analytics.db             # SQLite 分析資料庫
 │   └── customer_inquiries.jsonl # CRM 整合日誌
 ├── scripts/                     # 工具腳本
@@ -141,7 +141,7 @@ tail -n 20 data/customer_inquiries.jsonl | jq '.'
 遵循 `.specify/memory/constitution.md` 定義的 6 大原則：
 
 1. **簡潔優於抽象** - Avoid over-engineering, data structures over complex algorithms
-2. **資料驅動設計** - System behavior defined by structured data (faq_kb.json)
+2. **資料驅動設計** - System behavior defined by structured data (faq_kb.phase0a.json)
 3. **多語言支援優先** - Native UTF-8 support, 中文（主要）> 英文/泰文（次要）
 4. **效能為必需品** - Search <100ms, Page load <2s, Intent detection <200ms
 5. **測試與驗證** - JSON Schema validation, automated testing (70% unit + 20% integration + 10% E2E)

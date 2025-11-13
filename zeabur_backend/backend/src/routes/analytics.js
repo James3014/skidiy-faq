@@ -533,9 +533,9 @@ router.put('/alerts/config', async (req, res, next) => {
  *     "hot_faqs": [
  *       {
  *         "faq_id": "faq.booking.001",
- *         "views": 150,
  *         "clicks": 120,
- *         "click_rate": 0.8
+ *         "unique_sessions": 45,
+ *         "last_clicked_at": "2025-11-01T08:00:00.000Z"
  *       }
  *     ]
  *   }
@@ -554,51 +554,49 @@ router.get('/hot-faqs', async (req, res, next) => {
     const db = analyticsService.db;
     const cutoffDate = new Date();
     cutoffDate.setDate(cutoffDate.getDate() - days);
+    const cutoffIso = cutoffDate.toISOString();
 
-    // Get FAQs with most clicks in the last N days
-    let hotQuery = `
-      SELECT
-        faq_id,
-        COUNT(*) as views,
-        SUM(CASE WHEN clicked = 1 THEN 1 ELSE 0 END) as clicks,
-        ROUND(CAST(SUM(CASE WHEN clicked = 1 THEN 1 ELSE 0 END) AS FLOAT) / COUNT(*), 2) as click_rate
-      FROM faq_views
-      WHERE timestamp >= ?
-    `;
-
-    const params = [cutoffDate.toISOString()];
-    if (languageFilter) {
-      hotQuery += ` AND language = ?`;
-      params.push(languageFilter);
-    }
-
-    hotQuery += `
-      GROUP BY faq_id
-      ORDER BY clicks DESC, views DESC
-      LIMIT ?
-    `;
+    const params = [cutoffIso];
+    if (languageFilter) params.push(languageFilter);
     params.push(limit);
 
-    const hotFAQs = db.prepare(hotQuery).all(...params);
-
-    const byLanguage = db.prepare(`
+    const hotFAQs = db.prepare(`
       SELECT
-        language,
-        COUNT(*) as views,
-        SUM(CASE WHEN clicked = 1 THEN 1 ELSE 0 END) as clicks
+        faq_id,
+        COUNT(*) as clicks,
+        COUNT(DISTINCT COALESCE(session_id, view_id, faq_id || '_' || strftime('%s', timestamp))) as unique_sessions,
+        MAX(timestamp) as last_clicked_at
       FROM faq_views
       WHERE timestamp >= ?
       ${languageFilter ? 'AND language = ?' : ''}
+      GROUP BY faq_id
+      ORDER BY clicks DESC, last_clicked_at DESC
+      LIMIT ?
+    `).all(...params);
+
+    const langStats = db.prepare(`
+      SELECT language, COUNT(*) as clicks
+      FROM faq_views
+      WHERE timestamp >= ?
       GROUP BY language
       ORDER BY clicks DESC
-    `).all(languageFilter ? [cutoffDate.toISOString(), languageFilter] : [cutoffDate.toISOString()]);
+    `).all(cutoffIso);
+
+    const sourceStats = db.prepare(`
+      SELECT COALESCE(source, 'unknown') as source, COUNT(*) as clicks
+      FROM faq_views
+      WHERE timestamp >= ?
+      GROUP BY COALESCE(source, 'unknown')
+      ORDER BY clicks DESC
+    `).all(cutoffIso);
 
     sendSuccess(res, {
       hot_faqs: hotFAQs,
       period_days: days,
       total_faqs: hotFAQs.length,
       language: languageFilter || 'all',
-      by_language: byLanguage
+      by_language: langStats,
+      by_source: sourceStats
     }, 200, {
       timestamp: new Date().toISOString()
     });
@@ -616,7 +614,9 @@ router.get('/hot-faqs', async (req, res, next) => {
  * {
  *   "faq_id": "faq.booking.001",
  *   "clicked": true,
- *   "query_id": 123,
+ *   "language": "zh",
+ *   "source": "search_results",
+ *   "query_text": "如何預約教練",
  *   "position": 1,
  *   "time_to_click_ms": 1500
  * }
@@ -624,7 +624,7 @@ router.get('/hot-faqs', async (req, res, next) => {
  * Response:
  * {
  *   "success": true,
- *   "data": { "tracked": true }
+ *   "data": { "tracked": true, "source": "search_results", "language": "zh" }
  * }
  */
 router.post('/track-faq-view', async (req, res, next) => {
@@ -633,32 +633,56 @@ router.post('/track-faq-view', async (req, res, next) => {
       throw new AppError('SERVICE_UNAVAILABLE', 'Analytics 服務尚未初始化', 503);
     }
 
-    const { faq_id, clicked, query_id, position, time_to_click_ms, language = 'zh' } = req.body;
+    const {
+      faq_id,
+      clicked = true,
+      query_id,
+      query_text,
+      position,
+      source = 'search_results',
+      time_to_click_ms,
+      language = 'zh',
+      session_id,
+      view_id = null
+    } = req.body;
 
     if (!faq_id) {
       throw new AppError('VALIDATION_ERROR', 'faq_id 為必填欄位', 400);
     }
 
-    const db = analyticsService.db;
+    const normalizedLanguage = typeof language === 'string' && language.trim().length > 0
+      ? language.trim()
+      : 'zh';
+    const normalizedSource = typeof source === 'string' && source.trim().length > 0
+      ? source.trim()
+      : 'search_results';
+    const positionValue = Number.isFinite(position) ? position : parseInt(position || '0', 10);
 
-    // Insert view record
+    const db = analyticsService.db;
     const stmt = db.prepare(`
-      INSERT INTO faq_views (faq_id, query_id, position, clicked, time_to_click_ms, language)
-      VALUES (?, ?, ?, ?, ?, ?)
+      INSERT INTO faq_views (view_id, faq_id, query_id, query_text, position, source, clicked, time_to_click_ms, language, session_id)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `);
 
     stmt.run(
+      view_id || null,
       faq_id,
       query_id || null,
-      position || 0,
+      query_text || null,
+      Number.isNaN(positionValue) ? 0 : positionValue,
+      normalizedSource,
       clicked ? 1 : 0,
       time_to_click_ms || null,
-      language || 'zh'
+      normalizedLanguage,
+      session_id || null
     );
 
     sendSuccess(res, {
       tracked: true,
-      faq_id
+      faq_id,
+      view_id: view_id || null,
+      source: normalizedSource,
+      language: normalizedLanguage
     }, 201, {
       timestamp: new Date().toISOString()
     });

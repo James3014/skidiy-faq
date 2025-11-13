@@ -20,7 +20,7 @@
 
 ### 1.1 FAQ Item（FAQ 項目）
 
-**用途**：faq_kb.json 的核心資料結構，表示單一 FAQ 條目
+**用途**：faq_kb.phase0a.json 的核心資料結構，表示單一 FAQ 條目
 
 **JSON Schema 路徑**：`contracts/faq-schema.json#/definitions/FAQItem`
 
@@ -321,18 +321,22 @@ interface SearchQuery {
 ```sql
 CREATE TABLE faq_views (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
+  view_id TEXT UNIQUE,                    -- 事件 ID（可選）
   faq_id TEXT NOT NULL,                   -- FAQ ID
-  query_id INTEGER NOT NULL,              -- 關聯的查詢 ID
-  position INTEGER NOT NULL,              -- 在搜尋結果中的位置（1, 2, 3...）
+  query_id TEXT,                          -- 關聯查詢 ID（可為 UUID）
+  query_text TEXT,                        -- 使用者原始查詢文字
+  position INTEGER DEFAULT 0,             -- 在搜尋結果中的位置（1, 2, 3...）
+  source TEXT,                            -- 來源（search_results/hot_list/...）
   clicked BOOLEAN DEFAULT 0,              -- 是否被點擊
-  time_to_click_ms INTEGER,               -- 從顯示到點擊的時間（毫秒）
-  timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
-
-  FOREIGN KEY (query_id) REFERENCES search_queries(id)
+  time_to_click_ms INTEGER,               -- 從顯示到點擊的時間
+  language TEXT DEFAULT 'zh',             -- 語系
+  session_id TEXT,                        -- 前端 session
+  timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE INDEX idx_faq_views_faq_id ON faq_views(faq_id);
-CREATE INDEX idx_faq_views_query_id ON faq_views(query_id);
+CREATE INDEX idx_faq_views_language ON faq_views(language);
+CREATE INDEX idx_faq_views_source ON faq_views(source);
 ```
 
 **用途範例**：
@@ -742,12 +746,12 @@ interface APIErrorResponse {
 
 ## 5. Data Migration（資料遷移）
 
-### 5.1 從現有 faq_kb.json 遷移
+### 5.1 從現有 faq_kb.phase0a.json 遷移
 
 **步驟**：
 1. **備份現有資料**：
    ```bash
-   cp faq_kb.json faq_kb.backup.$(date +%Y%m%d).json
+   cp faq_kb.phase0a.json faq_kb.backup.$(date +%Y%m%d).json
    ```
 
 2. **執行結構驗證**：
@@ -765,7 +769,7 @@ interface APIErrorResponse {
 
 5. **驗證遷移結果**：
    ```bash
-   node scripts/validate-faq-schema.js data/faq_kb.json contracts/faq-schema.json
+   node scripts/validate-faq-schema.js data/faq_kb.phase0a.json contracts/faq-schema.json
    ```
 
 ### 5.2 從現有 CRM 日誌遷移
@@ -791,7 +795,7 @@ interface APIErrorResponse {
 **Gzip 壓縮後**：~30%（500 個 FAQ ~300KB）
 
 **建議**：
-- 使用 HTTP 壓縮（gzip）傳輸 faq_kb.json
+- 使用 HTTP 壓縮（gzip）傳輸 faq_kb.phase0a.json
 - 前端使用 sessionStorage 快取（5MB 限制足夠）
 
 ### 6.2 搜尋效能
@@ -850,7 +854,7 @@ interface APIErrorResponse {
 
 ## Appendix A: 完整範例資料
 
-### A.1 完整 faq_kb.json 範例（簡化版）
+### A.1 完整 faq_kb.phase0a.json 範例（簡化版）
 
 ```json
 {

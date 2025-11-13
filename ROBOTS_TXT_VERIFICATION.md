@@ -194,7 +194,7 @@ Disallow: *.json
 ```
 
 **作用**:
-- 防止 faq_kb.json 等數據檔案被索引
+- 防止 faq_kb.phase0a.json 等數據檔案被索引
 - 隱藏系統內部結構
 
 **效果**: ✅ 有效

@@ -653,7 +653,7 @@ node scripts/validate-faq-schema.js faq.itinerary.001.json
 
 所有 FAQ JSON 應存放在：
 ```
-zeabur_backend/data/faq_kb.json
+zeabur_backend/data/faq_kb.phase0a.json
 ```
 
 作為 FAQ 陣列的一部分：
@@ -680,6 +680,6 @@ zeabur_backend/data/faq_kb.json
 1. 根據此格式建立新的 FAQ
 2. 運行驗證腳本檢查格式
 3. 提交給技術團隊審核
-4. 批准後合併到 faq_kb.json
+4. 批准後合併到 faq_kb.phase0a.json
 
 祝你製作順利！ 🎉

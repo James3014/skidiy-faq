@@ -18,8 +18,8 @@ let faqData = null;
 let faqDataLoadTime = null;
 
 /**
- * Load FAQ data from faq_kb.json
- * T031: Implement faq_kb.json loading logic
+ * Load FAQ data from faq_kb.phase0a.json
+ * T031: Implement faq_kb.phase0a.json loading logic
  *
  * @returns {Promise<Object>} FAQ knowledge base data
  */
@@ -29,7 +29,7 @@ async function loadFAQData() {
     return faqData;
   }
 
-  // Use phase0a version (includes translations), keep faq_kb.json as backup
+  // Use phase0a version (includes translations); legacy exports are read-only backups
   const dataPath = path.join(__dirname, '../../../data/faq_kb.phase0a.json');
 
   try {
@@ -208,8 +208,8 @@ router.post('/search', async (req, res, next) => {
  * GET /api/v1/faq/all
  * Get all FAQ data for frontend initialization
  *
- * Returns the complete FAQ knowledge base in the same format as faq_kb.json
- * This replaces the need for frontend to load faq_kb.json directly
+ * Returns the complete FAQ knowledge base in the same format as faq_kb.phase0a.json
+ * This replaces the need for frontend to load any legacy JSON copy
  *
  * Response:
  * {

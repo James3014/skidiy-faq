@@ -38,7 +38,7 @@
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete
 
-- [ ] T008 Create faq_kb.json schema validation using contracts/faq-schema.json
+- [ ] T008 Create faq_kb.phase0a.json schema validation using contracts/faq-schema.json
 - [ ] T009 Create SQLite database schema (search_queries, faq_views tables) in data/analytics.db per data-model.md
 - [ ] T010 [P] Implement scripts/validate-faq-schema.js using AJV for JSON Schema validation
 - [ ] T011 [P] Create data/customer_inquiries.jsonl file structure for CRM integration
@@ -77,10 +77,10 @@
 - [ ] T028 [US1] Implement displayResults() function with confidence score display (1-score)*100
 - [ ] T029 [US1] Add loading state and error handling UI in faq-search.html
 - [ ] T030 [P] [US1] Create backend/src/routes/faq.js with POST /api/v1/faq/search endpoint
-- [ ] T031 [US1] Implement faq_kb.json loading logic in backend/src/routes/faq.js
+- [ ] T031 [US1] Implement faq_kb.phase0a.json loading logic in backend/src/routes/faq.js
 - [ ] T032 [US1] Implement GET /api/v1/faq/:faq_id endpoint in backend/src/routes/faq.js
 - [ ] T033 [US1] Add response time measurement (meta.response_time_ms) to faq.js
-- [ ] T034 [US1] Test frontend search with actual faq_kb.json data (127 items)
+- [ ] T034 [US1] Test frontend search with actual faq_kb.phase0a.json data (127 items)
 - [ ] T035 [US1] Validate search response time < 100ms (P95) per NFR-001
 
 **Checkpoint**: User Story 1 完成 - 基礎搜尋功能可獨立運作

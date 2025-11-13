@@ -173,7 +173,7 @@ class FAQService {
     // Production (Zeabur): /src/src/services -> ../data = /src/src/data
     // Development: __dirname/../../ -> ../../../data
     const dataDir = process.env.FAQ_DATA_DIR || path.join(__dirname, '../data');
-    // Use phase0a version (includes translations), keep faq_kb.json as backup
+    // Use phase0a version (includes translations); legacy exports are read-only backups
     this.dataPath = path.join(dataDir, 'faq_kb.phase0a.json');
     this.backupPath = path.join(dataDir, 'faq_kb.backup.json');
     this.backupDir = path.join(dataDir, 'backups');
@@ -295,7 +295,7 @@ class FAQService {
 
   /**
    * Create full database backup
-   * Saves entire faq_kb.json as backup
+   * Saves entire faq_kb.phase0a.json as backup
    */
   async createFullBackup() {
     try {

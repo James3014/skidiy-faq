@@ -235,7 +235,7 @@ let fuseInstance = null;
 
 async function loadFAQData() {
   try {
-    const response = await fetch('../data/faq_kb.json');
+    const response = await fetch('../data/faq_kb.phase0a.json');
     faqData = await response.json();
 
     // 初始化 Fuse.js
@@ -376,7 +376,7 @@ let faqData = null;
 
 async function loadFAQData() {
   if (!faqData) {
-    const dataPath = path.join(__dirname, '../../../data/faq_kb.json');
+    const dataPath = path.join(__dirname, '../../../data/faq_kb.phase0a.json');
     const data = await fs.readFile(dataPath, 'utf8');
     faqData = JSON.parse(data);
   }
@@ -605,7 +605,7 @@ const schemaPath = path.join(__dirname, '../specs/001-faq-system-upgrade/contrac
 const schema = JSON.parse(fs.readFileSync(schemaPath, 'utf8'));
 
 // 載入 FAQ 資料
-const dataPath = path.join(__dirname, '../data/faq_kb.json');
+const dataPath = path.join(__dirname, '../data/faq_kb.phase0a.json');
 const faqData = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
 
 // 編譯 Schema
@@ -767,11 +767,11 @@ console.log(`搜尋耗時: ${(endTime - startTime).toFixed(2)}ms`);
 
 **解決**：
 ```bash
-# 確認 faq_kb.json 路徑正確
-ls -l data/faq_kb.json
+# 確認 faq_kb.phase0a.json 路徑正確
+ls -l data/faq_kb.phase0a.json
 
 # 確認前端使用正確的相對路徑
-# faq-search.html 中應該是 '../data/faq_kb.json'
+# faq-search.html 中應該是 '../data/faq_kb.phase0a.json'
 ```
 
 ### Q2: 後端無法啟動
@@ -843,7 +843,7 @@ curl -H "Accept-Encoding: gzip" http://localhost:3000/api/v1/faq/search
 
 **步驟**：
 
-1. 編輯 `data/faq_kb.json`，新增 FAQ 項目：
+1. 編輯 `data/faq_kb.phase0a.json`，新增 FAQ 項目：
 ```json
 {
   "id": "faq.new_category.001",

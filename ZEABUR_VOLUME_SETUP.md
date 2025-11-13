@@ -4,7 +4,7 @@
 
 ## ⚠️ 目前問題
 
-後端 SQLite 資料庫目前儲存在 `/tmp/analytics.db`，這會導致：
+後端 SQLite 資料庫目前儲存在 `/data/analytics.db`，這會導致：
 - ❌ Zeabur 重新部署後資料消失
 - ❌ 容器重啟後資料消失
 - ❌ 所有歷史統計資料無法保留
@@ -60,7 +60,7 @@ SQLITE_DB_PATH=/data/analytics.db
 後端會依照以下順序選擇資料庫路徑：
 
 1. **環境變數** `SQLITE_DB_PATH` (最優先)
-2. **生產環境** `/tmp/analytics.db` (Zeabur，會消失)
+2. **生產環境** `/data/analytics.db` (Zeabur，會消失)
 3. **開發環境** `../data/analytics.db` (本地開發)
 
 設定 `SQLITE_DB_PATH=/data/analytics.db` 後，會使用 Volume 永久儲存。

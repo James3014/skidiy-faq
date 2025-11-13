@@ -25,7 +25,7 @@ let fuseInstance = null;
 
 // Load FAQ data for context-aware intent detection
 function loadFAQData() {
-  // Use phase0a version (includes translations), keep faq_kb.json as backup
+  // Use phase0a version (includes translations); legacy exports are read-only backups
   const faqPath = path.join(__dirname, '../../../data/faq_kb.phase0a.json');
   if (fs.existsSync(faqPath)) {
     const rawData = fs.readFileSync(faqPath, 'utf8');
