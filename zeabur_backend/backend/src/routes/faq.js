@@ -29,38 +29,38 @@ async function loadFAQData() {
     return faqData;
   }
 
-  // Use phase0a version (includes translations); legacy exports are read-only backups
-  const dataPath = path.join(__dirname, '../../../data/faq_kb.phase0a.json');
-
+  // LINUS PRINCIPLE: Try the most reliable source first
+  // Try bundled JS module first (always available in repo, no external dependencies)
   try {
-    const content = await fs.readFile(dataPath, 'utf-8');
-    faqData = JSON.parse(content);
+    const fallbackPath = path.join(__dirname, '../data/faq_kb.js');
+    delete require.cache[require.resolve(fallbackPath)]; // Clear cache
+    faqData = require(fallbackPath);
     faqDataLoadTime = Date.now();
 
-    // Validate structure
     if (!faqData.items || !Array.isArray(faqData.items)) {
       throw new Error('Invalid FAQ data structure: missing items array');
     }
 
-    console.log(`[FAQ Routes] Loaded ${faqData.items.length} FAQ items from JSON file`);
+    console.log(`[FAQ Routes] Loaded ${faqData.items.length} FAQ items from bundled JS module`);
     return faqData;
-  } catch (error) {
-    // Fallback: try to load from bundled JS module
-    console.warn(`[FAQ Routes] Failed to load from ${dataPath}, trying fallback module...`);
+  } catch (jsError) {
+    // Fallback: try to load from JSON file if JS module failed
+    console.warn(`[FAQ Routes] Failed to load from JS module, trying JSON file...`);
     try {
-      const fallbackPath = path.join(__dirname, '../data/faq_kb.js');
-      delete require.cache[require.resolve(fallbackPath)]; // Clear cache
-      faqData = require(fallbackPath);
+      const dataPath = path.join(__dirname, '../../../data/faq_kb.phase0a.json');
+      const content = await fs.readFile(dataPath, 'utf-8');
+      faqData = JSON.parse(content);
       faqDataLoadTime = Date.now();
 
+      // Validate structure
       if (!faqData.items || !Array.isArray(faqData.items)) {
-        throw new Error('Invalid fallback FAQ data structure');
+        throw new Error('Invalid FAQ data structure: missing items array');
       }
 
-      console.log(`[FAQ Routes] Loaded ${faqData.items.length} FAQ items from fallback module`);
+      console.log(`[FAQ Routes] Loaded ${faqData.items.length} FAQ items from JSON file`);
       return faqData;
-    } catch (fallbackError) {
-      console.error('[FAQ Routes] Both load attempts failed:', error, fallbackError);
+    } catch (jsonError) {
+      console.error('[FAQ Routes] Both load attempts failed:', jsError, jsonError);
       throw new AppError('FAQ_LOAD_ERROR', 'Failed to load FAQ data', 500);
     }
   }
