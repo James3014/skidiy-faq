@@ -10,9 +10,15 @@ const isProduction = window.location.hostname.includes('zeabur.app') ||
 if (isProduction && !window.ENV_API_BASE) {
   window.ENV_API_BASE = 'https://faq-api-v1.zeabur.app/api/v1';
   window.ENV_API_ROOT = 'https://faq-api-v1.zeabur.app';
+  // IMPORTANT: Also set window.API_BASE for FAQEngine compatibility
+  window.API_BASE = 'https://faq-api-v1.zeabur.app/api/v1';
+  window.BACKEND_URL = 'https://faq-api-v1.zeabur.app/api/v1';
   console.log('[ENV] Using Zeabur backend:', window.ENV_API_BASE);
 } else {
   // 本機開發環境，使用相對路徑
   window.ENV_API_BASE = window.ENV_API_BASE || '/api/v1';
   window.ENV_API_ROOT = window.ENV_API_ROOT || '';
+  // Also set window.API_BASE and BACKEND_URL for local development
+  window.API_BASE = window.API_BASE || '/api/v1';
+  window.BACKEND_URL = window.BACKEND_URL || '/api/v1';
 }
