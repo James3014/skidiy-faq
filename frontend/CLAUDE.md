@@ -136,6 +136,41 @@ tail -n 20 data/customer_inquiries.jsonl | jq '.'
 
 ## Code Style
 
+### 🔧 Bug 修復與改進指導 (Linus Torvalds 原則)
+
+修復代碼時，始終以 Linus 原則思考，避免過度工程化和不必要的複雜性：
+
+#### 1. **Good Taste - 消除特殊情況**
+- 當發現特殊情況/邊界條件時，重寫代碼使邊界情況消失
+- 例：不用多層 if/else 檢查，直接提供正確的資料結構
+
+#### 2. **Never Break Userspace - 向後相容**
+- 改變 API 時，確保舊代碼仍能工作
+- 例：在 `answer_template` 中同時提供 `text` 和 `summary` 兩個欄位
+
+#### 3. **Pragmatism - 實用性優於理論**
+- 理論和實務衝突時，實務優先
+- 例：無數據時優雅降級到 localStorage，而不是拋異常
+
+#### 4. **Simplicity - 簡潔優於完美**
+- 程式碼應該簡單易懂，最多 3 層縮排
+- 例：在 API 層統一答案格式，而不在前端修補 10 個地方
+
+#### 5. **Single Source of Truth - 資料結構優先**
+- 所有邏輯應由清晰的資料結構驅動
+- 例：整個系統圍繞 `faq_kb.phase0a.json` 的資料模型
+
+#### 實際應用案例
+
+**❌ 反面例子**：當發現前端期望 `answer_template.text` 但資料有 `summary` 時
+- 在 10 個前端文件中修補代碼
+- 添加複雜的欄位映射邏輯
+
+**✅ Linus 方法**：
+- 在後端 API 層直接返回 `text: summary + details`
+- 前端零改動，自動獲得正確答案
+- 成本最低，改動最小
+
 ### Constitution 核心原則
 
 遵循 `.specify/memory/constitution.md` 定義的 6 大原則：
