@@ -1505,6 +1505,7 @@
   <script src="lib/purify.min.js"></script>
   <script src="lib/i18n.js"></script>
   <script src="lib/faq-engine.js"></script>
+  <script src="lib/faq-renderer.js"></script>
 
   <script>
     let faqEngine = null;
@@ -2952,57 +2953,44 @@
         : '';
 
       const resultsHTML = faqs.map((faq, index) => {
-        const confidence = faq.score ? Math.round((1 - faq.score) * 100) : 100;
-        const confidenceClass = confidence >= 80 ? 'confidence-high' :
-                               confidence >= 60 ? 'confidence-medium' : 'confidence-low';
         const position = index + 1;
 
-        const localized = faqEngine.getLocalizedContent(faq, currentLanguage);
-        const question = DOMPurify.sanitize(localized.question || faq.canonical_question || '');
-        const answer = parseLinksInText(localized.answer || '無答案內容');
-        const postscript = localized.postscript
-          ? `<div class="faq-postscript">${parseLinksInText(localized.postscript)}</div>`
-          : '';
+        // 使用 FAQRenderer 生成 FAQ 卡片
+        let cardHTML = FAQRenderer.generateFAQCard(faq, currentLanguage, {
+          includeFeedback: true,
+          includeIcon: true,
+          includePostscript: true
+        });
 
-        // Render tags if available
-        const tagsHTML = faq.crm_tags && faq.crm_tags.length > 0
-          ? `<div class="faq-tags">
-              ${faq.crm_tags.map(tag => {
-                const displayTag = DOMPurify.sanitize(getFaqTagLabel(tag, currentLanguage));
-                return `<span class="faq-tag" onclick="trackTagClick(event, 'faq', '${DOMPurify.sanitize(tag)}', '${faq.id}')">${displayTag}</span>`;
-              }).join('')}
-            </div>`
-          : '';
+        // 添加數據屬性和自定義標籤點擊處理
+        cardHTML = cardHTML.replace(
+          'class="faq-item"',
+          `class="faq-item" data-source="${safeSourceAttr}" data-position="${position}" data-query="${safeQueryAttr}"`
+        );
 
-        return `
-          <div class="faq-item" data-faq-id="${faq.id}" data-source="${safeSourceAttr}" data-position="${position}" data-query="${safeQueryAttr}">
-            <div class="faq-header">
-              <div class="faq-question">
-                ${question}
-                <span class="confidence-badge ${confidenceClass}">
-                  信心度 ${confidence}%
-                </span>
-              </div>
-              <span class="faq-toggle-icon">▼</span>
-            </div>
-            ${tagsHTML}
-            <div class="faq-answer">
-              ${answer}
-              ${postscript}
-            </div>
-            <div class="feedback-section">
-              <span class="feedback-label">${currentLanguage === 'en' ? 'Was this helpful?' : currentLanguage === 'th' ? 'มีประโยชน์หรือไม่' : '這個資訊有幫助嗎？'}</span>
-              <div class="feedback-buttons">
-                <button class="btn-helpful" onclick="openFeedbackModal(this)" aria-label="${currentLanguage === 'en' ? 'Helpful' : currentLanguage === 'th' ? 'มีประโยชน์' : '有幫助'}">
-                  👍 ${currentLanguage === 'en' ? 'Helpful' : currentLanguage === 'th' ? 'มีประโยชน์' : '有幫助'}
-                </button>
-                <button class="btn-not-helpful" onclick="openFeedbackModal(this)" aria-label="${currentLanguage === 'en' ? 'Not helpful' : currentLanguage === 'th' ? 'ไม่มีประโยชน์' : '沒幫助'}">
-                  👎 ${currentLanguage === 'en' ? 'Not helpful' : currentLanguage === 'th' ? 'ไม่มีประโยชน์' : '沒幫助'}
-                </button>
-              </div>
-            </div>
-          </div>
-        `;
+        // 如果有標籤，用自定義點擊事件替換
+        if (faq.crm_tags && faq.crm_tags.length > 0) {
+          const customTagsHTML = `<div class="faq-tags">
+            ${faq.crm_tags.map(tag => {
+              const displayTag = DOMPurify.sanitize(getFaqTagLabel(tag, currentLanguage));
+              return `<span class="faq-tag" onclick="trackTagClick(event, 'faq', '${DOMPurify.sanitize(tag)}', '${faq.id}')">${displayTag}</span>`;
+            }).join('')}
+          </div>`;
+
+          // 替換默認標籤 HTML（如果有的話）
+          const tagRegex = /<div class="faq-tags">[\s\S]*?<\/div>/;
+          if (tagRegex.test(cardHTML)) {
+            cardHTML = cardHTML.replace(tagRegex, customTagsHTML);
+          } else {
+            // 在 faq-header 之後插入
+            cardHTML = cardHTML.replace(
+              '</div>\n        ',
+              `</div>\n        ${customTagsHTML}\n        `
+            );
+          }
+        }
+
+        return cardHTML;
       }).join('');
 
       document.getElementById('resultsList').innerHTML = resortsHTML + resultsHTML;
