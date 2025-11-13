@@ -6,6 +6,7 @@
  */
 
 require('dotenv').config();
+const path = require('path');
 const express = require('express');
 const helmet = require('helmet');
 const configureCORS = require('./middleware/cors');
