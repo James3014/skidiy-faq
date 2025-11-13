@@ -30,37 +30,48 @@ async function loadFAQData() {
   }
 
   // LINUS PRINCIPLE: Try the most reliable source first
-  // Try bundled JS module first (always available in repo, no external dependencies)
+  // Priority 1: Load from JSON file (deployed separately, most likely to have full data)
   try {
-    const fallbackPath = path.join(__dirname, '../data/faq_kb.js');
-    delete require.cache[require.resolve(fallbackPath)]; // Clear cache
-    faqData = require(fallbackPath);
+    const dataPath = path.join(__dirname, '../../../data/faq_kb.phase0a.json');
+    const content = await fs.readFile(dataPath, 'utf-8');
+    faqData = JSON.parse(content);
     faqDataLoadTime = Date.now();
 
+    // Validate structure and content
     if (!faqData.items || !Array.isArray(faqData.items)) {
       throw new Error('Invalid FAQ data structure: missing items array');
     }
 
-    console.log(`[FAQ Routes] Loaded ${faqData.items.length} FAQ items from bundled JS module`);
-    return faqData;
-  } catch (jsError) {
-    // Fallback: try to load from JSON file if JS module failed
-    console.warn(`[FAQ Routes] Failed to load from JS module, trying JSON file...`);
+    const itemsWithContent = faqData.items.filter(item =>
+      item.answer_template?.summary || item.answer_template?.details
+    ).length;
+
+    console.log(`[FAQ Routes] Loaded ${faqData.items.length} FAQ items from JSON file (${itemsWithContent} with content)`);
+
+    // Only use this if it has substantial content
+    if (itemsWithContent > 50) {
+      return faqData;
+    } else {
+      console.warn(`[FAQ Routes] JSON file has too few FAQ items with content (${itemsWithContent}/71), trying JS module...`);
+      throw new Error('Insufficient content in JSON file');
+    }
+  } catch (jsonError) {
+    // Priority 2: Fallback to bundled JS module
+    console.warn(`[FAQ Routes] Failed to load from JSON file, trying JS module:`, jsonError.message);
     try {
-      const dataPath = path.join(__dirname, '../../../data/faq_kb.phase0a.json');
-      const content = await fs.readFile(dataPath, 'utf-8');
-      faqData = JSON.parse(content);
+      const fallbackPath = path.join(__dirname, '../data/faq_kb.js');
+      delete require.cache[require.resolve(fallbackPath)]; // Clear cache
+      faqData = require(fallbackPath);
       faqDataLoadTime = Date.now();
 
-      // Validate structure
       if (!faqData.items || !Array.isArray(faqData.items)) {
         throw new Error('Invalid FAQ data structure: missing items array');
       }
 
-      console.log(`[FAQ Routes] Loaded ${faqData.items.length} FAQ items from JSON file`);
+      console.log(`[FAQ Routes] Loaded ${faqData.items.length} FAQ items from bundled JS module`);
       return faqData;
-    } catch (jsonError) {
-      console.error('[FAQ Routes] Both load attempts failed:', jsError, jsonError);
+    } catch (jsError) {
+      console.error('[FAQ Routes] Both load attempts failed:', jsonError, jsError);
       throw new AppError('FAQ_LOAD_ERROR', 'Failed to load FAQ data', 500);
     }
   }
