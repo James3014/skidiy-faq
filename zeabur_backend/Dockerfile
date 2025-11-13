@@ -17,11 +17,16 @@ COPY backend/.env.example ./.env.example
 COPY data ./data || true
 
 # Set environment variables
+# SQLITE_DB_PATH must be absolute path to prevent __dirname resolution issues
 ENV NODE_ENV=production \
-    PORT=8080
+    PORT=8080 \
+    SQLITE_DB_PATH=/app/data/analytics.db
 
 # Expose port
 EXPOSE 8080
+
+# Create data directory with proper permissions
+RUN mkdir -p /app/data && chmod 755 /app/data
 
 # Start server
 CMD ["node", "src/server.js"]
