@@ -26,6 +26,9 @@ class AnalyticsService {
    * Initialize database tables
    */
   initializeTables() {
+    // Check if this is an old database that needs migration
+    this.migrateIfNeeded();
+
     // LLM Usage table
     this.db.exec(`
       CREATE TABLE IF NOT EXISTS llm_usage (
@@ -917,6 +920,47 @@ class AnalyticsService {
       language_distribution: languageDistribution,
       total_engagements: aggregatedResorts.reduce((sum, r) => sum + r.total_engagements, 0)
     };
+  }
+
+  /**
+   * Check and migrate old database schema if needed
+   * This handles backward compatibility with old database structures
+   */
+  migrateIfNeeded() {
+    try {
+      // Check if faq_views table exists
+      const faqViewsTable = this.db.prepare(
+        "SELECT name FROM sqlite_master WHERE type='table' AND name='faq_views'"
+      ).get();
+
+      if (faqViewsTable) {
+        // Check if source column exists in faq_views
+        const columns = this.db.prepare("PRAGMA table_info(faq_views)").all();
+        const hasSourceColumn = columns.some(col => col.name === 'source');
+
+        if (!hasSourceColumn) {
+          console.log('[Analytics Service] Detected old schema - adding missing columns');
+          // Add missing columns to faq_views
+          try {
+            this.db.exec(`
+              ALTER TABLE faq_views ADD COLUMN source TEXT;
+              ALTER TABLE faq_views ADD COLUMN clicked BOOLEAN DEFAULT 0;
+              ALTER TABLE faq_views ADD COLUMN time_to_click_ms INTEGER;
+              ALTER TABLE faq_views ADD COLUMN session_id TEXT;
+            `);
+            console.log('[Analytics Service] Schema migration completed successfully');
+          } catch (altError) {
+            // Columns might already exist, ignore
+            if (!altError.message.includes('duplicate column')) {
+              console.warn('[Analytics Service] Migration error (may be safe):', altError.message);
+            }
+          }
+        }
+      }
+    } catch (error) {
+      console.warn('[Analytics Service] Migration check failed:', error.message);
+      // Continue anyway - CREATE TABLE IF NOT EXISTS will handle it
+    }
   }
 
   /**
