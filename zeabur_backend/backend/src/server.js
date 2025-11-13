@@ -29,7 +29,10 @@ const APP_VERSION = '1.0.1'; // Trigger rebuild
 // Initialize analytics service
 let analyticsService;
 try {
-  const enforcedPath = process.env.SQLITE_DB_PATH || path.join(__dirname, '../data/analytics.db');
+  // Ensure correct path calculation - resolve from app root, not __dirname
+  // In development: /Users/...zeabur/zeabur_backend/data/analytics.db
+  // In production (Zeabur): /app/data/analytics.db
+  const enforcedPath = process.env.SQLITE_DB_PATH || path.join(__dirname, '../../data/analytics.db');
   process.env.SQLITE_DB_PATH = enforcedPath;
   analyticsService = new AnalyticsService(enforcedPath);
   logger.info('Analytics service initialized', {
