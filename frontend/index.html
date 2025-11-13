@@ -1861,6 +1861,19 @@
       try {
         console.log('[Init] Starting initialization...');
 
+        // Configure API endpoints for local development
+        // Priority: explicit window vars > localhost > Zeabur production
+        if (!window.API_BASE) {
+          const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+          window.API_BASE = isLocalhost ? 'http://localhost:3000/api/v1' : 'https://faq-api-v1.zeabur.app/api/v1';
+          console.log('[Init] API_BASE configured:', window.API_BASE);
+        }
+        if (!window.BACKEND_URL) {
+          const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+          window.BACKEND_URL = isLocalhost ? 'http://localhost:3000/api/v1' : 'https://faq-api-v1.zeabur.app/api/v1';
+          console.log('[Init] BACKEND_URL configured:', window.BACKEND_URL);
+        }
+
         // Initialize i18n (optional - don't fail if it errors)
         try {
           i18n = new I18n();
