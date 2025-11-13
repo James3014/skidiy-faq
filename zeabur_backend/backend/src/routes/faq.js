@@ -219,8 +219,8 @@ router.post('/search', async (req, res, next) => {
  * GET /api/v1/faq/all
  * Get all FAQ data for frontend initialization
  *
- * Returns the complete FAQ knowledge base in the same format as faq_kb.phase0a.json
- * This replaces the need for frontend to load any legacy JSON copy
+ * Returns the complete FAQ knowledge base with unified answer_template.text field
+ * LINUS PRINCIPLE: Transform data at API layer for frontend compatibility
  *
  * Response:
  * {
@@ -235,10 +235,30 @@ router.get('/all', async (req, res, next) => {
   try {
     const data = await loadFAQData();
 
+    // Transform items to include unified answer_template.text field
+    const transformedItems = (data.items || []).map(item => {
+      const baseTemplate = item.answer_template || {};
+
+      // Build answer text from summary + details (use Chinese defaults)
+      const summary = baseTemplate.summary || '';
+      const details = baseTemplate.details || '';
+      const text = [summary, details].filter(Boolean).join('\n\n') || '';
+
+      return {
+        ...item,
+        answer_template: {
+          ...baseTemplate,
+          // LINUS PRINCIPLE: Provide unified 'text' field for frontend compatibility
+          // Frontend expects answer_template.text with combined summary + details
+          text
+        }
+      };
+    });
+
     sendSuccess(res, {
-      items: data.items || [],
+      items: transformedItems,
       metadata: data.metadata || data.meta || {},
-      total: (data.items || []).length
+      total: transformedItems.length
     }, 200, {
       timestamp: new Date().toISOString(),
       'Cache-Control': 'public, max-age=300' // Cache for 5 minutes
