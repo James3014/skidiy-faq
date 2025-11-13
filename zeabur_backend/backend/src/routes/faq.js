@@ -45,7 +45,7 @@ async function loadFAQData() {
     }
 
     const itemsWithContent = faqData.items.filter(item =>
-      item.answer_template?.summary || item.answer_template?.details
+      item.answer_template?.text || item.answer_template?.summary || item.answer_template?.details
     ).length;
 
     console.log(`[FAQ Routes] Loaded ${faqData.items.length} FAQ items from JSON file (${itemsWithContent} with content)`);
