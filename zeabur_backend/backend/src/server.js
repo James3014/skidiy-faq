@@ -24,6 +24,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 const NODE_ENV = process.env.NODE_ENV || 'development';
 const SERVER_START_TIME = Date.now();
+const APP_VERSION = '1.0.1'; // Trigger rebuild
 
 // Initialize analytics service
 let analyticsService;
