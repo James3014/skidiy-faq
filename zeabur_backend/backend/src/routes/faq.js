@@ -127,11 +127,21 @@ router.post('/search', async (req, res, next) => {
       .map(item => {
         // Get localized fields based on language
         const questionField = language !== 'zh' ? `canonical_question_${language}` : 'canonical_question';
-        const answerField = language !== 'zh' ? `text_${language}` : 'text';
 
         const question = item[questionField] || item.canonical_question;
         const answerObj = item.answer_template || {};
-        const answer = answerObj[answerField] || answerObj.text || '';
+
+        // Build answer from summary + details (multi-language aware)
+        let answer = '';
+        if (language !== 'zh') {
+          // Try to get translated summary and details
+          const summaryTrans = answerObj.summary_translations?.[language] || answerObj.summary || '';
+          const detailsTrans = answerObj.details_translations?.[language] || answerObj.details || '';
+          answer = [summaryTrans, detailsTrans].filter(Boolean).join('\n\n');
+        } else {
+          // Chinese: use summary + details
+          answer = [answerObj.summary, answerObj.details].filter(Boolean).join('\n\n');
+        }
 
         // Calculate simple match score
         let score = 0;
@@ -276,16 +286,35 @@ router.get('/:faq_id', async (req, res, next) => {
 
     // Build localized response
     const questionField = language !== 'zh' ? `canonical_question_${language}` : 'canonical_question';
-    const answerTextField = language !== 'zh' ? `text_${language}` : 'text';
-    const postscriptField = language !== 'zh' ? `postscript_${language}` : 'postscript';
+    const baseTemplate = faqItem.answer_template || {};
+
+    // Build localized answer components
+    let summary = '';
+    let details = '';
+    let tip = '';
+    let postscript = '';
+
+    if (language !== 'zh') {
+      summary = baseTemplate.summary_translations?.[language] || baseTemplate.summary || '';
+      details = baseTemplate.details_translations?.[language] || baseTemplate.details || '';
+      tip = baseTemplate.tip_translations?.[language] || baseTemplate.tip || '';
+      postscript = baseTemplate.postscript_translations?.[language] || baseTemplate.postscript || '';
+    } else {
+      summary = baseTemplate.summary || '';
+      details = baseTemplate.details || '';
+      tip = baseTemplate.tip || '';
+      postscript = baseTemplate.postscript || '';
+    }
 
     const response = {
       ...faqItem,
       canonical_question: faqItem[questionField] || faqItem.canonical_question,
       answer_template: {
-        ...faqItem.answer_template,
-        text: faqItem.answer_template[answerTextField] || faqItem.answer_template.text,
-        postscript: faqItem.answer_template[postscriptField] || faqItem.answer_template.postscript
+        ...baseTemplate,
+        summary,
+        details,
+        tip,
+        postscript
       }
     };
 
