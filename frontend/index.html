@@ -2680,56 +2680,38 @@
       // Update modal title
       document.getElementById('modalTitle').textContent = title;
 
-      // Generate FAQ items HTML
+      // Generate FAQ items HTML using FAQRenderer
       const faqsHtml = faqs.map((faq, index) => {
-        const confidence = faq.score ? Math.round((1 - faq.score) * 100) : 100;
-        const confidenceClass = confidence >= 80 ? 'confidence-high' :
-                               confidence >= 60 ? 'confidence-medium' : 'confidence-low';
+        // 使用 FAQRenderer 生成 FAQ 卡片
+        let cardHTML = FAQRenderer.generateFAQCard(faq, currentLanguage, {
+          includeFeedback: true,
+          includeIcon: true,
+          includePostscript: false // 模態框中不顯示後記
+        });
 
-        // Get localized content
-        const localized = faqEngine.getLocalizedContent(faq, currentLanguage);
-        const question = DOMPurify.sanitize(localized.question || faq.canonical_question || '');
-        const answer = parseLinksInText(localized.answer || faq.answer_template?.text || (i18n ? i18n.t('no_answer_content') : '無答案內容'));
-        const confidenceLabel = i18n ? i18n.t('confidence') : '信心度';
+        // 更新數據屬性
+        cardHTML = cardHTML.replace(
+          'class="faq-item"',
+          `class="faq-item" data-source="section_modal" data-position="${index + 1}" data-query=""`
+        );
 
-        // Render tags if available
-        const tagsHTML = faq.crm_tags && faq.crm_tags.length > 0
-          ? `<div class="faq-tags">
-              ${faq.crm_tags.map(tag => {
-                const displayTag = DOMPurify.sanitize(getFaqTagLabel(tag, currentLanguage));
-                return `<span class="faq-tag" onclick="trackTagClick(event, 'faq', '${DOMPurify.sanitize(tag)}', '${faq.id}')">${displayTag}</span>`;
-              }).join('')}
-            </div>`
-          : '';
+        // 如果有標籤，用自定義點擊事件替換
+        if (faq.crm_tags && faq.crm_tags.length > 0) {
+          const customTagsHTML = `<div class="faq-tags">
+            ${faq.crm_tags.map(tag => {
+              const displayTag = DOMPurify.sanitize(getFaqTagLabel(tag, currentLanguage));
+              return `<span class="faq-tag" onclick="trackTagClick(event, 'faq', '${DOMPurify.sanitize(tag)}', '${faq.id}')">${displayTag}</span>`;
+            }).join('')}
+          </div>`;
 
-        return `
-          <div class="faq-item" data-faq-id="${faq.id}" data-source="section_modal" data-position="${index + 1}" data-query="">
-            <div class="faq-header">
-              <div class="faq-question">
-                ${question}
-                <span class="confidence-badge ${confidenceClass}">
-                  ${confidenceLabel} ${confidence}%
-                </span>
-              </div>
-              <span class="faq-toggle-icon">▼</span>
-            </div>
-            ${tagsHTML}
-            <div class="faq-answer">
-              ${answer}
-            </div>
-            <div class="feedback-section">
-              <span class="feedback-label">${currentLanguage === 'en' ? 'Was this helpful?' : currentLanguage === 'th' ? 'มีประโยชน์หรือไม่' : '這個資訊有幫助嗎？'}</span>
-              <div class="feedback-buttons">
-                <button class="btn-helpful" onclick="openFeedbackModal(this)" aria-label="${currentLanguage === 'en' ? 'Helpful' : currentLanguage === 'th' ? 'มีประโยชน์' : '有幫助'}">
-                  👍 ${currentLanguage === 'en' ? 'Helpful' : currentLanguage === 'th' ? 'มีประโยชน์' : '有幫助'}
-                </button>
-                <button class="btn-not-helpful" onclick="openFeedbackModal(this)" aria-label="${currentLanguage === 'en' ? 'Not helpful' : currentLanguage === 'th' ? 'ไม่มีประโยชน์' : '沒幫助'}">
-                  👎 ${currentLanguage === 'en' ? 'Not helpful' : currentLanguage === 'th' ? 'ไม่มีประโยชน์' : '沒幫助'}
-                </button>
-              </div>
-            </div>
-          </div>
-        `;
+          // 替換標籤 HTML
+          const tagRegex = /<div class="faq-tags">[\s\S]*?<\/div>/;
+          if (tagRegex.test(cardHTML)) {
+            cardHTML = cardHTML.replace(tagRegex, customTagsHTML);
+          }
+        }
+
+        return cardHTML;
       }).join('');
 
       document.getElementById('modalResultsList').innerHTML = faqsHtml;
@@ -3281,23 +3263,20 @@
       if (faq) {
         console.log('[showFAQDetail] Rendering single FAQ card for', faqId);
         const resultContainer = document.getElementById('resultsList');
-        const localized = faqEngine.getLocalizedContent(faq, currentLanguage);
-        const question = DOMPurify.sanitize(localized.question || faq.canonical_question || '');
-        const answer = parseLinksInText(localized.answer || '無答案內容');
-        const postscript = localized.postscript
-          ? `<div class="faq-postscript">${parseLinksInText(localized.postscript)}</div>`
-          : '';
-        const singleResultHTML = `
-          <div class="faq-item" data-faq-id="${faq.id}" data-source="${source}" data-position="1" data-query="">
-            <div class="faq-header">
-              <div class="faq-question">${question}</div>
-              <span class="faq-toggle-icon">▼</span>
-            </div>
-            <div class="faq-answer">
-              ${answer}
-              ${postscript}
-            </div>
-          </div>`;
+
+        // 使用 FAQRenderer 生成 FAQ 卡片
+        let singleResultHTML = FAQRenderer.generateFAQCard(faq, currentLanguage, {
+          includeFeedback: false,  // 不顯示反饋按鈕
+          includeIcon: true,
+          includePostscript: true
+        });
+
+        // 添加數據屬性
+        singleResultHTML = singleResultHTML.replace(
+          'class="faq-item"',
+          `class="faq-item" data-source="${source}" data-position="1" data-query=""`
+        );
+
         resultContainer.innerHTML = singleResultHTML;
         document.querySelectorAll('.faq-item').forEach(item => {
           item.addEventListener('click', () => toggleFAQItem(item));
