@@ -2070,25 +2070,6 @@
       }
     }
 
-    // Track section clicks for analytics
-    async function trackSectionClick(section) {
-      try {
-        await fetch(`${API_BASE}/analytics/track-section-view`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            section: section,
-            language: currentLanguage,
-            timestamp: new Date().toISOString()
-          })
-        });
-        console.log(`[Analytics] Tracked section click: ${section}`);
-      } catch (error) {
-        console.warn('[Analytics] Failed to track section click:', error);
-        // Fail silently - analytics should not block user experience
-      }
-    }
-
     // ==================== Resort Functions ====================
 
     // Render resort regions in sidebar

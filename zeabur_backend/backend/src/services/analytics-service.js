@@ -132,6 +132,24 @@ class AnalyticsService {
       CREATE INDEX IF NOT EXISTS idx_resort_clicks_region ON resort_clicks(region);
       CREATE INDEX IF NOT EXISTS idx_resort_clicks_timestamp ON resort_clicks(timestamp);
       CREATE INDEX IF NOT EXISTS idx_resort_clicks_language ON resort_clicks(language);
+
+      CREATE TABLE IF NOT EXISTS feedback (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        feedback_type TEXT NOT NULL,
+        item_id TEXT NOT NULL,
+        helpful BOOLEAN NOT NULL,
+        reason TEXT,
+        comment TEXT,
+        language TEXT DEFAULT 'zh',
+        user_session_id TEXT,
+        timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
+      );
+
+      CREATE INDEX IF NOT EXISTS idx_feedback_item_id ON feedback(item_id);
+      CREATE INDEX IF NOT EXISTS idx_feedback_type ON feedback(feedback_type);
+      CREATE INDEX IF NOT EXISTS idx_feedback_helpful ON feedback(helpful);
+      CREATE INDEX IF NOT EXISTS idx_feedback_timestamp ON feedback(timestamp);
+      CREATE INDEX IF NOT EXISTS idx_feedback_language ON feedback(language);
     `);
 
     // Ensure new columns exist for backward compatibility with older databases
