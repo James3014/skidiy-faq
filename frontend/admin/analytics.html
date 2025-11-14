@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FAQ 分析儀表板 - 管理後台</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+      background-color: #f5f7fa;
+      color: #333;
+    }
+
+    .admin-header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 2rem;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header-content {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 2rem;
+    }
+
+    .header-left h1 {
+      font-size: 1.8rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .header-left p {
+      font-size: 0.9rem;
+      opacity: 0.9;
+    }
+
+    .date-range {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .date-range label {
+      font-weight: 600;
+    }
+
+    .date-range input {
+      padding: 0.6rem 1rem;
+      border: none;
+      border-radius: 4px;
+      font-size: 0.95rem;
+    }
+
+    .btn-update {
+      padding: 0.6rem 1.5rem;
+      background-color: white;
+      color: #667eea;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s;
+    }
+
+    .btn-update:hover {
+      background-color: #ecf0f1;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .btn-update:active {
+      transform: translateY(0);
+    }
+
+    .dashboard-container {
+      max-width: 1400px;
+      margin: 2rem auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      padding: 0 1rem;
+    }
+
+    .dashboard-card {
+      background: white;
+      border-radius: 8px;
+      padding: 2rem;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      transition: box-shadow 0.3s;
+    }
+
+    .dashboard-card:hover {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .dashboard-card h2 {
+      font-size: 1.3rem;
+      margin-bottom: 1.5rem;
+      color: #2c3e50;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
+    .chart-container {
+      position: relative;
+      height: 300px;
+      margin-bottom: 1rem;
+    }
+
+    .loading {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 300px;
+      color: #999;
+      font-size: 1rem;
+    }
+
+    .loading::after {
+      content: '';
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 3px solid #f3f3f3;
+      border-top: 3px solid #667eea;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-left: 10px;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .error {
+      color: #e74c3c;
+      padding: 1rem;
+      background-color: #fdf0f0;
+      border-left: 4px solid #e74c3c;
+      border-radius: 4px;
+      margin-bottom: 1rem;
+    }
+
+    .stats-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+
+    .stat-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.8rem;
+      background-color: #f8f9fa;
+      border-radius: 4px;
+      border-left: 4px solid #667eea;
+    }
+
+    .stat-item span {
+      flex: 1;
+      color: #555;
+    }
+
+    .stat-item strong {
+      font-size: 1.1rem;
+      color: #667eea;
+      min-width: 80px;
+      text-align: right;
+    }
+
+    .stats-table {
+      overflow-x: auto;
+    }
+
+    .stats-table table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.95rem;
+    }
+
+    .stats-table thead {
+      background-color: #f8f9fa;
+      border-bottom: 2px solid #ecf0f1;
+    }
+
+    .stats-table th {
+      padding: 1rem 0.8rem;
+      text-align: left;
+      font-weight: 600;
+      color: #2c3e50;
+    }
+
+    .stats-table td {
+      padding: 0.8rem;
+      border-bottom: 1px solid #ecf0f1;
+    }
+
+    .stats-table tr:hover {
+      background-color: #f8f9fa;
+    }
+
+    .two-column {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+
+    .feedback-section,
+    .cost-section {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .feedback-section h3,
+    .cost-section h3 {
+      font-size: 1.1rem;
+      color: #2c3e50;
+      margin-bottom: 0.5rem;
+    }
+
+    .feedback-stat,
+    .cost-stat {
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+      background-color: #f8f9fa;
+      padding: 1.2rem;
+      border-radius: 4px;
+    }
+
+    .feedback-stat p,
+    .cost-stat p {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .feedback-stat strong,
+    .cost-stat strong {
+      font-size: 1.1rem;
+      color: #667eea;
+    }
+
+    .stats-details {
+      flex: 1;
+    }
+
+    .cost-details {
+      flex: 1;
+    }
+
+    /* 響應式設計 */
+    @media (max-width: 1200px) {
+      .dashboard-container {
+        grid-template-columns: 1fr;
+      }
+
+      .two-column {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .header-content {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .date-range {
+        width: 100%;
+        justify-content: flex-start;
+      }
+
+      .dashboard-card {
+        padding: 1.5rem;
+      }
+
+      .dashboard-card h2 {
+        font-size: 1.1rem;
+      }
+    }
+
+    .stat-percentage {
+      color: #7f8c8d;
+      font-size: 0.9rem;
+    }
+
+    .card-full {
+      grid-column: 1 / -1;
+    }
+
+    .refresh-indicator {
+      font-size: 0.85rem;
+      color: #7f8c8d;
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid #ecf0f1;
+    }
+  </style>
+</head>
+<body>
+  <header class="admin-header">
+    <div class="header-content">
+      <div class="header-left">
+        <h1>📊 FAQ 分析儀表板</h1>
+        <p>管理員專用 - 實時統計和分析</p>
+      </div>
+      <div class="date-range">
+        <label>統計期間:</label>
+        <input type="date" id="startDate" />
+        <span>至</span>
+        <input type="date" id="endDate" />
+        <button class="btn-update" onclick="updateDashboard()">🔄 更新</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="dashboard-container">
+    <!-- 區塊 1：FAQ 熱度排行 -->
+    <section class="dashboard-card">
+      <h2>📊 熱門常見問題 Top 10</h2>
+      <div id="chartHotFAQs" class="chart-container loading">載入中...</div>
+      <div id="statsHotFAQs" class="stats-list"></div>
+      <div class="refresh-indicator" id="hotFaqsTime"></div>
+    </section>
+
+    <!-- 區塊 2：分類流量分佈 -->
+    <section class="dashboard-card">
+      <h2>🏷️ 分類瀏覽統計</h2>
+      <div id="chartSectionDistribution" class="chart-container loading">載入中...</div>
+      <div id="statsSectionDetails" class="stats-table"></div>
+      <div class="refresh-indicator" id="sectionTime"></div>
+    </section>
+
+    <!-- 區塊 3：雪場興趣排行 -->
+    <section class="dashboard-card">
+      <h2>🎿 雪場熱度排行 Top 8</h2>
+      <div id="chartResortRanking" class="chart-container loading">載入中...</div>
+      <div id="statsResortDetails" class="stats-list"></div>
+      <div class="refresh-indicator" id="resortTime"></div>
+    </section>
+
+    <!-- 區塊 4：反饋與成本監控 -->
+    <section class="dashboard-card">
+      <h2>📈 反饋統計 & LLM 成本監控</h2>
+      <div class="two-column">
+        <div class="feedback-section">
+          <h3>✅ 用戶反饋比例</h3>
+          <div id="chartFeedback" class="chart-container loading">載入中...</div>
+          <div id="statsFeedback" class="feedback-stat"></div>
+        </div>
+        <div class="cost-section">
+          <h3>💰 LLM 成本監控</h3>
+          <div id="statsLLMCost" class="cost-stat"></div>
+        </div>
+      </div>
+      <div class="refresh-indicator" id="feedbackTime"></div>
+    </section>
+  </main>
+
+  <!-- Chart.js 庫 -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <!-- 分析模組 -->
+  <script src="lib/analytics-charts.js"></script>
+</body>
+</html>
