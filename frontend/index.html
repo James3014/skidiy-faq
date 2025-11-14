@@ -3076,37 +3076,61 @@
     // Filter FAQs by tag (Linus 原則: 消除特殊情況 - 統一支持 intent/section/crm_tags)
     async function filterFAQsByTag(tagName) {
       try {
-        console.log(`[Filter] Filtering FAQs by tag: ${tagName}`);
+        console.log(`[Filter] ========== 開始過濾 FAQ ==========`);
+        console.log(`[Filter] 輸入標籤: "${tagName}"`);
+        console.log(`[Filter] 標籤類型: ${typeof tagName}`);
 
         const allFAQs = await faqEngine.getAllFAQs();
+        console.log(`[Filter] 總 FAQ 數量: ${allFAQs.length}`);
+
+        // 取樣檢查前 3 個 FAQ 的結構
+        if (allFAQs.length > 0) {
+          console.log(`[Filter] 第一個 FAQ 範例:`, {
+            id: allFAQs[0].id,
+            intent: allFAQs[0].metadata?.intent || allFAQs[0].intent,
+            section: allFAQs[0].metadata?.section || allFAQs[0].section,
+            crm_tags: allFAQs[0].crm_tags
+          });
+        }
 
         // Linus 原則: 統一的過濾邏輯，支持三種 tag 類型
         const filtered = allFAQs.filter(faq => {
           // 優先級 1: metadata.intent (大寫規範化)
           const faqIntent = (faq.metadata?.intent || faq.intent || '').toUpperCase();
-          if (faqIntent && faqIntent === tagName.toUpperCase()) {
-            return true;
-          }
+          const intentMatch = faqIntent && faqIntent === tagName.toUpperCase();
 
           // 優先級 2: metadata.section (精確匹配 + 不區分大小寫)
           const faqSection = faq.metadata?.section || faq.section || '';
-          if (faqSection === tagName || faqSection.toLowerCase() === tagName.toLowerCase()) {
-            return true;
-          }
+          const sectionMatch = faqSection === tagName || faqSection.toLowerCase() === tagName.toLowerCase();
 
           // 優先級 3: crm_tags (保留舊格式相容性)
-          if (faq.crm_tags && faq.crm_tags.includes(tagName)) {
-            return true;
+          const crmTagsMatch = faq.crm_tags && faq.crm_tags.includes(tagName);
+
+          const isMatch = intentMatch || sectionMatch || crmTagsMatch;
+
+          // 只顯示匹配的 FAQ 日誌（減少輸出）
+          if (isMatch) {
+            console.log(`[Filter] ✅ 匹配: ${faq.id}`, {
+              intentMatch,
+              sectionMatch,
+              crmTagsMatch,
+              values: {
+                intent: faqIntent,
+                section: faqSection,
+                crm_tags: faq.crm_tags
+              }
+            });
           }
 
-          return false;
+          return isMatch;
         });
 
-        console.log(`[Filter] Found ${filtered.length} FAQs with tag "${tagName}"`);
+        console.log(`[Filter] 過濾完成，找到 ${filtered.length} 個匹配的 FAQ`);
 
         const displayTag = getFaqTagLabel(tagName, currentLanguage);
 
         if (filtered.length === 0) {
+          console.warn(`[Filter] ⚠️ 沒有找到匹配的 FAQ！`);
           const messages = {
             zh: `沒有找到標籤「${displayTag}」的 FAQ`,
             en: `No FAQs found with tag "${displayTag}"`,
@@ -3116,6 +3140,7 @@
           return;
         }
 
+        console.log(`[Filter] 準備顯示模態框...`);
         // Use modal to display filtered results (consistent with category filtering)
         const titles = {
           zh: `🏷️ 標籤篩選: ${displayTag} (${filtered.length} 個結果)`,
@@ -3124,8 +3149,10 @@
         };
         const title = titles[currentLanguage] || titles.zh;
         displayFAQsInModal(filtered, title);
+        console.log(`[Filter] ========== 過濾完成 ==========`);
       } catch (error) {
-        console.error('[Filter] Error filtering by tag:', error);
+        console.error('[Filter] ❌ 錯誤:', error);
+        console.error('[Filter] 錯誤堆疊:', error.stack);
       }
     }
 
