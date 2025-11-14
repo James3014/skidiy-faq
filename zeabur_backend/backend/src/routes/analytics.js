@@ -11,7 +11,6 @@
 
 const express = require('express');
 const router = express.Router();
-const AnalyticsService = require('../services/analytics-service');
 const AlertService = require('../services/alert-service');
 const { AppError } = require('../middleware/error-handler');
 const { sendSuccess } = require('../utils/response-formatter');
@@ -19,33 +18,41 @@ const requireApiKey = require('../middleware/api-key');
 const path = require('path');
 const fs = require('fs').promises;
 
-// Initialize Analytics Service
+// LINUS PRINCIPLE: Single source of truth for analyticsService
+// Analytics Service is initialized in server.js and passed via app.locals
+// This eliminates duplicate initialization and path confusion
 let analyticsService = null;
 let alertService = null;
 
-try {
-  analyticsService = new AnalyticsService();
-  console.log('[Analytics API] Analytics Service initialized');
+// Initialization function called from server.js
+function initializeServices(analyticsServiceInstance) {
+  try {
+    analyticsService = analyticsServiceInstance;
+    console.log('[Analytics API] Using Analytics Service from server.js');
 
-  // Initialize Alert Service
-  alertService = new AlertService(analyticsService, {
-    dailyCostLimit: parseFloat(process.env.DAILY_COST_LIMIT) || 10.0,
-    monthlyCostLimit: parseFloat(process.env.MONTHLY_COST_LIMIT) || 300.0,
-    hourlyRequestLimit: parseInt(process.env.HOURLY_REQUEST_LIMIT) || 100,
-    errorRateThreshold: parseFloat(process.env.ERROR_RATE_THRESHOLD) || 10,
-    alertCooldown: parseInt(process.env.ALERT_COOLDOWN) || 60,
-    enabled: process.env.ALERTS_ENABLED !== 'false'
-  });
+    // Initialize Alert Service
+    alertService = new AlertService(analyticsService, {
+      dailyCostLimit: parseFloat(process.env.DAILY_COST_LIMIT) || 10.0,
+      monthlyCostLimit: parseFloat(process.env.MONTHLY_COST_LIMIT) || 300.0,
+      hourlyRequestLimit: parseInt(process.env.HOURLY_REQUEST_LIMIT) || 100,
+      errorRateThreshold: parseFloat(process.env.ERROR_RATE_THRESHOLD) || 10,
+      alertCooldown: parseInt(process.env.ALERT_COOLDOWN) || 60,
+      enabled: process.env.ALERTS_ENABLED !== 'false'
+    });
 
-  // Add console alert handler
-  alertService.addHandler((alert) => {
-    console.log(`[Alert] ${alert.severity.toUpperCase()}: ${alert.message}`);
-  });
+    // Add console alert handler
+    alertService.addHandler((alert) => {
+      console.log(`[Alert] ${alert.severity.toUpperCase()}: ${alert.message}`);
+    });
 
-  console.log('[Analytics API] Alert Service initialized');
-} catch (error) {
-  console.error('[Analytics API] Failed to initialize:', error.message);
+    console.log('[Analytics API] Alert Service initialized');
+  } catch (error) {
+    console.error('[Analytics API] Failed to initialize:', error.message);
+  }
 }
+
+// Export initialization function
+router.initializeServices = initializeServices;
 
 /**
  * GET /api/v1/analytics/llm-stats

@@ -115,6 +115,14 @@ app.get('/health', (req, res) => {
 // API routes (prefixed with /api/v1)
 app.use('/api/v1', routes);
 
+// LINUS PRINCIPLE: Initialize analytics routes with service instance
+// This ensures single source of truth for database path
+const analyticsRoutes = require('./routes/analytics');
+if (analyticsService && typeof analyticsRoutes.initializeServices === 'function') {
+  analyticsRoutes.initializeServices(analyticsService);
+  logger.info('Analytics routes initialized with shared service instance');
+}
+
 // Root endpoint
 app.get('/', (req, res) => {
   res.json(
