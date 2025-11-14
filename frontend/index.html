@@ -2102,12 +2102,19 @@
       // Linus 原則: 消除特殊情況 - 統一記錄到後端 + localStorage
       try {
         // 1. 發送到後端 API（持久化到資料庫）
-        await fetch(`${API_BASE}/analytics/track-faq-view`, {
+        const response = await fetch(`${API_BASE}/analytics/track-faq-view`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload)
         });
-        console.log(`[Analytics] Tracked FAQ interaction (${payload.source}) for ${faqId}`);
+
+        if (!response.ok) {
+          const errorText = await response.text();
+          console.error(`[Analytics] API returned ${response.status}:`, errorText);
+          throw new Error(`HTTP ${response.status}: ${errorText.substring(0, 100)}`);
+        }
+
+        console.log(`[Analytics] ✅ Tracked FAQ interaction (${payload.source}) for ${faqId}`);
 
         // 2. 寫入 localStorage（本地記錄，即使後端失敗也保留）
         try {
