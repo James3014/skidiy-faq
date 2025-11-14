@@ -149,30 +149,35 @@ const FAQRenderer = {
 
   /**
    * Phase 4.5: Simplified generateFAQTagsHTML - uses metadata.crm_tags
+   * Linus 原則: 統一在這裡生成帶 onclick 的 tag HTML，消除特殊情況
+   *
    * @param {Object} faq - FAQ 項目（來自 Phase 4.1+ API）
    * @param {string} language - 當前語言
    * @returns {string} 標籤 HTML
    */
   generateFAQTagsHTML(faq, language) {
     // Phase 4.5: 新格式有 metadata.crm_tags
-    const crm_tags = faq.metadata?.crm_tags;
+    const crm_tags = faq.metadata?.crm_tags || faq.crm_tags;
 
     if (!crm_tags || !Array.isArray(crm_tags) || crm_tags.length === 0) {
       return '';
     }
 
-    const tagLabels = {
-      'INTENT_BOOKING': { zh: '預約', en: 'Booking', th: 'การจอง' },
-      'INTENT_INSTRUCTOR': { zh: '教練', en: 'Instructor', th: 'วิทยากร' },
-      'INTENT_EQUIPMENT': { zh: '裝備', en: 'Equipment', th: 'อุปกรณ์' },
-      'INTENT_SAFETY': { zh: '安全', en: 'Safety', th: 'ความปลอดภัย' },
-      'INTENT_COURSE': { zh: '課程', en: 'Course', th: 'คอร์ส' }
-    };
-
+    // Linus 原則: 使用全域的 getFaqTagLabel 函數（如果存在）來處理標籤翻譯
+    // 否則使用本地的簡化映射
     const tagElements = crm_tags
       .map(tag => {
-        const label = tagLabels[tag]?.[language] || tag;
-        return `<span class="faq-tag" data-tag="${tag}">${label}</span>`;
+        // 優先使用全域函數（與 index.html 一致）
+        const displayTag = typeof getFaqTagLabel === 'function'
+          ? getFaqTagLabel(tag, language)
+          : tag;
+
+        // Linus 原則: 統一生成帶 onclick 事件的 tag HTML
+        // 消除 displayFAQsInModal 中的特殊替換邏輯
+        const sanitizedTag = DOMPurify.sanitize(tag);
+        const sanitizedDisplay = DOMPurify.sanitize(displayTag);
+
+        return `<span class="faq-tag" onclick="trackTagClick(event, 'faq', '${sanitizedTag}', '${faq.id}')">${sanitizedDisplay}</span>`;
       })
       .join('');
 

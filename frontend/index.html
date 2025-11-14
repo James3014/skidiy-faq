@@ -2737,26 +2737,13 @@
           `class="faq-item" data-source="section_modal" data-position="${index + 1}" data-query=""`
         );
 
-        // 如果有標籤，用自定義點擊事件替換
-        if (faq.crm_tags && faq.crm_tags.length > 0) {
-          console.log(`[Modal] FAQ ${faq.id} 有 ${faq.crm_tags.length} 個標籤:`, faq.crm_tags);
-          const customTagsHTML = `<div class="faq-tags">
-            ${faq.crm_tags.map(tag => {
-              const displayTag = DOMPurify.sanitize(getFaqTagLabel(tag, currentLanguage));
-              const tagHTML = `<span class="faq-tag" onclick="trackTagClick(event, 'faq', '${DOMPurify.sanitize(tag)}', '${faq.id}')">${displayTag}</span>`;
-              console.log(`[Modal] 生成標籤 HTML:`, { tag, displayTag, onclick: `trackTagClick(event, 'faq', '${tag}', '${faq.id}')` });
-              return tagHTML;
-            }).join('')}
-          </div>`;
-
-          // 替換標籤 HTML
-          const tagRegex = /<div class="faq-tags">[\s\S]*?<\/div>/;
-          if (tagRegex.test(cardHTML)) {
-            cardHTML = cardHTML.replace(tagRegex, customTagsHTML);
-            console.log(`[Modal] 標籤 HTML 已替換`);
-          } else {
-            console.warn(`[Modal] ⚠️ 找不到 faq-tags div 來替換！`);
-          }
+        // Linus 原則: FAQRenderer 已經生成正確的 tag HTML (帶 onclick)
+        // 不需要再替換！移除重複邏輯。
+        // 只保留調試日誌來驗證
+        if (faq.metadata?.crm_tags || faq.crm_tags) {
+          const tags = faq.metadata?.crm_tags || faq.crm_tags;
+          console.log(`[Modal] FAQ ${faq.id} 有 ${tags.length} 個標籤:`, tags);
+          console.log(`[Modal] FAQRenderer 已生成帶 onclick 的標籤 HTML`);
         }
 
         return cardHTML;
@@ -2992,33 +2979,14 @@
           includePostscript: true
         });
 
-        // 添加數據屬性和自定義標籤點擊處理
+        // 添加數據屬性
         cardHTML = cardHTML.replace(
           'class="faq-item"',
           `class="faq-item" data-source="${safeSourceAttr}" data-position="${position}" data-query="${safeQueryAttr}"`
         );
 
-        // 如果有標籤，用自定義點擊事件替換
-        if (faq.crm_tags && faq.crm_tags.length > 0) {
-          const customTagsHTML = `<div class="faq-tags">
-            ${faq.crm_tags.map(tag => {
-              const displayTag = DOMPurify.sanitize(getFaqTagLabel(tag, currentLanguage));
-              return `<span class="faq-tag" onclick="trackTagClick(event, 'faq', '${DOMPurify.sanitize(tag)}', '${faq.id}')">${displayTag}</span>`;
-            }).join('')}
-          </div>`;
-
-          // 替換默認標籤 HTML（如果有的話）
-          const tagRegex = /<div class="faq-tags">[\s\S]*?<\/div>/;
-          if (tagRegex.test(cardHTML)) {
-            cardHTML = cardHTML.replace(tagRegex, customTagsHTML);
-          } else {
-            // 在 faq-header 之後插入
-            cardHTML = cardHTML.replace(
-              '</div>\n        ',
-              `</div>\n        ${customTagsHTML}\n        `
-            );
-          }
-        }
+        // Linus 原則: FAQRenderer 已經生成正確的 tag HTML (帶 onclick)
+        // 不需要再替換！
 
         return cardHTML;
       }).join('');
