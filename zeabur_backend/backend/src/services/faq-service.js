@@ -93,14 +93,38 @@ function normalizeFAQStructure(faqData, previous = null) {
   if ('postscript' in normalized.answer_template) {
     normalized.answer_template.postscript = normalizeString(normalized.answer_template.postscript);
   }
+  // Ensure other answer_template fields are normalized
+  if ('summary' in normalized.answer_template) {
+    normalized.answer_template.summary = normalizeString(normalized.answer_template.summary);
+  }
+  if ('details' in normalized.answer_template) {
+    normalized.answer_template.details = normalizeString(normalized.answer_template.details);
+  }
+  if ('tip' in normalized.answer_template) {
+    normalized.answer_template.tip = normalizeString(normalized.answer_template.tip);
+  }
 
-  normalized.answer_template.text_translations = cloneTranslations({
-    ...(previous?.answer_template?.text_translations || {}),
-    ...(normalized.answer_template.text_translations || {})
+  // Phase 4.11: Store translations in separate answer_template_translations object
+  normalized.answer_template_translations = {
+    ...(previous?.answer_template_translations || {}),
+    ...(normalized.answer_template_translations || {})
+  };
+
+  normalized.answer_template_translations.summary_translations = cloneTranslations({
+    ...(previous?.answer_template_translations?.summary_translations || {}),
+    ...(normalized.answer_template_translations?.summary_translations || {})
   });
-  normalized.answer_template.postscript_translations = cloneTranslations({
-    ...(previous?.answer_template?.postscript_translations || {}),
-    ...(normalized.answer_template.postscript_translations || {})
+  normalized.answer_template_translations.details_translations = cloneTranslations({
+    ...(previous?.answer_template_translations?.details_translations || {}),
+    ...(normalized.answer_template_translations?.details_translations || {})
+  });
+  normalized.answer_template_translations.tip_translations = cloneTranslations({
+    ...(previous?.answer_template_translations?.tip_translations || {}),
+    ...(normalized.answer_template_translations?.tip_translations || {})
+  });
+  normalized.answer_template_translations.postscript_translations = cloneTranslations({
+    ...(previous?.answer_template_translations?.postscript_translations || {}),
+    ...(normalized.answer_template_translations?.postscript_translations || {})
   });
 
   normalized.metadata = {
@@ -132,21 +156,29 @@ function normalizeFAQStructure(faqData, previous = null) {
   };
 
   TRANSLATION_LANGUAGES.forEach(lang => {
-    const text = normalizeString(normalized.answer_template.text_translations[lang]);
-    normalized.answer_template.text_translations[lang] = text;
+    // Phase 4.11: Read from new answer_template_translations location
+    const summaryTrans = normalizeString(normalized.answer_template_translations.summary_translations[lang]);
+    normalized.answer_template_translations.summary_translations[lang] = summaryTrans;
+
+    const detailsTrans = normalizeString(normalized.answer_template_translations.details_translations[lang]);
+    normalized.answer_template_translations.details_translations[lang] = detailsTrans;
+
     const question = normalizeString(normalized.canonical_question_translations[lang]);
     normalized.canonical_question_translations[lang] = question;
-    const postscript = normalizeString(normalized.answer_template.postscript_translations[lang]);
-    normalized.answer_template.postscript_translations[lang] = postscript;
 
-    const hasContent = Boolean(text || question || postscript);
+    const postscriptTrans = normalizeString(normalized.answer_template_translations.postscript_translations[lang]);
+    normalized.answer_template_translations.postscript_translations[lang] = postscriptTrans;
+
+    // Check if this translation has content (summary or question or postscript)
+    const hasContent = Boolean(summaryTrans || detailsTrans || question || postscriptTrans);
     const previousStatus = previous?.translation_status?.[lang];
     const translationChanged = !previous
       ? hasContent
       : (
-          text !== normalizeString(previous?.answer_template?.text_translations?.[lang]) ||
+          summaryTrans !== normalizeString(previous?.answer_template_translations?.summary_translations?.[lang]) ||
+          detailsTrans !== normalizeString(previous?.answer_template_translations?.details_translations?.[lang]) ||
           question !== normalizeString(previous?.canonical_question_translations?.[lang]) ||
-          postscript !== normalizeString(previous?.answer_template?.postscript_translations?.[lang])
+          postscriptTrans !== normalizeString(previous?.answer_template_translations?.postscript_translations?.[lang])
         );
 
     normalized.translation_status[lang] = determineTranslationStatus({
@@ -337,8 +369,18 @@ class FAQService {
           questionVariants.push(normalizeString(item.canonical_question_translations?.[lang]));
         });
 
-        const answerVariants = [normalizeString(item.answer_template?.text)];
+        // Phase 4.11: Search in both answer_template and answer_template_translations
+        const answerVariants = [
+          normalizeString(item.answer_template?.text),
+          normalizeString(item.answer_template?.summary),
+          normalizeString(item.answer_template?.details)
+        ];
         TRANSLATION_LANGUAGES.forEach(lang => {
+          // New format: answer_template_translations
+          answerVariants.push(normalizeString(item.answer_template_translations?.summary_translations?.[lang]));
+          answerVariants.push(normalizeString(item.answer_template_translations?.details_translations?.[lang]));
+          answerVariants.push(normalizeString(item.answer_template_translations?.postscript_translations?.[lang]));
+          // Legacy format (backward compatibility)
           answerVariants.push(normalizeString(item.answer_template?.text_translations?.[lang]));
           answerVariants.push(normalizeString(item.answer_template?.postscript_translations?.[lang]));
         });
@@ -501,26 +543,47 @@ class FAQService {
       });
     }
 
-    if (faqData.answer_template?.text_translations && typeof faqData.answer_template.text_translations !== 'object') {
-      errors.push({ field: 'answer_template.text_translations', message: 'Translation map 必須為物件' });
-    } else if (faqData.answer_template?.text_translations) {
-      TRANSLATION_LANGUAGES.forEach(lang => {
-        const value = faqData.answer_template.text_translations[lang];
-        if (value !== undefined && typeof value !== 'string') {
-          errors.push({ field: `answer_template.text_translations.${lang}`, message: 'Translation 必須為字串' });
-        }
-      });
+    // Phase 4.11: Validate new answer_template_translations structure
+    if (faqData.answer_template_translations) {
+      const translations = faqData.answer_template_translations;
+
+      if (translations.summary_translations && typeof translations.summary_translations !== 'object') {
+        errors.push({ field: 'answer_template_translations.summary_translations', message: 'Translation map 必須為物件' });
+      } else if (translations.summary_translations) {
+        TRANSLATION_LANGUAGES.forEach(lang => {
+          const value = translations.summary_translations[lang];
+          if (value !== undefined && typeof value !== 'string') {
+            errors.push({ field: `answer_template_translations.summary_translations.${lang}`, message: 'Translation 必須為字串' });
+          }
+        });
+      }
+
+      if (translations.details_translations && typeof translations.details_translations !== 'object') {
+        errors.push({ field: 'answer_template_translations.details_translations', message: 'Translation map 必須為物件' });
+      } else if (translations.details_translations) {
+        TRANSLATION_LANGUAGES.forEach(lang => {
+          const value = translations.details_translations[lang];
+          if (value !== undefined && typeof value !== 'string') {
+            errors.push({ field: `answer_template_translations.details_translations.${lang}`, message: 'Translation 必須為字串' });
+          }
+        });
+      }
+
+      if (translations.postscript_translations && typeof translations.postscript_translations !== 'object') {
+        errors.push({ field: 'answer_template_translations.postscript_translations', message: 'Translation map 必須為物件' });
+      } else if (translations.postscript_translations) {
+        TRANSLATION_LANGUAGES.forEach(lang => {
+          const value = translations.postscript_translations[lang];
+          if (value !== undefined && typeof value !== 'string') {
+            errors.push({ field: `answer_template_translations.postscript_translations.${lang}`, message: 'Translation 必須為字串' });
+          }
+        });
+      }
     }
 
-    if (faqData.answer_template?.postscript_translations && typeof faqData.answer_template.postscript_translations !== 'object') {
-      errors.push({ field: 'answer_template.postscript_translations', message: 'Translation map 必須為物件' });
-    } else if (faqData.answer_template?.postscript_translations) {
-      TRANSLATION_LANGUAGES.forEach(lang => {
-        const value = faqData.answer_template.postscript_translations[lang];
-        if (value !== undefined && typeof value !== 'string') {
-          errors.push({ field: `answer_template.postscript_translations.${lang}`, message: 'Translation 必須為字串' });
-        }
-      });
+    // Backward compatibility: also check for old format in answer_template (may exist from legacy data)
+    if (faqData.answer_template?.text_translations && typeof faqData.answer_template.text_translations !== 'object') {
+      errors.push({ field: 'answer_template.text_translations', message: 'Translation map 必須為物件 (已棄用)' });
     }
 
     // Optional field validations

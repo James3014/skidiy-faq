@@ -87,6 +87,7 @@ function processLinksInText(text, language = 'zh') {
  */
 function transformToSimplifiedFormat(faq, language = 'zh') {
   const template = faq.answer_template || {};
+  const translations = faq.answer_template_translations || {};
 
   // Get localized question
   // Support both formats: canonical_question_en and canonical_question_translations.en
@@ -103,15 +104,42 @@ function transformToSimplifiedFormat(faq, language = 'zh') {
                '';
   }
 
-  // Get localized answer (text field is already composed in data source)
-  // Fallback to summary if text is empty (backward compatibility)
-  let answer = template.text_translations?.[language] || template.text || template.summary || '';
+  // Get localized answer
+  // For non-Chinese, try to compose from summary+details translations first
+  // Then fallback to text or summary
+  let answer = '';
+  if (language === 'zh') {
+    // Use pre-composed text for Chinese
+    answer = template.text || template.summary || '';
+  } else {
+    // For translations: try summary_translations + details_translations
+    const summaryTrans = translations.summary_translations?.[language];
+    const detailsTrans = translations.details_translations?.[language];
+
+    // Compose from translated parts if available
+    if (summaryTrans) {
+      answer = summaryTrans + (detailsTrans ? '\n\n' + detailsTrans : '');
+    } else {
+      // Fallback: use the Chinese text (better than nothing)
+      answer = template.text || template.summary || '';
+    }
+  }
 
   // Get tip (optional, for extra context)
-  let tip = template.tip_translations?.[language] || template.tip || '';
+  let tip = '';
+  if (language === 'zh') {
+    tip = template.tip || '';
+  } else {
+    tip = translations.tip_translations?.[language] || template.tip || '';
+  }
 
   // Get postscript
-  let postscript = template.postscript_translations?.[language] || template.postscript || '';
+  let postscript = '';
+  if (language === 'zh') {
+    postscript = template.postscript || '';
+  } else {
+    postscript = translations.postscript_translations?.[language] || template.postscript || '';
+  }
 
   // Process [LINK:...] placeholders in answer, tip, and postscript
   answer = processLinksInText(answer, language);

@@ -91,22 +91,6 @@
         "details": "先確認預約到您想要的教練與時段後，再進行後續的旅遊安排，行程會比較有保障。",
         "tip": "旺季期間建議提早 2-3 個月預約，以確保能選擇理想的教練與時段。",
         "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
-        "summary_translations": {
-          "en": "We strongly recommend that you \"book your coach first, then book your flights and accommodation.\" Especially during peak season, high-quality Chinese coaches are in high demand and are often fully booked earlier than flights or accommodation.",
-          "th": "เราขอแนะนำอย่างยิ่งให้คุณ \"จองโค้ชก่อน แล้วค่อยจองตั๋วเครื่องบินและที่พัก\" โดยเฉพาะอย่างยิ่งในช่วงฤดูท่องเที่ยว โค้ชภาษาจีนที่มีคุณภาพเป็นที่ต้องการอย่างมาก และมักจะถูกจองเต็มเร็วกว่าตั๋วเครื่องบินหรือที่พัก"
-        },
-        "details_translations": {
-          "en": null,
-          "th": null
-        },
-        "tip_translations": {
-          "en": null,
-          "th": null
-        },
-        "postscript_translations": {
-          "en": "For more information and the latest availability, please refer to the reservation system.",
-          "th": "สำหรับข้อมูลเพิ่มเติมและจำนวนที่ว่างล่าสุด โปรดดูที่ระบบการจอง"
-        },
         "text": "我們強烈建議您「先預約教練，再訂機票住宿」。尤其是在旺季，優質的中文教練非常搶手，時常比機票或住宿更早被預約一空。\n\n先確認預約到您想要的教練與時段後，再進行後續的旅遊安排，行程會比較有保障。"
       },
       "hot": true,
@@ -160,6 +144,24 @@
           "translator": "human_reviewed",
           "last_synced_version": 2,
           "last_updated": "2025-11-05T00:00:00.000Z"
+        }
+      },
+      "answer_template_translations": {
+        "summary_translations": {
+          "en": "We strongly recommend that you \"book your coach first, then book your flights and accommodation.\" Especially during peak season, high-quality Chinese coaches are in high demand and are often fully booked earlier than flights or accommodation.",
+          "th": "เราขอแนะนำอย่างยิ่งให้คุณ \"จองโค้ชก่อน แล้วค่อยจองตั๋วเครื่องบินและที่พัก\" โดยเฉพาะอย่างยิ่งในช่วงฤดูท่องเที่ยว โค้ชภาษาจีนที่มีคุณภาพเป็นที่ต้องการอย่างมาก และมักจะถูกจองเต็มเร็วกว่าตั๋วเครื่องบินหรือที่พัก"
+        },
+        "details_translations": {
+          "en": null,
+          "th": null
+        },
+        "tip_translations": {
+          "en": null,
+          "th": null
+        },
+        "postscript_translations": {
+          "en": "For more information and the latest availability, please refer to the reservation system.",
+          "th": "สำหรับข้อมูลเพิ่มเติมและจำนวนที่ว่างล่าสุด โปรดดูที่ระบบการจอง"
         }
       }
     },
@@ -256,22 +258,6 @@
         "details": null,
         "tip": null,
         "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
-        "summary_translations": {
-          "en": "On each ski resort introduction page of our website, we have compiled accommodation options that students frequently choose for your reference. Regarding the difficulty of booking during popular periods (such as Christmas, New Year's Eve, and Lunar New Year), there are two main reasons: 1) Bookings in Japan usually open only 2-3 months in advance; searching too early will show no availability. 2) These periods are global peak ski seasons, and room rates will increase significantly and be booked up quickly. We recommend booking as early as possible once your itinerary is confirmed.",
-          "th": "ในหน้าแนะนำสกีรีสอร์ตแต่ละแห่งบนเว็บไซต์ของเรา เราได้รวบรวมตัวเลือกที่พักที่นักเรียนมักจะเลือกไว้ให้คุณอ้างอิงเกี่ยวกับการจองที่พักในช่วงเวลาที่ได้รับความนิยม (เช่น คริสต์มาส, วันส่งท้ายปีเก่า, ตรุษจีน) มีสองสาเหตุหลัก: 1) การจองที่พักในญี่ปุ่นมักจะเปิดให้จองล่วงหน้าเพียง 2-3 เดือนเท่านั้น การค้นหาเร็วเกินไปจะแสดงว่าไม่มีห้องว่าง 2) ช่วงเวลาเหล่านี้เป็นฤดูท่องเที่ยวสกีทั่วโลก ราคาห้องพักจะสูงขึ้นอย่างมากและถูกจองเต็มอย่างรวดเร็ว เราขอแนะนำให้คุณจองล่วงหน้าโดยเร็วที่สุดเมื่อยืนยันแผนการเดินทางแล้ว"
-        },
-        "details_translations": {
-          "en": null,
-          "th": null
-        },
-        "tip_translations": {
-          "en": null,
-          "th": null
-        },
-        "postscript_translations": {
-          "en": "For more information and the latest availability, please refer to the booking system.",
-          "th": "สำหรับข้อมูลเพิ่มเติมและจำนวนที่ว่างล่าสุด โปรดดูที่ระบบการจอง"
-        },
         "text": "我們在網站的各雪場介紹頁面中，有整理學員們較常選擇的住宿選項供您參考。關於熱門時段（如聖誕、跨年、農曆新年）訂房困難，主要有兩個原因：1) 日本的訂房通常在 2-3 個月前才開放，太早查詢會顯示無空房。2) 這些時段是全球的滑雪旺季，房價會大幅上漲且很快被訂滿，建議您確定行程後盡早預訂。"
       },
       "hot": true,
@@ -305,6 +291,24 @@
           "translator": "human_reviewed",
           "last_synced_version": 2,
           "last_updated": "2025-11-05T00:00:00.000Z"
+        }
+      },
+      "answer_template_translations": {
+        "summary_translations": {
+          "en": "On each ski resort introduction page of our website, we have compiled accommodation options that students frequently choose for your reference. Regarding the difficulty of booking during popular periods (such as Christmas, New Year's Eve, and Lunar New Year), there are two main reasons: 1) Bookings in Japan usually open only 2-3 months in advance; searching too early will show no availability. 2) These periods are global peak ski seasons, and room rates will increase significantly and be booked up quickly. We recommend booking as early as possible once your itinerary is confirmed.",
+          "th": "ในหน้าแนะนำสกีรีสอร์ตแต่ละแห่งบนเว็บไซต์ของเรา เราได้รวบรวมตัวเลือกที่พักที่นักเรียนมักจะเลือกไว้ให้คุณอ้างอิงเกี่ยวกับการจองที่พักในช่วงเวลาที่ได้รับความนิยม (เช่น คริสต์มาส, วันส่งท้ายปีเก่า, ตรุษจีน) มีสองสาเหตุหลัก: 1) การจองที่พักในญี่ปุ่นมักจะเปิดให้จองล่วงหน้าเพียง 2-3 เดือนเท่านั้น การค้นหาเร็วเกินไปจะแสดงว่าไม่มีห้องว่าง 2) ช่วงเวลาเหล่านี้เป็นฤดูท่องเที่ยวสกีทั่วโลก ราคาห้องพักจะสูงขึ้นอย่างมากและถูกจองเต็มอย่างรวดเร็ว เราขอแนะนำให้คุณจองล่วงหน้าโดยเร็วที่สุดเมื่อยืนยันแผนการเดินทางแล้ว"
+        },
+        "details_translations": {
+          "en": null,
+          "th": null
+        },
+        "tip_translations": {
+          "en": null,
+          "th": null
+        },
+        "postscript_translations": {
+          "en": "For more information and the latest availability, please refer to the booking system.",
+          "th": "สำหรับข้อมูลเพิ่มเติมและจำนวนที่ว่างล่าสุด โปรดดูที่ระบบการจอง"
         }
       }
     },
@@ -464,22 +468,6 @@
         "details": null,
         "tip": null,
         "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
-        "summary_translations": {
-          "en": "Our Chinese-speaking ski instructor services cover many popular ski areas in Japan, including: Hokkaido (Sapporo, Rusutsu, Furano), Tohoku (Appi, Zao), Niigata (Yuzawa area, Naeba), Nagano (Karuizawa, Hakuba, Nozawa), etc. You can view a list of all available ski resorts on our website's homepage or the \"Ski Resort Introduction\" page.",
-          "th": "บริการครูสอนสกีที่พูดภาษาจีนของเราครอบคลุมพื้นที่เล่นสกีท่องเที่ยวยอดนิยมหลายแห่งในญี่ปุ่น ได้แก่ ฮอกไกโด (ซัปโปโร, รูซุตสึ, ฟุราโนะ), โทโฮคุ (อัปปิ, ซาโอ), นีงาตะ (พื้นที่ยูซาวะ, นาเอบะ), นากาโน่ (คารุอิซาวะ, ฮาคุบะ, โนซาวะ) และอื่นๆ คุณสามารถดูรายชื่อสกีรีสอร์ททั้งหมดที่มีบริการได้ที่หน้าแรกของเว็บไซต์ของเรา หรือหน้า \"แนะนำสกีรีสอร์ท\""
-        },
-        "details_translations": {
-          "en": null,
-          "th": null
-        },
-        "tip_translations": {
-          "en": null,
-          "th": null
-        },
-        "postscript_translations": {
-          "en": "For more information and the latest availability, please refer to the reservation system.",
-          "th": "สำหรับข้อมูลเพิ่มเติมและจำนวนที่ว่างล่าสุด โปรดดูที่ระบบการจอง"
-        },
         "text": "我們的中文滑雪教練服務遍及日本多個熱門滑雪區域，包含：北海道（札幌、留壽都、富良野）、東北（安比、藏王）、新潟（湯澤地區、苗場）、長野（輕井澤、白馬、野澤）等。您可以在我們的網站首頁或「雪場介紹」頁面，查看所有提供服務的雪場列表。"
       },
       "hot": true,
@@ -512,6 +500,24 @@
           "translator": "human_reviewed",
           "last_synced_version": 2,
           "last_updated": "2025-11-05T00:00:00.000Z"
+        }
+      },
+      "answer_template_translations": {
+        "summary_translations": {
+          "en": "Our Chinese-speaking ski instructor services cover many popular ski areas in Japan, including: Hokkaido (Sapporo, Rusutsu, Furano), Tohoku (Appi, Zao), Niigata (Yuzawa area, Naeba), Nagano (Karuizawa, Hakuba, Nozawa), etc. You can view a list of all available ski resorts on our website's homepage or the \"Ski Resort Introduction\" page.",
+          "th": "บริการครูสอนสกีที่พูดภาษาจีนของเราครอบคลุมพื้นที่เล่นสกีท่องเที่ยวยอดนิยมหลายแห่งในญี่ปุ่น ได้แก่ ฮอกไกโด (ซัปโปโร, รูซุตสึ, ฟุราโนะ), โทโฮคุ (อัปปิ, ซาโอ), นีงาตะ (พื้นที่ยูซาวะ, นาเอบะ), นากาโน่ (คารุอิซาวะ, ฮาคุบะ, โนซาวะ) และอื่นๆ คุณสามารถดูรายชื่อสกีรีสอร์ททั้งหมดที่มีบริการได้ที่หน้าแรกของเว็บไซต์ของเรา หรือหน้า \"แนะนำสกีรีสอร์ท\""
+        },
+        "details_translations": {
+          "en": null,
+          "th": null
+        },
+        "tip_translations": {
+          "en": null,
+          "th": null
+        },
+        "postscript_translations": {
+          "en": "For more information and the latest availability, please refer to the reservation system.",
+          "th": "สำหรับข้อมูลเพิ่มเติมและจำนวนที่ว่างล่าสุด โปรดดูที่ระบบการจอง"
         }
       }
     },
@@ -596,22 +602,6 @@
         "details": null,
         "tip": null,
         "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
-        "summary_translations": {
-          "en": "To ensure service quality and accuracy of information, we currently primarily provide customer service via email (service@diy.ski). Text records help us understand your questions more precisely and fully track the progress of your case. We promise to respond to all your inquiries as soon as possible.",
-          "th": "เพื่อให้มั่นใจในคุณภาพการบริการและความถูกต้องของข้อมูล ปัจจุบันเราให้บริการลูกค้าหลักผ่านทางอีเมล (service@diy.ski) การบันทึกข้อความช่วยให้เราเข้าใจคำถามของคุณได้อย่างแม่นยำยิ่งขึ้น และติดตามความคืบหน้าของการดำเนินการได้อย่างครบถ้วน เราสัญญาว่าจะตอบทุกคำถามของคุณโดยเร็วที่สุด"
-        },
-        "details_translations": {
-          "en": null,
-          "th": null
-        },
-        "tip_translations": {
-          "en": null,
-          "th": null
-        },
-        "postscript_translations": {
-          "en": "For more information and the latest availability, please refer to the booking system.",
-          "th": "สำหรับข้อมูลเพิ่มเติมและจำนวนที่นั่งว่างล่าสุด โปรดดูที่ระบบการจอง"
-        },
         "text": "為了確保服務品質與資訊的準確性，我們目前主要透過電子郵件 ( service@diy.ski ) 提供客服。文字記錄能幫助我們更精準地理解您的問題，並完整地追蹤處理進度。我們承諾會盡快回覆您的所有問題。"
       },
       "hot": true,
@@ -644,6 +634,24 @@
           "translator": "human_reviewed",
           "last_synced_version": 2,
           "last_updated": "2025-11-05T00:00:00.000Z"
+        }
+      },
+      "answer_template_translations": {
+        "summary_translations": {
+          "en": "To ensure service quality and accuracy of information, we currently primarily provide customer service via email (service@diy.ski). Text records help us understand your questions more precisely and fully track the progress of your case. We promise to respond to all your inquiries as soon as possible.",
+          "th": "เพื่อให้มั่นใจในคุณภาพการบริการและความถูกต้องของข้อมูล ปัจจุบันเราให้บริการลูกค้าหลักผ่านทางอีเมล (service@diy.ski) การบันทึกข้อความช่วยให้เราเข้าใจคำถามของคุณได้อย่างแม่นยำยิ่งขึ้น และติดตามความคืบหน้าของการดำเนินการได้อย่างครบถ้วน เราสัญญาว่าจะตอบทุกคำถามของคุณโดยเร็วที่สุด"
+        },
+        "details_translations": {
+          "en": null,
+          "th": null
+        },
+        "tip_translations": {
+          "en": null,
+          "th": null
+        },
+        "postscript_translations": {
+          "en": "For more information and the latest availability, please refer to the booking system.",
+          "th": "สำหรับข้อมูลเพิ่มเติมและจำนวนที่นั่งว่างล่าสุด โปรดดูที่ระบบการจอง"
         }
       }
     },
@@ -734,22 +742,6 @@
         "details": null,
         "tip": null,
         "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
-        "summary_translations": {
-          "en": "Except for Karuizawa Snow Resort, which offers a 2-hour class, most snow resorts offer 3-hour morning or afternoon half-day classes and full-day classes (the duration may vary slightly depending on the snow resort). Beginners are advised to take at least 8 to 12 hours to learn the complete progression, while advanced learners can book full-day or half-day courses depending on their skill level.",
-          "th": "ยกเว้นสกีรีสอร์ทคารุอิซาวะที่มีคลาส 2 ชั่วโมง สกีรีสอร์ทส่วนใหญ่จะเปิดสอนคลาสครึ่งวันช่วงเช้าหรือบ่าย 3 ชั่วโมง และคลาสเต็มวัน (ระยะเวลาอาจแตกต่างกันเล็กน้อยขึ้นอยู่กับสกีรีสอร์ท) ผู้เริ่มต้นควรเรียนอย่างน้อย 8 ถึง 12 ชั่วโมงเพื่อให้เรียนรู้ได้อย่างสมบูรณ์ ส่วนผู้เรียนระดับสูงสามารถจองคอร์สเต็มวันหรือครึ่งวันได้ตามระดับความสามารถของตนเอง"
-        },
-        "details_translations": {
-          "en": null,
-          "th": null
-        },
-        "tip_translations": {
-          "en": null,
-          "th": null
-        },
-        "postscript_translations": {
-          "en": "For more information and the latest availability, please refer to the reservation system.",
-          "th": "สำหรับข้อมูลเพิ่มเติมและจำนวนที่ว่างล่าสุด โปรดดูที่ระบบการจอง"
-        },
         "text": "除了輕井澤雪場為一堂 2 小時，大部份雪場分為 3 小時上下午半天課及全天課 (時長依雪場會稍有不同 )。初學者建議至少上 8 至 12 小時，才能學習到完整進度，進階者可視自己的程度狀況預訂全日或半日課程。"
       },
       "hot": true,
@@ -783,6 +775,24 @@
           "translator": "human_reviewed",
           "last_synced_version": 2,
           "last_updated": "2025-11-05T00:00:00.000Z"
+        }
+      },
+      "answer_template_translations": {
+        "summary_translations": {
+          "en": "Except for Karuizawa Snow Resort, which offers a 2-hour class, most snow resorts offer 3-hour morning or afternoon half-day classes and full-day classes (the duration may vary slightly depending on the snow resort). Beginners are advised to take at least 8 to 12 hours to learn the complete progression, while advanced learners can book full-day or half-day courses depending on their skill level.",
+          "th": "ยกเว้นสกีรีสอร์ทคารุอิซาวะที่มีคลาส 2 ชั่วโมง สกีรีสอร์ทส่วนใหญ่จะเปิดสอนคลาสครึ่งวันช่วงเช้าหรือบ่าย 3 ชั่วโมง และคลาสเต็มวัน (ระยะเวลาอาจแตกต่างกันเล็กน้อยขึ้นอยู่กับสกีรีสอร์ท) ผู้เริ่มต้นควรเรียนอย่างน้อย 8 ถึง 12 ชั่วโมงเพื่อให้เรียนรู้ได้อย่างสมบูรณ์ ส่วนผู้เรียนระดับสูงสามารถจองคอร์สเต็มวันหรือครึ่งวันได้ตามระดับความสามารถของตนเอง"
+        },
+        "details_translations": {
+          "en": null,
+          "th": null
+        },
+        "tip_translations": {
+          "en": null,
+          "th": null
+        },
+        "postscript_translations": {
+          "en": "For more information and the latest availability, please refer to the reservation system.",
+          "th": "สำหรับข้อมูลเพิ่มเติมและจำนวนที่ว่างล่าสุด โปรดดูที่ระบบการจอง"
         }
       }
     },
@@ -876,22 +886,6 @@
         "details": null,
         "tip": null,
         "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
-        "summary_translations": {
-          "en": "Yes, you can specify your preferred coach in the booking system. However, please note that coaches have limited availability, so it is recommended to book early to secure your desired coach.",
-          "th": "ได้ครับ/ค่ะ คุณสามารถระบุโค้ชที่คุณต้องการได้ในระบบการจอง อย่างไรก็ตาม โปรดทราบว่าโค้ชมีตารางเวลาจำกัด ดังนั้นจึงแนะนำให้จองล่วงหน้าเพื่อให้แน่ใจว่าคุณจะสามารถจองโค้ชที่คุณต้องการได้"
-        },
-        "details_translations": {
-          "en": null,
-          "th": null
-        },
-        "tip_translations": {
-          "en": null,
-          "th": null
-        },
-        "postscript_translations": {
-          "en": "For more information and the latest availability, please refer to the reservation system.",
-          "th": "สำหรับข้อมูลเพิ่มเติมและจำนวนที่ว่างล่าสุด โปรดดูที่ระบบการจอง"
-        },
         "text": "可以的，您可以在預約系統中指定您偏好的教練。但請注意，教練的檔期有限，建議您提早預約以確保能預訂到您心儀的教練。"
       },
       "hot": true,
@@ -925,6 +919,24 @@
           "translator": "human_reviewed",
           "last_synced_version": 2,
           "last_updated": "2025-11-05T00:00:00.000Z"
+        }
+      },
+      "answer_template_translations": {
+        "summary_translations": {
+          "en": "Yes, you can specify your preferred coach in the booking system. However, please note that coaches have limited availability, so it is recommended to book early to secure your desired coach.",
+          "th": "ได้ครับ/ค่ะ คุณสามารถระบุโค้ชที่คุณต้องการได้ในระบบการจอง อย่างไรก็ตาม โปรดทราบว่าโค้ชมีตารางเวลาจำกัด ดังนั้นจึงแนะนำให้จองล่วงหน้าเพื่อให้แน่ใจว่าคุณจะสามารถจองโค้ชที่คุณต้องการได้"
+        },
+        "details_translations": {
+          "en": null,
+          "th": null
+        },
+        "tip_translations": {
+          "en": null,
+          "th": null
+        },
+        "postscript_translations": {
+          "en": "For more information and the latest availability, please refer to the reservation system.",
+          "th": "สำหรับข้อมูลเพิ่มเติมและจำนวนที่ว่างล่าสุด โปรดดูที่ระบบการจอง"
         }
       }
     },
