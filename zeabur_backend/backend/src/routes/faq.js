@@ -19,6 +19,61 @@ const { AppError } = require('../middleware/error-handler');
 let faqData = null;
 let faqDataLoadTime = null;
 
+// Link mapping for [LINK:...] placeholders
+const LINK_MAP = {
+  LINK_SCHEDULE: {
+    href: 'https://booking.diy.ski/schedule',
+    label: { zh: '預約系統', en: 'Booking system', th: 'ระบบจอง' }
+  },
+  LINK_INSTRUCTORS: {
+    href: 'https://diy.ski/instructorList.php',
+    label: { zh: '教練介紹', en: 'Instructors', th: 'ผู้ฝึกสอน' }
+  },
+  LINK_APPLY_SCHEDULE: {
+    href: 'https://booking.diy.ski/apply-schedule',
+    label: { zh: '申請課程', en: 'Request a course', th: 'ขอเปิดคอร์ส' }
+  },
+  LINK_INSURANCE: {
+    href: 'https://diy.ski/insurance_s.php',
+    label: { zh: '保險方案', en: 'Insurance plan', th: 'ประกันภัย' }
+  },
+  LINK_ARTICLES: {
+    href: 'https://diy.ski/articleList.php',
+    label: { zh: '文章資源', en: 'Articles', th: 'บทความ' }
+  },
+  LINK_ORDER_LIST: {
+    href: 'https://booking.diy.ski/order/list',
+    label: { zh: '訂單查詢', en: 'My orders', th: 'คำสั่งของฉัน' }
+  },
+  LINK_SERVICE_EMAIL: {
+    href: 'mailto:service@diy.ski',
+    label: { zh: '客服信箱', en: 'Support email', th: 'อีเมลฝ่ายบริการ' }
+  },
+  LINK_FACEBOOK: {
+    href: 'https://www.facebook.com/skidiy',
+    label: { zh: 'Facebook', en: 'Facebook', th: 'Facebook' }
+  }
+};
+
+/**
+ * Convert [LINK:TOKEN|label] placeholders to HTML links
+ * @param {string} text - Text with link placeholders
+ * @param {string} language - Target language (zh, en, th)
+ * @returns {string} Text with HTML links
+ */
+function processLinksInText(text, language = 'zh') {
+  if (!text) return '';
+
+  return text.replace(/\[LINK:([A-Z_]+)\|([^\]]+)\]/g, (_, token, label) => {
+    const info = LINK_MAP[token];
+    if (!info) return label;
+
+    // Use resolved label from link map if available, otherwise use original label
+    const resolvedLabel = info.label[language] ?? label;
+    return `<a href="${info.href}" target="_blank" rel="noopener">${resolvedLabel} 🔗</a>`;
+  });
+}
+
 /**
  * LINUS PRINCIPLE: Transform FAQ data to simplified API format
  * Phase 4.5: Simplified transformation - assumes data is already in correct format
@@ -36,13 +91,18 @@ function transformToSimplifiedFormat(faq, language = 'zh') {
 
   // Get localized answer (text field is already composed in data source)
   // Fallback to summary if text is empty (backward compatibility)
-  const answer = template.text_translations?.[language] || template.text || template.summary || '';
+  let answer = template.text_translations?.[language] || template.text || template.summary || '';
 
   // Get tip (optional, for extra context)
-  const tip = template.tip_translations?.[language] || template.tip || '';
+  let tip = template.tip_translations?.[language] || template.tip || '';
 
   // Get postscript
-  const postscript = template.postscript_translations?.[language] || template.postscript || '';
+  let postscript = template.postscript_translations?.[language] || template.postscript || '';
+
+  // Process [LINK:...] placeholders in answer, tip, and postscript
+  answer = processLinksInText(answer, language);
+  tip = processLinksInText(tip, language);
+  postscript = processLinksInText(postscript, language);
 
   // Return simplified structure
   return {
