@@ -2715,6 +2715,10 @@
     }
 
     function displayFAQsInModal(faqs, title) {
+      console.log(`[Modal] ========== 顯示 FAQ 模態框 ==========`);
+      console.log(`[Modal] 標題: ${title}`);
+      console.log(`[Modal] FAQ 數量: ${faqs.length}`);
+
       // Update modal title
       document.getElementById('modalTitle').textContent = title;
 
@@ -2735,10 +2739,13 @@
 
         // 如果有標籤，用自定義點擊事件替換
         if (faq.crm_tags && faq.crm_tags.length > 0) {
+          console.log(`[Modal] FAQ ${faq.id} 有 ${faq.crm_tags.length} 個標籤:`, faq.crm_tags);
           const customTagsHTML = `<div class="faq-tags">
             ${faq.crm_tags.map(tag => {
               const displayTag = DOMPurify.sanitize(getFaqTagLabel(tag, currentLanguage));
-              return `<span class="faq-tag" onclick="trackTagClick(event, 'faq', '${DOMPurify.sanitize(tag)}', '${faq.id}')">${displayTag}</span>`;
+              const tagHTML = `<span class="faq-tag" onclick="trackTagClick(event, 'faq', '${DOMPurify.sanitize(tag)}', '${faq.id}')">${displayTag}</span>`;
+              console.log(`[Modal] 生成標籤 HTML:`, { tag, displayTag, onclick: `trackTagClick(event, 'faq', '${tag}', '${faq.id}')` });
+              return tagHTML;
             }).join('')}
           </div>`;
 
@@ -2746,6 +2753,9 @@
           const tagRegex = /<div class="faq-tags">[\s\S]*?<\/div>/;
           if (tagRegex.test(cardHTML)) {
             cardHTML = cardHTML.replace(tagRegex, customTagsHTML);
+            console.log(`[Modal] 標籤 HTML 已替換`);
+          } else {
+            console.warn(`[Modal] ⚠️ 找不到 faq-tags div 來替換！`);
           }
         }
 
@@ -3027,7 +3037,9 @@
     window.trackTagClick = async function(event, tagType, tagName, itemId) {
       event.stopPropagation(); // Prevent FAQ accordion from toggling
 
+      console.log(`[Tag Click] ========== TAG 點擊事件觸發 ==========`);
       console.log(`[Tag Click] Type: ${tagType}, Tag: ${tagName}, Item: ${itemId}`);
+      console.log(`[Tag Click] Event:`, event);
 
       // Track to analytics (will create endpoint later)
       try {
