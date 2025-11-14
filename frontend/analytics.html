@@ -1191,8 +1191,13 @@
           result.data.items.forEach(faq => {
             faqKnowledgeBase[faq.id] = {
               id: faq.id,
-              title: faq.canonical_question,
-              section: faq.section
+              title: (faq.content && (faq.content.question || faq.content.title)) ||
+                     faq.canonical_question ||
+                     faq.id,
+              section: faq.section ||
+                       faq.metadata?.section ||
+                       (faq.content?.section) ||
+                       '-'
             };
           });
           console.log('[FAQ KB] Loaded', Object.keys(faqKnowledgeBase).length, 'FAQs');
