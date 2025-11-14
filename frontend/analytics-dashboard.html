@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FAQ 分析儀表板</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: #f5f7fa;
+      color: #333;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    header {
+      background: #2D395C;
+      color: white;
+      padding: 20px;
+      border-radius: 8px;
+      margin-bottom: 30px;
+    }
+
+    header h1 {
+      font-size: 2rem;
+      margin-bottom: 5px;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      margin-bottom: 30px;
+    }
+
+    .stat-card {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      border-left: 4px solid #4A5F8C;
+    }
+
+    .stat-card h3 {
+      font-size: 0.9rem;
+      color: #666;
+      margin-bottom: 10px;
+    }
+
+    .stat-card .value {
+      font-size: 2rem;
+      font-weight: bold;
+      color: #4A5F8C;
+    }
+
+    .section {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .section h2 {
+      font-size: 1.3rem;
+      margin-bottom: 15px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid #f0f0f0;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.95rem;
+    }
+
+    thead {
+      background: #f9f9f9;
+      border-bottom: 2px solid #ddd;
+    }
+
+    th {
+      text-align: left;
+      padding: 12px;
+      font-weight: 600;
+      color: #333;
+    }
+
+    td {
+      padding: 12px;
+      border-bottom: 1px solid #f0f0f0;
+    }
+
+    tbody tr:hover {
+      background: #f9f9f9;
+    }
+
+    .rank {
+      font-weight: bold;
+      color: #4A5F8C;
+      width: 40px;
+    }
+
+    .faq-id {
+      font-family: monospace;
+      font-size: 0.9rem;
+      color: #666;
+    }
+
+    .metric {
+      text-align: center;
+    }
+
+    .metric.clicks {
+      color: #27ae60;
+      font-weight: bold;
+    }
+
+    .metric.sessions {
+      color: #3498db;
+    }
+
+    .time {
+      font-size: 0.85rem;
+      color: #999;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 40px;
+      color: #999;
+    }
+
+    .spinner {
+      display: inline-block;
+      width: 30px;
+      height: 30px;
+      border: 3px solid #f0f0f0;
+      border-top: 3px solid #4A5F8C;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin-right: 10px;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .empty {
+      text-align: center;
+      padding: 30px;
+      color: #999;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 15px;
+      border-bottom: 2px solid #f0f0f0;
+    }
+
+    .tab {
+      padding: 10px 15px;
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      color: #666;
+      transition: all 0.3s ease;
+    }
+
+    .tab.active {
+      color: #4A5F8C;
+      border-bottom-color: #4A5F8C;
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>📊 FAQ 分析儀表板</h1>
+      <p>實時 FAQ 點擊數據與使用統計</p>
+    </header>
+
+    <div class="stats-grid" id="statsGrid">
+      <div class="stat-card">
+        <h3>總點擊數</h3>
+        <div class="value" id="totalClicks">-</div>
+      </div>
+      <div class="stat-card">
+        <h3>熱門 FAQ</h3>
+        <div class="value" id="hotFAQs">-</div>
+      </div>
+      <div class="stat-card">
+        <h3>平均點擊率</h3>
+        <div class="value" id="avgClickRate">-</div>
+      </div>
+      <div class="stat-card">
+        <h3>最後更新</h3>
+        <div class="value" id="lastUpdate" style="font-size: 0.9rem;">-</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="tabs">
+        <div class="tab active" onclick="switchTab('hotFAQs')">🔥 熱門 FAQ（前 20）</div>
+        <div class="tab" onclick="switchTab('recentClicks')">⏱️  最近點擊（100 筆）</div>
+        <div class="tab" onclick="switchTab('clickRate')">📈 點擊率排行</div>
+      </div>
+
+      <!-- 熱門 FAQ -->
+      <div id="hotFAQs" class="tab-content active">
+        <h2>🔥 熱門 FAQ（7 天內）</h2>
+        <div id="hotFAQsContent" class="loading">
+          <div class="spinner"></div>
+          載入中...
+        </div>
+      </div>
+
+      <!-- 最近點擊 -->
+      <div id="recentClicks" class="tab-content">
+        <h2>⏱️ 最近點擊記錄</h2>
+        <div id="recentClicksContent" class="loading">
+          <div class="spinner"></div>
+          載入中...
+        </div>
+      </div>
+
+      <!-- 點擊率排行 -->
+      <div id="clickRate" class="tab-content">
+        <h2>📈 點擊率排行</h2>
+        <div id="clickRateContent" class="loading">
+          <div class="spinner"></div>
+          載入中...
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const API_BASE = 'http://localhost:3000/api/v1';
+
+    async function loadData() {
+      try {
+        // 加載熱門 FAQ
+        const hotFAQsRes = await fetch(`${API_BASE}/analytics/hot-faqs`);
+        const hotFAQsData = await hotFAQsRes.json();
+
+        // 加載 FAQ 統計
+        const statsRes = await fetch(`${API_BASE}/analytics/faq-stats?days=7`);
+        const statsData = await statsRes.json();
+
+        renderHotFAQs(hotFAQsData.data.hot_faqs);
+        renderRecentClicks(statsData.data);
+        renderClickRate(statsData.data);
+        updateStats(hotFAQsData.data, statsData.data);
+      } catch (error) {
+        console.error('載入數據失敗:', error);
+        document.getElementById('hotFAQsContent').innerHTML = `<div class="empty">❌ 載入失敗: ${error.message}</div>`;
+      }
+    }
+
+    function renderHotFAQs(hotFAQs) {
+      if (!hotFAQs || hotFAQs.length === 0) {
+        document.getElementById('hotFAQsContent').innerHTML = '<div class="empty">暫無數據</div>';
+        return;
+      }
+
+      const html = `
+        <table>
+          <thead>
+            <tr>
+              <th>排名</th>
+              <th>FAQ ID</th>
+              <th class="metric">點擊次數</th>
+              <th class="metric">獨立會話</th>
+              <th>最後點擊時間</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${hotFAQs.map((faq, index) => `
+              <tr>
+                <td class="rank">#${index + 1}</td>
+                <td class="faq-id">${faq.faq_id}</td>
+                <td class="metric clicks">📌 ${faq.clicks}</td>
+                <td class="metric sessions">👤 ${faq.unique_sessions}</td>
+                <td class="time">${new Date(faq.last_clicked_at).toLocaleString('zh-TW')}</td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      `;
+      document.getElementById('hotFAQsContent').innerHTML = html;
+    }
+
+    function renderRecentClicks(stats) {
+      // 從統計數據構建最近點擊表
+      const html = `
+        <table>
+          <thead>
+            <tr>
+              <th>FAQ ID</th>
+              <th class="metric">總查看</th>
+              <th class="metric">實際點擊</th>
+              <th class="metric">點擊率</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${(stats.faq_details || []).slice(0, 100).map(faq => `
+              <tr>
+                <td class="faq-id">${faq.faq_id}</td>
+                <td class="metric">${faq.total_views || 0}</td>
+                <td class="metric clicks">${faq.total_clicks || 0}</td>
+                <td class="metric">${faq.click_rate || '0'}%</td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      `;
+      document.getElementById('recentClicksContent').innerHTML = html || '<div class="empty">暫無數據</div>';
+    }
+
+    function renderClickRate(stats) {
+      const sorted = (stats.faq_details || []).sort((a, b) => {
+        const rateA = parseFloat(a.click_rate || 0);
+        const rateB = parseFloat(b.click_rate || 0);
+        return rateB - rateA;
+      });
+
+      const html = `
+        <table>
+          <thead>
+            <tr>
+              <th>排名</th>
+              <th>FAQ ID</th>
+              <th class="metric">點擊率</th>
+              <th class="metric">點擊數</th>
+              <th class="metric">查看數</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${sorted.slice(0, 20).map((faq, index) => `
+              <tr>
+                <td class="rank">#${index + 1}</td>
+                <td class="faq-id">${faq.faq_id}</td>
+                <td class="metric">${faq.click_rate || '0'}%</td>
+                <td class="metric clicks">${faq.total_clicks || 0}</td>
+                <td class="metric">${faq.total_views || 0}</td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      `;
+      document.getElementById('clickRateContent').innerHTML = html || '<div class="empty">暫無數據</div>';
+    }
+
+    function updateStats(hotFAQsData, statsData) {
+      const totalClicks = hotFAQsData.hot_faqs.reduce((sum, faq) => sum + faq.clicks, 0);
+      document.getElementById('totalClicks').textContent = totalClicks;
+      document.getElementById('hotFAQs').textContent = hotFAQsData.hot_faqs.length;
+      document.getElementById('lastUpdate').textContent = new Date().toLocaleTimeString('zh-TW');
+    }
+
+    function switchTab(tabName) {
+      // 隱藏所有 tab 內容
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.tab').forEach(el => el.classList.remove('active'));
+
+      // 顯示選中的 tab
+      document.getElementById(tabName).classList.add('active');
+      event.target.classList.add('active');
+    }
+
+    // 初始化
+    loadData();
+
+    // 每 30 秒自動刷新
+    setInterval(loadData, 30000);
+  </script>
+</body>
+</html>

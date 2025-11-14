@@ -314,6 +314,59 @@
       padding-top: 1rem;
       border-top: 1px solid #ecf0f1;
     }
+
+    /* 標籤導航樣式 */
+    .tabs-nav {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+      border-bottom: 2px solid #ecf0f1;
+      flex-wrap: wrap;
+    }
+
+    .tab-btn {
+      padding: 0.8rem 1.5rem;
+      background: transparent;
+      border: none;
+      border-bottom: 3px solid transparent;
+      color: #7f8c8d;
+      cursor: pointer;
+      font-size: 0.95rem;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      white-space: nowrap;
+    }
+
+    .tab-btn:hover {
+      color: #667eea;
+      border-bottom-color: #667eea;
+    }
+
+    .tab-btn.active {
+      color: #667eea;
+      border-bottom-color: #667eea;
+      background-color: rgba(102, 126, 234, 0.05);
+    }
+
+    .tab-content {
+      display: none;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
   </style>
 </head>
 <body>
@@ -334,32 +387,58 @@
   </header>
 
   <main class="dashboard-container">
-    <!-- 區塊 1：FAQ 熱度排行 -->
-    <section class="dashboard-card">
-      <h2>📊 熱門常見問題 Top 10</h2>
-      <div id="chartHotFAQs" class="chart-container loading">載入中...</div>
-      <div id="statsHotFAQs" class="stats-list"></div>
-      <div class="refresh-indicator" id="hotFaqsTime"></div>
+    <!-- 標籤導航 -->
+    <section class="dashboard-card card-full">
+      <div class="tabs-nav">
+        <button class="tab-btn active" data-tab="faq-analysis">
+          📊 FAQ 點擊分析
+        </button>
+        <button class="tab-btn" data-tab="section-stats">
+          🏷️ 分類流量分析
+        </button>
+        <button class="tab-btn" data-tab="resort-stats">
+          🎿 雪場熱度排行
+        </button>
+        <button class="tab-btn" data-tab="feedback-llm">
+          📈 反饋與 LLM 成本
+        </button>
+      </div>
     </section>
 
-    <!-- 區塊 2：分類流量分佈 -->
-    <section class="dashboard-card">
+    <!-- 標籤 1：FAQ 點擊分析（預設顯示） -->
+    <section class="dashboard-card card-full tab-content active" id="faq-analysis">
+      <h2>📊 熱門常見問題排行</h2>
+      <div class="two-column">
+        <div>
+          <h3>⚡ 前 10 熱門 FAQ</h3>
+          <div id="chartHotFAQs" class="chart-container loading">載入中...</div>
+          <div class="refresh-indicator" id="hotFaqsTime"></div>
+        </div>
+        <div>
+          <h3>📈 點擊率排行</h3>
+          <div id="statsHotFAQs" class="stats-list"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 標籤 2：分類流量分析 -->
+    <section class="dashboard-card card-full tab-content" id="section-stats">
       <h2>🏷️ 分類瀏覽統計</h2>
       <div id="chartSectionDistribution" class="chart-container loading">載入中...</div>
       <div id="statsSectionDetails" class="stats-table"></div>
       <div class="refresh-indicator" id="sectionTime"></div>
     </section>
 
-    <!-- 區塊 3：雪場興趣排行 -->
-    <section class="dashboard-card">
+    <!-- 標籤 3：雪場熱度排行 -->
+    <section class="dashboard-card card-full tab-content" id="resort-stats">
       <h2>🎿 雪場熱度排行 Top 8</h2>
       <div id="chartResortRanking" class="chart-container loading">載入中...</div>
       <div id="statsResortDetails" class="stats-list"></div>
       <div class="refresh-indicator" id="resortTime"></div>
     </section>
 
-    <!-- 區塊 4：反饋與成本監控 -->
-    <section class="dashboard-card">
+    <!-- 標籤 4：反饋與 LLM 成本監控 -->
+    <section class="dashboard-card card-full tab-content" id="feedback-llm">
       <h2>📈 反饋統計 & LLM 成本監控</h2>
       <div class="two-column">
         <div class="feedback-section">
@@ -380,5 +459,32 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
   <!-- 分析模組 -->
   <script src="lib/analytics-charts.js"></script>
+
+  <!-- 標籤導航事件處理 -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const tabBtns = document.querySelectorAll('.tab-btn');
+      const tabContents = document.querySelectorAll('.tab-content');
+
+      tabBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const tabName = btn.getAttribute('data-tab');
+
+          // 移除所有 active 類別
+          tabBtns.forEach(b => b.classList.remove('active'));
+          tabContents.forEach(c => c.classList.remove('active'));
+
+          // 添加 active 類別到被點擊的標籤
+          btn.classList.add('active');
+          const targetContent = document.getElementById(tabName);
+          if (targetContent) {
+            targetContent.classList.add('active');
+          }
+
+          console.log('[Analytics Tabs] 切換到標籤:', tabName);
+        });
+      });
+    });
+  </script>
 </body>
 </html>
