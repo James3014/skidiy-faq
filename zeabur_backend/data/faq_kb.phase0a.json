@@ -6926,10 +6926,10 @@
         "en": "Refund Policy Guidelines",
         "th": "ข้อกำหนดการคืนเงิน"
       },
-      "canonical_question": "「如付了訂金後上課當天氣候不佳會如何處理？」",
+      "canonical_question": "如付了訂金後上課當天氣候不佳會如何處理？",
       "canonical_question_translations": {
-        "en": "What happens if the weather is bad on the day of the class after the deposit has been paid?",
-        "th": "จะเกิดอะไรขึ้นหากอากาศไม่ดีในวันเรียนหลังจากชำระเงินมัดจำแล้ว?"
+        "en": "If I paid the deposit, how will it be handled if the weather is poor on the day of the lesson?",
+        "th": "หากฉันชำระเงินมัดจำแล้ว จะมีการจัดการอย่างไรหากอากาศไม่ดีในวันเรียน?"
       },
       "keywords": [
         "氣候影響",
@@ -8067,15 +8067,15 @@
       },
       "answer_template": {
         "summary": "建議準備：雪具（雪板、雪鞋）可先行租借、安全帽與護具（防摔褲、膝、手腕護具）建議自備、雪衣褲、手套、雪鏡等基本裝備、雪票：部分雪場提供優惠購票連結、機票、住宿、交通等個人安排。提醒方式：上課前 7 天教練會主動聯繫確認、系統會寄出提醒信與保險通知表單。",
-        "text": "建議準備：雪具（雪板、雪鞋）可先行租借、安全帽與護具（防摔褲、膝、手腕護具）建議自備、雪衣褲、手套、雪鏡等基本裝備、雪票：部分雪場提供優惠購票連結、機票、住宿、交通等個人安排。提醒方式：上課前 7 天教練會主動聯繫確認、系統會寄出提醒信與保險通知表單。",
+        "text": "建議準備以下項目：\n\n【雪具與裝備】\n* 雪具（雪板、雪鞋）：可先行租借\n* 安全帽與護具：防摔褲、膝護具、手腕護具（建議自備）\n* 雪衣褲、手套、雪鏡等基本裝備\n\n【其他安排】\n* 雪票：部分雪場提供優惠購票連結\n* 機票、住宿、交通等個人安排\n\n【提醒方式】\n* 上課前 7 天教練會主動聯繫確認\n* 系統會寄出提醒信與保險通知表單",
         "details": "",
         "tip": "",
         "postscript": ""
       },
       "answer_template_translations": {
         "summary_translations": {
-          "en": "We recommend preparing: skiing equipment (skis, boots) can be rented in advance; safety helmets and protective gear (impact pants, knee pads, wrist guards) are recommended to bring yourself; basic gear like ski jackets, gloves, goggles; lift tickets (some resorts provide discount ticket links); flights, accommodation, transportation and other personal arrangements. Reminders: your instructor will contact you 7 days before the lesson; the system will send reminder emails and insurance notification forms.",
-          "th": "เราแนะนำให้เตรียม: อุปกรณ์สกี (สกี รองเท้า) สามารถเช่าล่วงหน้า; หมวกนิรภัยและเกียร์ป้องกัน (กางเกงกันกระแทก แผ่นป้องกันเข่า ที่คุ้มมือ) แนะนำให้นำมาเอง; เสื้อผ้าพื้นฐานเช่นแจ็คเก็ตสกี ถุงมือ แว่นตา; ตั๋วลิฟท์ (หิมะบางแห่งมีลิงค์ซื้อตั๋วส่วนลด); เที่ยวบิน ที่พัก การขนส่ง และการจัดเตรียมส่วนบุคคลอื่น ๆ การเตือน: ผู้สอนของคุณจะติดต่อคุณ 7 วันก่อนบทเรียน; ระบบจะส่งอีเมลการเตือนและแบบฟอร์มการแจ้งเตือนประกันภัย"
+          "en": "We recommend preparing the following items:\n\n【Skiing Equipment】\n* Skiing equipment (skis, boots): Can be rented in advance\n* Safety helmet and protective gear: Impact pants, knee pads, wrist guards (recommended to bring yourself)\n* Ski jackets, gloves, goggles and other basic equipment\n\n【Other Arrangements】\n* Lift tickets: Some resorts provide discounted ticket links\n* Flights, accommodation, transportation and other personal arrangements\n\n【Reminder Methods】\n* Your instructor will contact you 7 days before the lesson\n* The system will send reminder emails and insurance notification forms",
+          "th": "เราแนะนำให้เตรียมรายการต่อไปนี้:\n\n【อุปกรณ์สกี】\n* อุปกรณ์สกี (สกี รองเท้า): สามารถเช่าได้ล่วงหน้า\n* หมวกกันน็อคและเกียร์ป้องกัน: กางเกงกันกระแทก แผ่นป้องกันเข่า ที่คุ้มมือ (แนะนำให้นำมาเอง)\n* แจ็คเก็ตสกี ถุงมือ แว่นตา และอุปกรณ์พื้นฐานอื่น ๆ\n\n【การจัดเตรียมอื่น ๆ】\n* ตั๋วลิฟท์: หิมะบางแห่งมีลิงค์ซื้อตั๋วส่วนลด\n* เที่ยวบิน ที่พัก การขนส่ง และการจัดเตรียมส่วนบุคคลอื่น ๆ\n\n【วิธีการเตือน】\n* ผู้สอนของคุณจะติดต่อคุณ 7 วันก่อนบทเรียน\n* ระบบจะส่งอีเมลการเตือนและแบบฟอร์มการแจ้งเตือนประกันภัย"
         },
         "details_translations": {
           "en": null,
