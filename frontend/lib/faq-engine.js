@@ -79,23 +79,37 @@ class FAQEngine {
 
     const localized = {};
 
-    FAQ_LANGUAGES.forEach(lang => {
-      const isSource = lang === FAQ_DEFAULT_LANGUAGE;
-      localized[lang] = {};
+    // Phase 4.1: 新格式 - API 已經提供了本地化內容
+    if (faq.content && typeof faq.content === 'object') {
+      // 新格式直接提供了本地化內容
+      const content = faq.content;
+      FAQ_LANGUAGES.forEach(lang => {
+        localized[lang] = {
+          question: sanitizeText(content.question),
+          answer: sanitizeText(content.answer),
+          postscript: sanitizeText(content.postscript)
+        };
+      });
+    } else {
+      // 舊格式向後相容支持
+      FAQ_LANGUAGES.forEach(lang => {
+        const isSource = lang === FAQ_DEFAULT_LANGUAGE;
+        localized[lang] = {};
 
-      // Localize question with fallback to default language
-      localized[lang].question = isSource
-        ? sanitizeText(faq.canonical_question)
-        : sanitizeText(faq.canonical_question_translations?.[lang]) || sanitizeText(faq.canonical_question);
+        // Localize question with fallback to default language
+        localized[lang].question = isSource
+          ? sanitizeText(faq.canonical_question)
+          : sanitizeText(faq.canonical_question_translations?.[lang]) || sanitizeText(faq.canonical_question);
 
-      // Answer from unified text field (backend has already merged summary + details)
-      localized[lang].answer = sanitizeText(faq.answer_template?.text);
+        // Answer from unified text field (backend has already merged summary + details)
+        localized[lang].answer = sanitizeText(faq.answer_template?.text);
 
-      // Localize postscript with fallback to default language
-      localized[lang].postscript = isSource
-        ? sanitizeText(faq.answer_template?.postscript)
-        : sanitizeText(faq.answer_template?.postscript_translations?.[lang]) || sanitizeText(faq.answer_template?.postscript);
-    });
+        // Localize postscript with fallback to default language
+        localized[lang].postscript = isSource
+          ? sanitizeText(faq.answer_template?.postscript)
+          : sanitizeText(faq.answer_template?.postscript_translations?.[lang]) || sanitizeText(faq.answer_template?.postscript);
+      });
+    }
 
     faq.localized = localized;
     return localized;
@@ -131,6 +145,16 @@ class FAQEngine {
    */
   getFuseConfig() {
     const keys = [
+      // Phase 4.1: 新格式 - 使用 content 中的欄位（優先）
+      {
+        name: 'content.question',
+        weight: 0.35
+      },
+      {
+        name: 'content.answer',
+        weight: 0.15
+      },
+      // 舊格式向後相容支持
       {
         name: 'canonical_question',
         weight: 0.35
@@ -150,6 +174,11 @@ class FAQEngine {
       {
         name: 'section',
         weight: 0.05
+      },
+      // 新格式中的 metadata.keywords
+      {
+        name: 'metadata.keywords',
+        weight: 0.1
       }
     ];
 

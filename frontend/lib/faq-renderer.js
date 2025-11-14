@@ -82,11 +82,23 @@ const FAQRenderer = {
 
   /**
    * 獲取本地化內容
-   * @param {Object} faq - FAQ 項目
+   * 支持 Phase 4.1 簡化格式（content 和 metadata）和舊格式
+   * @param {Object} faq - FAQ 項目（可能來自新 API 或舊格式）
    * @param {string} language - 語言代碼
    * @returns {Object} 本地化內容
    */
   getLocalizedContent(faq, language) {
+    // Phase 4.1: 新格式（已在 API 層處理了語言和組合）
+    if (faq.content) {
+      // 新格式直接提供了本地化內容
+      return {
+        question: faq.content.question || '',
+        answer: faq.content.answer || '',
+        postscript: faq.content.postscript || ''
+      };
+    }
+
+    // 舊格式向後相容支持
     const baseTemplate = faq.answer_template || {};
 
     // 問題
@@ -153,12 +165,16 @@ const FAQRenderer = {
 
   /**
    * 生成 FAQ 標籤 HTML
-   * @param {Object} faq - FAQ 項目
+   * 支持 Phase 4.1 簡化格式（metadata 中的 crm_tags）和舊格式
+   * @param {Object} faq - FAQ 項目（新或舊格式）
    * @param {string} language - 當前語言
    * @returns {string} 標籤 HTML
    */
   generateFAQTagsHTML(faq, language) {
-    if (!faq.crm_tags || !Array.isArray(faq.crm_tags) || faq.crm_tags.length === 0) {
+    // Phase 4.1: 新格式有 metadata.crm_tags
+    let crm_tags = faq.metadata?.crm_tags || faq.crm_tags;
+
+    if (!crm_tags || !Array.isArray(crm_tags) || crm_tags.length === 0) {
       return '';
     }
 
@@ -170,7 +186,7 @@ const FAQRenderer = {
       'INTENT_COURSE': { zh: '課程', en: 'Course', th: 'คอร์ส' }
     };
 
-    const tagElements = faq.crm_tags
+    const tagElements = crm_tags
       .map(tag => {
         const label = tagLabels[tag]?.[language] || tag;
         return `<span class="faq-tag" data-tag="${tag}">${label}</span>`;

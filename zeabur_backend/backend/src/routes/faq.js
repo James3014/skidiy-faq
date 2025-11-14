@@ -20,6 +20,59 @@ let faqData = null;
 let faqDataLoadTime = null;
 
 /**
+ * LINUS PRINCIPLE: Transform FAQ data to simplified API format
+ * Phase 4.1: Flatten nested structure, move composition to API layer
+ *
+ * @param {Object} faq - Raw FAQ item
+ * @param {string} language - Target language (zh, en, th)
+ * @returns {Object} Simplified FAQ item for API response
+ */
+function transformToSimplifiedFormat(faq, language = 'zh') {
+  const template = faq.answer_template || {};
+
+  // Get localized question
+  const questionField = language !== 'zh' ? `canonical_question_${language}` : 'canonical_question';
+  const question = faq[questionField] || faq.canonical_question || '';
+
+  // Compose answer from parts (already has text from Phase 1 fix, but handle both)
+  let answer = template.text_translations?.[language] || template.text;
+  if (!answer) {
+    // Fallback: Compose from summary + details
+    const parts = [];
+    if (template.summary) parts.push(template.summary);
+    if (template.details) parts.push(template.details);
+    answer = parts.join('\n\n');
+  }
+  answer = answer || '';
+
+  // Get tip (optional, for extra context)
+  const tip = template.tip_translations?.[language] || template.tip || '';
+
+  // Get postscript
+  const postscript = template.postscript_translations?.[language] || template.postscript || '';
+
+  // Return simplified structure
+  return {
+    id: faq.id,
+    content: {
+      question: question || '',
+      answer: answer,
+      tip: tip,
+      postscript: postscript
+    },
+    metadata: {
+      intent: faq.intent || '',
+      section: faq.section || '',
+      section_en: faq.section_translations?.en || '',
+      section_th: faq.section_translations?.th || '',
+      crm_tags: faq.crm_tags || [],
+      keywords: faq.keywords || [],
+      hot: faq.hot || false
+    }
+  };
+}
+
+/**
  * Load FAQ data from faq_kb.phase0a.json
  * T031: Implement faq_kb.phase0a.json loading logic
  *
@@ -138,21 +191,9 @@ router.post('/search', async (req, res, next) => {
 
     const results = data.items
       .map(item => {
-        const questionField = language !== 'zh' ? `canonical_question_${language}` : 'canonical_question';
-        const question = item[questionField] || item.canonical_question;
-        const answerObj = item.answer_template || {};
-
-        // LINUS PRINCIPLE: Generate 'text' field if missing
-        // Fallback: Compose from summary + details if 'text' doesn't exist
-        let answer = answerObj.text_translations?.[language] || answerObj.text;
-        if (!answer) {
-          // Fallback: Compose from summary + details
-          const parts = [];
-          if (answerObj.summary) parts.push(answerObj.summary);
-          if (answerObj.details) parts.push(answerObj.details);
-          answer = parts.join(' ');
-        }
-        answer = answer || '';
+        const simplified = transformToSimplifiedFormat(item, language);
+        const question = simplified.content.question;
+        const answer = simplified.content.answer;
 
         // Calculate simple match score
         let score = 0;
@@ -184,7 +225,7 @@ router.post('/search', async (req, res, next) => {
         }
 
         return {
-          item,
+          item: simplified,
           score,
           question,
           answer
@@ -194,14 +235,10 @@ router.post('/search', async (req, res, next) => {
       .sort((a, b) => b.score - a.score)
       .slice(0, limit)
       .map(result => ({
-        faq_id: result.item.id,
-        canonical_question: result.question,
-        answer_preview: result.answer.substring(0, 150) + (result.answer.length > 150 ? '...' : ''),
+        ...result.item,
         score: result.score,
         confidence: Math.round((result.score) * 100),
-        matched_fields: ['canonical_question'], // Simplified
-        intent: result.item.intent,
-        section: result.item.section
+        answer_preview: result.answer.substring(0, 150) + (result.answer.length > 150 ? '...' : '')
       }));
 
     // T033: Calculate response time
@@ -245,32 +282,18 @@ router.post('/search', async (req, res, next) => {
 router.get('/all', async (req, res, next) => {
   try {
     const data = await loadFAQData();
+    const language = req.query.lang || 'zh';
 
-    // LINUS PRINCIPLE: Fix missing 'text' field in answer_template
-    // Some FAQ data may only have summary + details, not unified 'text'
-    // Generate 'text' field at API layer if it's missing
-    const itemsWithText = (data.items || []).map(item => {
-      if (!item.answer_template) {
-        return item;
-      }
-
-      const template = item.answer_template;
-
-      // If 'text' field is missing or empty, compose it from summary + details
-      if (!template.text) {
-        const parts = [];
-        if (template.summary) parts.push(template.summary);
-        if (template.details) parts.push(template.details);
-        template.text = parts.join('\n\n');
-      }
-
-      return item;
-    });
+    // Phase 4.1: Transform to simplified format
+    // API layer now handles all composition and localization
+    const simplifiedItems = (data.items || []).map(item =>
+      transformToSimplifiedFormat(item, language)
+    );
 
     sendSuccess(res, {
-      items: itemsWithText,
+      items: simplifiedItems,
       metadata: data.metadata || data.meta || {},
-      total: itemsWithText.length
+      total: simplifiedItems.length
     }, 200, {
       timestamp: new Date().toISOString(),
       'Cache-Control': 'public, max-age=300' // Cache for 5 minutes
@@ -285,16 +308,21 @@ router.get('/all', async (req, res, next) => {
  * GET /api/v1/faq/:faq_id
  * T032: Get specific FAQ by ID
  *
- * Retrieve full FAQ details by ID
+ * Retrieve full FAQ details by ID with simplified format
+ * Phase 4.1: Use simplified format (content + metadata)
  *
  * Response:
  * {
  *   "success": true,
  *   "data": {
  *     "id": "faq.booking.001",
- *     "canonical_question": "...",
- *     "answer_template": {...},
- *     ...
+ *     "content": {
+ *       "question": "...",
+ *       "answer": "...",
+ *       "tip": "...",
+ *       "postscript": "..."
+ *     },
+ *     "metadata": {...}
  *   },
  *   "meta": {
  *     "timestamp": "..."
@@ -316,43 +344,10 @@ router.get('/:faq_id', async (req, res, next) => {
       throw new AppError('FAQ_NOT_FOUND', '找不到指定的 FAQ', 404);
     }
 
-    // Build localized response
-    const questionField = language !== 'zh' ? `canonical_question_${language}` : 'canonical_question';
-    const baseTemplate = faqItem.answer_template || {};
+    // Phase 4.1: Use simplified format
+    const simplifiedItem = transformToSimplifiedFormat(faqItem, language);
 
-    // LINUS PRINCIPLE: Generate 'text' field if missing
-    // Fallback: Compose from summary + details if 'text' field doesn't exist
-    let text = baseTemplate.text_translations?.[language] || baseTemplate.text;
-    if (!text && language === 'zh') {
-      // If no translated text and no unified text, compose from summary + details
-      const parts = [];
-      if (baseTemplate.summary) parts.push(baseTemplate.summary);
-      if (baseTemplate.details) parts.push(baseTemplate.details);
-      text = parts.join('\n\n');
-    } else if (!text) {
-      // For other languages, try fallback to Chinese version
-      const parts = [];
-      if (baseTemplate.summary) parts.push(baseTemplate.summary);
-      if (baseTemplate.details) parts.push(baseTemplate.details);
-      text = parts.join('\n\n');
-    }
-    text = text || '';
-
-    let tip = baseTemplate.tip_translations?.[language] || baseTemplate.tip || '';
-    let postscript = baseTemplate.postscript_translations?.[language] || baseTemplate.postscript || '';
-
-    const response = {
-      ...faqItem,
-      canonical_question: faqItem[questionField] || faqItem.canonical_question,
-      answer_template: {
-        ...baseTemplate,
-        text,
-        tip,
-        postscript
-      }
-    };
-
-    sendSuccess(res, response, 200, {
+    sendSuccess(res, simplifiedItem, 200, {
       timestamp: new Date().toISOString()
     });
 
