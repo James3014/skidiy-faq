@@ -1949,6 +1949,25 @@
 
         console.log('[Init] Initialization complete!');
 
+        // Handle URL search parameters (for links from article.php)
+        const urlParams = new URLSearchParams(window.location.search);
+        const searchQuery = urlParams.get('q');
+        if (searchQuery) {
+          console.log('[Init] Found search query from URL:', searchQuery);
+          // Set search input and trigger search
+          const searchInput = document.getElementById('searchInput');
+          if (searchInput) {
+            searchInput.value = decodeURIComponent(searchQuery);
+            // Trigger search after a short delay to ensure UI is ready
+            setTimeout(() => {
+              const event = new Event('input', { bubbles: true });
+              searchInput.dispatchEvent(event);
+              // Also trigger the search button click
+              performSearch();
+            }, 100);
+          }
+        }
+
         // Initialize AI chat widget
         try {
           initAIChatWidget();
