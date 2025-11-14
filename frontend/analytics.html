@@ -610,8 +610,8 @@
 
     <!-- Tabs -->
     <div class="tabs">
-      <button class="tab active" onclick="switchTab('llm')">📊 LLM 使用統計</button>
-      <button class="tab" onclick="switchTab('faq')">❓ FAQ 點擊分析</button>
+      <button class="tab" onclick="switchTab('llm')">📊 LLM 使用統計</button>
+      <button class="tab active" onclick="switchTab('faq')">❓ FAQ 點擊分析</button>
       <button class="tab" onclick="switchTab('tag')">🏷️ Tag 點擊分析</button>
       <button class="tab" onclick="switchTab('section')">📂 分類點擊分析</button>
       <button class="tab" onclick="switchTab('resort')">🏔️ 雪場點擊分析</button>
@@ -619,7 +619,7 @@
     </div>
 
     <!-- LLM Statistics Tab -->
-    <div id="llm-tab" class="tab-content active">
+    <div id="llm-tab" class="tab-content">
       <!-- Overall Statistics -->
       <div class="stats-grid" id="statsGrid">
       <div class="stat-card primary">
@@ -706,7 +706,7 @@
     </div> <!-- End LLM Tab -->
 
     <!-- FAQ Statistics Tab -->
-    <div id="faq-tab" class="tab-content">
+    <div id="faq-tab" class="tab-content active">
       <!-- FAQ Overall Statistics -->
       <div class="stats-grid">
         <div class="stat-card primary">
