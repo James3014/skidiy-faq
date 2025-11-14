@@ -68,8 +68,10 @@ class AnalyticsService {
    * Initialize database tables
    */
   initializeTables() {
-    // Check if this is an old database that needs migration
+    // LINUS PRINCIPLE: Migrate first, use later
+    // Ensure columns exist BEFORE creating indexes that reference them
     this.migrateIfNeeded();
+    this.ensureColumnsExist();
 
     // LLM Usage table
     this.db.exec(`
@@ -192,17 +194,29 @@ class AnalyticsService {
       CREATE INDEX IF NOT EXISTS idx_feedback_language ON feedback(language);
     `);
 
-    // Ensure new columns exist for backward compatibility with older databases
+    console.log('[Analytics Service] Tables initialized');
+  }
+
+  /**
+   * Ensure all required columns exist (backward compatibility)
+   * LINUS PRINCIPLE: Called early in initialization, before CREATE INDEX
+   */
+  ensureColumnsExist() {
     const ensureColumn = (table, column, alterSql, defaultValue = null) => {
-      const infoStmt = this.db.prepare(`PRAGMA table_info(${table})`);
-      const columns = infoStmt.all();
-      const hasColumn = columns.some(col => col.name === column);
-      if (!hasColumn) {
-        console.log(`[Analytics Service] Adding missing column ${column} to ${table}`);
-        this.db.exec(alterSql);
-        if (defaultValue !== null) {
-          this.db.exec(`UPDATE ${table} SET ${column} = '${defaultValue}' WHERE ${column} IS NULL`);
+      try {
+        const infoStmt = this.db.prepare(`PRAGMA table_info(${table})`);
+        const columns = infoStmt.all();
+        const hasColumn = columns.some(col => col.name === column);
+        if (!hasColumn) {
+          console.log(`[Analytics Service] Adding missing column ${column} to ${table}`);
+          this.db.exec(alterSql);
+          if (defaultValue !== null) {
+            this.db.exec(`UPDATE ${table} SET ${column} = '${defaultValue}' WHERE ${column} IS NULL`);
+          }
         }
+      } catch (error) {
+        // Table might not exist yet, ignore
+        console.log(`[Analytics Service] Skipping column ${column} for ${table} (table may not exist yet)`);
       }
     };
 
@@ -215,7 +229,7 @@ class AnalyticsService {
     ensureColumn('section_views', 'language', "ALTER TABLE section_views ADD COLUMN language TEXT DEFAULT 'zh'", 'zh');
     ensureColumn('resort_clicks', 'language', "ALTER TABLE resort_clicks ADD COLUMN language TEXT DEFAULT 'zh'", 'zh');
 
-    console.log('[Analytics Service] Tables initialized');
+    console.log('[Analytics Service] Column migration complete');
   }
 
   /**

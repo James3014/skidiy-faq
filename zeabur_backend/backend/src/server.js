@@ -170,12 +170,20 @@ app.get('/health', (req, res) => {
 // API routes (prefixed with /api/v1)
 app.use('/api/v1', routes);
 
-// LINUS PRINCIPLE: Initialize analytics routes with service instance
+// LINUS PRINCIPLE: Initialize routes with shared service instances
 // This ensures single source of truth for database path
 const analyticsRoutes = require('./routes/analytics');
 if (analyticsService && typeof analyticsRoutes.initializeServices === 'function') {
   analyticsRoutes.initializeServices(analyticsService);
   logger.info('Analytics routes initialized with shared service instance');
+}
+
+const llmRoutes = require('./routes/llm');
+if (analyticsService && typeof llmRoutes.initializeServices === 'function') {
+  llmRoutes.initializeServices(analyticsService).catch(error => {
+    logger.error('Failed to initialize LLM routes:', error);
+  });
+  logger.info('LLM routes initialized with shared service instance');
 }
 
 // Root endpoint

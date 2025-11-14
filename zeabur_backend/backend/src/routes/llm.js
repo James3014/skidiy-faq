@@ -21,7 +21,8 @@ const { AppError } = require('../middleware/error-handler');
 const { sendSuccess } = require('../utils/response-formatter');
 const crypto = require('crypto');
 
-// Initialize LLM Manager, RAG Engine, Analytics Service, and CRM Service
+// LINUS PRINCIPLE: Single source of truth for analyticsService
+// Analytics Service is initialized in server.js and passed via initializeServices()
 let llmManager = null;
 let ragEngine = null;
 let analyticsService = null;
@@ -29,8 +30,12 @@ let crmService = null;
 let intentDetector = null;
 let slotExtractor = null;
 
-(async () => {
+// Initialization function called from server.js
+async function initializeServices(analyticsServiceInstance) {
   try {
+    analyticsService = analyticsServiceInstance;
+    console.log('[LLM API] Using Analytics Service from server.js');
+
     // Initialize LLM Manager
     llmManager = new LLMManager({
       defaultProvider: process.env.DEFAULT_LLM_PROVIDER || 'claude',
@@ -61,10 +66,6 @@ let slotExtractor = null;
 
     await ragEngine.initialize();
 
-    // Initialize Analytics Service
-    analyticsService = new AnalyticsService();
-    console.log('[LLM API] Analytics Service initialized');
-
     // Initialize CRM Service
     crmService = new CRMService();
     console.log('[LLM API] CRM Service initialized');
@@ -84,7 +85,7 @@ let slotExtractor = null;
     console.error('[LLM API] Initialization failed:', error.message);
     console.error('[LLM API] LLM endpoints will not be available');
   }
-})();
+}
 
 /**
  * POST /api/v1/llm/chat
@@ -605,5 +606,8 @@ router.get('/stats', async (req, res, next) => {
     next(error);
   }
 });
+
+// Export router and initialization function
+router.initializeServices = initializeServices;
 
 module.exports = router;
