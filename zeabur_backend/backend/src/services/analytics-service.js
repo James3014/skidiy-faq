@@ -70,7 +70,6 @@ class AnalyticsService {
   initializeTables() {
     // LINUS PRINCIPLE: Migrate first, use later
     // Ensure columns exist BEFORE creating indexes that reference them
-    this.migrateIfNeeded();
     this.ensureColumnsExist();
 
     // LLM Usage table
