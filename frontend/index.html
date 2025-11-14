@@ -3358,9 +3358,8 @@
         );
 
         resultContainer.innerHTML = singleResultHTML;
-        document.querySelectorAll('.faq-item').forEach(item => {
-          item.addEventListener('click', () => toggleFAQItem(item));
-        });
+        // 不添加 click 事件，讓熱門問題保持展開狀態
+        // （用戶點擊時不會觸發 toggle 導致收合）
         hideIntentPanel();
 
         // 滾動到新項目（已經自動展開）
