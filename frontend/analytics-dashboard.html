@@ -260,20 +260,33 @@
     async function loadData() {
       try {
         // 加載熱門 FAQ
+        console.log('[Analytics Dashboard] Fetching hot FAQs...');
         const hotFAQsRes = await fetch(`${API_BASE}/analytics/hot-faqs`);
+        if (!hotFAQsRes.ok) {
+          const errorText = await hotFAQsRes.text();
+          throw new Error(`熱門 FAQ API 錯誤 (${hotFAQsRes.status}): ${errorText.substring(0, 100)}`);
+        }
         const hotFAQsData = await hotFAQsRes.json();
+        console.log('[Analytics Dashboard] ✅ Hot FAQs loaded:', hotFAQsData.data.hot_faqs.length);
 
         // 加載 FAQ 統計
+        console.log('[Analytics Dashboard] Fetching FAQ stats...');
         const statsRes = await fetch(`${API_BASE}/analytics/faq-stats?days=7`);
+        if (!statsRes.ok) {
+          const errorText = await statsRes.text();
+          throw new Error(`FAQ 統計 API 錯誤 (${statsRes.status}): ${errorText.substring(0, 100)}`);
+        }
         const statsData = await statsRes.json();
+        console.log('[Analytics Dashboard] ✅ FAQ stats loaded');
 
         renderHotFAQs(hotFAQsData.data.hot_faqs);
         renderRecentClicks(statsData.data);
         renderClickRate(statsData.data);
         updateStats(hotFAQsData.data, statsData.data);
       } catch (error) {
-        console.error('載入數據失敗:', error);
+        console.error('[Analytics Dashboard] ❌ 載入數據失敗:', error);
         document.getElementById('hotFAQsContent').innerHTML = `<div class="empty">❌ 載入失敗: ${error.message}</div>`;
+        document.getElementById('recentClicksContent').innerHTML = `<div class="empty">❌ 載入失敗</div>`;
       }
     }
 
