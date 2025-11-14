@@ -76,11 +76,14 @@ function processLinksInText(text, language = 'zh') {
 
 /**
  * LINUS PRINCIPLE: Transform FAQ data to simplified API format
- * Phase 4.5: Simplified transformation - assumes data is already in correct format
+ * Phase 4.11: Guarantee all fields exist - eliminate special cases in frontend
+ *
+ * KEY PRINCIPLE: Backend ensures data structure consistency so frontend never needs fallback chains.
+ * If source data is missing a field, we provide a sensible default here, not in 10 frontend files.
  *
  * @param {Object} faq - Raw FAQ item from faq_kb.phase0a.json
  * @param {string} language - Target language (zh, en, th)
- * @returns {Object} Simplified FAQ item for API response
+ * @returns {Object} Simplified FAQ item with GUARANTEED fields
  */
 function transformToSimplifiedFormat(faq, language = 'zh') {
   const template = faq.answer_template || {};
@@ -104,23 +107,25 @@ function transformToSimplifiedFormat(faq, language = 'zh') {
   tip = processLinksInText(tip, language);
   postscript = processLinksInText(postscript, language);
 
-  // Return simplified structure
+  // LINUS PRINCIPLE: Good Taste - Eliminate special cases
+  // Guarantee all fields exist with sensible defaults
+  // Frontend can now do: faq.content.question (no fallback needed)
   return {
-    id: faq.id,
+    id: faq.id || 'faq.unknown',
     content: {
-      question: question || '',
-      answer: answer,
-      tip: tip,
-      postscript: postscript
+      question: question || faq.id || '(無問題)',  // Fallback to ID if no question
+      answer: answer || '(暫無答案)',               // Always provide answer field
+      tip: tip || '',                              // Empty string if no tip
+      postscript: postscript || ''                 // Empty string if no postscript
     },
     metadata: {
-      intent: faq.intent || '',
-      section: faq.section || '',
-      section_en: faq.section_translations?.en || '',
-      section_th: faq.section_translations?.th || '',
-      crm_tags: faq.crm_tags || [],
-      keywords: faq.keywords || [],
-      hot: faq.hot || false
+      intent: faq.intent || 'GENERAL',             // Default to GENERAL intent
+      section: faq.section || '一般',               // Default section name
+      section_en: faq.section_translations?.en || faq.section || 'General',
+      section_th: faq.section_translations?.th || faq.section || 'ทั่วไป',
+      crm_tags: Array.isArray(faq.crm_tags) ? faq.crm_tags : [],     // Guarantee array
+      keywords: Array.isArray(faq.keywords) ? faq.keywords : [],     // Guarantee array
+      hot: faq.hot === true                        // Guarantee boolean
     }
   };
 }

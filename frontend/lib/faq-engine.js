@@ -18,6 +18,7 @@ class FAQEngine {
     this.fuseInstance = null;
     this.isInitialized = false;
     this.language = FAQ_DEFAULT_LANGUAGE;
+    this.idMap = null;  // Phase 4.11: Quick lookup map for analytics
   }
 
   /**
@@ -43,19 +44,26 @@ class FAQEngine {
       const result = await response.json();
       this.faqData = result.data || result;
 
-      // Linus 原則: 統一數據結構 - 將 metadata 中的欄位提升到根層級
-      // 消除後續代碼中的 faq.metadata?.crm_tags || faq.crm_tags 特殊情況
+      // LINUS PRINCIPLE: Good Taste - Eliminate special cases
+      // Phase 4.11: Guarantee all fields exist at root level, no fallback chains needed
+      // Backend API already provides clean structure, but we normalize it here for absolute certainty
       this.faqData.items.forEach(item => {
         this.prepareLocalizedContent(item);
 
-        // 提升 metadata 欄位到根層級（向後相容）
-        if (item.metadata) {
-          item.intent = item.intent || item.metadata.intent;
-          item.section = item.section || item.metadata.section;
-          item.crm_tags = item.crm_tags || item.metadata.crm_tags;
-          item.keywords = item.keywords || item.metadata.keywords;
-          item.hot = item.hot !== undefined ? item.hot : item.metadata.hot;
-        }
+        // Guarantee fields exist at root level (backend should already provide these)
+        // This is belt-and-suspenders: backend ensures structure, we reinforce it
+        item.intent = item.metadata?.intent || item.intent || 'GENERAL';
+        item.section = item.metadata?.section || item.section || '一般';
+        item.crm_tags = Array.isArray(item.metadata?.crm_tags) ? item.metadata.crm_tags :
+                        Array.isArray(item.crm_tags) ? item.crm_tags : [];
+        item.keywords = Array.isArray(item.metadata?.keywords) ? item.metadata.keywords :
+                        Array.isArray(item.keywords) ? item.keywords : [];
+        item.hot = item.metadata?.hot === true || item.hot === true;
+
+        // After lifting fields to root, we can safely delete metadata to avoid confusion
+        // All downstream code uses root-level fields only
+        // DELETE metadata to enforce single source of truth
+        delete item.metadata;
       });
 
       // Validate data structure
@@ -65,6 +73,16 @@ class FAQEngine {
 
       // Initialize Fuse.js with optimal configuration for CJK
       this.fuseInstance = new Fuse(this.faqData.items, this.getFuseConfig());
+
+      // Phase 4.11: Build quick lookup map for analytics
+      // This map allows O(1) lookup of FAQ title/section by ID
+      this.idMap = new Map();
+      this.faqData.items.forEach(item => {
+        this.idMap.set(item.id, {
+          title: item.content?.question || item.id,
+          section: item.section || '一般'
+        });
+      });
 
       this.isInitialized = true;
 
@@ -247,7 +265,32 @@ class FAQEngine {
   }
 
   /**
-   * Phase 4.7: Get FAQs by intent from metadata
+   * Phase 4.11: Quick lookup for FAQ title and section by ID
+   * LINUS PRINCIPLE: O(1) lookup using Map instead of O(n) array search
+   *
+   * Use case: analytics.html needs to display FAQ titles from localStorage IDs
+   * Without this: Must loop through all FAQs for each ID (slow)
+   * With this: Direct Map.get() lookup (fast)
+   *
+   * @param {string} faqId - FAQ ID (e.g., "faq.booking.001")
+   * @returns {Object} {title: string, section: string} - Never null, returns fallback if not found
+   */
+  getQuickInfo(faqId) {
+    if (!this.isInitialized) {
+      throw new Error('FAQ Engine not initialized');
+    }
+
+    // O(1) Map lookup
+    const info = this.idMap.get(faqId);
+
+    // LINUS PRINCIPLE: Never return null, always provide fallback
+    // Frontend can safely use info.title without checking
+    return info || { title: faqId, section: '-' };
+  }
+
+  /**
+   * Phase 4.11: Get FAQs by intent - Zero fallback version
+   * LINUS PRINCIPLE: After initialize(), all fields guaranteed at root level
    *
    * @param {string} intent - Intent type (e.g., "BOOKING", "GEAR")
    * @returns {Array} Array of FAQ items matching the intent
@@ -257,17 +300,19 @@ class FAQEngine {
       throw new Error('FAQ Engine not initialized');
     }
 
-    // Linus 原則: 消除特殊情況 - 統一為大寫，容忍大小寫差異
+    // Normalize to uppercase for case-insensitive matching
     const normalizedIntent = (intent || '').toUpperCase().trim();
 
-    return this.faqData.items.filter(item => {
-      const itemIntent = (item.metadata?.intent || item.intent || '').toUpperCase();
-      return itemIntent === normalizedIntent;
-    });
+    // LINUS PRINCIPLE: Direct field access, no fallback needed
+    // initialize() already guaranteed item.intent exists
+    return this.faqData.items.filter(item =>
+      item.intent.toUpperCase() === normalizedIntent
+    );
   }
 
   /**
-   * Phase 4.7: Get FAQs by section from metadata
+   * Phase 4.11: Get FAQs by section - Zero fallback version
+   * LINUS PRINCIPLE: After initialize(), all fields guaranteed at root level
    *
    * @param {string} section - Section name
    * @returns {Array} Array of FAQ items in the section
@@ -277,12 +322,13 @@ class FAQEngine {
       throw new Error('FAQ Engine not initialized');
     }
 
-    // Linus 原則: 消除特殊情況 - 對 section 進行精確匹配（不區分大小寫）
     const normalizedSection = (section || '').trim();
 
+    // LINUS PRINCIPLE: Direct field access, no fallback needed
+    // initialize() already guaranteed item.section exists
     return this.faqData.items.filter(item => {
-      const itemSection = (item.metadata?.section || item.section || '').trim();
-      // 先嘗試精確匹配，再嘗試不區分大小寫的匹配
+      const itemSection = item.section.trim();
+      // Exact match first, then case-insensitive fallback
       return itemSection === normalizedSection ||
              itemSection.toLowerCase() === normalizedSection.toLowerCase();
     });
@@ -302,8 +348,8 @@ class FAQEngine {
   }
 
   /**
-   * Phase 4.7: Get FAQ statistics from simplified format
-   * Uses metadata.intent and metadata.section
+   * Phase 4.11: Get FAQ statistics - Zero fallback version
+   * LINUS PRINCIPLE: Direct field access after initialize() guarantees
    *
    * @returns {Object} Statistics about the FAQ data
    */
@@ -315,12 +361,11 @@ class FAQEngine {
     const intents = new Set();
     const sections = new Set();
 
+    // LINUS PRINCIPLE: Direct field access, no fallback
+    // initialize() already guaranteed item.intent and item.section exist
     this.faqData.items.forEach(item => {
-      // Phase 4.7: Use metadata fields
-      const intent = item.metadata?.intent || item.intent;
-      const section = item.metadata?.section || item.section;
-      if (intent) intents.add(intent);
-      if (section) sections.add(section);
+      if (item.intent) intents.add(item.intent);
+      if (item.section) sections.add(item.section);
     });
 
     return {
