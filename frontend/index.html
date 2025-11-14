@@ -3057,17 +3057,36 @@
       }
     };
 
-    // Filter FAQs by tag
+    // Filter FAQs by tag (Linus 原則: 消除特殊情況 - 統一支持 intent/section/crm_tags)
     async function filterFAQsByTag(tagName) {
       try {
         console.log(`[Filter] Filtering FAQs by tag: ${tagName}`);
 
         const allFAQs = await faqEngine.getAllFAQs();
-        const filtered = allFAQs.filter(faq =>
-          faq.crm_tags && faq.crm_tags.includes(tagName)
-        );
 
-        console.log(`[Filter] Found ${filtered.length} FAQs with tag ${tagName}`);
+        // Linus 原則: 統一的過濾邏輯，支持三種 tag 類型
+        const filtered = allFAQs.filter(faq => {
+          // 優先級 1: metadata.intent (大寫規範化)
+          const faqIntent = (faq.metadata?.intent || faq.intent || '').toUpperCase();
+          if (faqIntent && faqIntent === tagName.toUpperCase()) {
+            return true;
+          }
+
+          // 優先級 2: metadata.section (精確匹配 + 不區分大小寫)
+          const faqSection = faq.metadata?.section || faq.section || '';
+          if (faqSection === tagName || faqSection.toLowerCase() === tagName.toLowerCase()) {
+            return true;
+          }
+
+          // 優先級 3: crm_tags (保留舊格式相容性)
+          if (faq.crm_tags && faq.crm_tags.includes(tagName)) {
+            return true;
+          }
+
+          return false;
+        });
+
+        console.log(`[Filter] Found ${filtered.length} FAQs with tag "${tagName}"`);
 
         const displayTag = getFaqTagLabel(tagName, currentLanguage);
 
