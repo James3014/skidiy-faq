@@ -323,13 +323,9 @@
     console.log('[AdminAuth] No valid session, showing login dialog');
 
     try {
-      // 隱藏頁面內容
-      document.body.style.opacity = '0';
-
       await showLoginDialog();
 
-      // 登入成功，顯示頁面內容
-      document.body.style.opacity = '1';
+      // 登入成功
       console.log('[AdminAuth] Login successful');
     } catch (error) {
       console.log('[AdminAuth] Login cancelled, redirecting to home');

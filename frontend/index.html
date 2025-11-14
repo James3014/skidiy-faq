@@ -3293,6 +3293,8 @@
 
     // Toggle FAQ item (accordion style)
     function toggleFAQItem(item) {
+      if (!item) return;
+
       const wasExpanded = item.classList.contains('expanded');
 
       if (wasExpanded) {
@@ -3317,6 +3319,11 @@
           });
         }
       }
+
+      const icon = item.querySelector('.faq-toggle-icon');
+      if (icon) {
+        icon.textContent = item.classList.contains('expanded') ? '▲' : '▼';
+      }
     }
 
     // Show FAQ detail (hot FAQ click or recommendation click)
@@ -3328,11 +3335,8 @@
       // First check if the FAQ is already in the results
       const item = document.querySelector(`.faq-item[data-faq-id="${faqId}"]`);
       if (item) {
-        console.log('[showFAQDetail] FAQ already in results, expanding and scrolling');
-        // If already in results, just expand it and scroll to it
-        if (!item.classList.contains('expanded')) {
-          toggleFAQItem(item);
-        }
+        console.log('[showFAQDetail] FAQ already in results, scrolling into view');
+        ensureResultsSectionVisible(source);
         item.scrollIntoView({ behavior: 'smooth', block: 'center' });
         return;
       }
@@ -3343,6 +3347,10 @@
       if (faq) {
         console.log('[showFAQDetail] Rendering single FAQ card for', faqId);
         const resultContainer = document.getElementById('resultsList');
+        if (!resultContainer) {
+          console.error('[showFAQDetail] resultsList element not found');
+          return;
+        }
 
         // 使用 FAQRenderer 生成 FAQ 卡片
         let singleResultHTML = FAQRenderer.generateFAQCard(faq, currentLanguage, {
@@ -3354,21 +3362,70 @@
         // 添加數據屬性並自動展開
         singleResultHTML = singleResultHTML.replace(
           'class="faq-item"',
-          `class="faq-item expanded" data-source="${source}" data-position="1" data-query=""`
+          `class="faq-item" data-source="${source}" data-position="1" data-query=""`
         );
 
         resultContainer.innerHTML = singleResultHTML;
-        // 不添加 click 事件，讓熱門問題保持展開狀態
-        // （用戶點擊時不會觸發 toggle 導致收合）
+        ensureResultsSectionVisible(source);
+
+        const injectedItem = document.querySelector(`.faq-item[data-faq-id="${faqId}"]`);
+        if (injectedItem) {
+          injectedItem.addEventListener('click', () => toggleFAQItem(injectedItem));
+        }
         hideIntentPanel();
 
-        // 滾動到新項目（已經自動展開）
+        // 滾動到新項目
         const newItem = document.querySelector(`.faq-item[data-faq-id="${faqId}"]`);
         if (newItem) {
           newItem.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
       } else {
         console.error('[showFAQDetail] FAQ not found:', faqId);
+      }
+    }
+
+    function ensureResultsSectionVisible(sourceLabel = 'hot_list') {
+      const loadingStateEl = document.getElementById('loadingState');
+      if (loadingStateEl) {
+        loadingStateEl.classList.add('hidden');
+      }
+
+      const resultsSectionEl = document.getElementById('resultsSection');
+      if (resultsSectionEl) {
+        resultsSectionEl.classList.remove('hidden');
+      }
+
+      const contextLabels = {
+        hot_list: {
+          zh: '🔥 熱門問題',
+          en: '🔥 Popular Question',
+          th: '🔥 คำถามยอดนิยม'
+        },
+        intent_recommendation: {
+          zh: '💡 AI 推薦',
+          en: '💡 AI Recommendation',
+          th: '💡 คำแนะนำ AI'
+        }
+      };
+
+      const localizedContext = contextLabels[sourceLabel]?.[currentLanguage]
+        || contextLabels[sourceLabel]?.zh
+        || '';
+
+      const resultLabel = i18n
+        ? i18n.t('results_count', { count: 1 })
+        : '找到 1 筆結果';
+
+      const resultCountEl = document.getElementById('resultCount');
+      if (resultCountEl) {
+        resultCountEl.textContent = localizedContext
+          ? `${localizedContext} · ${resultLabel}`
+          : resultLabel;
+      }
+
+      const responseTimeEl = document.getElementById('responseTime');
+      if (responseTimeEl) {
+        responseTimeEl.textContent = '';
       }
     }
 

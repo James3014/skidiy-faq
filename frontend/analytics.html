@@ -3091,8 +3091,31 @@
 
       loadData();
 
+      const tabLoaders = {
+        faq: loadFAQData,
+        tag: loadTagData,
+        section: loadSectionData,
+        resort: loadResortData,
+        feedback: loadFeedbackData
+      };
+
+      Object.entries(tabLoaders).forEach(([key, loader]) => {
+        const tabContent = document.getElementById(`${key}-tab`);
+        if (tabContent && tabContent.classList.contains('active')) {
+          loader();
+        }
+      });
+
       // Auto-refresh every 30 seconds
-      setInterval(loadData, 30000);
+      setInterval(() => {
+        loadData();
+        Object.entries(tabLoaders).forEach(([key, loader]) => {
+          const tabContent = document.getElementById(`${key}-tab`);
+          if (tabContent && tabContent.classList.contains('active')) {
+            loader();
+          }
+        });
+      }, 30000);
     });
   </script>
 </body>
