@@ -1175,7 +1175,14 @@
     // FAQ knowledge base cache
     let faqKnowledgeBase = null;
 
-    // Load FAQ knowledge base
+    /**
+     * Phase 4.11: Load FAQ knowledge base - Zero fallback version
+     * LINUS PRINCIPLE: Backend API guarantees all fields exist
+     *
+     * Direct field access, no fallback chains needed:
+     * - faq.content.question (guaranteed by backend)
+     * - faq.metadata.section (guaranteed by backend)
+     */
     async function loadFAQKnowledgeBase() {
       if (faqKnowledgeBase) return faqKnowledgeBase;
 
@@ -1186,18 +1193,13 @@
 
         const result = await response.json();
         if (result.success && result.data && result.data.items) {
-          // Create a map of faq_id to faq data
+          // LINUS PRINCIPLE: Direct field access, backend guarantees structure
           faqKnowledgeBase = {};
           result.data.items.forEach(faq => {
             faqKnowledgeBase[faq.id] = {
               id: faq.id,
-              title: (faq.content && (faq.content.question || faq.content.title)) ||
-                     faq.canonical_question ||
-                     faq.id,
-              section: faq.section ||
-                       faq.metadata?.section ||
-                       (faq.content?.section) ||
-                       '-'
+              title: faq.content.question,      // Direct access (backend guaranteed)
+              section: faq.metadata.section     // Direct access (backend guaranteed)
             };
           });
           console.log('[FAQ KB] Loaded', Object.keys(faqKnowledgeBase).length, 'FAQs');
