@@ -191,6 +191,51 @@ app.get('/', (req, res) => {
   );
 });
 
+// Debug endpoint for diagnosing initialization issues
+app.get('/debug/init', (req, res) => {
+  const fs = require('fs');
+  const path = require('path');
+
+  const diagnostics = {
+    analyticsService: {
+      initialized: !!analyticsService,
+      hasDb: analyticsService?.db ? true : false,
+    },
+    environment: {
+      NODE_ENV: process.env.NODE_ENV,
+      SQLITE_DB_PATH: process.env.SQLITE_DB_PATH || 'not set',
+    },
+    filesystem: {
+      dataVolumeExists: fs.existsSync('/data'),
+      dataVolumeWritable: (() => {
+        try {
+          fs.accessSync('/data', fs.constants.W_OK);
+          return true;
+        } catch {
+          return false;
+        }
+      })(),
+      dbFileExists: fs.existsSync('/data/analytics.db'),
+      dbFileSize: (() => {
+        try {
+          const stats = fs.statSync('/data/analytics.db');
+          return `${Math.round(stats.size / 1024)}KB`;
+        } catch {
+          return 'file not found';
+        }
+      })(),
+    },
+    paths: {
+      cwd: process.cwd(),
+      __dirname: __dirname,
+      expectedDbPath: process.env.SQLITE_DB_PATH
+        || (fs.existsSync('/data') ? '/data/analytics.db' : path.join(__dirname, '../../data/analytics.db')),
+    },
+  };
+
+  res.json(formatSuccess(diagnostics));
+});
+
 // 404 handler (must be after all routes)
 app.use(notFoundHandler);
 

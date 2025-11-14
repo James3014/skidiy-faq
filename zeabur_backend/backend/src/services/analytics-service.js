@@ -20,14 +20,48 @@ class AnalyticsService {
       || process.env.SQLITE_DB_PATH
       || (fs.existsSync('/data') ? '/data/analytics.db' : path.join(__dirname, '../../../data/analytics.db'));
 
+    console.log('[Analytics Service] Attempting to initialize with path:', finalPath);
+
+    // Ensure directory exists with proper error handling
     const dataDir = path.dirname(finalPath);
-    if (!fs.existsSync(dataDir)) {
-      fs.mkdirSync(dataDir, { recursive: true });
+    try {
+      if (!fs.existsSync(dataDir)) {
+        console.log('[Analytics Service] Creating directory:', dataDir);
+        fs.mkdirSync(dataDir, { recursive: true });
+      }
+
+      // Test write permissions
+      fs.accessSync(dataDir, fs.constants.W_OK);
+      console.log('[Analytics Service] Directory is writable:', dataDir);
+    } catch (error) {
+      console.error('[Analytics Service] Directory access error:', {
+        path: dataDir,
+        error: error.message,
+        code: error.code
+      });
+      throw new Error(`Cannot write to database directory: ${dataDir} (${error.message})`);
     }
 
-    console.log('[Analytics Service] Using database path:', finalPath);
-    this.db = new Database(finalPath);
-    this.initializeTables();
+    // Initialize database with error handling
+    try {
+      console.log('[Analytics Service] Creating Database instance...');
+      this.db = new Database(finalPath);
+      console.log('[Analytics Service] Database instance created successfully');
+
+      // Verify database is accessible
+      this.db.prepare('SELECT 1').get();
+      console.log('[Analytics Service] Database connection verified');
+
+      this.initializeTables();
+      console.log('[Analytics Service] Initialization complete');
+    } catch (error) {
+      console.error('[Analytics Service] Database initialization failed:', {
+        path: finalPath,
+        error: error.message,
+        stack: error.stack
+      });
+      throw error;
+    }
   }
 
   /**
