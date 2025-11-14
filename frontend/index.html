@@ -1977,7 +1977,7 @@
 
       const sections = {};
       allFAQs.forEach(faq => {
-        const section = faq.section || '其他';
+        const section = (faq.metadata && faq.metadata.section) || faq.section || '其他';
         sections[section] = (sections[section] || 0) + 1;
       });
 
@@ -2639,7 +2639,7 @@
       // Track section click
       trackSectionClick(section);
 
-      const filtered = allFAQs.filter(faq => faq.section === section);
+      const filtered = allFAQs.filter(faq => (faq.metadata && faq.metadata.section === section) || faq.section === section);
       const categoryLabel = i18n ? i18n.t('category') : '分類';
       const title = `${categoryLabel}：${getSectionLabel(section)}`;
 
