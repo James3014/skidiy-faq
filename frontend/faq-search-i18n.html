@@ -659,8 +659,8 @@
         </div>
         <div class="faq-answer">${answerPreview}</div>
         <div class="faq-meta">
-          <span class="faq-tag" data-tag-type="intent" data-tag-value="${result.item.intent || 'GENERAL'}">${result.item.intent || 'GENERAL'}</span>
-          <span class="faq-tag" data-tag-type="section" data-tag-value="${result.item.section || '一般問題'}">${result.item.section || '一般問題'}</span>
+          <span class="faq-tag" data-tag-type="intent" data-tag-value="${(result.item.metadata?.intent || result.item.intent) || 'GENERAL'}">${(result.item.metadata?.intent || result.item.intent) || 'GENERAL'}</span>
+          <span class="faq-tag" data-tag-type="section" data-tag-value="${(result.item.metadata?.section || result.item.section) || '一般問題'}">${(result.item.metadata?.section || result.item.section) || '一般問題'}</span>
         </div>
       `;
 
