@@ -1958,24 +1958,35 @@
           const searchInput = document.getElementById('searchInput');
           const searchBtn = document.getElementById('searchBtn');
           if (searchInput) {
-            searchInput.value = decodeURIComponent(searchQuery);
-            // Trigger search after a short delay to ensure UI is ready and event listeners are attached
+            const decodedQuery = decodeURIComponent(searchQuery);
+            searchInput.value = decodedQuery;
+            console.log('[Init] Search input set to:', decodedQuery);
+            // Trigger search after a delay to ensure UI is ready and event listeners are attached
             setTimeout(() => {
-              console.log('[Init] Triggering auto-search for:', searchInput.value);
+              console.log('[Init] Attempting to trigger search...');
+              console.log('[Init] Search input value:', searchInput.value);
+              console.log('[Init] Search button exists:', !!searchBtn);
+
+              // Try button click first (most reliable)
               if (searchBtn) {
-                // Click the search button to trigger search
                 console.log('[Init] Clicking search button');
                 searchBtn.click();
               } else {
-                console.warn('[Init] Search button not found, trying direct function call');
-                // Fallback: try to call performSearch if it exists globally
-                if (typeof performSearch === 'function') {
-                  performSearch();
-                } else {
-                  console.warn('[Init] performSearch function not found globally');
-                }
+                console.log('[Init] Button not found, trying Enter key');
+                // Fallback: simulate Enter key
+                const enterEvent = new KeyboardEvent('keypress', {
+                  key: 'Enter',
+                  code: 'Enter',
+                  keyCode: 13,
+                  which: 13,
+                  bubbles: true,
+                  cancelable: true
+                });
+                searchInput.dispatchEvent(enterEvent);
               }
-            }, 800);
+            }, 1200);
+          } else {
+            console.error('[Init] Search input element not found!');
           }
         }
 
