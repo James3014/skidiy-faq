@@ -35,7 +35,8 @@ function transformToSimplifiedFormat(faq, language = 'zh') {
   const question = faq[questionField] || faq.canonical_question || '';
 
   // Get localized answer (text field is already composed in data source)
-  const answer = template.text_translations?.[language] || template.text || '';
+  // Fallback to summary if text is empty (backward compatibility)
+  const answer = template.text_translations?.[language] || template.text || template.summary || '';
 
   // Get tip (optional, for extra context)
   const tip = template.tip_translations?.[language] || template.tip || '';
