@@ -6710,18 +6710,18 @@
         ]
       },
       "answer_template": {
-        "text": "是的，我們強烈建議您「提早至少1小時」抵達雪場，並在與教練約定的集合時間前，完成「租借雪具」和「購買雪票」這兩件事。因為租借裝備需要時間試穿，旺季時也可能需要排隊。將這些都準備好，才能準時開始上課，確保您的上課時間不被壓縮。如果您不確定要買哪種雪票，可以等見到教練後，聽從他的建議再迅速購買。\n\nQ：沒有裝備可以參加嗎？租借流程怎麼辦？\n\nA：可以參加，但需自行安排裝備租借，課程不含裝備：\n\n* 自行租借：建議提早至雪場附近租借店處理  \n* 教練建議：可先詢問教練推薦的租借店家與流程  \n* 可租借：雪板、雪鞋、頭盔  \n* 建議自備：雪鏡、手套、防摔褲、護膝等（多數店家不提供）  \n* 教學資訊：網站整理部分租借教學與地點可供參考",
-        "postscript": "更多資訊與最新名額，請以預約系統顯示為準。",
+        "text": "是的，我們強烈建議您「提早至少1小時」抵達雪場，並在與教練約定的集合時間前，完成「租借雪具」和「購買雪票」這兩件事。因為租借裝備需要時間試穿，旺季時也可能需要排隊。將這些都準備好，才能準時開始上課，確保您的上課時間不被壓縮。如果您不確定要買哪種雪票，可以等見到教練後，聽從他的建議再迅速購買。",
+        "postscript": "提早抵達能確保充足的準備時間，避免趕時間導致遺漏重要準備。",
         "links_inline": false
       },
       "answer_template_translations": {
         "summary_translations": {
-          "en": "Yes, we strongly recommend that you arrive at the ski resort \"at least 1 hour early\" and complete \"ski equipment rental\" and \"ski ticket purchase\" before the agreed-upon meeting time with your instructor. This is because renting equipment takes time to try on, and during peak season, you may also need to queue. Having all these ready will ensure you can start your lesson on time and that your lesson time is not cut short. If you are unsure which type of ski ticket to buy, you can wait until you meet your instructor and quickly purchase it after hearing their advice.\n\nQ: Can I participate without equipment? What about the rental process?\n\nA: You can participate, but you need to arrange equipment rental yourself, as the course does not include equipment:\n\n*   **Self-rental:** It is recommended to handle rentals at a rental shop near the ski resort in advance.\n*   **Instructor's advice:** You can first ask the instructor for recommended rental shops and procedures.\n*   **Available for rent:** Snowboard, ski boots, helmet.\n*   **Recommended to bring your own:** Goggles, gloves, crash pants, knee pads, etc. (most shops do not provide these).\n*   **Instructional information:** The website provides some rental tutorials and locations for reference.",
-          "th": "ใช่ เราขอแนะนำอย่างยิ่งให้คุณมาถึงลานสกี \"อย่างน้อย 1 ชั่วโมงก่อน\" และดำเนินการ \"เช่าอุปกรณ์สกี\" และ \"ซื้อตั๋วสกี\" ให้เสร็จสิ้นก่อนเวลาที่นัดหมายกับโค้ช เนื่องจากต้องใช้เวลาในการลองอุปกรณ์ และอาจต้องรอคิวในช่วงฤดูท่องเที่ยว การเตรียมสิ่งเหล่านี้ให้พร้อมจะช่วยให้คุณเริ่มเรียนได้ตรงเวลาและมั่นใจได้ว่าเวลาเรียนของคุณจะไม่ถูกบีบ หากคุณไม่แน่ใจว่าจะซื้อตั๋วสกีประเภทใด คุณสามารถรอพบโค้ชแล้วทำตามคำแนะนำของเขาเพื่อซื้อได้อย่างรวดเร็ว\n\nถาม: ไม่มีอุปกรณ์สามารถเข้าร่วมได้หรือไม่? ขั้นตอนการเช่าเป็นอย่างไร?\n\nตอบ: สามารถเข้าร่วมได้ แต่คุณต้องจัดการเรื่องการเช่าอุปกรณ์เอง คอร์สเรียนไม่รวมอุปกรณ์:\n\n*   เช่าเอง: แนะนำให้ไปที่ร้านเช่าใกล้ลานสกีก่อนเวลา\n*   คำแนะนำจากโค้ช: สามารถสอบถามโค้ชเพื่อแนะนำร้านเช่าและขั้นตอน\n*   อุปกรณ์ที่เช่าได้: สโนว์บอร์ด, รองเท้าสกี, หมวกกันน็อค\n*   แนะนำให้นำมาเอง: แว่นตาสกี, ถุงมือ, กางเกงกันกระแทก, สนับเข่า ฯลฯ (ร้านส่วนใหญ่ไม่มีให้)\n*   ข้อมูลการสอน: เว็บไซต์ได้รวบรวมข้อมูลการเช่าและสถานที่บางส่วนไว้เพื่อเป็นข้อมูลอ้างอิง"
+          "en": "Yes, we strongly recommend that you arrive at the ski resort \"at least 1 hour early\" and complete \"ski equipment rental\" and \"ski ticket purchase\" before the agreed-upon meeting time with your instructor. This is because renting equipment takes time to try on, and during peak season, you may also need to queue. Having all these ready will ensure you can start your lesson on time and that your lesson time is not cut short. If you are unsure which type of ski ticket to buy, you can wait until you meet your instructor and quickly purchase it after hearing their advice.",
+          "th": "ใช่ เราขอแนะนำอย่างยิ่งให้คุณมาถึงลานสกี \"อย่างน้อย 1 ชั่วโมงก่อน\" และดำเนินการ \"เช่าอุปกรณ์สกี\" และ \"ซื้อตั๋วสกี\" ให้เสร็จสิ้นก่อนเวลาที่นัดหมายกับโค้ช เนื่องจากต้องใช้เวลาในการลองอุปกรณ์ และอาจต้องรอคิวในช่วงฤดูท่องเที่ยว"
         },
         "postscript_translations": {
-          "en": "For more information and the latest availability, please refer to the reservation system.",
-          "th": "สำหรับข้อมูลเพิ่มเติมและจำนวนที่ว่างล่าสุด โปรดอ้างอิงจากระบบการจอง"
+          "en": "Arriving early ensures sufficient preparation time and prevents missing important preparations due to rushing.",
+          "th": "การมาถึงล่วงหน้าช่วยให้มีเวลาเตรียมการเพียงพอและป้องกันไม่ให้พลาดการเตรียมการที่สำคัญเนื่องจากรีบเร่ง"
         }
       },
       "links": [
@@ -8137,6 +8137,92 @@
         "#天候因素"
       ],
       "hot": false
+    },
+    {
+      "id": "faq.gear.63",
+      "intent": "GEAR",
+      "section": "🎒 裝備準備與租借流程",
+      "section_translations": {
+        "en": "Equipment Prep and Rentals",
+        "th": "การเตรียมอุปกรณ์และการเช่า"
+      },
+      "canonical_question": "沒有裝備可以參加嗎？租借流程怎麼辦？",
+      "canonical_question_translations": {
+        "en": "Can I participate without equipment? What about the rental process?",
+        "th": "ฉันสามารถเข้าร่วมได้โดยไม่มีอุปกรณ์หรือไม่ ขั้นตอนการเช่าเป็นอย่างไร"
+      },
+      "keywords": [
+        "沒有裝備",
+        "租借流程",
+        "自行租借",
+        "雪具租借",
+        "頭盔租借"
+      ],
+      "keywords_translations": {
+        "en": [
+          "Without equipment",
+          "Rental process",
+          "Self-rental",
+          "Equipment rental",
+          "Helmet rental"
+        ],
+        "th": [
+          "ไม่มีอุปกรณ์",
+          "ขั้นตอนการเช่า",
+          "เช่าเอง",
+          "การเช่าอุปกรณ์",
+          "การเช่าหมวกกันน็อค"
+        ]
+      },
+      "utterance_patterns": [
+        "沒有裝備可以參加嗎",
+        "租借流程怎麼辦",
+        "可以在現場租借嗎",
+        "裝備租借流程",
+        "沒有雪具可以上課嗎",
+        "裝備要自己帶嗎",
+        "可以現場租借裝備嗎"
+      ],
+      "utterance_patterns_translations": {
+        "en": [
+          "Can I participate without equipment",
+          "What about the rental process",
+          "Can I rent equipment on-site",
+          "Equipment rental process",
+          "Can I take lessons without ski equipment",
+          "Do I need to bring equipment myself",
+          "Can I rent equipment on-site"
+        ],
+        "th": [
+          "ฉันสามารถเข้าร่วมได้โดยไม่มีอุปกรณ์หรือไม่",
+          "ขั้นตอนการเช่าเป็นอย่างไร",
+          "สามารถเช่าอุปกรณ์ได้ที่สถานที่หรือไม่",
+          "ขั้นตอนการเช่าอุปกรณ์",
+          "สามารถเรียนได้โดยไม่มีอุปกรณ์สกีหรือไม่",
+          "ต้องนำอุปกรณ์มาเองหรือไม่",
+          "สามารถเช่าอุปกรณ์ได้ที่สถานที่หรือไม่"
+        ]
+      },
+      "crm_tags": [
+        "#裝備租借",
+        "#費用自理",
+        "#現場申請"
+      ],
+      "answer_template": {
+        "text": "可以參加，但需自行安排裝備租借，課程不含裝備費用。租借流程如下：\n\n* **自行租借**：建議提早至雪場附近租借店處理\n* **教練建議**：可先詢問教練推薦的租借店家與流程\n* **可租借項目**：雪板、雪鞋、頭盔\n* **建議自備**：雪鏡、手套、防摔褲、護膝等（多數店家不提供）\n* **教學資訊**：網站整理部分租借教學與地點可供參考",
+        "postscript": "裝備租借費用需自行承擔，通常每套裝備一天約 3,000-5,000 日幣，具體價格以當地店家為準。",
+        "links_inline": false
+      },
+      "answer_template_translations": {
+        "summary_translations": {
+          "en": "You can participate, but you need to arrange equipment rental yourself, as the course does not include equipment fees. The rental process is as follows:\n\n* **Self-rental:** It is recommended to rent from a rental shop near the ski resort in advance.\n* **Instructor's advice:** You can ask the instructor for recommended rental shops and procedures.\n* **Available for rent:** Snowboard, ski boots, helmet.\n* **Recommended to bring yourself:** Goggles, gloves, crash pants, knee pads, etc. (most shops do not provide these).\n* **Instructional information:** The website provides some rental tutorials and locations for reference.",
+          "th": "คุณสามารถเข้าร่วมได้ แต่คุณต้องจัดการเรื่องการเช่าอุปกรณ์เอง เนื่องจากคอร์สเรียนไม่รวมค่าอุปกรณ์ ขั้นตอนการเช่ามีดังนี้:\n\n* **เช่าเอง:** แนะนำให้ไปที่ร้านเช่าใกล้ลานสกีก่อนเวลา\n* **คำแนะนำจากโค้ช:** สามารถสอบถามโค้ชเพื่อแนะนำร้านเช่าและขั้นตอน\n* **อุปกรณ์ที่เช่าได้:** สโนว์บอร์ด, รองเท้าสกี, หมวกกันน็อค\n* **แนะนำให้นำมาเอง:** แว่นตาสกี, ถุงมือ, กางเกงกันกระแทก, สนับเข่า ฯลฯ (ร้านส่วนใหญ่ไม่มีให้)\n* **ข้อมูลการสอน:** เว็บไซต์ได้รวบรวมข้อมูลการเช่าและสถานที่บางส่วนไว้"
+        },
+        "postscript_translations": {
+          "en": "Equipment rental fees are at your own expense. A typical set of equipment usually costs around 3,000-5,000 yen per day, with specific prices depending on the local rental shop.",
+          "th": "ค่าเช่าอุปกรณ์อยู่ในความรับผิดชอบของคุณ โดยทั่วไปชุดอุปกรณ์หนึ่งชุดมีค่าประมาณ 3,000-5,000 เยน ต่อวัน โดยราคาที่แน่นอนขึ้นอยู่กับร้านเช่าในพื้นที่"
+        }
+      }
     }
   ]
 }
