@@ -450,6 +450,9 @@
     // Application State
     let faqEngine = null;
     let searchDebounceTimer = null;
+    let currentQueryId = null;
+    let currentLanguage = 'zh';
+    const API_BASE = window.API_BASE || 'https://faq-api-v1.zeabur.app/api/v1';
 
     // DOM Elements
     const searchInput = document.getElementById('searchInput');
@@ -462,6 +465,60 @@
     const resultCount = document.getElementById('resultCount');
     const responseTime = document.getElementById('responseTime');
     const resultsList = document.getElementById('resultsList');
+
+    // Generate unique query ID
+    function generateQueryId() {
+      return `q_${Date.now()}_${Math.random().toString(36).substring(7)}`;
+    }
+
+    // Track FAQ click
+    async function trackFAQClick(faqId, queryText, position) {
+      try {
+        const payload = {
+          faq_id: faqId,
+          query_text: queryText,
+          query_id: currentQueryId,
+          position: position,
+          source: 'search_results',
+          clicked: true,
+          language: currentLanguage
+        };
+
+        // Send analytics asynchronously (don't wait for response)
+        fetch(`${API_BASE}/analytics/track-faq-view`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        }).catch(err => console.warn('[Analytics] FAQ view tracking failed:', err));
+
+        console.log('[Analytics] Tracked FAQ click:', faqId, 'Position:', position);
+      } catch (error) {
+        console.warn('[Analytics] Error preparing click tracking:', error);
+      }
+    }
+
+    // Track tag click
+    async function trackTagClick(tagType, tagValue) {
+      try {
+        const payload = {
+          tag_type: 'faq',  // Always 'faq' for tag filtering
+          tag_name: tagValue,
+          item_id: 'tag-filter',  // Placeholder for tag-based filtering
+          language: currentLanguage
+        };
+
+        // Send analytics asynchronously
+        fetch(`${API_BASE}/analytics/track-tag-click`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        }).catch(err => console.warn('[Analytics] Tag click tracking failed:', err));
+
+        console.log('[Analytics] Tracked tag click:', tagType, tagValue);
+      } catch (error) {
+        console.warn('[Analytics] Error preparing tag click tracking:', error);
+      }
+    }
 
     // Initialize on page load
     document.addEventListener('DOMContentLoaded', async () => {
@@ -515,6 +572,8 @@
       try {
         showLoading();
 
+        // Generate new query ID for this search
+        currentQueryId = generateQueryId();
         const startTime = performance.now();
         let results;
 
@@ -613,6 +672,9 @@
           const tagType = tag.getAttribute('data-tag-type');
           const tagValue = tag.getAttribute('data-tag-value');
 
+          // Track tag click
+          trackTagClick(tagType, tagValue);
+
           // Search by tag
           searchInput.value = `#${tagType}:${tagValue}`;
           performSearch(`#${tagType}:${tagValue}`);
@@ -621,6 +683,9 @@
 
       // Click to expand (future enhancement)
       div.addEventListener('click', () => {
+        // Track FAQ click
+        trackFAQClick(result.item.id, searchInput.value, index);
+
         alert('詳細內容功能即將推出！\n\nFAQ ID: ' + result.item.id);
       });
 
