@@ -11,8 +11,14 @@ const fs = require('fs');
 class AnalyticsService {
   constructor(dbPath) {
     // LINUS PRINCIPLE: Use explicit path if provided
-    // If not, use emergency fallback for Zeabur Volume compatibility
-    const finalPath = dbPath || process.env.SQLITE_DB_PATH || '/app/data/analytics.db';
+    // Priority order:
+    // 1. Explicit dbPath parameter
+    // 2. SQLITE_DB_PATH environment variable
+    // 3. Zeabur Volume path: /data/analytics.db
+    // 4. Fallback: ../data/analytics.db (local development)
+    const finalPath = dbPath
+      || process.env.SQLITE_DB_PATH
+      || (fs.existsSync('/data') ? '/data/analytics.db' : path.join(__dirname, '../../../data/analytics.db'));
 
     const dataDir = path.dirname(finalPath);
     if (!fs.existsSync(dataDir)) {

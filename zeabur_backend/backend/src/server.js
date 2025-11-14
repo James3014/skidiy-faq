@@ -28,14 +28,21 @@ const APP_VERSION = '1.0.2'; // Force Zeabur rebuild - pragmatic Linus approach
 
 // Initialize analytics service
 // LINUS PRINCIPLE: Single source of truth for database path
-// Primary: SQLITE_DB_PATH environment variable (explicitly set)
-// Emergency fallback: /app/data/analytics.db (for Zeabur Volume)
+// Priority order:
+// 1. SQLITE_DB_PATH environment variable (explicitly set)
+// 2. Zeabur Volume path: /data/analytics.db (auto-detect)
+// 3. Local development: ../data/analytics.db
 let analyticsService;
 try {
-  const dbPath = process.env.SQLITE_DB_PATH || '/app/data/analytics.db';
+  const fs = require('fs');
+  const path = require('path');
+  const dbPath = process.env.SQLITE_DB_PATH
+    || (fs.existsSync('/data') ? '/data/analytics.db' : path.join(__dirname, '../../data/analytics.db'));
+
   logger.info('Attempting to initialize analytics service', {
     path: dbPath,
     envVarSet: !!process.env.SQLITE_DB_PATH,
+    zeaburVolumeDetected: fs.existsSync('/data'),
   });
   analyticsService = new AnalyticsService(dbPath);
   logger.info('Analytics service initialized successfully', {
@@ -44,7 +51,7 @@ try {
 } catch (error) {
   logger.error('Failed to initialize analytics service', {
     error: error.message,
-    path: process.env.SQLITE_DB_PATH || '/app/data/analytics.db',
+    path: process.env.SQLITE_DB_PATH || '/data/analytics.db',
   });
 }
 
