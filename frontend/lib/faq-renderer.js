@@ -81,16 +81,15 @@ const FAQRenderer = {
   },
 
   /**
-   * 獲取本地化內容
-   * 支持 Phase 4.1 簡化格式（content 和 metadata）和舊格式
-   * @param {Object} faq - FAQ 項目（可能來自新 API 或舊格式）
-   * @param {string} language - 語言代碼
+   * Phase 4.5: Simplified getLocalizedContent - no backward compatibility
+   * API always returns content in simplified format (content + metadata)
+   * @param {Object} faq - FAQ 項目（來自 Phase 4.1+ API）
+   * @param {string} language - 語言代碼（目前未使用，API 已處理語言）
    * @returns {Object} 本地化內容
    */
   getLocalizedContent(faq, language) {
-    // Phase 4.1: 新格式（已在 API 層處理了語言和組合）
+    // Phase 4.5: API 已經提供了簡化格式，直接使用 content
     if (faq.content) {
-      // 新格式直接提供了本地化內容
       return {
         question: faq.content.question || '',
         answer: faq.content.answer || '',
@@ -98,27 +97,12 @@ const FAQRenderer = {
       };
     }
 
-    // 舊格式向後相容支持
-    const baseTemplate = faq.answer_template || {};
-
-    // 問題
-    const questionField = language !== 'zh' ? `canonical_question_${language}` : 'canonical_question';
-    const question = faq[questionField] || faq.canonical_question || '';
-
-    // 答案（優先使用 text 欄位，然後是翻譯，最後回退到中文）
-    const answer = baseTemplate.text_translations?.[language] ||
-                  baseTemplate.text ||
-                  '';
-
-    // 後記
-    const postscript = baseTemplate.postscript_translations?.[language] ||
-                      baseTemplate.postscript ||
-                      '';
-
+    // 如果沒有 content 欄位，返回空內容（應該不會發生）
+    console.warn('[FAQ Renderer] FAQ item missing content field:', faq.id);
     return {
-      question,
-      answer,
-      postscript
+      question: '',
+      answer: '',
+      postscript: ''
     };
   },
 
@@ -164,15 +148,14 @@ const FAQRenderer = {
   },
 
   /**
-   * 生成 FAQ 標籤 HTML
-   * 支持 Phase 4.1 簡化格式（metadata 中的 crm_tags）和舊格式
-   * @param {Object} faq - FAQ 項目（新或舊格式）
+   * Phase 4.5: Simplified generateFAQTagsHTML - uses metadata.crm_tags
+   * @param {Object} faq - FAQ 項目（來自 Phase 4.1+ API）
    * @param {string} language - 當前語言
    * @returns {string} 標籤 HTML
    */
   generateFAQTagsHTML(faq, language) {
-    // Phase 4.1: 新格式有 metadata.crm_tags
-    let crm_tags = faq.metadata?.crm_tags || faq.crm_tags;
+    // Phase 4.5: 新格式有 metadata.crm_tags
+    const crm_tags = faq.metadata?.crm_tags;
 
     if (!crm_tags || !Array.isArray(crm_tags) || crm_tags.length === 0) {
       return '';

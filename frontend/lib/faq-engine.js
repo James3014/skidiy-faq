@@ -74,14 +74,18 @@ class FAQEngine {
     return this.language;
   }
 
+  /**
+   * Phase 4.5: Simplified localization - API returns pre-composed content
+   * No more backward compatibility for old format
+   */
   prepareLocalizedContent(faq) {
     if (!faq) return {};
 
     const localized = {};
 
-    // Phase 4.1: 新格式 - API 已經提供了本地化內容
+    // Phase 4.5: API 已經提供了簡化的本地化內容
+    // content.question, content.answer, content.postscript 都已組合完成
     if (faq.content && typeof faq.content === 'object') {
-      // 新格式直接提供了本地化內容
       const content = faq.content;
       FAQ_LANGUAGES.forEach(lang => {
         localized[lang] = {
@@ -91,23 +95,10 @@ class FAQEngine {
         };
       });
     } else {
-      // 舊格式向後相容支持
+      // 如果沒有 content 欄位，返回空內容（應該不會發生）
+      console.warn('[FAQ Engine] FAQ item missing content field:', faq.id);
       FAQ_LANGUAGES.forEach(lang => {
-        const isSource = lang === FAQ_DEFAULT_LANGUAGE;
-        localized[lang] = {};
-
-        // Localize question with fallback to default language
-        localized[lang].question = isSource
-          ? sanitizeText(faq.canonical_question)
-          : sanitizeText(faq.canonical_question_translations?.[lang]) || sanitizeText(faq.canonical_question);
-
-        // Answer from unified text field (backend has already merged summary + details)
-        localized[lang].answer = sanitizeText(faq.answer_template?.text);
-
-        // Localize postscript with fallback to default language
-        localized[lang].postscript = isSource
-          ? sanitizeText(faq.answer_template?.postscript)
-          : sanitizeText(faq.answer_template?.postscript_translations?.[lang]) || sanitizeText(faq.answer_template?.postscript);
+        localized[lang] = { question: '', answer: '', postscript: '' };
       });
     }
 
@@ -115,21 +106,23 @@ class FAQEngine {
     return localized;
   }
 
+  /**
+   * Phase 4.5: Simplified getLocalizedContent - no complex fallback logic
+   * API returns content already localized per request language
+   */
   getLocalizedContent(faq, language = this.language || FAQ_DEFAULT_LANGUAGE) {
     if (!faq) {
       return { question: '', answer: '', postscript: '' };
     }
 
-    // Optimization: Use cached localized content if available
-    // Only recalculate if cache is missing (first call)
+    // Use cached localized content if available
     let localized = faq.localized;
     if (!localized) {
-      // First call: Calculate and cache
       localized = this.prepareLocalizedContent(faq);
     }
 
+    // Simple fallback: requested language -> default language
     const preferred = [language, FAQ_DEFAULT_LANGUAGE];
-
     const question = preferred.map(lang => localized?.[lang]?.question).find(Boolean) || '';
     const answer = preferred.map(lang => localized?.[lang]?.answer).find(Boolean) || '';
     const postscript = preferred.map(lang => localized?.[lang]?.postscript).find(Boolean) || '';

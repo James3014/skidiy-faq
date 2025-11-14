@@ -21,9 +21,9 @@ let faqDataLoadTime = null;
 
 /**
  * LINUS PRINCIPLE: Transform FAQ data to simplified API format
- * Phase 4.1: Flatten nested structure, move composition to API layer
+ * Phase 4.5: Simplified transformation - assumes data is already in correct format
  *
- * @param {Object} faq - Raw FAQ item
+ * @param {Object} faq - Raw FAQ item from faq_kb.phase0a.json
  * @param {string} language - Target language (zh, en, th)
  * @returns {Object} Simplified FAQ item for API response
  */
@@ -34,16 +34,8 @@ function transformToSimplifiedFormat(faq, language = 'zh') {
   const questionField = language !== 'zh' ? `canonical_question_${language}` : 'canonical_question';
   const question = faq[questionField] || faq.canonical_question || '';
 
-  // Compose answer from parts (already has text from Phase 1 fix, but handle both)
-  let answer = template.text_translations?.[language] || template.text;
-  if (!answer) {
-    // Fallback: Compose from summary + details
-    const parts = [];
-    if (template.summary) parts.push(template.summary);
-    if (template.details) parts.push(template.details);
-    answer = parts.join('\n\n');
-  }
-  answer = answer || '';
+  // Get localized answer (text field is already composed in data source)
+  const answer = template.text_translations?.[language] || template.text || '';
 
   // Get tip (optional, for extra context)
   const tip = template.tip_translations?.[language] || template.tip || '';
