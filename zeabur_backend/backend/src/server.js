@@ -36,6 +36,17 @@ let analyticsService;
 try {
   const fs = require('fs');
   const path = require('path');
+
+  // CRITICAL: Check if env var is set to wrong path (../data instead of /data)
+  if (process.env.SQLITE_DB_PATH && process.env.SQLITE_DB_PATH.startsWith('..')) {
+    logger.warn('⚠️  SQLITE_DB_PATH uses relative path, ignoring it on production', {
+      envValue: process.env.SQLITE_DB_PATH,
+      willUse: fs.existsSync('/data') ? '/data/analytics.db' : 'fallback'
+    });
+    // Clear the bad env var so auto-detection works
+    delete process.env.SQLITE_DB_PATH;
+  }
+
   const dbPath = process.env.SQLITE_DB_PATH
     || (fs.existsSync('/data') ? '/data/analytics.db' : path.join(__dirname, '../../data/analytics.db'));
 
@@ -43,16 +54,30 @@ try {
     path: dbPath,
     envVarSet: !!process.env.SQLITE_DB_PATH,
     zeaburVolumeDetected: fs.existsSync('/data'),
+    dataWritable: (() => {
+      try {
+        const testDir = path.dirname(dbPath);
+        fs.accessSync(testDir, fs.constants.W_OK);
+        return true;
+      } catch {
+        return false;
+      }
+    })()
   });
+
   analyticsService = new AnalyticsService(dbPath);
-  logger.info('Analytics service initialized successfully', {
+  logger.info('✅ Analytics service initialized successfully', {
     path: dbPath,
+    dbConnected: analyticsService.db ? true : false
   });
 } catch (error) {
-  logger.error('Failed to initialize analytics service', {
+  logger.error('❌ Failed to initialize analytics service', {
     error: error.message,
-    path: process.env.SQLITE_DB_PATH || '/data/analytics.db',
+    stack: error.stack,
+    attemptedPath: process.env.SQLITE_DB_PATH || '/data/analytics.db',
   });
+  // Set to null explicitly
+  analyticsService = null;
 }
 
 // Middleware stack (order matters!)
@@ -87,14 +112,43 @@ app.get('/health', (req, res) => {
   const uptime = process.uptime();
   const uptimeFormatted = Math.floor(uptime / 60) + 'm ' + Math.floor(uptime % 60) + 's';
 
-  // Test database connection
+  // Test database connection with detailed diagnostics
   let dbStatus = 'disconnected';
-  if (analyticsService?.db) {
+  let dbDetails = {};
+
+  if (!analyticsService) {
+    dbStatus = 'service_not_initialized';
+    dbDetails = {
+      reason: 'analyticsService is null',
+      envCheck: {
+        SQLITE_DB_PATH: process.env.SQLITE_DB_PATH || 'not set',
+        dataVolumeExists: require('fs').existsSync('/data')
+      }
+    };
+  } else if (!analyticsService.db) {
+    dbStatus = 'db_object_missing';
+    dbDetails = { reason: 'analyticsService.db is null' };
+  } else {
     try {
       analyticsService.db.prepare('SELECT 1').get();
       dbStatus = 'connected';
+      // Get database file info
+      const dbPath = analyticsService.db.name;
+      dbDetails = {
+        path: dbPath,
+        exists: require('fs').existsSync(dbPath),
+        size: (() => {
+          try {
+            const stats = require('fs').statSync(dbPath);
+            return `${Math.round(stats.size / 1024)}KB`;
+          } catch {
+            return 'unknown';
+          }
+        })()
+      };
     } catch (error) {
       dbStatus = 'error';
+      dbDetails = { error: error.message };
       logger.error('Database health check failed', { error: error.message });
     }
   }
@@ -106,6 +160,7 @@ app.get('/health', (req, res) => {
       uptime: uptimeFormatted,
       uptimeSeconds: Math.floor(uptime),
       database: dbStatus,
+      databaseDetails: dbDetails,
       environment: NODE_ENV,
       timestamp: new Date().toISOString(),
     })
