@@ -1153,7 +1153,13 @@
   <script src="assets/env.js"></script>
   <script src="lib/config.js"></script>
   <script>
-    const API_BASE = window.ENV_API_BASE || window.API_BASE || null;
+    // config.js already sets window.API_BASE, just use it
+    const API_BASE = window.API_BASE;
+    if (!API_BASE) {
+      console.error('[Analytics] API_BASE is not defined! Check lib/config.js');
+      alert('API 配置錯誤：無法載入分析數據');
+    }
+    console.log('[Analytics] Using API_BASE:', API_BASE);
     const LANGUAGE_LABELS = {
       all: '全部語系',
       zh: '繁體中文',
