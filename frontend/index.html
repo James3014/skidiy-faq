@@ -2099,13 +2099,29 @@
         timestamp: new Date().toISOString()
       };
 
+      // Linus 原則: 消除特殊情況 - 統一記錄到後端 + localStorage
       try {
+        // 1. 發送到後端 API（持久化到資料庫）
         await fetch(`${API_BASE}/analytics/track-faq-view`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload)
         });
         console.log(`[Analytics] Tracked FAQ interaction (${payload.source}) for ${faqId}`);
+
+        // 2. 寫入 localStorage（本地記錄，即使後端失敗也保留）
+        try {
+          const localClicks = JSON.parse(localStorage.getItem('faq_clicks') || '[]');
+          localClicks.push(payload);
+          // 保留最近 500 筆記錄（避免 localStorage 過大）
+          if (localClicks.length > 500) {
+            localClicks.splice(0, localClicks.length - 500);
+          }
+          localStorage.setItem('faq_clicks', JSON.stringify(localClicks));
+          console.log(`[Analytics] Saved to localStorage (${localClicks.length} records)`);
+        } catch (storageError) {
+          console.warn('[Analytics] Failed to save to localStorage:', storageError);
+        }
       } catch (error) {
         console.warn('[Analytics] Failed to track FAQ interaction:', error);
       }
