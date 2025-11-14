@@ -246,9 +246,13 @@ class FAQEngine {
       throw new Error('FAQ Engine not initialized');
     }
 
-    return this.faqData.items.filter(item =>
-      (item.metadata?.intent || item.intent) === intent
-    );
+    // Linus 原則: 消除特殊情況 - 統一為大寫，容忍大小寫差異
+    const normalizedIntent = (intent || '').toUpperCase().trim();
+
+    return this.faqData.items.filter(item => {
+      const itemIntent = (item.metadata?.intent || item.intent || '').toUpperCase();
+      return itemIntent === normalizedIntent;
+    });
   }
 
   /**
@@ -262,9 +266,15 @@ class FAQEngine {
       throw new Error('FAQ Engine not initialized');
     }
 
-    return this.faqData.items.filter(item =>
-      (item.metadata?.section || item.section) === section
-    );
+    // Linus 原則: 消除特殊情況 - 對 section 進行精確匹配（不區分大小寫）
+    const normalizedSection = (section || '').trim();
+
+    return this.faqData.items.filter(item => {
+      const itemSection = (item.metadata?.section || item.section || '').trim();
+      // 先嘗試精確匹配，再嘗試不區分大小寫的匹配
+      return itemSection === normalizedSection ||
+             itemSection.toLowerCase() === normalizedSection.toLowerCase();
+    });
   }
 
   /**

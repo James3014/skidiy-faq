@@ -575,34 +575,29 @@
         // Generate new query ID for this search
         currentQueryId = generateQueryId();
         const startTime = performance.now();
-        let results;
+        let results = [];
 
-        // Check if query is a tag search (starts with #)
+        // Linus 原則: 消除特殊情況 - 統一的 tag 搜尋邏輯
         if (query.startsWith('#')) {
-          // Parse tag search format: #intent:VALUE or #section:VALUE
-          const match = query.match(/#(\w+):(.+)/);
+          const match = query.match(/#(\w+):(.+)$/);
           if (match) {
-            const tagType = match[1];
-            const tagValue = match[2];
+            const tagType = match[1].toLowerCase(); // 統一轉小寫
+            const tagValue = match[2].trim();        // 統一 trim()
 
+            // 根據 tag 類型直接調用對應方法
             if (tagType === 'intent') {
-              // Filter by intent
-              const faqs = faqEngine.getFAQsByIntent(tagValue);
-              results = faqs.map(item => ({ item, refIndex: 0, score: 0 }));
+              results = faqEngine.getFAQsByIntent(tagValue).map(item =>
+                ({ item, refIndex: 0, score: 0 })
+              );
             } else if (tagType === 'section') {
-              // Filter by section
-              const faqs = faqEngine.getFAQsBySection(tagValue);
-              results = faqs.map(item => ({ item, refIndex: 0, score: 0 }));
-            } else {
-              // Unknown tag type, treat as regular search
-              results = await faqEngine.search(query, { limit: 50 });
+              results = faqEngine.getFAQsBySection(tagValue).map(item =>
+                ({ item, refIndex: 0, score: 0 })
+              );
             }
-          } else {
-            // Invalid tag format, treat as regular search
-            results = await faqEngine.search(query, { limit: 50 });
+            // 若 tagType 不符，results 保持空陣列，下方會顯示「找不到結果」
           }
         } else {
-          // Regular text search
+          // 常規文本搜尋
           results = await faqEngine.search(query, { limit: 5 });
         }
 
