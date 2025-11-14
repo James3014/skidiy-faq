@@ -107,6 +107,15 @@ function replaceLinks(text, lang) {
   }).join('\n');
 }
 
+function resolveLinksInText(text, lang) {
+  if (!text) return '';
+  return text.replace(/\[LINK:([A-Z_]+)\|([^\]]+)\]/g, (_, token, label) => {
+    const info = LINK_MAP[token];
+    if (!info) return label;
+    return info.label[lang] ?? label;
+  });
+}
+
 function getLocalized(value, translations, lang) {
   if (lang === 'zh') return value;
   return translations?.[lang] || value;
@@ -152,6 +161,7 @@ module.exports = {
   slugify,
   escapeHTML,
   replaceLinks,
+  resolveLinksInText,
   getLocalized,
   pickKeywords,
   pickUtterances,

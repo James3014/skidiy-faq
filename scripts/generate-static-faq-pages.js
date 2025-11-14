@@ -10,6 +10,7 @@ const {
   ensureDir,
   cleanDir,
   replaceLinks,
+  resolveLinksInText,
   getLocalized,
   pickKeywords,
   pickUtterances,
@@ -128,10 +129,10 @@ function renderFaqPage(item, lang) {
   <title>${escapeHtml(question)} | SkiDIY FAQ</title>
   <link rel="canonical" href="${canonical}" />
   ${alternates.map(a => `<link rel="alternate" hreflang="${a.lang}" href="${a.url}" />`).join('\n  ')}
-  <meta name="description" content="${escapeHtml(summary?.replace(/\n+/g, ' ').slice(0, 160) || question)}" />
+  <meta name="description" content="${escapeHtml(resolveLinksInText(summary?.replace(/\n+/g, ' '), lang).slice(0, 160) || question)}" />
   <meta property="og:type" content="article" />
   <meta property="og:title" content="${escapeHtml(question)}" />
-  <meta property="og:description" content="${escapeHtml(summary?.replace(/\n+/g, ' ') || question)}" />
+  <meta property="og:description" content="${escapeHtml(resolveLinksInText(summary?.replace(/\n+/g, ' '), lang) || question)}" />
   <meta property="og:url" content="${canonical}" />
   <link rel="stylesheet" href="../assets/faq-page.css" />
   <script type="application/ld+json">${JSON.stringify(ldJson)}</script>
@@ -203,7 +204,7 @@ function buildStructuredData(question, answer, url, lang) {
         name: question,
         acceptedAnswer: {
           '@type': 'Answer',
-          text: answer?.replace(/\n+/g, ' ')
+          text: resolveLinksInText(answer?.replace(/\n+/g, ' '), lang)
         }
       }
     ]
