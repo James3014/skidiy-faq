@@ -1956,15 +1956,26 @@
           console.log('[Init] Found search query from URL:', searchQuery);
           // Set search input and trigger search
           const searchInput = document.getElementById('searchInput');
+          const searchBtn = document.getElementById('searchBtn');
           if (searchInput) {
             searchInput.value = decodeURIComponent(searchQuery);
-            // Trigger search after a short delay to ensure UI is ready
+            // Trigger search after a short delay to ensure UI is ready and event listeners are attached
             setTimeout(() => {
-              const event = new Event('input', { bubbles: true });
-              searchInput.dispatchEvent(event);
-              // Also trigger the search button click
-              performSearch();
-            }, 100);
+              console.log('[Init] Triggering auto-search for:', searchInput.value);
+              if (searchBtn) {
+                // Click the search button to trigger search
+                console.log('[Init] Clicking search button');
+                searchBtn.click();
+              } else {
+                console.warn('[Init] Search button not found, trying direct function call');
+                // Fallback: try to call performSearch if it exists globally
+                if (typeof performSearch === 'function') {
+                  performSearch();
+                } else {
+                  console.warn('[Init] performSearch function not found globally');
+                }
+              }
+            }, 800);
           }
         }
 
