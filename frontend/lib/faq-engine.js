@@ -131,54 +131,38 @@ class FAQEngine {
   }
 
   /**
-   * Get Fuse.js configuration optimized for CJK text search
+   * Phase 4.6: Optimized Fuse.js configuration for simplified format
+   * Only searches new format fields (content.*, metadata.*)
    * T025: threshold 0.4, ignoreLocation true
    *
    * @returns {Object} Fuse.js configuration
    */
   getFuseConfig() {
+    // Phase 4.6: Simplified keys - only new format fields
     const keys = [
-      // Phase 4.1: 新格式 - 使用 content 中的欄位（優先）
+      // Primary search fields from content
       {
         name: 'content.question',
-        weight: 0.35
+        weight: 0.45  // Increased weight (was 0.35) since it's the main field
       },
       {
         name: 'content.answer',
-        weight: 0.15
-      },
-      // 舊格式向後相容支持
-      {
-        name: 'canonical_question',
-        weight: 0.35
+        weight: 0.25  // Increased weight (was 0.15) for better answer matching
       },
       {
-        name: 'utterance_patterns',
-        weight: 0.3
+        name: 'content.postscript',
+        weight: 0.1   // Added postscript for completeness
       },
-      {
-        name: 'answer_template.text',
-        weight: 0.15
-      },
-      {
-        name: 'keywords',
-        weight: 0.1
-      },
-      {
-        name: 'section',
-        weight: 0.05
-      },
-      // 新格式中的 metadata.keywords
+      // Metadata fields for filtering
       {
         name: 'metadata.keywords',
-        weight: 0.1
+        weight: 0.15  // Increased weight (was 0.1) for keyword importance
+      },
+      {
+        name: 'metadata.section',
+        weight: 0.05  // Section for categorization
       }
     ];
-
-    FAQ_LANGUAGES.filter(lang => lang !== FAQ_DEFAULT_LANGUAGE).forEach(lang => {
-      keys.push({ name: `canonical_question_translations.${lang}`, weight: 0.25 });
-      keys.push({ name: `answer_template.text_translations.${lang}`, weight: 0.12 });
-    });
 
     return {
       keys,
