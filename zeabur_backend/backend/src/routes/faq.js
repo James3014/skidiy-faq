@@ -89,8 +89,19 @@ function transformToSimplifiedFormat(faq, language = 'zh') {
   const template = faq.answer_template || {};
 
   // Get localized question
-  const questionField = language !== 'zh' ? `canonical_question_${language}` : 'canonical_question';
-  const question = faq[questionField] || faq.canonical_question || '';
+  // Support both formats: canonical_question_en and canonical_question_translations.en
+  let question = '';
+  if (language === 'zh') {
+    question = faq.canonical_question || '';
+  } else {
+    // Try new format first: canonical_question_translations.{lang}
+    question = faq.canonical_question_translations?.[language] ||
+               // Try old format: canonical_question_{lang}
+               faq[`canonical_question_${language}`] ||
+               // Fallback to Chinese
+               faq.canonical_question ||
+               '';
+  }
 
   // Get localized answer (text field is already composed in data source)
   // Fallback to summary if text is empty (backward compatibility)
