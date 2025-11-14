@@ -249,6 +249,14 @@
       border-radius: 12px;
       font-size: 0.85rem;
       color: #666;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .faq-tag:hover {
+      background: #4A5F8C;
+      color: white;
+      transform: scale(1.05);
     }
 
     /* Empty State */
@@ -508,7 +516,37 @@
         showLoading();
 
         const startTime = performance.now();
-        const results = await faqEngine.search(query, { limit: 5 });
+        let results;
+
+        // Check if query is a tag search (starts with #)
+        if (query.startsWith('#')) {
+          // Parse tag search format: #intent:VALUE or #section:VALUE
+          const match = query.match(/#(\w+):(.+)/);
+          if (match) {
+            const tagType = match[1];
+            const tagValue = match[2];
+
+            if (tagType === 'intent') {
+              // Filter by intent
+              const faqs = faqEngine.getFAQsByIntent(tagValue);
+              results = faqs.map(item => ({ item, refIndex: 0, score: 0 }));
+            } else if (tagType === 'section') {
+              // Filter by section
+              const faqs = faqEngine.getFAQsBySection(tagValue);
+              results = faqs.map(item => ({ item, refIndex: 0, score: 0 }));
+            } else {
+              // Unknown tag type, treat as regular search
+              results = await faqEngine.search(query, { limit: 50 });
+            }
+          } else {
+            // Invalid tag format, treat as regular search
+            results = await faqEngine.search(query, { limit: 50 });
+          }
+        } else {
+          // Regular text search
+          results = await faqEngine.search(query, { limit: 5 });
+        }
+
         const endTime = performance.now();
         const searchTime = Math.round(endTime - startTime);
 
@@ -562,10 +600,24 @@
         </div>
         <div class="faq-answer">${answerPreview}</div>
         <div class="faq-meta">
-          <span class="faq-tag">${result.item.intent || 'GENERAL'}</span>
-          <span class="faq-tag">${result.item.section || '一般問題'}</span>
+          <span class="faq-tag" data-tag-type="intent" data-tag-value="${result.item.intent || 'GENERAL'}">${result.item.intent || 'GENERAL'}</span>
+          <span class="faq-tag" data-tag-type="section" data-tag-value="${result.item.section || '一般問題'}">${result.item.section || '一般問題'}</span>
         </div>
       `;
+
+      // Add event listeners for tags
+      const tags = div.querySelectorAll('.faq-tag');
+      tags.forEach(tag => {
+        tag.addEventListener('click', (e) => {
+          e.stopPropagation(); // Prevent click from bubbling to parent
+          const tagType = tag.getAttribute('data-tag-type');
+          const tagValue = tag.getAttribute('data-tag-value');
+
+          // Search by tag
+          searchInput.value = `#${tagType}:${tagValue}`;
+          performSearch(`#${tagType}:${tagValue}`);
+        });
+      });
 
       // Click to expand (future enhancement)
       div.addEventListener('click', () => {
