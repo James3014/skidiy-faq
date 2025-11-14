@@ -2119,7 +2119,16 @@
         // 2. 寫入 localStorage（本地記錄，即使後端失敗也保留）
         try {
           const localClicks = JSON.parse(localStorage.getItem('faq_clicks') || '[]');
-          localClicks.push(payload);
+
+          // 添加 FAQ 標題用於本地調試（不發送到後端）
+          const faqItem = window.faqEngine?.items?.find(item => item.id === faqId);
+          const localPayload = {
+            ...payload,
+            faq_title: faqItem?.content?.question || faqId, // 顯示標題或 ID
+            _debug_only: true // 標記為僅調試用途
+          };
+
+          localClicks.push(localPayload);
           // 保留最近 500 筆記錄（避免 localStorage 過大）
           if (localClicks.length > 500) {
             localClicks.splice(0, localClicks.length - 500);
