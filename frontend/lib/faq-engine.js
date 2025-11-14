@@ -43,8 +43,19 @@ class FAQEngine {
       const result = await response.json();
       this.faqData = result.data || result;
 
+      // Linus 原則: 統一數據結構 - 將 metadata 中的欄位提升到根層級
+      // 消除後續代碼中的 faq.metadata?.crm_tags || faq.crm_tags 特殊情況
       this.faqData.items.forEach(item => {
         this.prepareLocalizedContent(item);
+
+        // 提升 metadata 欄位到根層級（向後相容）
+        if (item.metadata) {
+          item.intent = item.intent || item.metadata.intent;
+          item.section = item.section || item.metadata.section;
+          item.crm_tags = item.crm_tags || item.metadata.crm_tags;
+          item.keywords = item.keywords || item.metadata.keywords;
+          item.hot = item.hot !== undefined ? item.hot : item.metadata.hot;
+        }
       });
 
       // Validate data structure
