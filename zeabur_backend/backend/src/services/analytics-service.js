@@ -598,7 +598,7 @@ class AnalyticsService {
     }
 
     if (options.days) {
-      query += ' AND timestamp >= datetime('now', '-' || ? || ' days')';
+      query += ' AND timestamp >= datetime(\'now\', \'-\' || ? || \' days\')';
       params.push(options.days);
     }
 
@@ -645,7 +645,7 @@ class AnalyticsService {
     }
 
     if (options.days) {
-      query += ' AND timestamp >= datetime('now', '-' || ? || ' days')';
+      query += ' AND timestamp >= datetime(\'now\', \'-\' || ? || \' days\')';
       params.push(options.days);
     }
 
@@ -691,7 +691,7 @@ class AnalyticsService {
     }
 
     if (options.days) {
-      query += ' AND timestamp >= datetime('now', '-' || ? || ' days')';
+      query += ' AND timestamp >= datetime(\'now\', \'-\' || ? || \' days\')';
       params.push(options.days);
     }
 
@@ -734,7 +734,7 @@ class AnalyticsService {
     }
 
     if (options.days) {
-      query += ' AND timestamp >= datetime('now', '-' || ? || ' days')';
+      query += ' AND timestamp >= datetime(\'now\', \'-\' || ? || \' days\')';
       params.push(options.days);
     }
 
@@ -811,7 +811,7 @@ class AnalyticsService {
     }
 
     if (options.days) {
-      query += ' AND timestamp >= datetime('now', '-' || ? || ' days')';
+      query += ' AND timestamp >= datetime(\'now\', \'-\' || ? || \' days\')';
       params.push(options.days);
     }
 
