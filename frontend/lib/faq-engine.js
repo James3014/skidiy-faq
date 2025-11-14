@@ -75,59 +75,47 @@ class FAQEngine {
   }
 
   /**
-   * Phase 4.5: Simplified localization - API returns pre-composed content
-   * No more backward compatibility for old format
+   * Phase 4.7: Direct content access - API returns pre-composed, localized content
+   * No need for complex localization logic, just return content directly
+   *
+   * Note: This method is kept for backward compatibility with existing code
+   * that may call prepareLocalizedContent. It's now a no-op since API already
+   * provides localized content.
    */
   prepareLocalizedContent(faq) {
-    if (!faq) return {};
-
-    const localized = {};
-
-    // Phase 4.5: API 已經提供了簡化的本地化內容
-    // content.question, content.answer, content.postscript 都已組合完成
-    if (faq.content && typeof faq.content === 'object') {
-      const content = faq.content;
-      FAQ_LANGUAGES.forEach(lang => {
-        localized[lang] = {
-          question: sanitizeText(content.question),
-          answer: sanitizeText(content.answer),
-          postscript: sanitizeText(content.postscript)
-        };
-      });
-    } else {
-      // 如果沒有 content 欄位，返回空內容（應該不會發生）
-      console.warn('[FAQ Engine] FAQ item missing content field:', faq.id);
-      FAQ_LANGUAGES.forEach(lang => {
-        localized[lang] = { question: '', answer: '', postscript: '' };
-      });
+    if (!faq || !faq.content) {
+      if (faq && !faq.content) {
+        console.warn('[FAQ Engine] FAQ item missing content field:', faq.id);
+      }
+      return {};
     }
 
-    faq.localized = localized;
-    return localized;
+    // Phase 4.7: API already provides localized content
+    // No need to replicate it across all languages
+    // Just mark as prepared and return
+    faq.localized = true;
+    return faq.content;
   }
 
   /**
-   * Phase 4.5: Simplified getLocalizedContent - no complex fallback logic
-   * API returns content already localized per request language
+   * Phase 4.7: Ultra-simplified getLocalizedContent
+   * API returns content already composed and localized per request language
+   *
+   * @param {Object} faq - FAQ item with content field
+   * @param {string} language - Language code (currently unused, API handles it)
+   * @returns {Object} Localized content {question, answer, postscript}
    */
   getLocalizedContent(faq, language = this.language || FAQ_DEFAULT_LANGUAGE) {
-    if (!faq) {
+    if (!faq || !faq.content) {
       return { question: '', answer: '', postscript: '' };
     }
 
-    // Use cached localized content if available
-    let localized = faq.localized;
-    if (!localized) {
-      localized = this.prepareLocalizedContent(faq);
-    }
-
-    // Simple fallback: requested language -> default language
-    const preferred = [language, FAQ_DEFAULT_LANGUAGE];
-    const question = preferred.map(lang => localized?.[lang]?.question).find(Boolean) || '';
-    const answer = preferred.map(lang => localized?.[lang]?.answer).find(Boolean) || '';
-    const postscript = preferred.map(lang => localized?.[lang]?.postscript).find(Boolean) || '';
-
-    return { question, answer, postscript };
+    // Phase 4.7: Direct access - API already provides the right content
+    return {
+      question: sanitizeText(faq.content.question),
+      answer: sanitizeText(faq.content.answer),
+      postscript: sanitizeText(faq.content.postscript)
+    };
   }
 
   /**
@@ -248,7 +236,7 @@ class FAQEngine {
   }
 
   /**
-   * Get FAQs by intent
+   * Phase 4.7: Get FAQs by intent from metadata
    *
    * @param {string} intent - Intent type (e.g., "BOOKING", "GEAR")
    * @returns {Array} Array of FAQ items matching the intent
@@ -258,11 +246,13 @@ class FAQEngine {
       throw new Error('FAQ Engine not initialized');
     }
 
-    return this.faqData.items.filter(item => item.intent === intent);
+    return this.faqData.items.filter(item =>
+      (item.metadata?.intent || item.intent) === intent
+    );
   }
 
   /**
-   * Get FAQs by section
+   * Phase 4.7: Get FAQs by section from metadata
    *
    * @param {string} section - Section name
    * @returns {Array} Array of FAQ items in the section
@@ -272,7 +262,9 @@ class FAQEngine {
       throw new Error('FAQ Engine not initialized');
     }
 
-    return this.faqData.items.filter(item => item.section === section);
+    return this.faqData.items.filter(item =>
+      (item.metadata?.section || item.section) === section
+    );
   }
 
   /**
@@ -289,7 +281,8 @@ class FAQEngine {
   }
 
   /**
-   * Get FAQ statistics
+   * Phase 4.7: Get FAQ statistics from simplified format
+   * Uses metadata.intent and metadata.section
    *
    * @returns {Object} Statistics about the FAQ data
    */
@@ -302,8 +295,11 @@ class FAQEngine {
     const sections = new Set();
 
     this.faqData.items.forEach(item => {
-      if (item.intent) intents.add(item.intent);
-      if (item.section) sections.add(item.section);
+      // Phase 4.7: Use metadata fields
+      const intent = item.metadata?.intent || item.intent;
+      const section = item.metadata?.section || item.section;
+      if (intent) intents.add(intent);
+      if (section) sections.add(section);
     });
 
     return {
