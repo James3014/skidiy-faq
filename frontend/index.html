@@ -3351,10 +3351,10 @@
           includePostscript: true
         });
 
-        // 添加數據屬性
+        // 添加數據屬性並自動展開
         singleResultHTML = singleResultHTML.replace(
           'class="faq-item"',
-          `class="faq-item" data-source="${source}" data-position="1" data-query=""`
+          `class="faq-item expanded" data-source="${source}" data-position="1" data-query=""`
         );
 
         resultContainer.innerHTML = singleResultHTML;
@@ -3363,9 +3363,10 @@
         });
         hideIntentPanel();
 
+        // 滾動到新項目（已經自動展開）
         const newItem = document.querySelector(`.faq-item[data-faq-id="${faqId}"]`);
-        if (newItem && !newItem.classList.contains('expanded')) {
-          toggleFAQItem(newItem);
+        if (newItem) {
+          newItem.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
       } else {
         console.error('[showFAQDetail] FAQ not found:', faqId);
