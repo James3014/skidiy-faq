@@ -2254,8 +2254,11 @@
       // Load Park FAQ cards for the first resort if available (Linus principle: data-driven design)
       if (resorts.length > 0 && typeof ParkFAQ !== 'undefined') {
         const firstResort = resorts[0];
-        // Extract park slug from resort_id (e.g., "iwate_appi" → "appi")
-        const parkSlug = firstResort.resort_id?.split('_').pop();
+        // LINUS PRINCIPLE: Extract park slug correctly from resort_id structure
+        // Format: region_slug_variant (e.g., "iwate_appi_kogen" → "appi")
+        // We need the SECOND element [1], not the last element
+        const slugParts = firstResort.resort_id?.split('_') || [];
+        const parkSlug = slugParts.length >= 2 ? slugParts[1] : slugParts[slugParts.length - 1];
         const parkName = firstResort.names?.zh || firstResort.name || '';
         if (parkSlug && parkName) {
           ParkFAQ.loadAndDisplay(parkSlug, parkName, currentLanguage || 'zh').catch(err =>

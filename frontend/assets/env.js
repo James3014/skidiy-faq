@@ -15,16 +15,19 @@ if (isProduction && !window.ENV_API_BASE) {
   window.BACKEND_URL = 'https://faq-api-v1.zeabur.app/api/v1';
   console.log('[ENV] Using Zeabur backend:', window.ENV_API_BASE);
 } else {
-  const isLocalDev = ['localhost', '127.0.0.1'].includes(window.location.hostname)
-    && window.location.port === '8080';
+  // LINUS PRINCIPLE: Eliminate special cases - detect localhost + non-production port
+  // window.location.port can be string or number, so normalize it
+  const port = String(window.location.port);
+  const isLocalhost = ['localhost', '127.0.0.1'].includes(window.location.hostname);
+  const isLocalDev = isLocalhost && (port === '8080' || port === '5000' || port === '3000' || port === '');
 
   if (isLocalDev) {
-    // Python http.server (8080) → Node backend (3000)
+    // Local development: frontend on 8080 → backend on 3000
     window.ENV_API_ROOT = 'http://localhost:3000';
     window.ENV_API_BASE = `${window.ENV_API_ROOT}/api/v1`;
     window.API_BASE = window.ENV_API_BASE;
     window.BACKEND_URL = window.ENV_API_BASE;
-    console.log('[ENV] Local dev detected, proxying API to :3000');
+    console.log('[ENV] Local dev detected, using backend:', window.ENV_API_BASE);
   } else {
     // 其他情況使用相對路徑（例如整合到同一主機時）
     window.ENV_API_BASE = window.ENV_API_BASE || '/api/v1';

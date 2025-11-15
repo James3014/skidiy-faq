@@ -114,11 +114,11 @@ router.get('/cards', async (req, res, next) => {
 
     // Validate inputs
     if (!park_slug) {
-      return sendError(res, 400, 'INVALID_PARAMS', 'park_slug parameter is required');
+      return sendError(res, 'INVALID_PARAMS', 'park_slug parameter is required', 400);
     }
 
     if (!['zh', 'en', 'th'].includes(lang)) {
-      return sendError(res, 400, 'INVALID_LANGUAGE', 'Language must be zh, en, or th');
+      return sendError(res, 'INVALID_LANGUAGE', 'Language must be zh, en, or th', 400);
     }
 
     // Load park FAQ cards
@@ -136,7 +136,7 @@ router.get('/cards', async (req, res, next) => {
     });
 
     if (parkCards.length === 0) {
-      return sendError(res, 404, 'PARK_NOT_FOUND', `No FAQ cards found for park: ${park_slug}`);
+      return sendError(res, 'PARK_NOT_FOUND', `No FAQ cards found for park: ${park_slug}`, 404);
     }
 
     // Extract language-specific content
@@ -191,12 +191,12 @@ router.post('/track-card-view', async (req, res, next) => {
 
     // Validate inputs
     if (!card_id || !park_slug || !session_id) {
-      return sendError(res, 400, 'INVALID_PARAMS',
-        'card_id, park_slug, and session_id are required');
+      return sendError(res, 'INVALID_PARAMS',
+        'card_id, park_slug, and session_id are required', 400);
     }
 
     if (!['zh', 'en', 'th'].includes(language)) {
-      return sendError(res, 400, 'INVALID_LANGUAGE', 'Language must be zh, en, or th');
+      return sendError(res, 'INVALID_LANGUAGE', 'Language must be zh, en, or th', 400);
     }
 
     // Write to analytics database
@@ -260,12 +260,12 @@ router.post('/track-tag-click', async (req, res, next) => {
 
     // Validate inputs
     if (!tag_name || !card_id || !park_slug) {
-      return sendError(res, 400, 'INVALID_PARAMS',
-        'tag_name, card_id, and park_slug are required');
+      return sendError(res, 'INVALID_PARAMS',
+        'tag_name, card_id, and park_slug are required', 400);
     }
 
     if (!['zh', 'en', 'th'].includes(language)) {
-      return sendError(res, 400, 'INVALID_LANGUAGE', 'Language must be zh, en, or th');
+      return sendError(res, 'INVALID_LANGUAGE', 'Language must be zh, en, or th', 400);
     }
 
     // Write to analytics database
@@ -322,7 +322,7 @@ router.get('/stats', async (req, res, next) => {
     const { park_slug, language = 'zh', start_date, end_date } = req.query;
 
     if (!park_slug) {
-      return sendError(res, 400, 'INVALID_PARAMS', 'park_slug parameter is required');
+      return sendError(res, 'INVALID_PARAMS', 'park_slug parameter is required', 400);
     }
 
     try {
@@ -391,7 +391,7 @@ router.get('/stats', async (req, res, next) => {
 
       const tagClicks = db.prepare(tagClicksStmt).all(...tagParams);
 
-      sendSuccess(res, 200, {
+      sendSuccess(res, {
         park_slug,
         card_views: cardViews,
         tag_clicks: tagClicks,
@@ -399,7 +399,7 @@ router.get('/stats', async (req, res, next) => {
           start_date: start_date || 'all',
           end_date: end_date || 'all'
         }
-      }, 'Statistics retrieved successfully');
+      }, 200);
     } catch (dbError) {
       console.error('[Park FAQ] Database error:', dbError);
       throw new AppError('Failed to retrieve statistics', 500);
