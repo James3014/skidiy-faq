@@ -24,7 +24,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 const NODE_ENV = process.env.NODE_ENV || 'development';
 const SERVER_START_TIME = Date.now();
-const APP_VERSION = '1.0.2'; // Force Zeabur rebuild - pragmatic Linus approach
+const APP_VERSION = '1.0.3'; // Force Zeabur rebuild - park_faq_cards.json fix
 
 // Initialize analytics service
 // LINUS PRINCIPLE: Single source of truth for database path
