@@ -1,7 +1,18 @@
 {
-  "service": {
-    "type": "static",
-    "root": "frontend",
-    "outputDirectory": "frontend"
-  }
+  "services": [
+    {
+      "name": "frontend",
+      "type": "static",
+      "root": "frontend",
+      "outputDirectory": "frontend"
+    },
+    {
+      "name": "backend",
+      "type": "docker",
+      "docker": {
+        "dockerfile": "zeabur_backend/Dockerfile",
+        "context": "zeabur_backend"
+      }
+    }
+  ]
 }
