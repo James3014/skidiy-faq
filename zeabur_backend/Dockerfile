@@ -13,8 +13,9 @@ RUN npm ci --only=production
 COPY backend/src ./src
 COPY backend/.env.example ./.env.example
 
-# Copy data directory if it exists
-COPY data ./data || true
+# Copy data directory
+# This includes faq_kb.phase0a.json, park_faq_cards.json, analytics.db (initial), etc.
+COPY zeabur_backend/data ./data
 
 # Set environment variables
 # SQLITE_DB_PATH must be absolute path to prevent __dirname resolution issues
