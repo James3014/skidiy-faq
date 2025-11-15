@@ -1,354 +1,237 @@
-# Claude Code 開發指南
+# Claude Code 工作守則
 
-本文檔為 Claude Code 使用本專案時的指引。
+本文檔描述在本專案中的開發規範、常見任務流程與設計原則。
 
-## 語言政策
+---
 
-**一律使用繁體中文回覆所有回應**
-- 檔案註釋、變數名稱：保持原有慣例（英文或中文）
-- 輸出訊息：統一為繁體中文
-- 文件標題、摘要：統一為繁體中文
+## 1️⃣ 核心守則（必讀）
 
-## 專案概況
+### 語言
 
-**FAQ 系統升級專案** - 互動式搜尋、Intent 偵測、多語言支援、CRM 整合
+* **輸出一律繁體中文**。程式碼中的變數／函式名稱維持既有英文慣例即可。
 
-### 核心技術棧
+### Git / GitHub
 
-- **前端**: JavaScript ES6+, Fuse.js 7.0+, DOMPurify 3.0+
-- **後端**: Node.js 18+ LTS, Express 4.18+, better-sqlite3 3.9+
-- **資料庫**: SQLite (分析), JSONL (CRM 日誌)
-- **語言**: 中文（主要）、英文、泰文
+* **禁止自行執行 `git push`**，除非使用者在對話中明確指示（例如「請幫我推送」）。
+* 可以使用 `git status`, `git diff`, `git commit` 整理與提交，但**改動前必先執行下方測試清單**。
 
-### 目錄結構
+### 文檔產出
 
-```
-zeabur/
-├── zeabur_backend/                # 後端應用
-│   ├── backend/
-│   │   ├── src/
-│   │   │   ├── server.js          # Express 伺服器
-│   │   │   ├── routes/
-│   │   │   │   ├── faq.js         # FAQ 搜尋與查詢
-│   │   │   │   ├── intent.js      # Intent 偵測
-│   │   │   │   ├── analytics.js   # 分析統計
-│   │   │   │   └── crm.js         # CRM 整合
-│   │   │   ├── services/          # 業務邏輯
-│   │   │   └── middleware/        # 中介層
-│   │   ├── data/
-│   │   │   └── faq_kb.js          # FAQ 知識庫 (JS 格式備份)
-│   │   └── package.json
-│   └── data/
-│       ├── faq_kb.phase0a.json    # 唯一資料來源
-│       ├── analytics.db           # SQLite 分析資料庫
-│       └── customer_inquiries.jsonl
-├── frontend/                       # 前端應用
-│   ├── faq-search.html            # FAQ 搜尋介面
-│   ├── lib/
-│   │   ├── faq-engine.js          # 搜尋引擎
-│   │   ├── faq-renderer.js        # 渲染元件
-│   │   ├── fuse.min.js            # Fuse.js 模糊搜尋
-│   │   ├── dompurify.min.js       # XSS 防護
-│   │   └── dayjs.min.js           # 日期處理
-│   └── assets/i18n/               # 多語言檔案
-└── docs/                          # 文件
-    ├── PHASE4_OPTIMIZATION_SUMMARY.md
-    ├── PERFORMANCE_BENCHMARK.md
-    └── [其他文件]
-```
+* **禁止生成**：測試報告、驗證報告、過程紀錄等檔案到 repo。
+* **替代方案**：僅在終端輸出說明，或暫存於 `/tmp` 目錄，不加入 Git。
 
-## 重要約束
+### 改動前必做檢查
 
-### 🚫 GitHub 推送
-
-**當前政策**: 所有工作必須在本地驗證完成，不能推送到 GitHub，除非獲得明確授權。
-
-操作流程：
-1. 本地開發和測試
-2. 所有測試通過後提交本地 Git
-3. 等待使用者明確許可（例如："推送"）
-4. 才能執行 `git push`
-
-### 📝 文檔管理原則
-
-**重要**: 過程報告不需要新增或生成
-
-**原則**:
-- ❌ **禁止生成**: 測試報告、驗證報告、分析報告、實作總結等過程記錄
-- ✅ **允許新增**: 核心文檔（標準、規範）、操作指南、長期參考資料
-- 🗑️ **臨時檔案**: 測試腳本和臨時報告應放在 `/tmp` 目錄，不提交到 Git
-
-**已保留的文檔** (20 個):
-- 根目錄: CLAUDE.md, README.md, PHASE4_OPTIMIZATION_SUMMARY.md, PERFORMANCE_BENCHMARK.md
-- 操作指南: ADMIN_*.md, TAG_TRACKING_GUIDE.md, ZEABUR_CONFIG_GUIDE.md
-- docs/: FAQ 標準與維護流程、SEO 計劃、翻譯責任、多語言影響評估
-
-**清理歷史** (2025-11-14):
-- 刪除 ~130 個過程記錄檔案
-- 保留 20 個核心文檔
-- 詳見 Git 提交記錄
-
-### ✅ 測試驗證
-
-所有程式碼改動前必須確保：
-- ✅ 後端健康檢查通過
-- ✅ 所有 API 端點正常
-- ✅ 多語言支援測試通過
-- ✅ 性能指標符合目標
-- ✅ 沒有回歸問題
-
-## 常用命令
-
-### 後端
+執行以下檢查，確保無回歸問題：
 
 ```bash
-# 進入後端目錄
-cd zeabur_backend/backend
-
-# 啟動伺服器（port 3000）
+# 1. 後端健康檢查
 npm start
-
-# 運行測試
-npm test
-
-# 健康檢查
 curl http://localhost:3000/health
 
-# 搜尋 FAQ
-curl -X POST http://localhost:3000/api/v1/faq/search \
-  -H "Content-Type: application/json" \
-  -d '{"query":"教練","limit":5}'
-
-# 取得所有 FAQ
-curl http://localhost:3000/api/v1/faq/all
-```
-
-### 前端
-
-```bash
-# 簡易伺服器（port 8080）
-cd frontend
-python3 -m http.server 8080
-
-# 訪問
-http://localhost:8080/faq-search.html
-```
-
-### Git 操作
-
-```bash
-# 檢查狀態
-git status
-
-# 檢查最近提交
-git log --oneline -10
-
-# 查看提交內容
-git show <commit-hash>
-
-# 差異比較
-git diff
-```
-
-## 最近的優化工作（Phase 4.1+）
-
-### ✅ 已完成的 6 個優化任務
-
-| 編號 | 任務 | 提交 | 狀態 |
-|------|------|------|------|
-| 4.5 | 移除舊格式支援 | 9782fc5 | ✅ |
-| 4.6 | 優化 Fuse.js | 50edadf | ✅ |
-| 4.7 | 前端清理 | 388c595 | ✅ |
-| 4.8 | API 文檔 | 4ba2700 | ✅ |
-| 4.9 | 性能測試 | 234bebe | ✅ |
-| 4.10 | 代碼註釋 | ab7843e | ✅ |
-
-### 📊 改進指標
-
-- **API 響應時間**: 14-15ms（目標 <200ms，改善 99%）
-- **Fuse.js 最佳化**: 5 鍵（原 16+ 鍵，減少 69%）
-- **程式碼精簡**: 移除 150+ 行舊格式支援
-- **Linus 原則評分**: 25/25（完美）
-
-### 📝 生成的文件
-
-- `PHASE4_OPTIMIZATION_SUMMARY.md` - 完整優化指南
-- `PERFORMANCE_BENCHMARK.md` - 性能基準測試結果
-
-## 程式碼風格
-
-### 前端
-
-- 原生 JavaScript ES6+（無需 React/Vue）
-- 函數長度 ≤ 50 行
-- 使用 `const`/`let`，避免 `var`
-- XSS 防護：使用 DOMPurify 清理使用者輸入
-
-### 後端
-
-- Node.js async/await 模式
-- RESTful API 設計（`/api/v1/resource`）
-- 統一錯誤處理格式：`{ success: false, error: { code, message } }`
-- 日誌格式：`console.log('[DEBUG] ...')`
-
-### 資料
-
-- 所有檔案使用 UTF-8 編碼
-- JSON 使用 2 空格縮排
-- 日期格式：ISO 8601（`YYYY-MM-DDTHH:mm:ss.sssZ`）
-- ID 格式：`faq.{category}.{序號}`
-
-## 關鍵設計原則（Linus 原則）
-
-### 1. 消除特殊情況
-
-避免條件分支，通過設計改變使邊界情況消失。
-
-**例子**:
-```javascript
-// ❌ 不好：多層條件
-if (faq.content) {
-  // 新格式
-} else if (faq.answer_template) {
-  // 舊格式
-}
-
-// ✅ 好：直接使用統一結構
-return faq.content; // API 保證總是提供
-```
-
-### 2. 資料結構優於算法
-
-簡潔的資料結構比複雜的邏輯更強大。
-
-**例子**:
-```javascript
-// ❌ 複雜：API 返回巢狀結構，前端再組合
-{
-  answer_template: {
-    summary: "...",
-    details: "...",
-    text_translations: { en: "..." }
-  }
-}
-
-// ✅ 簡潔：API 直接返回組合後的內容
-{
-  content: {
-    answer: "..." // 已組合
-  }
-}
-```
-
-### 3. 清晰的責任邊界
-
-後端：負責資料轉換、組合、多語言
-前端：純展示層
-
-### 4. 實用優於理論
-
-理論和實務衝突時，實務優先。
-
-### 5. 使用者需求驅動
-
-所有設計決策都來自真實使用者需求。
-
-## 多語言支援
-
-**優先級**: 中文（主要）> 英文（次要）> 泰文（次要）
-
-### API 多語言
-
-API 根據 `lang` 參數返回對應語言內容：
-
-```javascript
-// 前端請求特定語言
-GET /api/v1/faq/all?lang=en
-
-// 後端返回英文內容
-{
-  items: [
-    {
-      content: {
-        question: "How to book?",
-        answer: "...",
-        postscript: ""
-      }
-    }
-  ]
-}
-```
-
-### 前端多語言
-
-前端 `faq-engine.js` 使用 `setLanguage()` 切換語言：
-
-```javascript
-const engine = new FAQEngine();
-await engine.initialize();
-engine.setLanguage('en'); // 切換為英文
-```
-
-## 常見問題排查
-
-### API 無法啟動
-
-```bash
-# 1. 檢查 port 3000 是否被佔用
-lsof -i :3000
-
-# 2. 殺掉佔用程序
-kill -9 <PID>
-
-# 3. 重新啟動
-npm start
-```
-
-### FAQ 資料載入失敗
-
-檢查 `zeabur_backend/data/faq_kb.phase0a.json` 是否存在：
-- 如果不存在，系統會自動降級到 `faq_kb.js`
-- 確保至少有一個資料源可用
-
-### 多語言內容缺失
-
-檢查 API 響應：
-```bash
+# 2. FAQ API 測試（至少檢查中文 + 一個非中文語言）
+curl http://localhost:3000/api/v1/faq/all?lang=zh
 curl http://localhost:3000/api/v1/faq/all?lang=en
-```
 
-如果某些欄位為空：
-- 檢查 `faq_kb.phase0a.json` 中的翻譯欄位
-- 預設會回到中文
-
-## 偵錯技巧
-
-### 前端
-
-1. 開啟瀏覽器開發者工具（F12）
-2. 檢查 Console 日誌（搜尋 `[FAQ Engine]`）
-3. 檢查 Network 標籤中的 API 請求
-
-### 後端
-
-1. 查看終端輸出（應該看到 `[FAQ Routes]` 日誌）
-2. 檢查 git diff：`git diff`
-3. 檢查最近提交：`git log -p -1`
-
-## 後續步驟
-
-目前狀態：
-- ✅ Phase 4.1+ 所有優化完成
-- ✅ 本地測試通過（9/12 測試通過）
-- ✅ 6 個乾淨的 Git 提交準備完畢
-- ⏳ 等待推送授權
-
-當使用者許可推送時：
-```bash
-git push origin main
+# 3. Park FAQ 測試（若改動相關功能）
+curl http://localhost:3000/api/v1/park-faq/cards?park_slug=appi&lang=zh
 ```
 
 ---
 
-**最後更新**: 2025-11-14
-**維護人**: Claude Code
+## 2️⃣ 專案概況
+
+**FAQ 智慧搜尋系統** - 多語言（中文／英文／泰文）、Park FAQ 卡片、Intent 偵測
+
+### 技術棧
+
+| 層級 | 技術 |
+|------|------|
+| 前端 | JavaScript ES6+, Fuse.js, DOMPurify |
+| 後端 | Node.js 18+, Express 4.18+, better-sqlite3 |
+| 資料庫 | SQLite (分析), JSONL (CRM 日誌) |
+
+### 常見檔案位置
+
+```
+zeabur/
+├── frontend/
+│   ├── index.html                  # 主頁面（Park FAQ + FAQ 整合）
+│   ├── lib/faq-engine.js           # 核心搜尋引擎
+│   ├── lib/park-faq-module.js      # Park FAQ 卡片過濾
+│   └── assets/i18n/{zh,en,th}.json # 多語言翻譯
+├── zeabur_backend/backend/
+│   ├── src/routes/
+│   │   ├── faq.js                  # FAQ API
+│   │   ├── park_faq.js             # Park FAQ API
+│   │   └── intent.js               # Intent 偵測
+│   └── data/faq_kb.phase0a.json    # 唯一資料來源
+└── docs/
+    ├── PHASE4_OPTIMIZATION_SUMMARY.md
+    └── PERFORMANCE_BENCHMARK.md
+```
+
+---
+
+## 3️⃣ 常見任務與流程
+
+### Task A：修改 FAQ 搜尋或顯示邏輯
+
+1. 編輯 `frontend/lib/faq-engine.js` 中的搜尋邏輯或 Fuse.js 設定
+2. 修改前檢查 `PERFORMANCE_BENCHMARK.md` 確認目標 API 響應 < 200ms
+3. 測試：
+   ```bash
+   npm start
+   curl http://localhost:3000/api/v1/faq/all?lang=zh
+   ```
+4. 若改動搜尋鍵集，請確認 Fuse.js 鍵數 ≤ 5 個（避免性能惡化）
+5. 本地瀏覽器驗證搜尋結果無誤
+
+### Task B：新增或修改 FAQ 欄位（含多語言）
+
+1. 編輯 `zeabur_backend/data/faq_kb.phase0a.json`，新增欄位
+   - 必須同時提供 `canonical_question`, `canonical_question_en`, `canonical_question_th`（若無翻譯，用空字串）
+2. 後端無需修改，API 會直接回傳新欄位
+3. 若前端需要展示新欄位，編輯 `frontend/lib/faq-engine.js` 的渲染邏輯
+4. 驗證：
+   ```bash
+   curl http://localhost:3000/api/v1/faq/all?lang=zh | jq '.items[0]'
+   curl http://localhost:3000/api/v1/faq/all?lang=en | jq '.items[0]'
+   ```
+
+### Task C：修改 Park FAQ 卡片的標籤過濾
+
+1. 邏輯在 `frontend/lib/park-faq-module.js` 的 `handleTagClick()` 和 `filterCardsByTag()`
+2. 若要改變過濾結果的視覺風格（例如黃色框），編輯 `displayFilteredCards()` 中的 `style` 屬性
+3. 測試：在瀏覽器點擊任何 Park FAQ 卡片的標籤，確認過濾結果出現且無控制台錯誤
+
+### Task D：修改多語言翻譯或 i18n 鍵
+
+1. 主要編輯：`frontend/assets/i18n/{zh,en,th}.json`
+2. 新增鍵時，**三個語言檔都要新增**（若無翻譯，值設為空字串，系統會回退到中文）
+3. 驗證 JSON 格式無誤：`jq '.' frontend/assets/i18n/zh.json > /dev/null && echo "OK"`
+4. 前端會自動在初始化時載入，毋需重啟後端
+
+### Task E：診斷 API 回應異常
+
+1. 檢查後端是否啟動：`curl http://localhost:3000/health`
+2. 檢查資料檔：`ls -lh zeabur_backend/data/faq_kb.phase0a.json`
+3. 查看後端日誌（終端輸出），尋找 `[FAQ Routes]` 或 `[Park FAQ]` 日誌
+4. 若 API 回傳多語言內容為空：檢查 `faq_kb.phase0a.json` 對應欄位是否有值
+
+---
+
+## 4️⃣ 常用指令速查
+
+### 後端啟動 & 測試
+
+```bash
+cd zeabur_backend/backend
+npm start                                # 啟動伺服器（port 3000）
+
+# 新開終端運行測試
+curl http://localhost:3000/health       # 健康檢查
+curl http://localhost:3000/api/v1/faq/all?lang=zh   # 所有 FAQ（中文）
+curl http://localhost:3000/api/v1/faq/all?lang=en   # 所有 FAQ（英文）
+```
+
+### 前端
+
+```bash
+cd frontend
+python3 -m http.server 8080             # 簡易伺服器
+# 開啟瀏覽器：http://localhost:8080/index.html
+```
+
+### Git 基本操作
+
+```bash
+git status                               # 檢查改動
+git diff                                 # 查看改動內容
+git log --oneline -5                     # 最近 5 個提交
+git add .
+git commit -m "說明本次改動"
+# ⚠️ 不要執行 git push，除非使用者明確指示
+```
+
+---
+
+## 5️⃣ 進階主題與指路
+
+### 性能優化
+
+若需調整 Fuse.js 搜尋設定或 API 響應時間，請先閱讀：
+* `PERFORMANCE_BENCHMARK.md` - 性能測試結果與目標（API < 200ms）
+* `PHASE4_OPTIMIZATION_SUMMARY.md` - 優化策略與理由
+
+**關鍵檢查**：避免新增多餘搜尋欄位，Fuse.js 鍵數應維持 ≤ 5 個。
+
+### FAQ 編輯與標準
+
+詳見 `docs/FAQ 標準與維護流程.md`（若存在）。新增 FAQ 時：
+* ID 格式：`faq.{category}.{序號}`（例如 `faq.gear.061`）
+* 三語言同步：中文必填，英文與泰文若無翻譯值設為空字串
+
+### 多語言設計
+
+詳見 `docs/多語言影響評估.md`。核心規則：
+* **優先級**：中文 > 英文 > 泰文
+* **Fallback**：若某語言欄位為空，自動顯示中文
+
+### SEO 與 Hreflang
+
+詳見 `docs/SEO 計劃.md`。hreflang 標籤由 `frontend/lib/seo-hreflang.js` 動態注入。
+
+---
+
+## 6️⃣ 設計 & 程式風格
+
+### 後端邏輯
+
+* **資料結構優於複雜算法** - API 應預先組合資料，前端只顯示
+* **統一錯誤格式**：`{ success: false, error: { code, message } }`
+* **多語言組合由後端負責** - 前端收到的 `content` 已是最終格式
+
+### 前端實作
+
+* 原生 JavaScript ES6+（無 React/Vue）
+* 函式長度 ≤ 50 行
+* XSS 防護：使用 `DOMPurify.sanitize()` 清理使用者輸入
+* 避免多層條件分支，優先用資料驅動設計
+
+### 資料格式
+
+* UTF-8 編碼，JSON 用 2 空格縮排
+* 日期：ISO 8601 格式（`YYYY-MM-DDTHH:mm:ss.sssZ`）
+* ID：`faq.{category}.{序號}` 或 `park.{slug}.{序號}`
+
+---
+
+## 7️⃣ 常見問題速查
+
+| 問題 | 檢查項目 |
+|------|---------|
+| API 無法啟動 | `lsof -i :3000` 檢查 port；`kill -9 <PID>` 殺掉舊程序 |
+| FAQ 資料載入失敗 | 檢查 `zeabur_backend/data/faq_kb.phase0a.json` 存在且有效 JSON |
+| 多語言內容缺失 | 檢查 i18n 檔案是否有對應鍵；API 會自動 fallback 到中文 |
+| 控制台有 `[Park FAQ]` 警告 | 檢查 `getParkFaqData()` 或 `loadParkFaqCardsData()` 回傳是否為 null |
+
+---
+
+## 📌 快速參考
+
+| 項目 | 命令 / 位置 |
+|------|-----------|
+| 後端重啟 | `npm start` (from zeabur_backend/backend) |
+| 前端預覽 | `http://localhost:8080/index.html` |
+| FAQ 資料來源 | `zeabur_backend/data/faq_kb.phase0a.json` |
+| 多語言檔 | `frontend/assets/i18n/{zh,en,th}.json` |
+| 搜尋引擎 | `frontend/lib/faq-engine.js` |
+| Park FAQ 邏輯 | `frontend/lib/park-faq-module.js` |
+| 提交程式碼 | `git add . && git commit -m "說明"` |
+| 推送程式碼 | **不可自動執行**，等待使用者明確指示 |
+
+---
+
+**最後更新**：2025-11-15
+**版本**：v2.0 (AI 優化版)
