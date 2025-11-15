@@ -25,7 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>0/11</span>
+                <span class='fraction'>0/13</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>0/11</span>
+                <span class='fraction'>0/13</span>
             </div>
         
             
@@ -120,7 +120,18 @@
 <a name='L55'></a><a href='#L55'>55</a>
 <a name='L56'></a><a href='#L56'>56</a>
 <a name='L57'></a><a href='#L57'>57</a>
-<a name='L58'></a><a href='#L58'>58</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L58'></a><a href='#L58'>58</a>
+<a name='L59'></a><a href='#L59'>59</a>
+<a name='L60'></a><a href='#L60'>60</a>
+<a name='L61'></a><a href='#L61'>61</a>
+<a name='L62'></a><a href='#L62'>62</a>
+<a name='L63'></a><a href='#L63'>63</a>
+<a name='L64'></a><a href='#L64'>64</a>
+<a name='L65'></a><a href='#L65'>65</a>
+<a name='L66'></a><a href='#L66'>66</a>
+<a name='L67'></a><a href='#L67'>67</a>
+<a name='L68'></a><a href='#L68'>68</a>
+<a name='L69'></a><a href='#L69'>69</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -136,18 +147,29 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -193,9 +215,19 @@ function <span class="fstat-no" title="function not covered" >configureCORS(</sp
   const corsOptions = <span class="cstat-no" title="statement not covered" >{</span>
     // Allow requests from these origins
     origin: <span class="fstat-no" title="function not covered" >fu</span>nction (origin, callback) {
-      const allowedOrigins = <span class="cstat-no" title="statement not covered" >(process.env.CORS_ORIGIN || 'http://localhost:8080')</span>
-        .split(',')
-        .map(<span class="fstat-no" title="function not covered" >o </span>=&gt; <span class="cstat-no" title="statement not covered" >o.trim())</span>;
+      // Default allowed origins for production
+      const defaultOrigins = <span class="cstat-no" title="statement not covered" >[</span>
+        'http://localhost:8080',
+        'http://localhost:8888',
+        'http://localhost:3000',
+        'https://faq.diy.ski',
+        'https://skidiy-faq.zeabur.app',
+        'https://faq-api-v1.zeabur.app'
+      ];
+&nbsp;
+      const allowedOrigins = <span class="cstat-no" title="statement not covered" >process.env.CORS_ORIGIN</span>
+        ? process.env.CORS_ORIGIN.split(',').map(<span class="fstat-no" title="function not covered" >o </span>=&gt; <span class="cstat-no" title="statement not covered" >o.trim())</span>
+        : defaultOrigins;
 &nbsp;
       // Allow requests with no origin (like mobile apps or curl)
 <span class="cstat-no" title="statement not covered" >      if (!origin || allowedOrigins.includes('*')) {</span>
@@ -205,6 +237,7 @@ function <span class="fstat-no" title="function not covered" >configureCORS(</sp
 <span class="cstat-no" title="statement not covered" >      if (allowedOrigins.includes(origin)) {</span>
 <span class="cstat-no" title="statement not covered" >        callback(null, true);</span>
       } else {
+<span class="cstat-no" title="statement not covered" >        console.warn(`[CORS] Blocked request from origin: ${origin}`);</span>
 <span class="cstat-no" title="statement not covered" >        callback(new Error('Not allowed by CORS'));</span>
       }
     },
@@ -241,7 +274,7 @@ function <span class="fstat-no" title="function not covered" >configureCORS(</sp
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-10-13T08:43:15.847Z
+                at 2025-11-15T02:50:25.395Z
             </div>
         <script src="../prettify.js"></script>
         <script>

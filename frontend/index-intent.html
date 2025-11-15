@@ -180,13 +180,6 @@
       padding: 1.5rem;
       height: fit-content;
       box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-      position: sticky;
-      top: 1.5rem;
-      align-self: flex-start;
-      max-height: calc(100vh - 2rem);
-      overflow-y: auto;
-      scrollbar-width: thin;
-      scrollbar-color: #cbd5f5 transparent;
     }
 
     .sidebar h3 {
@@ -431,6 +424,10 @@
 
     .hot-faq-item:hover {
       background: #f8f9fa;
+    }
+
+    .park-faq-results {
+      margin-bottom: 2rem;
     }
 
     /* Resort Regions */
@@ -863,6 +860,62 @@
       transform: none;
     }
 
+    .initial-view {
+      margin-top: 2rem;
+      background: #fff;
+      border-radius: 16px;
+      padding: 1.5rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      border: 1px solid rgba(74, 95, 140, 0.1);
+    }
+
+    .initial-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.25rem;
+      margin-top: 1rem;
+    }
+
+    .initial-card {
+      border: 1px solid rgba(74, 95, 140, 0.12);
+      border-radius: 14px;
+      padding: 1rem;
+      background: #fdfdff;
+    }
+
+    .initial-card h4 {
+      margin: 0 0 0.5rem;
+      font-size: 1rem;
+      color: #3A4D73;
+    }
+
+    .initial-card p {
+      margin: 0;
+      color: #6b7a90;
+      font-size: 0.9rem;
+      line-height: 1.4;
+    }
+
+    .initial-hot-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin-top: 0.75rem;
+    }
+
+    .initial-hot-item {
+      background: #eef3ff;
+      border-radius: 12px;
+      padding: 0.75rem 1rem;
+      cursor: pointer;
+      transition: transform 0.15s ease, background 0.15s ease;
+    }
+
+    .initial-hot-item:hover {
+      transform: translateX(4px);
+      background: #e1e9ff;
+    }
+
     /* Results Modal */
     .modal-overlay {
       display: none;
@@ -951,12 +1004,7 @@
     /* Responsive */
     @media (max-width: 1024px) {
       .main-layout { flex-direction: column; }
-      .sidebar {
-        width: 100%;
-        position: static;
-        max-height: none;
-        overflow: visible;
-      }
+      .sidebar { width: 100%; }
     }
 
     @media (max-width: 768px) {
@@ -1081,6 +1129,24 @@
         </div>
       </div>
 
+      <!-- Initial View / Suggestions -->
+      <div id="initialView" class="initial-view">
+        <h3 style="margin-top: 0; color: #3A4D73;">✨ 快速開始</h3>
+        <div class="initial-grid">
+          <div class="initial-card">
+            <h4>熱門問題</h4>
+            <p>詢問度最高的 FAQ，點擊可直接展開答案。</p>
+            <div id="initialHotFAQs" class="initial-hot-list"></div>
+          </div>
+          <div class="initial-card">
+            <h4>使用方式</h4>
+            <p>① 輸入問題 ➜ AI 推薦答案<br>
+               ② 左側分類 ➜ 快速檢視主題<br>
+               ③ 點雪場卡 ➜ 顯示專屬 FAQ</p>
+          </div>
+        </div>
+      </div>
+
       <!-- Loading -->
       <div id="loadingState" class="loading hidden">載入中...</div>
 
@@ -1090,6 +1156,7 @@
           <div id="resultCount"></div>
           <div id="responseTime"></div>
         </div>
+        <div id="parkFaqResults" class="park-faq-results"></div>
         <div id="resultsList"></div>
       </div>
     </div>
@@ -1133,6 +1200,7 @@
   <script src="lib/purify.min.js"></script>
   <script src="lib/i18n.js"></script>
   <script src="lib/faq-engine.js"></script>
+  <script src="lib/park-faq-module.js"></script>
 
   <script>
     let faqEngine = null;
@@ -1657,19 +1725,22 @@
       // Limit to 5
       hotFAQs = hotFAQs.slice(0, 5);
 
-      const hotHTML = hotFAQs.map(faq => {
+      const buildHotList = (itemClass) => hotFAQs.map(faq => {
         const localized = faqEngine.getLocalizedContent(faq, currentLanguage);
         const question = DOMPurify.sanitize(localized.question || faq.canonical_question || '');
         return `
-        <div class="hot-faq-item" onclick="showFAQDetail('${faq.id}', 'hot_list')">
+        <div class="${itemClass}" onclick="showFAQDetail('${faq.id}', 'hot_list')">
           ${question}
         </div>
       `;
       }).join('');
 
       // Render to both sidebar and initial view
-      document.getElementById('hotFAQs').innerHTML = hotHTML;
-      document.getElementById('initialHotFAQs').innerHTML = hotHTML;
+      document.getElementById('hotFAQs').innerHTML = buildHotList('hot-faq-item');
+      const initialHotContainer = document.getElementById('initialHotFAQs');
+      if (initialHotContainer) {
+        initialHotContainer.innerHTML = buildHotList('initial-hot-item');
+      }
 
       console.log(`[Hot FAQs] Rendered ${hotFAQs.length} hot questions to sidebar and initial view`);
     }
@@ -1797,7 +1868,7 @@
 
         // Display FAQ results (always)
         const faqs = results.map(r => ({...r.item, score: r.score}));
-        displayFAQs(faqs, '搜尋結果', searchTime, resortResults, 'search_results');
+        await displayFAQs(faqs, '搜尋結果', searchTime, resortResults, 'search_results');
 
       } catch (error) {
         console.error('Search failed:', error);
@@ -1861,7 +1932,7 @@
     }
 
     // Display FAQs
-    function displayFAQs(faqs, title, searchTime = null, resortResults = [], source = 'search_results') {
+    async function displayFAQs(faqs, title, searchTime = null, resortResults = [], source = 'search_results') {
       document.getElementById('loadingState').classList.add('hidden');
       document.getElementById('initialView').classList.add('hidden');
       document.getElementById('resultsSection').classList.remove('hidden');
@@ -1873,6 +1944,12 @@
       if (searchTime) {
         document.getElementById('responseTime').textContent =
           `搜尋耗時: ${searchTime}ms`;
+      }
+
+      // Clear Park FAQ block by default
+      const parkFaqContainer = document.getElementById('parkFaqResults');
+      if (parkFaqContainer) {
+        parkFaqContainer.innerHTML = '';
       }
 
       // Render resort results first if any
@@ -1898,6 +1975,27 @@
       const safeQueryAttr = source === 'search_results'
         ? DOMPurify.sanitize(lastSearchQuery || '')
         : '';
+
+      // Attempt to load Park FAQ cards for the most relevant resort result
+      if (resortResults.length > 0 && typeof ParkFAQ !== 'undefined' && ParkFAQ.loadCards) {
+        const primaryResort = resortResults[0];
+        const slugCandidate = primaryResort.resort_id || primaryResort.slug || '';
+        const resortName = primaryResort.name || primaryResort.name_en || primaryResort.name_ja || '';
+
+        if (slugCandidate) {
+          try {
+            const parkData = await ParkFAQ.loadCards(slugCandidate, currentLanguage || 'zh');
+            if (parkData?.cards?.length && parkFaqContainer) {
+              const titleText = `${parkData.park_cname || resortName || 'Park FAQ'} - 專屬問答`;
+              parkFaqContainer.innerHTML = ParkFAQ.generateSectionHTML(parkData, currentLanguage || 'zh', {
+                title: titleText
+              });
+            }
+          } catch (parkError) {
+            console.warn('[Park FAQ] Failed to load cards for resort search:', parkError.message);
+          }
+        }
+      }
 
       const resultsHTML = faqs.map((faq, index) => {
         const confidence = faq.score ? Math.round((1 - faq.score) * 100) : 100;

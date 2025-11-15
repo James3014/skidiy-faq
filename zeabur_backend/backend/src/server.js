@@ -70,6 +70,12 @@ try {
     path: dbPath,
     dbConnected: analyticsService.db ? true : false
   });
+
+  // LINUS PRINCIPLE: Single source of truth for DATA_DIR
+  // Store the data directory path globally so all routes can access it
+  const dataDir = path.dirname(dbPath); // Get the directory containing analytics.db
+  global.DATA_DIR = dataDir;
+  logger.info('✅ Global DATA_DIR initialized', { path: dataDir });
 } catch (error) {
   logger.error('❌ Failed to initialize analytics service', {
     error: error.message,
@@ -78,6 +84,10 @@ try {
   });
   // Set to null explicitly
   analyticsService = null;
+  // Still set DATA_DIR to a sensible default
+  global.DATA_DIR = process.env.SQLITE_DB_PATH
+    ? path.dirname(process.env.SQLITE_DB_PATH)
+    : path.join(__dirname, '../../data');
 }
 
 // Middleware stack (order matters!)

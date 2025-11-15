@@ -9,7 +9,7 @@
  */
 
 const ParkFAQ = (() => {
-  const API_BASE = 'http://localhost:3000/api/v1';
+  const API_BASE = window.API_BASE || window.ENV_API_BASE || 'http://localhost:3000/api/v1';
 
   /**
    * Load Park FAQ cards from API
@@ -75,14 +75,17 @@ const ParkFAQ = (() => {
   /**
    * Generate Park FAQ section HTML
    */
-  function generateSectionHTML(data, language = 'zh') {
+  function generateSectionHTML(data, language = 'zh', options = {}) {
     const cards = data.cards || [];
     const cardsHTML = cards.map(card => generateCardHTML(card, language)).join('');
+    const title = options.title
+      ? DOMPurify.sanitize(options.title)
+      : `${DOMPurify.sanitize(data.park_cname)} - FAQ 卡片`;
 
     return `
       <div class="park-faq-section" style="margin-bottom: 2rem; padding: 1.5rem; background: #ffffff; border-radius: 8px; border: 1px solid #e5e7eb;">
         <h3 style="margin-bottom: 1rem; font-size: 1.25rem; color: #2D395C;">
-          ${DOMPurify.sanitize(data.park_cname)} - FAQ 卡片
+          ${title}
         </h3>
         <div class="park-faq-list">
           ${cardsHTML}
@@ -102,7 +105,7 @@ const ParkFAQ = (() => {
     }
 
     // 在現有 FAQ 前面插入 Park FAQ 卡片
-    const parkFaqHTML = generateSectionHTML(data);
+    const parkFaqHTML = generateSectionHTML(data, language);
     const separator = '<hr style="margin: 2rem 0; border: none; border-top: 2px solid #e5e7eb;">';
 
     // 保存原有內容（如果有的話）
@@ -195,6 +198,8 @@ const ParkFAQ = (() => {
   // Public API
   return {
     loadAndDisplay,
+    loadCards,
+    generateSectionHTML,
     trackTagClick,
     trackCardView
   };

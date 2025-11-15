@@ -15,10 +15,21 @@ if (isProduction && !window.ENV_API_BASE) {
   window.BACKEND_URL = 'https://faq-api-v1.zeabur.app/api/v1';
   console.log('[ENV] Using Zeabur backend:', window.ENV_API_BASE);
 } else {
-  // 本機開發環境，使用相對路徑
-  window.ENV_API_BASE = window.ENV_API_BASE || '/api/v1';
-  window.ENV_API_ROOT = window.ENV_API_ROOT || '';
-  // Also set window.API_BASE and BACKEND_URL for local development
-  window.API_BASE = window.API_BASE || '/api/v1';
-  window.BACKEND_URL = window.BACKEND_URL || '/api/v1';
+  const isLocalDev = ['localhost', '127.0.0.1'].includes(window.location.hostname)
+    && window.location.port === '8080';
+
+  if (isLocalDev) {
+    // Python http.server (8080) → Node backend (3000)
+    window.ENV_API_ROOT = 'http://localhost:3000';
+    window.ENV_API_BASE = `${window.ENV_API_ROOT}/api/v1`;
+    window.API_BASE = window.ENV_API_BASE;
+    window.BACKEND_URL = window.ENV_API_BASE;
+    console.log('[ENV] Local dev detected, proxying API to :3000');
+  } else {
+    // 其他情況使用相對路徑（例如整合到同一主機時）
+    window.ENV_API_BASE = window.ENV_API_BASE || '/api/v1';
+    window.ENV_API_ROOT = window.ENV_API_ROOT || '';
+    window.API_BASE = window.API_BASE || '/api/v1';
+    window.BACKEND_URL = window.BACKEND_URL || '/api/v1';
+  }
 }

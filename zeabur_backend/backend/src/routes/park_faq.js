@@ -16,6 +16,11 @@ const { formatSuccess, formatError, sendSuccess, sendError } = require('../utils
 const { AppError } = require('../middleware/error-handler');
 const Database = require('better-sqlite3');
 
+// LINUS PRINCIPLE: Single source of truth
+// DATA_DIR is set globally in server.js during initialization
+// This eliminates path calculation errors and works in both local and production environments
+const DATA_DIR = () => global.DATA_DIR;
+
 // Cache park FAQ cards in memory
 let parkFaqCards = null;
 let parkFaqCardsLoadTime = null;
@@ -37,7 +42,8 @@ async function loadParkFaqCards() {
   }
 
   try {
-    const cardsPath = path.join(__dirname, '../../data/park_faq_cards.json');
+    const cardsPath = path.join(DATA_DIR(), 'park_faq_cards.json');
+    console.log('[Park FAQ] Reading cards file:', cardsPath);
     const data = await fs.readFile(cardsPath, 'utf8');
     parkFaqCards = JSON.parse(data);
     parkFaqCardsLoadTime = now;
@@ -55,7 +61,7 @@ async function loadParkFaqCards() {
  */
 function getAnalyticsDb() {
   if (!analyticsDb) {
-    const dbPath = path.join(__dirname, '../../data/analytics.db');
+    const dbPath = path.join(DATA_DIR(), 'analytics.db');
     analyticsDb = new Database(dbPath);
   }
   return analyticsDb;
@@ -118,8 +124,16 @@ router.get('/cards', async (req, res, next) => {
     // Load park FAQ cards
     const faqData = await loadParkFaqCards();
 
-    // Filter cards by park
-    const parkCards = faqData.cards.filter(card => card.park_slug === park_slug);
+    const normalizedSlug = park_slug.toLowerCase();
+
+    // Filter cards by park (supports fuzzy match with resort_id)
+    const parkCards = faqData.cards.filter(card => {
+      const slug = (card.park_slug || '').toLowerCase();
+      if (!slug) return false;
+      return slug === normalizedSlug ||
+        normalizedSlug.includes(slug) ||
+        slug.includes(normalizedSlug);
+    });
 
     if (parkCards.length === 0) {
       return sendError(res, 404, 'PARK_NOT_FOUND', `No FAQ cards found for park: ${park_slug}`);
