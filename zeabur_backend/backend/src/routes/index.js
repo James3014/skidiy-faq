@@ -11,6 +11,7 @@ const router = express.Router();
 // Import route modules
 const faqRoutes = require('./faq');
 const faqAdminRoutes = require('./faq-admin');
+const parkFaqRoutes = require('./park_faq');
 const adminAuth = require('../middleware/admin-auth');
 const resortAdminRoutes = require('./resort-admin');
 const resortRoutes = require('./resort');
@@ -31,6 +32,7 @@ const adminRoutes = require('./admin');
 
 // Register routes
 router.use('/faq', faqRoutes);           // FAQ search and retrieval
+router.use('/park-faq', parkFaqRoutes);  // Park FAQ cards with analytics
 router.use('/admin/faq', adminAuth, faqAdminRoutes); // FAQ admin CRUD operations
 router.use('/admin/resort', adminAuth, resortAdminRoutes); // Resort admin CRUD operations
 router.use('/resort', resortRoutes);     // Resort information and search

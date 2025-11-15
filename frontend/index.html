@@ -212,13 +212,6 @@
       padding: 1.5rem;
       height: fit-content;
       box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-      position: sticky;
-      top: 1.5rem;
-      align-self: flex-start;
-      max-height: calc(100vh - 2rem);
-      overflow-y: auto;
-      scrollbar-width: thin;
-      scrollbar-color: #cbd5f5 transparent;
     }
 
     .sidebar h3 {
@@ -1063,12 +1056,7 @@
     /* Responsive */
     @media (max-width: 1024px) {
       .main-layout { flex-direction: column; }
-      .sidebar {
-        width: 100%;
-        position: static;
-        max-height: none;
-        overflow: visible;
-      }
+      .sidebar { width: 100%; }
     }
 
     @media (max-width: 768px) {
@@ -1512,12 +1500,20 @@
   </div>
 
   <script src="assets/env.js"></script>
+  <script>
+    // Set API_BASE early to avoid 404 errors on localhost
+    if (!window.API_BASE) {
+      const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+      window.API_BASE = isLocalhost ? 'http://localhost:3000/api/v1' : 'https://faq-api-v1.zeabur.app/api/v1';
+    }
+  </script>
   <script src="lib/config.js"></script>
   <script src="lib/fuse.min.js"></script>
   <script src="lib/purify.min.js"></script>
   <script src="lib/i18n.js"></script>
   <script src="lib/faq-engine.js"></script>
   <script src="lib/faq-renderer.js"></script>
+  <script src="lib/park-faq-module.js"></script>
 
   <script>
     let faqEngine = null;
@@ -2254,6 +2250,19 @@
 
       renderResortPage(regionName, resorts, currentResortPage, totalPages);
       hideIntentPanel();
+
+      // Load Park FAQ cards for the first resort if available (Linus principle: data-driven design)
+      if (resorts.length > 0 && typeof ParkFAQ !== 'undefined') {
+        const firstResort = resorts[0];
+        // Extract park slug from resort_id (e.g., "iwate_appi" → "appi")
+        const parkSlug = firstResort.resort_id?.split('_').pop();
+        const parkName = firstResort.names?.zh || firstResort.name || '';
+        if (parkSlug && parkName) {
+          ParkFAQ.loadAndDisplay(parkSlug, parkName, currentLanguage || 'zh').catch(err =>
+            console.log(`[Park FAQ] No cards for ${parkSlug}`)
+          );
+        }
+      }
     }
 
     function renderResortPage(regionName, resorts, page, totalPages) {

@@ -1,0 +1,364 @@
+{
+  "cards": [
+    {
+      "id": "park.appi.001",
+      "park_slug": "appi",
+      "park_cname": "安比高原",
+      "question": {
+        "zh": "安比高原適合初學者嗎?",
+        "en": "Is Appi Kogen suitable for beginners?",
+        "th": "Appi Kogen เหมาะสำหรับผู้เริ่มต้นหรือไม่?"
+      },
+      "answer": {
+        "zh": "非常適合！安比高原的雪道以筆直寬敞著稱，是教學和練習的絕佳場地。大多數雪道都設計成放射形狀，寬度充足，非常適合初學者建立信心。",
+        "en": "Absolutely! Appi Kogen is ideal for beginners due to its wide, straight slopes. The runs are designed in a radiating pattern and offer plenty of width for learning and practice.",
+        "th": "ใช่แล้วครับ! Appi Kogen เหมาะสำหรับผู้เริ่มต้นเพราะมีลานสกีที่กว้างและเป็นเส้นตรง พื้นที่ลานสกีมีความกว้างมากซึ่งเหมาะสำหรับการฝึกหัด"
+      },
+      "tags": [
+        {
+          "zh": "初學者",
+          "en": "Beginner",
+          "th": "ผู้เริ่มต้น"
+        },
+        {
+          "zh": "寬敞雪道",
+          "en": "Wide Slopes",
+          "th": "ลานสกีกว้าง"
+        },
+        {
+          "zh": "教學場地",
+          "en": "Teaching Spot",
+          "th": "จุดสอนสกี"
+        }
+      ],
+      "source_section": "slope_section",
+      "click_count": 0,
+      "translation_status": "complete",
+      "created_at": "2025-11-15T10:00:00Z"
+    },
+    {
+      "id": "park.appi.002",
+      "park_slug": "appi",
+      "park_cname": "安比高原",
+      "question": {
+        "zh": "安比高原的粉雪質量如何?",
+        "en": "What is the powder snow quality at Appi Kogen?",
+        "th": "คุณภาพหิมะผงที่ Appi Kogen เป็นอย่างไร?"
+      },
+      "answer": {
+        "zh": "安比高原的粉雪品質極佳，號稱日本本州緯度40度以北最大的滑雪度假中心。由於地理位置和火山地形，能夠享受接近北海道品質的粉雪，是粉雪愛好者的天堂。",
+        "en": "The powder snow at Appi Kogen is exceptional. As Japan's largest ski resort north of latitude 40 in Honshu, it offers powder quality nearly comparable to Hokkaido. The volcanic terrain contributes to excellent snow conditions.",
+        "th": "คุณภาพหิมะผงที่ Appi Kogen ยอดเยี่ยม ถือเป็นสถานที่สกีที่ใหญ่ที่สุดทางเหนือจาก 40 องศาในฮอนชู โดยมีคุณภาพหิมะผงที่เทียบได้กับฮอกไกโด"
+      },
+      "tags": [
+        {
+          "zh": "粉雪",
+          "en": "Powder Snow",
+          "th": "หิมะผง"
+        },
+        {
+          "zh": "高質量",
+          "en": "High Quality",
+          "th": "คุณภาพสูง"
+        },
+        {
+          "zh": "進階滑雪",
+          "en": "Advanced Skiing",
+          "th": "สกีขั้นสูง"
+        }
+      ],
+      "source_section": "about",
+      "click_count": 0,
+      "translation_status": "complete",
+      "created_at": "2025-11-15T10:00:00Z"
+    },
+    {
+      "id": "park.appi.003",
+      "park_slug": "appi",
+      "park_cname": "安比高原",
+      "question": {
+        "zh": "如何從飯店快速上山?",
+        "en": "What is the quickest way to get to the top from the hotel?",
+        "th": "วิธีที่เร็วที่สุดในการขึ้นไปยังยอดเขาจากโรงแรมคืออะไร?"
+      },
+      "answer": {
+        "zh": "搭乘安比Gondola纜車最快！位於飯店前的安比Gondola（1號纜車）長度達2.82公里，筆直且特別過癮。另外還有後森山的Sailer Gondola（11號纜車），長度更達3.5公里。無需換乘多班纜車，直達山頂。",
+        "en": "Take the Appi Gondola in front of the hotel - it's the fastest option! The main gondola is 2.82 km long with a straight, thrilling ride. The Sailer Gondola at the back is even longer at 3.5 km. Both offer direct access without multiple transfers.",
+        "th": "ขึ้นด้วย Appi Gondola ที่อยู่หน้าโรงแรมเป็นตัวเลือกที่เร็วที่สุด! ลิฟท์นี้ยาว 2.82 กิโลเมตรมีเส้นตรงที่ตื่นเต้น โรปเวย์ Sailer ที่ด้านหลังยาวถึง 3.5 กิโลเมตร"
+      },
+      "tags": [
+        {
+          "zh": "纜車",
+          "en": "Gondola",
+          "th": "โรปเวย์"
+        },
+        {
+          "zh": "交通",
+          "en": "Transportation",
+          "th": "การขนส่ง"
+        },
+        {
+          "zh": "飯店接駁",
+          "en": "Hotel Access",
+          "th": "การเข้าถึงโรงแรม"
+        }
+      ],
+      "source_section": "access_section",
+      "click_count": 0,
+      "translation_status": "complete",
+      "created_at": "2025-11-15T10:00:00Z"
+    },
+    {
+      "id": "park.appi.004",
+      "park_slug": "appi",
+      "park_cname": "安比高原",
+      "question": {
+        "zh": "安比高原有夜滑嗎?",
+        "en": "Does Appi Kogen offer night skiing?",
+        "th": "Appi Kogen มีการสกีกลางคืนหรือไม่?"
+      },
+      "answer": {
+        "zh": "有的！安比高原提供夜滑體驗。配合粉雪和火山地形的寬敞雪道，夜滑體驗特別過癮。建議提前查詢夜滑時間表，了解營業時段。",
+        "en": "Yes, Appi Kogen offers night skiing. Combined with the powder snow and wide volcanic terrain slopes, night skiing here is particularly thrilling. Check the night skiing schedule in advance.",
+        "th": "ใช่ Appi Kogen มีการสกีกลางคืน การสกีกลางคืนที่นี่มีความตื่นเต้นเป็นพิเศษเมื่อรวมกับหิมะผงและลานสกีที่กว้างของภูมิประเทศภูเขาไฟ"
+      },
+      "tags": [
+        {
+          "zh": "夜滑",
+          "en": "Night Skiing",
+          "th": "การสกีกลางคืน"
+        },
+        {
+          "zh": "活動時間",
+          "en": "Operating Hours",
+          "th": "เวลาทำการ"
+        },
+        {
+          "zh": "特殊體驗",
+          "en": "Special Experience",
+          "th": "ประสบการณ์พิเศษ"
+        }
+      ],
+      "source_section": "slope_section",
+      "click_count": 0,
+      "translation_status": "complete",
+      "created_at": "2025-11-15T10:00:00Z"
+    },
+    {
+      "id": "park.appi.005",
+      "park_slug": "appi",
+      "park_cname": "安比高原",
+      "question": {
+        "zh": "租借滑雪裝備容易嗎?",
+        "en": "Is it easy to rent skiing equipment at Appi Kogen?",
+        "th": "การเช่าอุปกรณ์สกีที่ Appi Kogen ง่ายหรือไม่?"
+      },
+      "answer": {
+        "zh": "非常方便！安比高原設有完整的租借設施。飯店內有多家租借店，提供各式滑雪板、靴子和衣著。建議提前預訂，特別是在繁忙季節，確保有合適尺寸的裝備。",
+        "en": "Very convenient! Appi Kogen has complete rental facilities on-site. Multiple rental shops in the hotel offer skis, boots, and clothing. It's recommended to book in advance, especially during peak season.",
+        "th": "สะดวกมากครับ! Appi Kogen มีสิ่งอำนวยความสะดวกในการเช่ากระบอกเบญจ บูธเช่าหลายแห่งในโรงแรมเสนออุปกรณ์สกีและเสื้อผ้า แนะนำให้จองล่วงหน้า"
+      },
+      "tags": [
+        {
+          "zh": "租借服務",
+          "en": "Rental Service",
+          "th": "บริการเช่า"
+        },
+        {
+          "zh": "裝備",
+          "en": "Equipment",
+          "th": "อุปกรณ์"
+        },
+        {
+          "zh": "便利設施",
+          "en": "Convenience",
+          "th": "สิ่งอำนวยความสะดวก"
+        }
+      ],
+      "source_section": "rental_section",
+      "click_count": 0,
+      "translation_status": "complete",
+      "created_at": "2025-11-15T10:00:00Z"
+    },
+    {
+      "id": "park.appi.006",
+      "park_slug": "appi",
+      "park_cname": "安比高原",
+      "question": {
+        "zh": "安比高原的飯店有什麼特色?",
+        "en": "What are the special features of Appi Kogen's hotel?",
+        "th": "โรงแรมที่ Appi Kogen มีคุณลักษณะพิเศษอะไรบ้าง?"
+      },
+      "answer": {
+        "zh": "安比高原飯店由日本著名建築大師龜倉雄策設計，外觀採用大膽的檸檬黃外牆，內部裝潢精緻優美。飯店分為三大區域：Grand Hotel區（豪華區、ski in/out）、安比格蘭Villa區（日式風格）和安比Annex區（標準房型）。飯店內有高檔餐廳和居酒屋，提供和牛、北海道長腳蟹等美食。",
+        "en": "The hotel was designed by renowned Japanese architect Kamesaku Yusaku, featuring bold lemon-yellow exterior. It offers three distinct areas: Grand Hotel (luxury, ski in/out), Appi Gran Villa (Japanese-style), and Appi Annex (standard rooms). Fine dining restaurants and izakayas serve Wagyu beef and Hokkaido king crabs.",
+        "th": "โรงแรมได้รับการออกแบบโดยสถาปนิก Kamesaku Yusaku โดยมีอุดมคติภายนอกสีเหลืองมะนาว มีสามพื้นที่ที่แตกต่าง: Grand Hotel (หรูหรา, ski in/out), Appi Gran Villa (ลักษณะแบบญี่ปุ่น) และ Appi Annex (ห้องพักมาตรฐาน) ร้านอาหารและอิซากายะเสิร์ฟเนื้อวากิวและปูกษัตริย์ฮอกไกโด"
+      },
+      "tags": [
+        {
+          "zh": "飯店設施",
+          "en": "Hotel Facilities",
+          "th": "สิ่งอำนวยความสะดวกในโรงแรม"
+        },
+        {
+          "zh": "住宿選擇",
+          "en": "Accommodation",
+          "th": "ที่พัก"
+        },
+        {
+          "zh": "美食餐廳",
+          "en": "Dining",
+          "th": "ร้านอาหาร"
+        }
+      ],
+      "source_section": "about",
+      "click_count": 0,
+      "translation_status": "complete",
+      "created_at": "2025-11-15T10:00:00Z"
+    },
+    {
+      "id": "park.appi.007",
+      "park_slug": "appi",
+      "park_cname": "安比高原",
+      "question": {
+        "zh": "如果不搭纜車直接滑行，需要換乘幾班纜車才能下山?",
+        "en": "How many chairlift transfers are needed if you don't take the main gondola?",
+        "th": "ต้องขึ้นลิฟท์ประเภทใดต่อจากโรงแรมถ้าไม่ใช้ Gondola หลัก?"
+      },
+      "answer": {
+        "zh": "從飯店不搭乘Gondola，改用一般纜車上山，需要連續換乘四班纜車才能抵達山頂。這說明了安比高原雪道的長度和高度差，用Gondola直上山頂會節省大量時間。",
+        "en": "Without using the gondola, you would need to transfer through 4 successive chairlifts to reach the summit. This illustrates how long and steep the runs are - the gondola is definitely the preferred option.",
+        "th": "โดยไม่ใช้โรปเวย์ คุณจะต้องขึ้นลิฟท์ประเภทธรรมชาติ 4 ครั้งต่อเนื่องเพื่อไปถึงยอดเขา สิ่งนี้แสดงความยาวและความชันของลานสกี"
+      },
+      "tags": [
+        {
+          "zh": "纜車系統",
+          "en": "Lift System",
+          "th": "ระบบลิฟท์"
+        },
+        {
+          "zh": "雪道長度",
+          "en": "Run Length",
+          "th": "ความยาวของลาน"
+        },
+        {
+          "zh": "交通方案",
+          "en": "Transport Options",
+          "th": "ตัวเลือกการขนส่ง"
+        }
+      ],
+      "source_section": "access_section",
+      "click_count": 0,
+      "translation_status": "complete",
+      "created_at": "2025-11-15T10:00:00Z"
+    },
+    {
+      "id": "park.appi.008",
+      "park_slug": "appi",
+      "park_cname": "安比高原",
+      "question": {
+        "zh": "安比高原的雪場地形有什麼特色?",
+        "en": "What is unique about the terrain at Appi Kogen?",
+        "th": "ภูมิประเทศที่ Appi Kogen มีอะไรพิเศษ?"
+      },
+      "answer": {
+        "zh": "安比高原擁有獨特的火山地形雪場。雪道大多呈放射形狀，筆直寬敞，這種設計和地形使得滑雪體驗特別過癮。長直的雪道非常適合練習技術，也是進階滑雪者的最愛。",
+        "en": "Appi Kogen features unique volcanic terrain with radiating slope patterns. The runs are straight, wide, and exceptionally fun to ski. This design is perfect for practicing techniques and is beloved by advanced skiers.",
+        "th": "Appi Kogen มีภูมิประเทศภูเขาไฟที่ไม่ซ้ำกันโดยมีลานสกีที่จัดเรียงแบบรัศมี ลานสกีตรง กว้าง และสนุกมากในการสกี"
+      },
+      "tags": [
+        {
+          "zh": "地形地貌",
+          "en": "Terrain",
+          "th": "ภูมิประเทศ"
+        },
+        {
+          "zh": "進階技巧",
+          "en": "Advanced Skills",
+          "th": "ทักษะขั้นสูง"
+        },
+        {
+          "zh": "長雪道",
+          "en": "Long Runs",
+          "th": "ลานสกียาว"
+        }
+      ],
+      "source_section": "slope_section",
+      "click_count": 0,
+      "translation_status": "complete",
+      "created_at": "2025-11-15T10:00:00Z"
+    },
+    {
+      "id": "park.appi.009",
+      "park_slug": "appi",
+      "park_cname": "安比高原",
+      "question": {
+        "zh": "安比高原屬於哪個集團管理?",
+        "en": "Which company operates Appi Kogen?",
+        "th": "บริษัทใดบริหารจัดการ Appi Kogen?"
+      },
+      "answer": {
+        "zh": "安比高原由加森觀光集團所有和管理。同樣由加森集團旗下的著名雪場還有留壽都（Rusutsu）。加森集團以提供高品質的滑雪度假體驗而聞名。",
+        "en": "Appi Kogen is owned and operated by Kasen Tourism Group, the same company that manages the renowned Rusutsu Resort. Kasen is known for providing high-quality ski resort experiences.",
+        "th": "Appi Kogen ถูกเป็นเจ้าของและบริหารจัดการโดย Kasen Tourism Group ซึ่งเป็นบริษัทเดียวกันที่บริหารจัดการสถานที่ Rusutsu ที่มีชื่อเสียง Kasen เป็นที่รู้จักในการให้บริการประสบการณ์สกีที่มีคุณภาพสูง"
+      },
+      "tags": [
+        {
+          "zh": "企業背景",
+          "en": "Company Info",
+          "th": "ข้อมูลบริษัท"
+        },
+        {
+          "zh": "管理運營",
+          "en": "Management",
+          "th": "การจัดการ"
+        },
+        {
+          "zh": "品質保證",
+          "en": "Quality Assurance",
+          "th": "การรับประกันคุณภาพ"
+        }
+      ],
+      "source_section": "about",
+      "click_count": 0,
+      "translation_status": "complete",
+      "created_at": "2025-11-15T10:00:00Z"
+    },
+    {
+      "id": "park.appi.010",
+      "park_slug": "appi",
+      "park_cname": "安比高原",
+      "question": {
+        "zh": "安比高原適合家庭旅遊嗎?",
+        "en": "Is Appi Kogen suitable for family vacations?",
+        "th": "Appi Kogen เหมาะสำหรับการท่องเที่ยวครอบครัวหรือไม่?"
+      },
+      "answer": {
+        "zh": "非常適合！安比高原是全季度度假中心（All season resort），不僅提供卓越的滑雪體驗，還擁有完善的飯店設施和多樣化的餐飲選擇。寬敞平緩的雪道適合各年齡層，飯店內設有不同房型選擇滿足家庭需求。冬季以外，還能享受四季活動。",
+        "en": "Absolutely! Appi Kogen is an all-season resort perfect for families. It offers excellent skiing for all levels, well-equipped hotel facilities, diverse dining options, and varied activities year-round. Multiple room types accommodate different family needs.",
+        "th": "เหมาะมากครับ! Appi Kogen เป็นสถานที่ท่องเที่ยวตามฤดูกาลที่เหมาะสำหรับครอบครัว มีลานสกีที่เหมาะสำหรับทุกระดับความสามารถ โรงแรมที่มีอุปกรณ์ดี เลือกร้านอาหารได้หลากหลาย และกิจกรรมมากมาย"
+      },
+      "tags": [
+        {
+          "zh": "家庭友善",
+          "en": "Family-Friendly",
+          "th": "เหมาะกับครอบครัว"
+        },
+        {
+          "zh": "四季活動",
+          "en": "Year-Round",
+          "th": "ตลอดทั้งปี"
+        },
+        {
+          "zh": "度假勝地",
+          "en": "Resort",
+          "th": "รีสอร์ท"
+        }
+      ],
+      "source_section": "about",
+      "click_count": 0,
+      "translation_status": "complete",
+      "created_at": "2025-11-15T10:00:00Z"
+    }
+  ]
+}

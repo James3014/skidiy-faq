@@ -28,7 +28,12 @@ class FAQEngine {
   async initialize() {
     try {
       // Load FAQ data from backend API
-      const API_BASE = window.API_BASE || 'https://faq-api-v1.zeabur.app/api/v1';
+      let API_BASE = window.API_BASE;
+      if (!API_BASE) {
+        // Auto-detect local development environment
+        const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+        API_BASE = isLocalhost ? 'http://localhost:3000/api/v1' : 'https://faq-api-v1.zeabur.app/api/v1';
+      }
       const cacheBuster =
         typeof window !== 'undefined' && window.FAQ_KB_VERSION
           ? window.FAQ_KB_VERSION
