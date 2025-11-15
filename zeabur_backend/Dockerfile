@@ -3,18 +3,18 @@ FROM node:22-slim
 
 WORKDIR /app
 
-# Copy package files
-COPY backend/package*.json ./
+# Copy package files (paths relative to repository root)
+COPY zeabur_backend/backend/package*.json ./
 
 # Install dependencies
 RUN npm ci --only=production
 
 # Copy source code
-COPY backend/src ./src
-COPY backend/.env.example ./.env.example
+COPY zeabur_backend/backend/src ./src
+COPY zeabur_backend/backend/.env.example ./.env.example
 
 # Copy data directory
-COPY data ./data
+COPY zeabur_backend/data ./data
 
 # Set environment variables
 # SQLITE_DB_PATH must be absolute path to prevent __dirname resolution issues
