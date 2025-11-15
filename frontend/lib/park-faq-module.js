@@ -44,8 +44,8 @@ const ParkFAQ = (() => {
     const tagsHTML = tags.map(tag => `
       <span
         class="park-faq-tag"
-        onclick="ParkFAQ.trackTagClick('${DOMPurify.sanitize(tag.name)}', '${card.id}', '${card.park_slug}')"
-        style="cursor: pointer; display: inline-block; background: #f0f0f0; padding: 0.25rem 0.75rem; border-radius: 12px; margin-right: 0.5rem; font-size: 0.85rem; border: 1px solid #ddd;">
+        onclick="ParkFAQ.handleTagClick('${DOMPurify.sanitize(tag.name)}', '${card.id}', '${card.park_slug}', window.currentLanguage || 'zh')"
+        style="cursor: pointer; display: inline-block; background: #e3f2fd; padding: 0.25rem 0.75rem; border-radius: 12px; margin-right: 0.5rem; font-size: 0.85rem; border: 1px solid #2196f3; color: #1976d2; font-weight: 500;">
         ${DOMPurify.sanitize(tag.name)}
       </span>
     `).join('');
@@ -103,6 +103,9 @@ const ParkFAQ = (() => {
       console.warn('[Park FAQ] Modal results list not found');
       return;
     }
+
+    // 儲存資料以供標籤過濾使用
+    setParkFaqData(data, data.cards || []);
 
     // 在現有 FAQ 前面插入 Park FAQ 卡片
     const parkFaqHTML = generateSectionHTML(data, language);
@@ -195,12 +198,120 @@ const ParkFAQ = (() => {
     }
   }
 
+  /**
+   * Filter and display Park FAQ cards by tag
+   */
+  function filterCardsByTag(cards, tagName) {
+    if (!tagName) return cards;
+
+    return cards.filter(card => {
+      if (!card.tags || !Array.isArray(card.tags)) return false;
+      return card.tags.some(tag => tag.name === tagName);
+    });
+  }
+
+  /**
+   * Display filtered Park FAQ cards
+   */
+  function displayFilteredCards(data, filteredCards, tagName, language = 'zh') {
+    const modalResultsList = document.getElementById('modalResultsList');
+    if (!modalResultsList) {
+      console.warn('[Park FAQ] Modal results list not found for filtered display');
+      return;
+    }
+
+    // 生成過濾後的卡片 HTML
+    const filteredCardsHTML = filteredCards.map(card => generateCardHTML(card, language)).join('');
+
+    // 構建過濾結果標題
+    const title = `${DOMPurify.sanitize(data.park_cname)} - ${DOMPurify.sanitize(tagName)} (${filteredCards.length} 筆)`;
+
+    const filteredHTML = `
+      <div class="park-faq-section" style="margin-bottom: 2rem; padding: 1.5rem; background: #fff3cd; border-radius: 8px; border: 2px solid #ffc107;">
+        <h3 style="margin-bottom: 1rem; font-size: 1.25rem; color: #856404;">
+          🏷️ 篩選結果: ${title}
+          <button
+            onclick="document.querySelector('.park-faq-section').remove();"
+            style="float: right; background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #856404;">
+            ✕
+          </button>
+        </h3>
+        <div class="park-faq-list">
+          ${filteredCardsHTML}
+        </div>
+      </div>
+    `;
+
+    // 在現有內容前插入過濾結果
+    const existingContent = modalResultsList.innerHTML;
+    modalResultsList.innerHTML = filteredHTML + existingContent;
+
+    console.log(`[Park FAQ] Displayed ${filteredCards.length} filtered cards for tag: ${tagName}`);
+  }
+
+  /**
+   * Handle tag click with filtering
+   */
+  async function handleTagClick(tagName, cardId, parkSlug, language = 'zh') {
+    try {
+      // Track the click
+      await trackTagClick(tagName, cardId, parkSlug);
+
+      // Get current displayed cards
+      const cards = loadParkFaqCardsData();
+      if (!cards || cards.length === 0) {
+        console.warn('[Park FAQ] No cards data available for filtering');
+        return;
+      }
+
+      // Filter cards by tag
+      const filtered = filterCardsByTag(cards, tagName);
+      if (filtered.length === 0) {
+        console.warn(`[Park FAQ] No cards found with tag: ${tagName}`);
+        return;
+      }
+
+      // Get park data for display
+      const parkData = getParkFaqData();
+      if (!parkData) {
+        console.warn('[Park FAQ] No park data available');
+        return;
+      }
+
+      // Display filtered results
+      displayFilteredCards(parkData, filtered, tagName, language);
+    } catch (error) {
+      console.error('[Park FAQ] Error handling tag click:', error);
+    }
+  }
+
+  // Store current cards and park data globally for filtering
+  let currentParkCards = null;
+  let currentParkData = null;
+
+  function loadParkFaqCardsData() {
+    return currentParkCards;
+  }
+
+  function getParkFaqData() {
+    return currentParkData;
+  }
+
+  function setParkFaqData(data, cards) {
+    currentParkData = data;
+    currentParkCards = cards;
+  }
+
   // Public API
   return {
     loadAndDisplay,
     loadCards,
     generateSectionHTML,
     trackTagClick,
-    trackCardView
+    trackCardView,
+    filterCardsByTag,
+    displayFilteredCards,
+    handleTagClick,
+    setParkFaqData
   };
 })();
