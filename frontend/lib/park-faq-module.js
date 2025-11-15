@@ -97,7 +97,7 @@ const ParkFAQ = (() => {
   /**
    * Display Park FAQ cards in the modal
    */
-  function displayInModal(data, parkName) {
+  function displayInModal(data, parkName, language = 'zh') {
     const modalResultsList = document.getElementById('modalResultsList');
     if (!modalResultsList) {
       console.warn('[Park FAQ] Modal results list not found');
@@ -132,7 +132,7 @@ const ParkFAQ = (() => {
       return false;
     }
 
-    displayInModal(data, parkName);
+    displayInModal(data, parkName, language);
     return true;
   }
 
