@@ -410,6 +410,71 @@ router.get('/stats', async (req, res, next) => {
 });
 
 /**
+ * GET /api/v1/park-faq/all
+ *
+ * Get all park FAQ cards with optional filtering
+ * Query parameters:
+ * - lang: string (optional, default: 'zh') - Language code (zh, en, th)
+ * - park: string (optional) - Filter by specific park slug
+ * - tag: string (optional) - Filter by tag name (supports cross-park filtering)
+ *
+ * Response:
+ * {
+ *   "success": true,
+ *   "data": [
+ *     {
+ *       "id": "park.appi.001",
+ *       "park_slug": "appi",
+ *       "park_cname": "安比高原",
+ *       "question": "...",
+ *       "answer": "...",
+ *       "tags": ["tag1", "tag2"],
+ *       ...
+ *     }
+ *   ]
+ * }
+ */
+router.get('/all', async (req, res, next) => {
+  try {
+    const { lang = 'zh', park, tag } = req.query;
+
+    // Validate language
+    if (!['zh', 'en', 'th'].includes(lang)) {
+      return sendError(res, 'INVALID_LANGUAGE', 'Language must be zh, en, or th', 400);
+    }
+
+    // Load park FAQ cards
+    const faqData = await loadParkFaqCards();
+
+    let cards = faqData.cards || [];
+
+    // Filter by park if specified
+    if (park) {
+      const normalizedPark = park.toLowerCase();
+      cards = cards.filter(card => (card.park_slug || '').toLowerCase() === normalizedPark);
+    }
+
+    // Filter by tag if specified (supports cross-park filtering)
+    if (tag) {
+      cards = cards.filter(card => {
+        return card.tags && card.tags.some(t => (t[lang] || t.zh) === tag);
+      });
+    }
+
+    // Extract language-specific content
+    const cardsWithLanguage = cards.map(card => extractLanguageContent(card, lang));
+
+    sendSuccess(res, cardsWithLanguage, 200, {
+      timestamp: new Date().toISOString(),
+      'Cache-Control': 'public, max-age=300'
+    });
+
+  } catch (error) {
+    next(error);
+  }
+});
+
+/**
  * Graceful shutdown: Close analytics database connection
  */
 process.on('exit', () => {
