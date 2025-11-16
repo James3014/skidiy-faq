@@ -15,21 +15,9 @@
         "th": "ใช่แล้วครับ! Appi Kogen เหมาะสำหรับผู้เริ่มต้นเพราะมีลานสกีที่กว้างและเป็นเส้นตรง พื้นที่ลานสกีมีความกว้างมากซึ่งเหมาะสำหรับการฝึกหัด"
       },
       "tags": [
-        {
-          "zh": "初學者",
-          "en": "Beginner",
-          "th": "ผู้เริ่มต้น"
-        },
-        {
-          "zh": "寬敞雪道",
-          "en": "Wide Slopes",
-          "th": "ลานสกีกว้าง"
-        },
-        {
-          "zh": "教學場地",
-          "en": "Teaching Spot",
-          "th": "จุดสอนสกี"
-        }
+        {"zh": "初學者友善", "en": "Beginner-Friendly", "th": "เหมาะสำหรับผู้เริ่มต้น"},
+        {"zh": "寬敞雪道", "en": "Wide Slopes", "th": "ลานสกีกว้าง"},
+        {"zh": "教學場地", "en": "Teaching Spot", "th": "จุดสอนสกี"}
       ],
       "source_section": "slope_section",
       "click_count": 0,
@@ -51,21 +39,9 @@
         "th": "คุณภาพหิมะผงที่ Appi Kogen ยอดเยี่ยม ถือเป็นสถานที่สกีที่ใหญ่ที่สุดทางเหนือจาก 40 องศาในฮอนชู โดยมีคุณภาพหิมะผงที่เทียบได้กับฮอกไกโด"
       },
       "tags": [
-        {
-          "zh": "粉雪",
-          "en": "Powder Snow",
-          "th": "หิมะผง"
-        },
-        {
-          "zh": "高質量",
-          "en": "High Quality",
-          "th": "คุณภาพสูง"
-        },
-        {
-          "zh": "進階滑雪",
-          "en": "Advanced Skiing",
-          "th": "สกีขั้นสูง"
-        }
+        {"zh": "粉雪", "en": "Powder Snow", "th": "หิมะผง"},
+        {"zh": "高品質", "en": "Premium Quality", "th": "คุณภาพอันดับต้น"},
+        {"zh": "進階滑雪", "en": "Advanced Skiing", "th": "สกีขั้นสูง"}
       ],
       "source_section": "about",
       "click_count": 0,
@@ -87,21 +63,9 @@
         "th": "ขึ้นด้วย Appi Gondola ที่อยู่หน้าโรงแรมเป็นตัวเลือกที่เร็วที่สุด! ลิฟท์นี้ยาว 2.82 กิโลเมตรมีเส้นตรงที่ตื่นเต้น โรปเวย์ Sailer ที่ด้านหลังยาวถึง 3.5 กิโลเมตร"
       },
       "tags": [
-        {
-          "zh": "纜車",
-          "en": "Gondola",
-          "th": "โรปเวย์"
-        },
-        {
-          "zh": "交通",
-          "en": "Transportation",
-          "th": "การขนส่ง"
-        },
-        {
-          "zh": "飯店接駁",
-          "en": "Hotel Access",
-          "th": "การเข้าถึงโรงแรม"
-        }
+        {"zh": "纜車系統", "en": "Lift System", "th": "ระบบลิฟท์"},
+        {"zh": "交通便利", "en": "Easy Access", "th": "การเข้าถึงที่สะดวก"},
+        {"zh": "飯店接駁", "en": "Hotel Access", "th": "การเข้าถึงโรงแรม"}
       ],
       "source_section": "access_section",
       "click_count": 0,
@@ -123,21 +87,9 @@
         "th": "ใช่ Appi Kogen มีการสกีกลางคืน การสกีกลางคืนที่นี่มีความตื่นเต้นเป็นพิเศษเมื่อรวมกับหิมะผงและลานสกีที่กว้างของภูมิประเทศภูเขาไฟ"
       },
       "tags": [
-        {
-          "zh": "夜滑",
-          "en": "Night Skiing",
-          "th": "การสกีกลางคืน"
-        },
-        {
-          "zh": "活動時間",
-          "en": "Operating Hours",
-          "th": "เวลาทำการ"
-        },
-        {
-          "zh": "特殊體驗",
-          "en": "Special Experience",
-          "th": "ประสบการณ์พิเศษ"
-        }
+        {"zh": "夜滑", "en": "Night Skiing", "th": "การสกีกลางคืน"},
+        {"zh": "活動時間", "en": "Operating Hours", "th": "เวลาทำการ"},
+        {"zh": "特色體驗", "en": "Special Experience", "th": "ประสบการณ์พิเศษ"}
       ],
       "source_section": "slope_section",
       "click_count": 0,
@@ -159,21 +111,9 @@
         "th": "สะดวกมากครับ! Appi Kogen มีสิ่งอำนวยความสะดวกในการเช่ากระบอกเบญจ บูธเช่าหลายแห่งในโรงแรมเสนออุปกรณ์สกีและเสื้อผ้า แนะนำให้จองล่วงหน้า"
       },
       "tags": [
-        {
-          "zh": "租借服務",
-          "en": "Rental Service",
-          "th": "บริการเช่า"
-        },
-        {
-          "zh": "裝備",
-          "en": "Equipment",
-          "th": "อุปกรณ์"
-        },
-        {
-          "zh": "便利設施",
-          "en": "Convenience",
-          "th": "สิ่งอำนวยความสะดวก"
-        }
+        {"zh": "租借服務", "en": "Rental Service", "th": "บริการเช่า"},
+        {"zh": "裝備齊全", "en": "Equipment", "th": "อุปกรณ์"},
+        {"zh": "便利設施", "en": "Amenities", "th": "สิ่งอำนวยความสะดวก"}
       ],
       "source_section": "rental_section",
       "click_count": 0,
@@ -192,24 +132,12 @@
       "answer": {
         "zh": "安比高原飯店由日本著名建築大師龜倉雄策設計，外觀採用大膽的檸檬黃外牆，內部裝潢精緻優美。飯店分為三大區域：Grand Hotel區（豪華區、ski in/out）、安比格蘭Villa區（日式風格）和安比Annex區（標準房型）。飯店內有高檔餐廳和居酒屋，提供和牛、北海道長腳蟹等美食。",
         "en": "The hotel was designed by renowned Japanese architect Kamesaku Yusaku, featuring bold lemon-yellow exterior. It offers three distinct areas: Grand Hotel (luxury, ski in/out), Appi Gran Villa (Japanese-style), and Appi Annex (standard rooms). Fine dining restaurants and izakayas serve Wagyu beef and Hokkaido king crabs.",
-        "th": "โรงแรมได้รับการออกแบบโดยสถาปนิก Kamesaku Yusaku โดยมีอุดมคติภายนอกสีเหลืองมะนาว มีสามพื้นที่ที่แตกต่าง: Grand Hotel (หรูหรา, ski in/out), Appi Gran Villa (ลักษณะแบบญี่ปุ่น) และ Appi Annex (ห้องพักมาตรฐาน) ร้านอาหารและอิซากายะเสิร์ฟเนื้อวากิวและปูกษัตริย์ฮอกไกโด"
+        "th": "โรงแรมได้รับการออกแบบโดยสถาปนิก Kamesaku Yusaku โดยมีอุดมคติภายนอกสีเหลืองมะนาว มีสามพื้นที่ที่แตกต่าง: Grand Hotel (หรูหรา, ski in/out), Appi Gran Villa (ลักษณะแบบญี่ปุ่น) และ Appi Annex (ห้องพักมาตรฐาน)"
       },
       "tags": [
-        {
-          "zh": "飯店設施",
-          "en": "Hotel Facilities",
-          "th": "สิ่งอำนวยความสะดวกในโรงแรม"
-        },
-        {
-          "zh": "住宿選擇",
-          "en": "Accommodation",
-          "th": "ที่พัก"
-        },
-        {
-          "zh": "美食餐廳",
-          "en": "Dining",
-          "th": "ร้านอาหาร"
-        }
+        {"zh": "餐飲住宿", "en": "Dining & Lodging", "th": "ร้านอาหารและที่พัก"},
+        {"zh": "飯店設施", "en": "Hotel Facilities", "th": "สิ่งอำนวยความสะดวกในโรงแรม"},
+        {"zh": "景觀設計", "en": "Design & Views", "th": "ออกแบบและมุมมอง"}
       ],
       "source_section": "about",
       "click_count": 0,
@@ -228,24 +156,12 @@
       "answer": {
         "zh": "從飯店不搭乘Gondola，改用一般纜車上山，需要連續換乘四班纜車才能抵達山頂。這說明了安比高原雪道的長度和高度差，用Gondola直上山頂會節省大量時間。",
         "en": "Without using the gondola, you would need to transfer through 4 successive chairlifts to reach the summit. This illustrates how long and steep the runs are - the gondola is definitely the preferred option.",
-        "th": "โดยไม่ใช้โรปเวย์ คุณจะต้องขึ้นลิฟท์ประเภทธรรมชาติ 4 ครั้งต่อเนื่องเพื่อไปถึงยอดเขา สิ่งนี้แสดงความยาวและความชันของลานสกี"
+        "th": "โดยไม่ใช้โรปเวย์ คุณจะต้องขึ้นลิฟท์ประเภทธรรมชาติ 4 ครั้งต่อเนื่องเพื่อไปถึงยอดเขา"
       },
       "tags": [
-        {
-          "zh": "纜車系統",
-          "en": "Lift System",
-          "th": "ระบบลิฟท์"
-        },
-        {
-          "zh": "雪道長度",
-          "en": "Run Length",
-          "th": "ความยาวของลาน"
-        },
-        {
-          "zh": "交通方案",
-          "en": "Transport Options",
-          "th": "ตัวเลือกการขนส่ง"
-        }
+        {"zh": "纜車系統", "en": "Lift System", "th": "ระบบลิฟท์"},
+        {"zh": "雪道長度", "en": "Run Length", "th": "ความยาวของลาน"},
+        {"zh": "交通方案", "en": "Transport Options", "th": "ตัวเลือกการขนส่ง"}
       ],
       "source_section": "access_section",
       "click_count": 0,
@@ -267,21 +183,9 @@
         "th": "Appi Kogen มีภูมิประเทศภูเขาไฟที่ไม่ซ้ำกันโดยมีลานสกีที่จัดเรียงแบบรัศมี ลานสกีตรง กว้าง และสนุกมากในการสกี"
       },
       "tags": [
-        {
-          "zh": "地形地貌",
-          "en": "Terrain",
-          "th": "ภูมิประเทศ"
-        },
-        {
-          "zh": "進階技巧",
-          "en": "Advanced Skills",
-          "th": "ทักษะขั้นสูง"
-        },
-        {
-          "zh": "長雪道",
-          "en": "Long Runs",
-          "th": "ลานสกียาว"
-        }
+        {"zh": "地形地貌", "en": "Terrain", "th": "ภูมิประเทศ"},
+        {"zh": "進階滑雪", "en": "Advanced Skiing", "th": "สกีขั้นสูง"},
+        {"zh": "長雪道", "en": "Long Runs", "th": "ลานสกียาว"}
       ],
       "source_section": "slope_section",
       "click_count": 0,
@@ -300,24 +204,12 @@
       "answer": {
         "zh": "安比高原由加森觀光集團所有和管理。同樣由加森集團旗下的著名雪場還有留壽都（Rusutsu）。加森集團以提供高品質的滑雪度假體驗而聞名。",
         "en": "Appi Kogen is owned and operated by Kasen Tourism Group, the same company that manages the renowned Rusutsu Resort. Kasen is known for providing high-quality ski resort experiences.",
-        "th": "Appi Kogen ถูกเป็นเจ้าของและบริหารจัดการโดย Kasen Tourism Group ซึ่งเป็นบริษัทเดียวกันที่บริหารจัดการสถานที่ Rusutsu ที่มีชื่อเสียง Kasen เป็นที่รู้จักในการให้บริการประสบการณ์สกีที่มีคุณภาพสูง"
+        "th": "Appi Kogen ถูกเป็นเจ้าของและบริหารจัดการโดย Kasen Tourism Group ซึ่งเป็นบริษัทเดียวกันที่บริหารจัดการสถานที่ Rusutsu"
       },
       "tags": [
-        {
-          "zh": "企業背景",
-          "en": "Company Info",
-          "th": "ข้อมูลบริษัท"
-        },
-        {
-          "zh": "管理運營",
-          "en": "Management",
-          "th": "การจัดการ"
-        },
-        {
-          "zh": "品質保證",
-          "en": "Quality Assurance",
-          "th": "การรับประกันคุณภาพ"
-        }
+        {"zh": "品牌特色", "en": "Brand Profile", "th": "โปรไฟล์แบรนด์"},
+        {"zh": "運營管理", "en": "Management", "th": "การจัดการ"},
+        {"zh": "品質保證", "en": "Quality", "th": "คุณภาพ"}
       ],
       "source_section": "about",
       "click_count": 0,
@@ -336,24 +228,12 @@
       "answer": {
         "zh": "非常適合！安比高原是全季度度假中心（All season resort），不僅提供卓越的滑雪體驗，還擁有完善的飯店設施和多樣化的餐飲選擇。寬敞平緩的雪道適合各年齡層，飯店內設有不同房型選擇滿足家庭需求。冬季以外，還能享受四季活動。",
         "en": "Absolutely! Appi Kogen is an all-season resort perfect for families. It offers excellent skiing for all levels, well-equipped hotel facilities, diverse dining options, and varied activities year-round. Multiple room types accommodate different family needs.",
-        "th": "เหมาะมากครับ! Appi Kogen เป็นสถานที่ท่องเที่ยวตามฤดูกาลที่เหมาะสำหรับครอบครัว มีลานสกีที่เหมาะสำหรับทุกระดับความสามารถ โรงแรมที่มีอุปกรณ์ดี เลือกร้านอาหารได้หลากหลาย และกิจกรรมมากมาย"
+        "th": "เหมาะมากครับ! Appi Kogen เป็นสถานที่ท่องเที่ยวตามฤดูกาลที่เหมาะสำหรับครอบครัว มีลานสกีที่เหมาะสำหรับทุกระดับความสามารถ"
       },
       "tags": [
-        {
-          "zh": "家庭友善",
-          "en": "Family-Friendly",
-          "th": "เหมาะกับครอบครัว"
-        },
-        {
-          "zh": "四季活動",
-          "en": "Year-Round",
-          "th": "ตลอดทั้งปี"
-        },
-        {
-          "zh": "度假勝地",
-          "en": "Resort",
-          "th": "รีสอร์ท"
-        }
+        {"zh": "家庭旅遊", "en": "Family Travel", "th": "การท่องเที่ยวครอบครัว"},
+        {"zh": "四季活動", "en": "Year-Round", "th": "ตลอดทั้งปี"},
+        {"zh": "親子友善", "en": "Kid-Friendly", "th": "เหมาะสำหรับเด็ก"}
       ],
       "source_section": "about",
       "click_count": 0,
@@ -372,24 +252,12 @@
       "answer": {
         "zh": "蔵王的樹冰（雪怪）是日本最著名的冬季景觀之一。當強風吹過時，過冷的水滴在樹木表面結冰，形成獨特的白色冰塔。從山頂眺望，千樹萬樹披滿冰晶，景象壯觀。建議乘坐樹冰想定纜車欣賞這一自然奇蹟。",
         "en": "Zao's ice formations (tree monsters) are among Japan's most famous winter landscapes. When strong winds blow over supercooled water droplets, they freeze on tree surfaces, creating unique white ice towers. The view from the summit is spectacular, with thousands of ice-covered trees. Take the ropeway to witness this natural wonder.",
-        "th": "การก่อตัวของน้ำแข็งบนต้นไม้ (สัตว์ประหลาด) ที่ Zao เป็นหนึ่งในภูมิทัศน์ฤดูหนาวที่มีชื่อเสียงที่สุดของญี่ปุ่น ขณะที่ลมแรงพัดผ่านหยดน้ำเย็นอย่างมาก พวกเขาจะแข็งตัวบนพื้นผิวต้นไม้และสร้างหอน้ำแข็งที่ไม่ซ้ำกัน"
+        "th": "การก่อตัวของน้ำแข็งบนต้นไม้ (สัตว์ประหลาด) ที่ Zao เป็นหนึ่งในภูมิทัศน์ฤดูหนาวที่มีชื่อเสียงที่สุดของญี่ปุ่น"
       },
       "tags": [
-        {
-          "zh": "樹冰",
-          "en": "Tree Ice",
-          "th": "หิมะบนต้นไม้"
-        },
-        {
-          "zh": "景觀",
-          "en": "Scenery",
-          "th": "ทัศนีย"
-        },
-        {
-          "zh": "自然奇蹟",
-          "en": "Natural Wonder",
-          "th": "สิ่งมหัศจรรย์ของธรรมชาติ"
-        }
+        {"zh": "獨特風景", "en": "Unique Scenery", "th": "ทัศนีย์ไม่ซ้ำใคร"},
+        {"zh": "樹冰", "en": "Tree Ice", "th": "หิมะบนต้นไม้"},
+        {"zh": "自然奇蹟", "en": "Natural Wonder", "th": "สิ่งมหัศจรรย์ของธรรมชาติ"}
       ],
       "source_section": "about",
       "click_count": 0,
@@ -411,21 +279,9 @@
         "th": "Zao มีหิมะผงที่ดีที่สุดในภูมิภาค Tohoku ของญี่ปุ่น อยู่ทางด้านทะเลญี่ปุ่น มันได้รับหิมะจำนวนมากโดยมีคุณภาพหิมะผงที่เทียบได้กับฮอกไกโด"
       },
       "tags": [
-        {
-          "zh": "粉雪",
-          "en": "Powder Snow",
-          "th": "หิมะผง"
-        },
-        {
-          "zh": "高品質",
-          "en": "Premium Quality",
-          "th": "คุณภาพอันดับต้น"
-        },
-        {
-          "zh": "進階滑雪",
-          "en": "Advanced Skiing",
-          "th": "สกีขั้นสูง"
-        }
+        {"zh": "粉雪", "en": "Powder Snow", "th": "หิมะผง"},
+        {"zh": "高品質", "en": "Premium Quality", "th": "คุณภาพอันดับต้น"},
+        {"zh": "進階滑雪", "en": "Advanced Skiing", "th": "สกีขั้นสูง"}
       ],
       "source_section": "about",
       "click_count": 0,
@@ -439,29 +295,17 @@
       "question": {
         "zh": "蔵王有溫泉嗎?",
         "en": "Does Zao have hot springs?",
-        "th": "Zao มี温่อน (สปริงร้อน) หรือไม่?"
+        "th": "Zao มีสปริงร้อนหรือไม่?"
       },
       "answer": {
         "zh": "絕對有！蔵王溫泉是東北著名的溫泉勝地。滑雪後浸泡天然溫泉，享受一整天滑雪後的疲勞緩解。溫泉旅館提供多種浴場和溫泉池，溫度和水質都很優秀。許多旅館直接連接滑雪場，方便遊客滑完雪就入浴。",
         "en": "Absolutely! Zao Onsen is a famous hot spring resort in Tohoku. After a day of skiing, relax in natural hot springs to ease fatigue. The onsen inns offer multiple baths and pools with excellent temperature and water quality. Many resorts connect directly to the slopes for convenient après-ski bathing.",
-        "th": "แน่นอนครับ! Zao Onsen เป็นสถานที่พักผ่อนด้วยน้ำร้อนที่มีชื่อเสียงใน Tohoku หลังจากสกีตลอดวัน ให้ผ่อนคลายในสปริงร้อนธรรมชาติ โรงแรมอโอเซนมีอ่างอาบน้ำและสระว่ายน้ำต่างๆ"
+        "th": "แน่นอนครับ! Zao Onsen เป็นสถานที่พักผ่อนด้วยน้ำร้อนที่มีชื่อเสียงใน Tohoku"
       },
       "tags": [
-        {
-          "zh": "溫泉",
-          "en": "Hot Springs",
-          "th": "สปริงร้อน"
-        },
-        {
-          "zh": "放鬆休閒",
-          "en": "Relaxation",
-          "th": "การผ่อนคลาย"
-        },
-        {
-          "zh": "便利設施",
-          "en": "Amenities",
-          "th": "สิ่งอำนวยความสะดวก"
-        }
+        {"zh": "餐飲住宿", "en": "Dining & Lodging", "th": "ร้านอาหารและที่พัก"},
+        {"zh": "溫泉放鬆", "en": "Onsen Relaxation", "th": "การผ่อนคลายในน้ำร้อน"},
+        {"zh": "便利設施", "en": "Amenities", "th": "สิ่งอำนวยความสะดวก"}
       ],
       "source_section": "about",
       "click_count": 0,
@@ -480,24 +324,12 @@
       "answer": {
         "zh": "非常適合！蔵王有寬敞的綠道和初級雪道，專為初學者設計。山腰地帶有許多初學者友善的區域，雪質也很理想。教練服務完善，初學者可以輕鬆上手並建立信心。蔵王的雪道設計讓各級別滑雪者都能享受樂趣。",
         "en": "Very suitable! Zao has wide green runs and beginner slopes designed for newcomers. The mid-mountain areas offer many beginner-friendly zones with ideal snow conditions. Professional instructors and excellent teaching areas make it easy to learn. All skill levels enjoy Zao's slopes.",
-        "th": "เหมาะมากครับ! Zao มีลานสกีสีเขียวที่กว้างและลานสกีเบื้องต้นที่ออกแบบสำหรับผู้เริ่มต้น พื้นที่กลางเขามีพื้นที่เป็นมิตรกับผู้เริ่มต้นมากมาย"
+        "th": "เหมาะมากครับ! Zao มีลานสกีสีเขียวที่กว้างและลานสกีเบื้องต้นที่ออกแบบสำหรับผู้เริ่มต้น"
       },
       "tags": [
-        {
-          "zh": "初學者",
-          "en": "Beginner",
-          "th": "ผู้เริ่มต้น"
-        },
-        {
-          "zh": "綠道",
-          "en": "Green Runs",
-          "th": "ลานสกีเขียว"
-        },
-        {
-          "zh": "教學場地",
-          "en": "Teaching Area",
-          "th": "พื้นที่สอนสกี"
-        }
+        {"zh": "初學者友善", "en": "Beginner-Friendly", "th": "เหมาะสำหรับผู้เริ่มต้น"},
+        {"zh": "綠道", "en": "Green Runs", "th": "ลานสกีเขียว"},
+        {"zh": "教學場地", "en": "Teaching Area", "th": "พื้นที่สอนสกี"}
       ],
       "source_section": "slope_section",
       "click_count": 0,
@@ -516,24 +348,12 @@
       "answer": {
         "zh": "蔵王的滑雪季節是日本最長的之一，通常從11月中旬開始，延續到5月上旬，長達半年以上。這得益於蔵王高海拔（最高峰2,841米）和充足的降雪。即使在春天，蔵王仍提供優質的滑雪環境，是喜愛長季節滑雪的愛好者的首選。",
         "en": "Zao has one of Japan's longest ski seasons, typically running from mid-November through early May - over half a year! Thanks to its high altitude (2,841m peak) and abundant snowfall, Zao maintains excellent skiing conditions even in spring. Perfect for those seeking an extended season.",
-        "th": "Zao มีฤดูกาลสกีที่ยาวที่สุดในญี่ปุ่นโดยทั่วไปอยู่ระหว่างกลางพฤศจิกายนถึงต้นพฤษภาคม ด้วยเหตุจากความสูงและหิมะที่มากมาย"
+        "th": "Zao มีฤดูกาลสกีที่ยาวที่สุดในญี่ปุ่นโดยทั่วไปอยู่ระหว่างกลางพฤศจิกายนถึงต้นพฤษภาคม"
       },
       "tags": [
-        {
-          "zh": "長季節",
-          "en": "Long Season",
-          "th": "ฤดูกาลยาว"
-        },
-        {
-          "zh": "春季滑雪",
-          "en": "Spring Skiing",
-          "th": "สกีฤดูใบไม้ผลิ"
-        },
-        {
-          "zh": "活動時間",
-          "en": "Operating Period",
-          "th": "ระยะเวลาการทำการ"
-        }
+        {"zh": "長季節", "en": "Long Season", "th": "ฤดูกาลยาว"},
+        {"zh": "活動時間", "en": "Operating Period", "th": "ระยะเวลาการทำการ"},
+        {"zh": "春季滑雪", "en": "Spring Skiing", "th": "สกีฤดูใบไม้ผลิ"}
       ],
       "source_section": "about",
       "click_count": 0,
@@ -552,24 +372,12 @@
       "answer": {
         "zh": "蔵王山頂海拔2,841米，是東北地區最高的點之一。天氣晴朗時，可以眺望周圍群山、山形平原，甚至日本海。在樹冰覆蓋的冬季，山頂的全景更是壯觀。乘坐樹冰想定纜車到山頂，欣賞日本東北最美的冬季景色。",
         "en": "At 2,841m, Zao's summit offers stunning panoramic views of surrounding mountains, the Yamagata plain, and even the Sea of Japan on clear days. In winter, when covered with ice formations, the vista is spectacular. The ropeway to the top provides unforgettable views of Tohoku's finest winter scenery.",
-        "th": "ที่สูง 2,841 เมตร ยอดเขา Zao นำเสนอมุมมองพโนรามาที่สวยงามของภูเขาข้างเคียง ที่ราบ Yamagata และแม้กระทั่งทะเลญี่ปุ่น"
+        "th": "ที่สูง 2,841 เมตร ยอดเขา Zao นำเสนอมุมมองพโนรามาที่สวยงามของภูเขาข้างเคียง"
       },
       "tags": [
-        {
-          "zh": "景觀",
-          "en": "Views",
-          "th": "มุมมอง"
-        },
-        {
-          "zh": "山頂",
-          "en": "Summit",
-          "th": "ยอดเขา"
-        },
-        {
-          "zh": "自然景色",
-          "en": "Natural Beauty",
-          "th": "ความงามของธรรมชาติ"
-        }
+        {"zh": "獨特風景", "en": "Unique Scenery", "th": "ทัศนีย์ไม่ซ้ำใคร"},
+        {"zh": "山頂眺望", "en": "Summit Views", "th": "มุมมองจากยอดเขา"},
+        {"zh": "交通便利", "en": "Easy Access", "th": "การเข้าถึงที่สะดวก"}
       ],
       "source_section": "about",
       "click_count": 0,
@@ -588,24 +396,12 @@
       "answer": {
         "zh": "蔵王擁有多條黑道（最高難度雪道），吸引進階和專家級滑雪者。其中包括陡峭的技術雪道和林間雪道，帶來極具挑戰的滑雪體驗。粉雪和崎嶇地形的結合，使蔵王成為進階滑雪者追求新刺激的理想選擇。許多進階滑雪者特別為了蔵王的黑道而前來。",
         "en": "Zao features multiple black diamond runs attracting advanced and expert skiers. These include steep technical runs and off-trail skiing through forests, offering extreme challenges. The combination of powder snow and varied terrain makes Zao a must-visit for advanced skiers seeking thrills.",
-        "th": "Zao มีลานสกีโค้งดำหลายแห่งที่ดึงดูดนักสกีขั้นสูง ซึ่งรวมถึงลานสกีเทคนิคที่ชันและสกีนอกลาน"
+        "th": "Zao มีลานสกีโค้งดำหลายแห่งที่ดึงดูดนักสกีขั้นสูง"
       },
       "tags": [
-        {
-          "zh": "進階滑雪",
-          "en": "Advanced Skiing",
-          "th": "สกีขั้นสูง"
-        },
-        {
-          "zh": "黑道",
-          "en": "Black Runs",
-          "th": "ลานสกีสีดำ"
-        },
-        {
-          "zh": "挑戰性",
-          "en": "Challenge",
-          "th": "ความท้าทาย"
-        }
+        {"zh": "進階滑雪", "en": "Advanced Skiing", "th": "สกีขั้นสูง"},
+        {"zh": "黑道", "en": "Black Runs", "th": "ลานสกีสีดำ"},
+        {"zh": "挑戰性", "en": "Challenge", "th": "ความท้าทาย"}
       ],
       "source_section": "slope_section",
       "click_count": 0,
@@ -624,24 +420,12 @@
       "answer": {
         "zh": "蔵王擁有完整的纜車系統，共有8條樹冰想定纜車（ロープウェイ）和多條椅式纜車，方便遊客抵達不同的雪道和山頂。主要樹冰想定纜車連接山麓和山頂，提供樹冰壯觀景色。整個纜車系統設計良好，即使在繁忙時段也能高效運輸滑雪者。",
         "en": "Zao boasts a comprehensive lift system with 8 main ropeway cars and multiple chairlifts providing access to various runs and the summit. The ropeway offers spectacular ice formation views. The well-designed system efficiently transports skiers even during peak times.",
-        "th": "Zao มีระบบลิฟท์ที่ครอบคลุมพร้อมรถโรปเวย์ 8 คัน และลิฟท์เก้าอี้หลายตัวที่มีการเข้าถึงลานสกีต่างๆ"
+        "th": "Zao มีระบบลิฟท์ที่ครอบคลุมพร้อมรถโรปเวย์ 8 คัน"
       },
       "tags": [
-        {
-          "zh": "纜車系統",
-          "en": "Lift System",
-          "th": "ระบบลิฟท์"
-        },
-        {
-          "zh": "交通便利",
-          "en": "Convenient Access",
-          "th": "การเข้าถึงที่สะดวก"
-        },
-        {
-          "zh": "效率",
-          "en": "Efficiency",
-          "th": "ประสิทธิภาพ"
-        }
+        {"zh": "纜車系統", "en": "Lift System", "th": "ระบบลิฟท์"},
+        {"zh": "交通便利", "en": "Easy Access", "th": "การเข้าถึงที่สะดวก"},
+        {"zh": "運營效率", "en": "Efficiency", "th": "ประสิทธิภาพ"}
       ],
       "source_section": "access_section",
       "click_count": 0,
@@ -660,24 +444,12 @@
       "answer": {
         "zh": "絕對適合！蔵王兼具家庭滑雪和溫泉體驗。初學者友善的綠道、兒童滑雪教室、托兒服務為家庭提供完善照顧。晚上可在溫泉旅館放鬆，享受家族共聚時光。蔵王溫泉街有餐廳和商店，提供多樣化的家庭活動。無論年齡，全家都能在蔵王找到樂趣。",
         "en": "Absolutely! Zao offers the perfect family vacation blend of skiing and onsen culture. Beginner-friendly green runs, kids' ski schools, and childcare services cater to families. Evening relaxation in onsen inns creates memorable family time. The hot spring town offers diverse dining and shopping. Fun for all ages.",
-        "th": "แน่นอนครับ! Zao นำเสนอการผสมผสานที่สมบูรณ์แบบระหว่างการสกีและวัฒนธรรม onsen ลานสกีสีเขียวที่เป็นมิตรกับครอบครัวและสถานพยาบาลสำหรับเด็ก"
+        "th": "แน่นอนครับ! Zao นำเสนอการผสมผสานที่สมบูรณ์แบบระหว่างการสกีและวัฒนธรรม onsen"
       },
       "tags": [
-        {
-          "zh": "家庭友善",
-          "en": "Family-Friendly",
-          "th": "เหมาะกับครอบครัว"
-        },
-        {
-          "zh": "兒童活動",
-          "en": "Kids Activities",
-          "th": "กิจกรรมสำหรับเด็ก"
-        },
-        {
-          "zh": "全齡段",
-          "en": "All Ages",
-          "th": "ทุกช่วงอายุ"
-        }
+        {"zh": "家庭旅遊", "en": "Family Travel", "th": "การท่องเที่ยวครอบครัว"},
+        {"zh": "親子友善", "en": "Kid-Friendly", "th": "เหมาะสำหรับเด็ก"},
+        {"zh": "四季活動", "en": "Year-Round", "th": "ตลอดทั้งปี"}
       ],
       "source_section": "about",
       "click_count": 0,
@@ -696,24 +468,12 @@
       "answer": {
         "zh": "蔵王溫泉街有多家溫泉旅館（旅館）和飯店，提供從經濟到豪華的各種房型。餐飲方面，有傳統日本和食、鄉土菜，還有現代餐廳。溫泉旅館通常提供全套早晚餐，採用當地食材。此外，滑雪場內和周邊有咖啡館、拉麵店等快速用餐選擇。蔵王溫泉街的商業區提供購物和娛樂場所。",
         "en": "Zao Onsen features numerous hot spring inns (ryokan) and hotels with rooms ranging from budget to luxury. Dining includes traditional Japanese cuisine, regional specialties, and modern restaurants. Onsen inns typically offer full meal plans using local ingredients. Quick dining options like cafes and ramen shops are available on and around the slopes. The hot spring town's shopping district offers retail and entertainment.",
-        "th": "Zao Onsen มีโรงแรมข้างแรง (ryokan) และโรงแรมมากมายโดยมีห้องตั้งแต่งบประมาณจนถึงหรูหรา ร้านอาหารรวมถึงอาหารญี่ปุ่นแบบดั้งเดิม อาหารพื้นถิ่น และร้านอาหารสมัยใหม่"
+        "th": "Zao Onsen มีโรงแรมข้างแรง (ryokan) และโรงแรมมากมายโดยมีห้องตั้งแต่งบประมาณจนถึงหรูหรา"
       },
       "tags": [
-        {
-          "zh": "住宿",
-          "en": "Accommodation",
-          "th": "ที่พัก"
-        },
-        {
-          "zh": "餐飲",
-          "en": "Dining",
-          "th": "ร้านอาหาร"
-        },
-        {
-          "zh": "旅館溫泉",
-          "en": "Onsen Inns",
-          "th": "โรงแรม Onsen"
-        }
+        {"zh": "餐飲住宿", "en": "Dining & Lodging", "th": "ร้านอาหารและที่พัก"},
+        {"zh": "便利設施", "en": "Amenities", "th": "สิ่งอำนวยความสะดวก"},
+        {"zh": "在地美食", "en": "Local Cuisine", "th": "อาหารท้องถิ่น"}
       ],
       "source_section": "about",
       "click_count": 0,
