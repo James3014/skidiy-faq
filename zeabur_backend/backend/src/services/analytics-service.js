@@ -124,6 +124,7 @@ class AnalyticsService {
         time_to_click_ms INTEGER,
         language TEXT DEFAULT 'zh',
         session_id TEXT,
+        user_id TEXT,
         timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
       );
 
@@ -133,6 +134,7 @@ class AnalyticsService {
       CREATE INDEX IF NOT EXISTS idx_faq_views_language ON faq_views(language);
       CREATE INDEX IF NOT EXISTS idx_faq_views_source ON faq_views(source);
       CREATE INDEX IF NOT EXISTS idx_faq_views_session ON faq_views(session_id);
+      CREATE INDEX IF NOT EXISTS idx_faq_views_user_id ON faq_views(user_id);
 
       CREATE TABLE IF NOT EXISTS section_views (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -224,6 +226,7 @@ class AnalyticsService {
     ensureColumn('faq_views', 'source', "ALTER TABLE faq_views ADD COLUMN source TEXT", null);
     ensureColumn('faq_views', 'session_id', "ALTER TABLE faq_views ADD COLUMN session_id TEXT", null);
     ensureColumn('faq_views', 'language', "ALTER TABLE faq_views ADD COLUMN language TEXT DEFAULT 'zh'", 'zh');
+    ensureColumn('faq_views', 'user_id', "ALTER TABLE faq_views ADD COLUMN user_id TEXT", null);
     ensureColumn('tag_clicks', 'language', "ALTER TABLE tag_clicks ADD COLUMN language TEXT DEFAULT 'zh'", 'zh');
     ensureColumn('section_views', 'language', "ALTER TABLE section_views ADD COLUMN language TEXT DEFAULT 'zh'", 'zh');
     ensureColumn('resort_clicks', 'language', "ALTER TABLE resort_clicks ADD COLUMN language TEXT DEFAULT 'zh'", 'zh');
@@ -953,6 +956,84 @@ class AnalyticsService {
       console.warn('[Analytics Service] Migration check failed:', error.message);
       // Continue anyway - CREATE TABLE IF NOT EXISTS will handle it
     }
+  }
+
+  /**
+   * 查詢用戶數據（統一介面）
+   * LINUS PRINCIPLE: 消除特殊情況 - 統一的 type 參數，資料結構驅動
+   *
+   * @param {string} userId - 用戶 ID
+   * @param {Object} options - 查詢選項
+   * @param {string} options.type - 查詢類型：'clicks' | 'preferences'
+   * @param {number} options.days - 回溯天數（預設 30）
+   * @param {number} options.limit - 最大記錄數（預設 50）
+   * @returns {Object} 查詢結果
+   */
+  getUserData(userId, options = {}) {
+    const { type = 'clicks', days = 30, limit = 50 } = options;
+
+    // Linus 原則：資料結構驅動，不用 if/else
+    const queries = {
+      clicks: () => this._getUserClicks(userId, days, limit),
+      preferences: () => this._getUserPreferences(userId, days)
+    };
+
+    return queries[type]();
+  }
+
+  /**
+   * 查詢用戶點擊記錄（私有方法）
+   *
+   * @param {string} userId - 用戶 ID
+   * @param {number} days - 回溯天數
+   * @param {number} limit - 最大記錄數
+   * @returns {Array} 點擊記錄陣列
+   */
+  _getUserClicks(userId, days, limit) {
+    const cutoff = new Date();
+    cutoff.setDate(cutoff.getDate() - days);
+
+    return this.db.prepare(`
+      SELECT faq_id, query_text, clicked, language, source, timestamp
+      FROM faq_views
+      WHERE user_id = ?
+        AND timestamp >= ?
+      ORDER BY timestamp DESC
+      LIMIT ?
+    `).all(userId, cutoff.toISOString(), limit);
+  }
+
+  /**
+   * 分析用戶偏好（私有方法）
+   *
+   * @param {string} userId - 用戶 ID
+   * @param {number} days - 回溯天數
+   * @returns {Object} 偏好分析結果 { topFAQs, languages }
+   */
+  _getUserPreferences(userId, days) {
+    const cutoff = new Date();
+    cutoff.setDate(cutoff.getDate() - days);
+
+    // 最常點擊的 FAQ（Top 10）
+    const topFAQs = this.db.prepare(`
+      SELECT faq_id, COUNT(*) as clicks
+      FROM faq_views
+      WHERE user_id = ? AND timestamp >= ?
+      GROUP BY faq_id
+      ORDER BY clicks DESC
+      LIMIT 10
+    `).all(userId, cutoff.toISOString());
+
+    // 語言偏好
+    const languages = this.db.prepare(`
+      SELECT language, COUNT(*) as clicks
+      FROM faq_views
+      WHERE user_id = ? AND timestamp >= ?
+      GROUP BY language
+      ORDER BY clicks DESC
+    `).all(userId, cutoff.toISOString());
+
+    return { topFAQs, languages };
   }
 
   /**

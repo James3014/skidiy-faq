@@ -650,7 +650,8 @@ router.post('/track-faq-view', async (req, res, next) => {
       time_to_click_ms,
       language = 'zh',
       session_id,
-      view_id = null
+      view_id = null,
+      user_id = null
     } = req.body;
 
     if (!faq_id) {
@@ -667,8 +668,8 @@ router.post('/track-faq-view', async (req, res, next) => {
 
     const db = analyticsService.db;
     const stmt = db.prepare(`
-      INSERT INTO faq_views (view_id, faq_id, query_id, query_text, position, source, clicked, time_to_click_ms, language, session_id)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      INSERT INTO faq_views (view_id, faq_id, query_id, query_text, position, source, clicked, time_to_click_ms, language, session_id, user_id)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `);
 
     stmt.run(
@@ -681,7 +682,8 @@ router.post('/track-faq-view', async (req, res, next) => {
       clicked ? 1 : 0,
       time_to_click_ms || null,
       normalizedLanguage,
-      session_id || null
+      session_id || null,
+      user_id || null
     );
 
     sendSuccess(res, {
@@ -1903,6 +1905,57 @@ router.get('/resort-engagement-stats', async (req, res, next) => {
     });
 
     sendSuccess(res, stats, 200);
+
+  } catch (error) {
+    next(error);
+  }
+});
+
+/**
+ * 查詢用戶數據（統一端點）
+ * GET /api/v1/analytics/user/:userId
+ *
+ * LINUS PRINCIPLE: 統一的端點，用 type 參數區分查詢類型
+ *
+ * Query params:
+ * - type: 'clicks' | 'preferences' (預設 'clicks')
+ * - days: 回溯天數 (預設 30)
+ * - limit: 最大記錄數 (預設 50)
+ *
+ * Example:
+ * GET /api/v1/analytics/user/66a5efd86416cfc2689b9a53?type=clicks&days=7&limit=20
+ * GET /api/v1/analytics/user/66a5efd86416cfc2689b9a53?type=preferences&days=30
+ */
+router.get('/user/:userId', async (req, res, next) => {
+  try {
+    if (!analyticsService) {
+      throw new AppError('ANALYTICS_NOT_INITIALIZED', 'Analytics service not initialized', 503);
+    }
+
+    const { userId } = req.params;
+    const { type = 'clicks', days = 30, limit = 50 } = req.query;
+
+    // 驗證 user_id 格式（MongoDB ObjectId）
+    if (!/^[0-9a-f]{24}$/i.test(userId)) {
+      throw new AppError('INVALID_USER_ID', '無效的用戶 ID 格式', 400);
+    }
+
+    // 驗證 type 參數
+    if (!['clicks', 'preferences'].includes(type)) {
+      throw new AppError('INVALID_TYPE', '無效的查詢類型，僅支援 clicks 或 preferences', 400);
+    }
+
+    const data = analyticsService.getUserData(userId, {
+      type,
+      days: parseInt(days, 10),
+      limit: parseInt(limit, 10)
+    });
+
+    sendSuccess(res, {
+      user_id: userId,
+      type,
+      data
+    }, 200);
 
   } catch (error) {
     next(error);

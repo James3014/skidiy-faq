@@ -1514,6 +1514,7 @@
   <script src="lib/faq-engine.js"></script>
   <script src="lib/faq-renderer.js"></script>
   <script src="lib/park-faq-module.js"></script>
+  <script src="lib/auth-helper.js"></script>
 
   <script>
     let faqEngine = null;
@@ -1527,6 +1528,7 @@
     let activeResortRegion = null;
     let linkTokens = {}; // Store link_tokens from faq_kb.phase0a.json meta
     let linkRegistry = null; // Store unified link registry
+    let currentUserId = null; // LINUS PRINCIPLE: 單一全域變數，失敗時為 null
 
     // API base configuration
     const API_BASE = window.API_BASE || '/api/v1';
@@ -1894,6 +1896,19 @@
           i18n = { currentLanguage: 'zh', t: (key) => key };
         }
 
+        // LINUS PRINCIPLE: 用戶認證（可選，失敗時降級為匿名用戶）
+        try {
+          currentUserId = await getUserIdOrNull();
+          if (currentUserId) {
+            console.log('[Auth] User authenticated, tracking will include user_id');
+          } else {
+            console.log('[Auth] Anonymous mode, tracking will not include user_id');
+          }
+        } catch (authError) {
+          console.warn('[Auth] Authentication failed, continuing in anonymous mode:', authError);
+          currentUserId = null;
+        }
+
         // Initialize FAQ engine (critical)
         faqEngine = new FAQEngine();
         await faqEngine.initialize();
@@ -2104,6 +2119,7 @@
         position: typeof position === 'number' ? position : (Number.isFinite(position) ? position : null),
         query_text: query || lastSearchQuery || null,
         session_id: getFaqSessionId(),
+        user_id: currentUserId || null,  // LINUS PRINCIPLE: 有就帶，沒有就 null
         timestamp: new Date().toISOString()
       };
 
