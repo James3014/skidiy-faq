@@ -1563,6 +1563,8 @@
         document.getElementById('feedback-tab').classList.add('active');
         // Load Feedback data when switching to Feedback tab
         loadFeedbackData();
+      } else if (tab === 'user') {
+        document.getElementById('user-tab').classList.add('active');
       }
     }
 
@@ -3351,6 +3353,10 @@
           document.getElementById('userErrorMessage').textContent = error.message || '查詢失敗，請稍後再試';
         }
       }
+
+      // Set default active tab (LLM tab)
+      document.getElementById('llm-tab').classList.add('active');
+      document.querySelectorAll('.tab')[0]?.classList.add('active');
 
       loadData();
 
