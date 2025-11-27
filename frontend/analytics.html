@@ -616,6 +616,7 @@
       <button class="tab" onclick="switchTab('section')">📂 分類點擊分析</button>
       <button class="tab" onclick="switchTab('resort')">🏔️ 雪場點擊分析</button>
       <button class="tab" onclick="switchTab('feedback')">📋 反饋與改進</button>
+      <button class="tab" onclick="switchTab('user')">👤 用戶數據查詢</button>
     </div>
 
     <!-- LLM Statistics Tab -->
@@ -1148,6 +1149,123 @@
         </div>
       </div>
     </div> <!-- End Feedback Tab -->
+
+    <!-- User Data Query Tab -->
+    <div id="user-tab" class="tab-content">
+      <h2 style="color: #2D395C; margin-bottom: 1.5rem;">👤 用戶數據查詢</h2>
+      <p style="color: #666; margin-bottom: 2rem;">查詢特定用戶的 FAQ 點擊記錄和偏好分析</p>
+
+      <!-- Search Form -->
+      <div style="background: white; padding: 1.5rem; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); margin-bottom: 2rem;">
+        <div style="display: flex; gap: 1rem; align-items: end; flex-wrap: wrap;">
+          <div style="flex: 1; min-width: 300px;">
+            <label for="userIdInput" style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #374151;">用戶 ID (MongoDB ObjectId)</label>
+            <input
+              type="text"
+              id="userIdInput"
+              placeholder="例如：66a5efd86416cfc2689b9a53"
+              style="width: 100%; padding: 0.75rem; border: 1px solid #d1d5db; border-radius: 6px; font-size: 14px;"
+            />
+            <small style="color: #6b7280; display: block; margin-top: 0.25rem;">24 位英數字組合</small>
+          </div>
+          <div style="flex: 0 0 150px;">
+            <label for="queryType" style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #374151;">查詢類型</label>
+            <select
+              id="queryType"
+              style="width: 100%; padding: 0.75rem; border: 1px solid #d1d5db; border-radius: 6px; font-size: 14px;"
+            >
+              <option value="clicks">點擊記錄</option>
+              <option value="preferences">偏好分析</option>
+            </select>
+          </div>
+          <div style="flex: 0 0 120px;">
+            <label for="userDays" style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #374151;">回溯天數</label>
+            <input
+              type="number"
+              id="userDays"
+              value="30"
+              min="1"
+              max="365"
+              style="width: 100%; padding: 0.75rem; border: 1px solid #d1d5db; border-radius: 6px; font-size: 14px;"
+            />
+          </div>
+          <div style="flex: 0 0 auto;">
+            <button
+              onclick="queryUserData()"
+              style="padding: 0.75rem 1.5rem; background: #2D395C; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 14px;"
+            >
+              🔍 查詢
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Results Container -->
+      <div id="userDataResults" style="display: none;">
+        <!-- User Info Card -->
+        <div style="background: #f0f9ff; border: 1px solid #0ea5e9; border-radius: 8px; padding: 1rem; margin-bottom: 1.5rem;">
+          <div style="display: flex; align-items: center; gap: 0.5rem; color: #0369a1; font-weight: 600;">
+            <span>👤</span>
+            <span>用戶 ID: <span id="displayUserId"></span></span>
+            <span style="margin-left: 1rem;">📅 查詢期間: 最近 <span id="displayDays"></span> 天</span>
+          </div>
+        </div>
+
+        <!-- Clicks View -->
+        <div id="clicksView" style="display: none;">
+          <h3 style="margin-bottom: 1rem; color: #2D395C;">📊 點擊記錄</h3>
+          <div style="background: white; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); overflow: hidden;">
+            <div style="overflow-x: auto;">
+              <table style="width: 100%; border-collapse: collapse;">
+                <thead>
+                  <tr style="background: #f9fafb;">
+                    <th style="padding: 12px; text-align: left; font-weight: 600; color: #374151; border-bottom: 1px solid #e5e7eb;">時間</th>
+                    <th style="padding: 12px; text-align: left; font-weight: 600; color: #374151; border-bottom: 1px solid #e5e7eb;">FAQ ID</th>
+                    <th style="padding: 12px; text-align: left; font-weight: 600; color: #374151; border-bottom: 1px solid #e5e7eb;">語言</th>
+                    <th style="padding: 12px; text-align: left; font-weight: 600; color: #374151; border-bottom: 1px solid #e5e7eb;">來源</th>
+                    <th style="padding: 12px; text-align: left; font-weight: 600; color: #374151; border-bottom: 1px solid #e5e7eb;">查詢內容</th>
+                  </tr>
+                </thead>
+                <tbody id="clicksTableBody">
+                  <tr>
+                    <td colspan="5" style="padding: 2rem; text-align: center; color: #999;">載入中...</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Preferences View -->
+        <div id="preferencesView" style="display: none;">
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 1.5rem;">
+            <!-- Top FAQs -->
+            <div style="background: white; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); padding: 1.5rem;">
+              <h3 style="margin-bottom: 1rem; color: #2D395C;">📈 最常點擊 FAQ (Top 10)</h3>
+              <div id="topFaqsList"></div>
+            </div>
+
+            <!-- Language Preferences -->
+            <div style="background: white; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); padding: 1.5rem;">
+              <h3 style="margin-bottom: 1rem; color: #2D395C;">🌐 語言偏好</h3>
+              <div id="languagesList"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- No Data Message -->
+        <div id="noDataMessage" style="display: none; background: #fef2f2; border: 1px solid #fecaca; border-radius: 8px; padding: 1.5rem; text-align: center; color: #991b1b;">
+          <p style="font-weight: 600; margin-bottom: 0.5rem;">📭 無數據</p>
+          <p style="color: #7f1d1d;">此用戶在指定期間內沒有點擊記錄</p>
+        </div>
+      </div>
+
+      <!-- Error Message -->
+      <div id="userQueryError" style="display: none; background: #fef2f2; border: 1px solid #fecaca; border-radius: 8px; padding: 1.5rem; margin-top: 1rem;">
+        <p style="color: #991b1b; font-weight: 600; margin-bottom: 0.5rem;">❌ 查詢失敗</p>
+        <p id="userErrorMessage" style="color: #7f1d1d;"></p>
+      </div>
+    </div> <!-- End User Query Tab -->
   </div>
 
   <script src="assets/env.js"></script>
@@ -3094,6 +3212,144 @@
             loadFeedbackData();
           }
         });
+      }
+
+      // User Data Query Function
+      async function queryUserData() {
+        const userId = document.getElementById('userIdInput').value.trim();
+        const queryType = document.getElementById('queryType').value;
+        const days = document.getElementById('userDays').value;
+
+        // Hide previous results and errors
+        document.getElementById('userDataResults').style.display = 'none';
+        document.getElementById('userQueryError').style.display = 'none';
+        document.getElementById('clicksView').style.display = 'none';
+        document.getElementById('preferencesView').style.display = 'none';
+        document.getElementById('noDataMessage').style.display = 'none';
+
+        // Validate user ID
+        if (!userId) {
+          document.getElementById('userQueryError').style.display = 'block';
+          document.getElementById('userErrorMessage').textContent = '請輸入用戶 ID';
+          return;
+        }
+
+        if (!/^[0-9a-f]{24}$/i.test(userId)) {
+          document.getElementById('userQueryError').style.display = 'block';
+          document.getElementById('userErrorMessage').textContent = '無效的用戶 ID 格式（需要 24 位英數字）';
+          return;
+        }
+
+        try {
+          // Call API
+          const response = await fetch(`${API_BASE}/analytics/user/${userId}?type=${queryType}&days=${days}`);
+          const result = await response.json();
+
+          if (!response.ok || !result.success) {
+            throw new Error(result.error?.message || '查詢失敗');
+          }
+
+          const data = result.data;
+
+          // Display user info
+          document.getElementById('displayUserId').textContent = userId;
+          document.getElementById('displayDays').textContent = days;
+          document.getElementById('userDataResults').style.display = 'block';
+
+          // Check if data is empty
+          if (queryType === 'clicks') {
+            if (!data.data || data.data.length === 0) {
+              document.getElementById('noDataMessage').style.display = 'block';
+              return;
+            }
+
+            // Display clicks table
+            document.getElementById('clicksView').style.display = 'block';
+            const tbody = document.getElementById('clicksTableBody');
+            tbody.innerHTML = data.data.map(click => {
+              const time = new Date(click.timestamp).toLocaleString('zh-TW');
+              const languageLabel = {'zh': '中文', 'en': 'English', 'th': 'ไทย'}[click.language] || click.language;
+              const sourceLabel = {
+                'search_results': '搜尋結果',
+                'section_browse': '分類瀏覽',
+                'hot_list': '熱門列表',
+                'intent_recommendation': '意圖推薦',
+                'section_modal': '分類彈窗',
+                'park_faq_card': 'Park FAQ'
+              }[click.source] || click.source;
+
+              return `
+                <tr style="border-bottom: 1px solid #e5e7eb;">
+                  <td style="padding: 12px; color: #6b7280; font-size: 13px;">${time}</td>
+                  <td style="padding: 12px; color: #374151; font-weight: 500;">${click.faq_id}</td>
+                  <td style="padding: 12px; color: #374151;">${languageLabel}</td>
+                  <td style="padding: 12px; color: #374151;">${sourceLabel}</td>
+                  <td style="padding: 12px; color: #6b7280; font-size: 13px;">${click.query_text || '-'}</td>
+                </tr>
+              `;
+            }).join('');
+
+          } else if (queryType === 'preferences') {
+            const prefsData = data.data;
+
+            if ((!prefsData.topFAQs || prefsData.topFAQs.length === 0) &&
+                (!prefsData.languages || prefsData.languages.length === 0)) {
+              document.getElementById('noDataMessage').style.display = 'block';
+              return;
+            }
+
+            // Display preferences
+            document.getElementById('preferencesView').style.display = 'block';
+
+            // Top FAQs
+            const topFaqsHtml = prefsData.topFAQs && prefsData.topFAQs.length > 0
+              ? prefsData.topFAQs.map((faq, index) => {
+                  const maxClicks = prefsData.topFAQs[0].clicks;
+                  const percentage = (faq.clicks / maxClicks * 100).toFixed(0);
+                  return `
+                    <div style="margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 1px solid #e5e7eb;">
+                      <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                        <span style="font-weight: 600; color: #374151;">${index + 1}. ${faq.faq_id}</span>
+                        <span style="color: #6b7280;">${faq.clicks} 次</span>
+                      </div>
+                      <div style="background: #e5e7eb; height: 8px; border-radius: 4px; overflow: hidden;">
+                        <div style="background: #2D395C; height: 100%; width: ${percentage}%;"></div>
+                      </div>
+                    </div>
+                  `;
+                }).join('')
+              : '<p style="color: #999; text-align: center;">無數據</p>';
+
+            document.getElementById('topFaqsList').innerHTML = topFaqsHtml;
+
+            // Languages
+            const languagesHtml = prefsData.languages && prefsData.languages.length > 0
+              ? prefsData.languages.map((lang) => {
+                  const maxClicks = prefsData.languages[0].clicks;
+                  const percentage = (lang.clicks / maxClicks * 100).toFixed(0);
+                  const languageLabel = {'zh': '中文', 'en': 'English', 'th': 'ไทย'}[lang.language] || lang.language;
+                  return `
+                    <div style="margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 1px solid #e5e7eb;">
+                      <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                        <span style="font-weight: 600; color: #374151;">${languageLabel}</span>
+                        <span style="color: #6b7280;">${lang.clicks} 次</span>
+                      </div>
+                      <div style="background: #e5e7eb; height: 8px; border-radius: 4px; overflow: hidden;">
+                        <div style="background: #0ea5e9; height: 100%; width: ${percentage}%;"></div>
+                      </div>
+                    </div>
+                  `;
+                }).join('')
+              : '<p style="color: #999; text-align: center;">無數據</p>';
+
+            document.getElementById('languagesList').innerHTML = languagesHtml;
+          }
+
+        } catch (error) {
+          console.error('[User Query] Error:', error);
+          document.getElementById('userQueryError').style.display = 'block';
+          document.getElementById('userErrorMessage').textContent = error.message || '查詢失敗，請稍後再試';
+        }
       }
 
       loadData();
