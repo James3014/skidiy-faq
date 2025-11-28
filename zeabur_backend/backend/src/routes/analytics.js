@@ -1005,6 +1005,89 @@ router.get('/faq-stats', async (req, res, next) => {
 });
 
 /**
+ * GET /api/v1/analytics/faq-views
+ *
+ * Get detailed FAQ view records (統一資料來源，替代 localStorage)
+ *
+ * Query params:
+ * - limit: number (default 100, max 500)
+ * - language: string (optional)
+ * - days: number (default 30)
+ * - clicked_only: boolean (default false)
+ *
+ * Response:
+ * {
+ *   "success": true,
+ *   "data": [
+ *     {
+ *       "faq_id": "faq.booking.001",
+ *       "query_text": "預約課程",
+ *       "clicked": 1,
+ *       "language": "zh",
+ *       "source": "search_results",
+ *       "timestamp": "2025-11-26T08:38:17.000Z"
+ *     }
+ *   ]
+ * }
+ */
+router.get('/faq-views', async (req, res, next) => {
+  try {
+    if (!analyticsService) {
+      throw new AppError('SERVICE_UNAVAILABLE', 'Analytics 服務尚未初始化', 503);
+    }
+
+    const {
+      limit = 100,
+      language,
+      days = 30,
+      clicked_only = 'false'
+    } = req.query;
+
+    const db = analyticsService.db;
+
+    // Validate and cap limit
+    const limitNum = Math.min(parseInt(limit, 10), 500);
+
+    // Calculate date filter
+    const daysAgo = new Date();
+    daysAgo.setDate(daysAgo.getDate() - parseInt(days, 10));
+    const dateFilter = daysAgo.toISOString();
+
+    // Build query
+    let query = `
+      SELECT
+        faq_id,
+        query_text,
+        clicked,
+        language,
+        source,
+        timestamp
+      FROM faq_views
+      WHERE timestamp >= ?
+    `;
+    const params = [dateFilter];
+
+    if (language) {
+      query += ` AND language = ?`;
+      params.push(language);
+    }
+
+    if (clicked_only === 'true') {
+      query += ` AND clicked = 1`;
+    }
+
+    query += ` ORDER BY timestamp DESC LIMIT ?`;
+    params.push(limitNum);
+
+    const views = db.prepare(query).all(...params);
+
+    sendSuccess(res, views, 200);
+  } catch (error) {
+    next(error);
+  }
+});
+
+/**
  * POST /api/v1/analytics/track-tag-click
  *
  * Track tag click event (FAQ tags or Resort amenity tags)

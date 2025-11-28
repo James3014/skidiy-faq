@@ -775,9 +775,9 @@
         </div>
       </div>
 
-      <!-- Local FAQ Clicks -->
+      <!-- FAQ Click Records -->
       <div class="provider-section">
-        <h3 style="margin-bottom: 1rem; color: #2D395C;">🗂️ 本地 FAQ 點擊記錄 (最近 100 筆)</h3>
+        <h3 style="margin-bottom: 1rem; color: #2D395C;">🗂️ FAQ 點擊記錄（最近 100 筆）</h3>
         <div class="recent-queries" id="localFaqClicks">
           <p style="text-align: center; color: #999; padding: 2rem;">載入中...</p>
         </div>
@@ -1663,24 +1663,31 @@
       container.innerHTML = html;
     }
 
-    // Load local FAQ clicks from localStorage
+    // Load FAQ clicks from backend API (統一資料來源)
+    // LINUS PRINCIPLE: Single Source of Truth - 改用後端資料庫，不再使用 localStorage
     async function loadLocalFAQClicks() {
       try {
         // Load FAQ knowledge base first
         await loadFAQKnowledgeBase();
 
-        const clicksData = JSON.parse(localStorage.getItem('faq_clicks') || '[]');
+        // 從後端 API 取得資料（替代 localStorage）
+        const response = await fetch(`${API_BASE}/analytics/faq-views?limit=100`);
+        const result = await response.json();
+
+        if (!response.ok || !result.success) {
+          throw new Error(result.error?.message || 'Failed to load FAQ views');
+        }
+
+        const clicksData = result.data || [];
         const container = document.getElementById('localFaqClicks');
 
         if (clicksData.length === 0) {
-          container.innerHTML = '<p style="text-align: center; color: #999; padding: 2rem;">暫無本地記錄</p>';
+          container.innerHTML = '<p style="text-align: center; color: #999; padding: 2rem;">暫無記錄</p>';
           return;
         }
 
-        // Sort by timestamp descending and take last 100
-        const recentClicks = clicksData
-          .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))
-          .slice(0, 100);
+        // Data is already sorted DESC by timestamp from API
+        const recentClicks = clicksData;
 
         const html = recentClicks.map(click => {
           const date = new Date(click.timestamp);
