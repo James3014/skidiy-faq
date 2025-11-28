@@ -2589,13 +2589,21 @@
       }
     }
 
-    // Load feedback stats from localStorage
-    function loadLocalFeedbackStats() {
+    // Load feedback stats from backend API (統一資料來源)
+    // LINUS PRINCIPLE: Single Source of Truth
+    async function loadLocalFeedbackStats() {
       try {
-        const feedbacks = JSON.parse(localStorage.getItem('localFeedbacks') || '[]');
-        const total = feedbacks.length;
-        const helpful = feedbacks.filter(f => f.helpful === true).length;
-        const notHelpful = total - helpful;
+        const response = await fetch(`${API_BASE}/analytics/feedback-stats`);
+        const result = await response.json();
+
+        if (!response.ok || !result.success) {
+          throw new Error(result.error?.message || 'Failed to load feedback stats');
+        }
+
+        const stats = result.data.summary || result.data;
+        const total = stats.total_feedback || 0;
+        const helpful = stats.helpful_count || 0;
+        const notHelpful = stats.not_helpful_count || 0;
         const helpfulRate = total > 0 ? ((helpful / total) * 100).toFixed(1) : 0;
 
         document.getElementById('totalFeedback').textContent = total;
@@ -2603,11 +2611,11 @@
         document.getElementById('notHelpfulCount').textContent = notHelpful;
         document.getElementById('helpfulRate').textContent = `${helpfulRate}%`;
 
-        // Render chart with local data
+        // Render chart with backend data
         renderFeedbackTypeChart({ total_feedback: total, helpful_count: helpful, not_helpful_count: notHelpful });
-        console.log('[Feedback Analytics] Loaded from localStorage:', { total, helpful, notHelpful });
+        console.log('[Feedback Analytics] Loaded from backend API:', { total, helpful, notHelpful });
       } catch (error) {
-        console.error('[Feedback Analytics] Error loading local stats:', error);
+        console.error('[Feedback Analytics] Error loading feedback stats from API:', error);
         document.getElementById('totalFeedback').textContent = '0';
         document.getElementById('helpfulCount').textContent = '0';
         document.getElementById('notHelpfulCount').textContent = '0';
@@ -3157,21 +3165,27 @@
       }
     }
 
-    // Load feedback data from localStorage
-    function loadLocalFeedbackData() {
+    // Load feedback data from backend API (統一資料來源)
+    // LINUS PRINCIPLE: Single Source of Truth
+    async function loadLocalFeedbackData() {
       try {
-        const feedbacks = JSON.parse(localStorage.getItem('localFeedbacks') || '[]');
+        const response = await fetch(`${API_BASE}/analytics/feedback-recent?limit=50`);
+        const result = await response.json();
+
+        if (!response.ok || !result.success) {
+          throw new Error(result.error?.message || 'Failed to load recent feedback');
+        }
+
+        const feedbacks = result.data || [];
 
         if (feedbacks.length === 0) {
           document.getElementById('recentFeedback').innerHTML =
-            '<p style="text-align: center; color: #999; padding: 2rem;">暫無本地反饋記錄</p>';
+            '<p style="text-align: center; color: #999; padding: 2rem;">暫無反饋記錄</p>';
           return;
         }
 
-        // Sort by timestamp descending
-        const sortedFeedbacks = feedbacks
-          .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))
-          .slice(0, 50);
+        // Data is already sorted DESC by timestamp from API
+        const sortedFeedbacks = feedbacks.slice(0, 50);
 
         const html = sortedFeedbacks.map(feedback => {
           const date = new Date(feedback.timestamp);
@@ -3182,18 +3196,17 @@
             minute: '2-digit'
           });
 
-          const typeLabel = feedback.type === 'faq' ? 'FAQ' : '雪場';
+          const typeLabel = feedback.feedback_type === 'faq' ? 'FAQ' : '雪場';
           const helpfulIcon = feedback.helpful ? '👍 有幫助' : '👎 沒幫助';
           const reasonLabel = feedback.reason ? ` - ${feedback.reason}` : '';
-          const syncIcon = feedback.synced ? '✓' : '⏳';
 
           return `
             <div class="query-item" style="border-left: 3px solid ${feedback.helpful ? '#10b981' : '#f59e0b'};">
               <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.5rem;">
                 <div style="flex: 1;">
-                  <strong>${typeLabel}</strong>: ${escapeHtml(feedback.itemId || '未知')}
+                  <strong>${typeLabel}</strong>: ${escapeHtml(feedback.item_id || '未知')}
                 </div>
-                <span style="font-size: 0.85rem; color: #999;">${timeStr} ${syncIcon}</span>
+                <span style="font-size: 0.85rem; color: #999;">${timeStr}</span>
               </div>
               <div style="margin-bottom: 0.5rem;">
                 <span style="background: ${feedback.helpful ? '#d1fae5' : '#fef3c7'}; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.85rem;">
@@ -3209,12 +3222,9 @@
           `;
         }).join('');
 
-        document.getElementById('recentFeedback').innerHTML =
-          `<div style="background: #fef3c7; border: 1px solid #f59e0b; border-radius: 6px; padding: 0.75rem; margin-bottom: 1rem; font-size: 0.9rem;">
-            📱 顯示本地數據（${feedbacks.length} 筆，${feedbacks.filter(f => f.synced).length} 筆已同步）
-          </div>` + html;
+        document.getElementById('recentFeedback').innerHTML = html;
       } catch (error) {
-        console.error('[Feedback Analytics] Error loading local feedback:', error);
+        console.error('[Feedback Analytics] Error loading feedback from API:', error);
         document.getElementById('recentFeedback').innerHTML =
           '<p style="text-align: center; color: #999; padding: 2rem;">載入失敗</p>';
       }
