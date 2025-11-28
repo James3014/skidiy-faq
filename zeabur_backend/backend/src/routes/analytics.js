@@ -1088,6 +1088,224 @@ router.get('/faq-views', async (req, res, next) => {
 });
 
 /**
+ * GET /api/v1/analytics/tag-clicks
+ *
+ * Get detailed tag click records (統一資料來源)
+ *
+ * Query params:
+ * - limit: number (default 100, max 500)
+ * - tag_type: "faq" | "resort" (optional)
+ * - days: number (default 30)
+ *
+ * Response:
+ * {
+ *   "success": true,
+ *   "data": [
+ *     {
+ *       "tag_type": "faq",
+ *       "tag_name": "#課程預約",
+ *       "item_id": "faq.booking.001",
+ *       "language": "zh",
+ *       "timestamp": "2025-11-26T08:38:17.000Z"
+ *     }
+ *   ]
+ * }
+ */
+router.get('/tag-clicks', async (req, res, next) => {
+  try {
+    if (!analyticsService) {
+      throw new AppError('SERVICE_UNAVAILABLE', 'Analytics 服務尚未初始化', 503);
+    }
+
+    const {
+      limit = 100,
+      tag_type,
+      days = 30
+    } = req.query;
+
+    const db = analyticsService.db;
+    const limitNum = Math.min(parseInt(limit, 10), 500);
+
+    const daysAgo = new Date();
+    daysAgo.setDate(daysAgo.getDate() - parseInt(days, 10));
+    const dateFilter = daysAgo.toISOString();
+
+    let query = `
+      SELECT
+        tag_type,
+        tag_name,
+        item_id,
+        language,
+        timestamp
+      FROM tag_clicks
+      WHERE timestamp >= ?
+    `;
+    const params = [dateFilter];
+
+    if (tag_type) {
+      query += ` AND tag_type = ?`;
+      params.push(tag_type);
+    }
+
+    query += ` ORDER BY timestamp DESC LIMIT ?`;
+    params.push(limitNum);
+
+    const clicks = db.prepare(query).all(...params);
+
+    sendSuccess(res, clicks, 200);
+  } catch (error) {
+    next(error);
+  }
+});
+
+/**
+ * GET /api/v1/analytics/section-views
+ *
+ * Get detailed section view records (統一資料來源)
+ *
+ * Query params:
+ * - limit: number (default 100, max 500)
+ * - language: string (optional)
+ * - days: number (default 30)
+ *
+ * Response:
+ * {
+ *   "success": true,
+ *   "data": [
+ *     {
+ *       "section": "📅 一般課程預約與安排",
+ *       "language": "zh",
+ *       "source": "section_modal",
+ *       "timestamp": "2025-11-26T08:38:17.000Z"
+ *     }
+ *   ]
+ * }
+ */
+router.get('/section-views', async (req, res, next) => {
+  try {
+    if (!analyticsService) {
+      throw new AppError('SERVICE_UNAVAILABLE', 'Analytics 服務尚未初始化', 503);
+    }
+
+    const {
+      limit = 100,
+      language,
+      days = 30
+    } = req.query;
+
+    const db = analyticsService.db;
+    const limitNum = Math.min(parseInt(limit, 10), 500);
+
+    const daysAgo = new Date();
+    daysAgo.setDate(daysAgo.getDate() - parseInt(days, 10));
+    const dateFilter = daysAgo.toISOString();
+
+    let query = `
+      SELECT
+        section,
+        language,
+        timestamp
+      FROM section_views
+      WHERE timestamp >= ?
+    `;
+    const params = [dateFilter];
+
+    if (language) {
+      query += ` AND language = ?`;
+      params.push(language);
+    }
+
+    query += ` ORDER BY timestamp DESC LIMIT ?`;
+    params.push(limitNum);
+
+    const views = db.prepare(query).all(...params);
+
+    sendSuccess(res, views, 200);
+  } catch (error) {
+    next(error);
+  }
+});
+
+/**
+ * GET /api/v1/analytics/resort-clicks
+ *
+ * Get detailed resort click/engagement records (統一資料來源)
+ *
+ * Query params:
+ * - limit: number (default 100, max 500)
+ * - click_type: "expand" | "card_click" | "amenity_tag" (optional)
+ * - language: string (optional)
+ * - days: number (default 30)
+ *
+ * Response:
+ * {
+ *   "success": true,
+ *   "data": [
+ *     {
+ *       "resort_id": "appi",
+ *       "resort_name_en": "Appi Kogen",
+ *       "region": "東北",
+ *       "click_type": "expand",
+ *       "language": "zh",
+ *       "timestamp": "2025-11-26T08:38:17.000Z"
+ *     }
+ *   ]
+ * }
+ */
+router.get('/resort-clicks', async (req, res, next) => {
+  try {
+    if (!analyticsService) {
+      throw new AppError('SERVICE_UNAVAILABLE', 'Analytics 服務尚未初始化', 503);
+    }
+
+    const {
+      limit = 100,
+      click_type,
+      language,
+      days = 30
+    } = req.query;
+
+    const db = analyticsService.db;
+    const limitNum = Math.min(parseInt(limit, 10), 500);
+
+    const daysAgo = new Date();
+    daysAgo.setDate(daysAgo.getDate() - parseInt(days, 10));
+    const dateFilter = daysAgo.toISOString();
+
+    let query = `
+      SELECT
+        resort_id,
+        region,
+        click_type,
+        language,
+        timestamp
+      FROM resort_clicks
+      WHERE timestamp >= ?
+    `;
+    const params = [dateFilter];
+
+    if (click_type) {
+      query += ` AND click_type = ?`;
+      params.push(click_type);
+    }
+
+    if (language) {
+      query += ` AND language = ?`;
+      params.push(language);
+    }
+
+    query += ` ORDER BY timestamp DESC LIMIT ?`;
+    params.push(limitNum);
+
+    const clicks = db.prepare(query).all(...params);
+
+    sendSuccess(res, clicks, 200);
+  } catch (error) {
+    next(error);
+  }
+});
+
+/**
  * POST /api/v1/analytics/track-tag-click
  *
  * Track tag click event (FAQ tags or Resort amenity tags)

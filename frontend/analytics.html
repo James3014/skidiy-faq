@@ -853,7 +853,7 @@
 
       <!-- Tag Click Details from localStorage -->
       <div class="chart-section" style="margin-top: 1.5rem;">
-        <h3 style="margin-bottom: 1rem; color: #2D395C;">🗂️ 本地 Tag 點擊記錄 (最近 100 筆)</h3>
+        <h3 style="margin-bottom: 1rem; color: #2D395C;">🗂️ Tag 點擊記錄（最近 100 筆）</h3>
         <div class="recent-queries" id="localTagClicks">
           <p style="text-align: center; color: #999; padding: 2rem;">載入中...</p>
         </div>
@@ -930,7 +930,7 @@
 
       <!-- Local Section Clicks -->
       <div class="provider-section">
-        <h3 style="margin-bottom: 1rem; color: #2D395C;">🗂️ 本地分類點擊記錄 (最近 100 筆)</h3>
+        <h3 style="margin-bottom: 1rem; color: #2D395C;">🗂️ 分類點擊記錄（最近 100 筆）</h3>
         <div class="recent-queries" id="localSectionClicks">
           <p style="text-align: center; color: #999; padding: 2rem;">載入中...</p>
         </div>
@@ -1970,18 +1970,26 @@
       }).join('');
     }
 
-    // Display local tag clicks from localStorage
-    function displayLocalTagData() {
+    // Display tag clicks from backend API (統一資料來源)
+    // LINUS PRINCIPLE: Single Source of Truth
+    async function displayLocalTagData() {
       try {
-        const tagClicks = JSON.parse(localStorage.getItem('tagClicks') || '[]');
+        const response = await fetch(`${API_BASE}/analytics/tag-clicks?limit=100`);
+        const result = await response.json();
+
+        if (!response.ok || !result.success) {
+          throw new Error(result.error?.message || 'Failed to load tag clicks');
+        }
+
+        const tagClicks = result.data || [];
 
         if (tagClicks.length === 0) {
-          document.getElementById('localTagClicks').innerHTML = '<p style="text-align: center; color: #999; padding: 2rem;">暫無本地記錄</p>';
+          document.getElementById('localTagClicks').innerHTML = '<p style="text-align: center; color: #999; padding: 2rem;">暫無記錄</p>';
           return;
         }
 
-        // Show last 20
-        const recent = tagClicks.slice(-20).reverse();
+        // Show last 20 (already sorted DESC from API)
+        const recent = tagClicks.slice(0, 20);
 
         const html = recent.map(click => {
           const time = new Date(click.timestamp).toLocaleString('zh-TW', {
@@ -2105,16 +2113,26 @@
       displayLocalSectionData();
     }
 
-    function displayLocalSectionData() {
+    // Display section clicks from backend API (統一資料來源)
+    // LINUS PRINCIPLE: Single Source of Truth
+    async function displayLocalSectionData() {
       try {
-        const sectionClicks = JSON.parse(localStorage.getItem('sectionClicks') || '[]');
+        const response = await fetch(`${API_BASE}/analytics/section-views?limit=100`);
+        const result = await response.json();
+
+        if (!response.ok || !result.success) {
+          throw new Error(result.error?.message || 'Failed to load section views');
+        }
+
+        const sectionClicks = result.data || [];
 
         if (sectionClicks.length === 0) {
-          document.getElementById('localSectionClicks').innerHTML = '<p style="text-align: center; color: #999; padding: 2rem;">暫無本地記錄</p>';
+          document.getElementById('localSectionClicks').innerHTML = '<p style="text-align: center; color: #999; padding: 2rem;">暫無記錄</p>';
           return;
         }
 
-        const recent = sectionClicks.slice(-20).reverse();
+        // Show last 20 (already sorted DESC from API)
+        const recent = sectionClicks.slice(0, 20);
 
         const html = recent.map(click => {
           const time = new Date(click.timestamp).toLocaleString('zh-TW', {
@@ -2141,7 +2159,7 @@
 
         document.getElementById('localSectionClicks').innerHTML = html;
       } catch (error) {
-        console.error('[Section Analytics] Error displaying local data:', error);
+        console.error('[Section Analytics] Error loading section views from API:', error);
         document.getElementById('localSectionClicks').innerHTML = '<p style="text-align: center; color: #999; padding: 2rem;">載入失敗</p>';
       }
     }
@@ -2409,18 +2427,27 @@
       displayLocalEngagementRecords();
     }
 
-    function displayLocalEngagementRecords() {
+    // Display resort engagement records from backend API (統一資料來源)
+    // LINUS PRINCIPLE: Single Source of Truth
+    async function displayLocalEngagementRecords() {
       try {
-        const engagements = JSON.parse(localStorage.getItem('resortEngagements') || '[]');
+        // Get expand events from backend
+        const response = await fetch(`${API_BASE}/analytics/resort-clicks?limit=100&click_type=expand`);
+        const result = await response.json();
+
+        if (!response.ok || !result.success) {
+          throw new Error(result.error?.message || 'Failed to load resort clicks');
+        }
+
+        const engagements = result.data || [];
 
         if (engagements.length === 0) {
-          document.getElementById('localEngagementRecords').innerHTML = '<p style="text-align: center; color: #999; padding: 2rem;">暫無本地記錄</p>';
+          document.getElementById('localEngagementRecords').innerHTML = '<p style="text-align: center; color: #999; padding: 2rem;">暫無記錄</p>';
           return;
         }
 
-        // Filter for expand events only and get recent 20
-        const expandEvents = engagements.filter(e => e.engagement_type === 'expand');
-        const recent = expandEvents.slice(-20).reverse();
+        // Show last 20 expand events (already sorted DESC and filtered by API)
+        const recent = engagements.slice(0, 20);
 
         if (recent.length === 0) {
           document.getElementById('localEngagementRecords').innerHTML = '<p style="text-align: center; color: #999; padding: 2rem;">暫無展開記錄</p>';
@@ -2440,7 +2467,8 @@
               <div style="flex: 1;">
                 <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
                   <span style="background: #667eea; color: white; padding: 0.1rem 0.5rem; border-radius: 4px; font-size: 0.75rem; font-weight: 600;">▼ 展開</span>
-                  <strong style="color: #2D395C;">${event.resort_name || event.resort_id}</strong>
+                  <strong style="color: #2D395C;">${event.resort_id || '-'}</strong>
+                  ${event.region ? `<span style="color: #999; font-size: 0.85rem;">(${event.region})</span>` : ''}
                 </div>
                 <div style="color: #999; font-size: 0.85rem;">
                   ${LANGUAGE_LABELS[event.language] || event.language}
@@ -2453,7 +2481,7 @@
 
         document.getElementById('localEngagementRecords').innerHTML = html;
       } catch (error) {
-        console.error('[Engagement Analytics] Error displaying local records:', error);
+        console.error('[Engagement Analytics] Error loading resort clicks from API:', error);
         document.getElementById('localEngagementRecords').innerHTML = '<p style="text-align: center; color: #999; padding: 2rem;">載入失敗</p>';
       }
     }
