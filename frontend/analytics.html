@@ -426,6 +426,34 @@
       white-space: nowrap;
     }
 
+    /* Stacked rows for tag daily breakdown */
+    .chart-bar-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .chart-bar-container {
+      display: flex;
+      gap: 2px;
+      background: #e5e7eb;
+      border-radius: 6px;
+      overflow: hidden;
+      height: 14px;
+    }
+
+    .chart-bar {
+      height: 100%;
+      border-radius: 0;
+    }
+
+    .chart-note {
+      font-size: 12px;
+      color: #666;
+      margin-top: 6px;
+    }
+
     .filters {
       display: flex;
       gap: 10px;
@@ -921,6 +949,7 @@
         <div class="chart" id="sectionDailyChart">
           <p style="text-align: center; color: #999; padding: 3rem;">載入中...</p>
         </div>
+        <div class="chart-note" id="sectionDailyNote"></div>
       </div>
 
       <!-- Language Distribution -->
@@ -992,6 +1021,7 @@
         <div class="chart" id="resortDailyChart">
           <p style="text-align: center; color: #999; padding: 3rem;">載入中...</p>
         </div>
+        <div class="chart-note" id="resortDailyNote"></div>
       </div>
 
       <!-- Language Distribution -->
@@ -1049,6 +1079,7 @@
           <div class="chart" id="engagementDailyChart">
             <p style="text-align: center; color: #999; padding: 3rem;">載入中...</p>
           </div>
+          <div class="chart-note" id="engagementDailyNote"></div>
         </div>
 
         <!-- Local Engagement Records -->
@@ -1398,7 +1429,7 @@
       renderRecentQueries(data.data.recent);
 
       // Render daily chart
-      renderDailyChart(data.data.daily);
+      renderBarChart('dailyChart', data.data.daily, 'requests', '目前沒有每日資料');
     }
 
     // Load provider comparison
@@ -1897,7 +1928,7 @@
       const dates = Object.keys(byDate).sort().reverse().slice(0, 14); // Last 14 days
       const maxClicks = Math.max(...dates.map(d => byDate[d].faq + byDate[d].resort));
 
-      return dates.map(date => {
+      const rows = dates.map(date => {
         const faqClicks = byDate[date].faq || 0;
         const resortClicks = byDate[date].resort || 0;
         const total = faqClicks + resortClicks;
@@ -1915,6 +1946,11 @@
           </div>
         `;
       }).join('');
+
+      return `
+        <div class="chart-note">FAQ (藍) + Resort (綠)，最近 14 天每日點擊</div>
+        ${rows}
+      `;
     }
 
     // Display tag clicks from backend API (單一來源)
@@ -2049,6 +2085,10 @@
 
       // Daily trend chart
       renderBarChart('sectionDailyChart', data.daily, 'clicks');
+      const sectionDailyNote = document.getElementById('sectionDailyNote');
+      if (sectionDailyNote) {
+        sectionDailyNote.textContent = '單位：每日點擊數（左→右為由舊到新）';
+      }
 
       // Language distribution
       const languageHTML = data.by_language.map(lang => `
@@ -2187,6 +2227,10 @@
 
       // Daily trend chart
       renderBarChart('resortDailyChart', data.daily, 'clicks');
+      const resortDailyNote = document.getElementById('resortDailyNote');
+      if (resortDailyNote) {
+        resortDailyNote.textContent = '單位：每日點擊數（左→右為由舊到新）';
+      }
 
       // Language distribution
       const languageHTML = data.by_language.map(lang => `
@@ -2319,6 +2363,10 @@
 
       // Daily engagement trend
       renderBarChart('engagementDailyChart', data.daily_trend, 'engagements', '暫無每日互動數據');
+      const engagementDailyNote = document.getElementById('engagementDailyNote');
+      if (engagementDailyNote) {
+        engagementDailyNote.textContent = '單位：每日互動數（左→右為由舊到新）';
+      }
 
       // Display local engagement records
       displayLocalEngagementRecords();
