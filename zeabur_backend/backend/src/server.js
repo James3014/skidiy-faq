@@ -16,6 +16,7 @@ const logger = require('./utils/logger');
 const { formatSuccess } = require('./utils/response-formatter');
 const routes = require('./routes');
 const AnalyticsService = require('./services/analytics-service');
+const CRMService = require('./services/crm-service');
 
 // Initialize Express app
 const app = express();
@@ -33,6 +34,52 @@ const APP_VERSION = '1.0.3'; // Force Zeabur rebuild - park_faq_cards.json fix
 // 2. Zeabur Volume path: /data/analytics.db (auto-detect)
 // 3. Local development: ../data/analytics.db
 let analyticsService;
+const REQUIRED_TABLES = {
+  llm_usage: ['request_id', 'query_text', 'provider', 'timestamp'],
+  provider_stats: ['provider', 'date', 'total_requests'],
+  faq_views: ['faq_id', 'language', 'timestamp'],
+  section_views: ['section', 'language', 'timestamp'],
+  tag_clicks: ['tag_type', 'tag_name', 'item_id', 'language', 'timestamp'],
+  resort_clicks: ['click_type', 'language', 'timestamp'],
+  feedback: ['feedback_type', 'item_id', 'helpful', 'timestamp']
+};
+
+function verifyAnalyticsDatabase(db) {
+  const fs = require('fs');
+  if (!db) {
+    throw new Error('Analytics DB connection is null');
+  }
+
+  const tables = db.prepare("SELECT name FROM sqlite_master WHERE type='table'").all();
+  const tableSet = new Set(tables.map(t => t.name));
+  const missingTables = Object.keys(REQUIRED_TABLES).filter(t => !tableSet.has(t));
+
+  if (missingTables.length > 0) {
+    throw new Error(`Missing required tables: ${missingTables.join(', ')}`);
+  }
+
+  // Verify required columns exist
+  Object.entries(REQUIRED_TABLES).forEach(([table, columns]) => {
+    const info = db.prepare(`PRAGMA table_info(${table})`).all();
+    const colSet = new Set(info.map(c => c.name));
+    const missingCols = columns.filter(c => !colSet.has(c));
+    if (missingCols.length > 0) {
+      throw new Error(`Table ${table} missing columns: ${missingCols.join(', ')}`);
+    }
+  });
+
+  // Quick write test to ensure directory is writable (touch journal)
+  try {
+    const dbPath = db.name || process.env.SQLITE_DB_PATH || '/data/analytics.db';
+    const dir = path.dirname(dbPath);
+    fs.accessSync(dir, fs.constants.W_OK);
+  } catch (err) {
+    throw new Error(`DB directory not writable: ${err.message}`);
+  }
+}
+
+let crmService;
+
 try {
   const fs = require('fs');
   const path = require('path');
@@ -66,10 +113,16 @@ try {
   });
 
   analyticsService = new AnalyticsService(dbPath);
+  verifyAnalyticsDatabase(analyticsService.db);
+
   logger.info('✅ Analytics service initialized successfully', {
     path: dbPath,
     dbConnected: analyticsService.db ? true : false
   });
+
+  // Initialize CRM Service once and inject where needed
+  crmService = new CRMService();
+  logger.info('✅ CRM service initialized successfully');
 
   // LINUS PRINCIPLE: Single source of truth for DATA_DIR
   // Store the data directory path globally so all routes can access it
@@ -84,6 +137,7 @@ try {
   });
   // Set to null explicitly
   analyticsService = null;
+  crmService = null;
   // Still set DATA_DIR to a sensible default
   global.DATA_DIR = process.env.SQLITE_DB_PATH
     ? path.dirname(process.env.SQLITE_DB_PATH)
@@ -177,6 +231,32 @@ app.get('/health', (req, res) => {
   );
 });
 
+// Analytics-specific health with table counts
+app.get('/health/analytics', (req, res) => {
+  const fs = require('fs');
+  const response = {
+    status: 'ok',
+    db_path: analyticsService?.db?.name || process.env.SQLITE_DB_PATH || (fs.existsSync('/data') ? '/data/analytics.db' : path.join(__dirname, '../../data/analytics.db')),
+    tables: {},
+    last_error: null
+  };
+
+  try {
+    if (!analyticsService || !analyticsService.db) {
+      throw new Error('Analytics service not initialized');
+    }
+    Object.keys(REQUIRED_TABLES).forEach((table) => {
+      const rows = analyticsService.db.prepare(`SELECT COUNT(*) as count FROM ${table}`).get();
+      response.tables[table] = rows.count;
+    });
+  } catch (error) {
+    response.status = 'error';
+    response.last_error = error.message;
+  }
+
+  res.json(response);
+});
+
 // API routes (prefixed with /api/v1)
 app.use('/api/v1', routes);
 
@@ -184,7 +264,7 @@ app.use('/api/v1', routes);
 // This ensures single source of truth for database path
 const analyticsRoutes = require('./routes/analytics');
 if (analyticsService && typeof analyticsRoutes.initializeServices === 'function') {
-  analyticsRoutes.initializeServices(analyticsService);
+  analyticsRoutes.initializeServices(analyticsService, crmService);
   logger.info('Analytics routes initialized with shared service instance');
 }
 

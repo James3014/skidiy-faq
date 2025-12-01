@@ -1284,6 +1284,7 @@
 
   <script src="assets/env.js"></script>
   <script src="lib/config.js"></script>
+  <script src="js/analytics-utils.js"></script>
   <script>
     // config.js already sets window.API_BASE, just use it
     const API_BASE = window.API_BASE;
@@ -1479,65 +1480,7 @@
       `).join('');
     }
 
-    // Render daily chart
-    function renderDailyChart(dailyData) {
-      const container = document.getElementById('dailyChart');
-
-      if (dailyData.length === 0) {
-        container.innerHTML = '<div class="loading">目前沒有每日資料</div>';
-        return;
-      }
-
-      const maxRequests = Math.max(...dailyData.map(d => d.requests));
-
-      // Reverse to show oldest to newest (left to right)
-      const sortedData = [...dailyData].reverse();
-
-      container.innerHTML = sortedData.map(day => {
-        const heightPercent = (day.requests / maxRequests) * 100;
-        const date = new Date(day.date);
-        const label = `${date.getMonth() + 1}/${date.getDate()}`;
-
-        return `
-          <div class="bar-item">
-            <div class="bar" style="height: ${heightPercent}%">
-              <div class="bar-value">${day.requests}</div>
-            </div>
-            <div class="bar-label">${label}</div>
-          </div>
-        `;
-      }).join('');
-    }
-
-    // Generic daily chart renderer for section/resort analytics
-    function renderGenericDailyChart(dailyData, valueField = 'clicks') {
-      if (!dailyData || dailyData.length === 0) {
-        return '<div class="no-data">暫無每日數據</div>';
-      }
-
-      const maxValue = Math.max(...dailyData.map(d => d[valueField] || 0));
-
-      // Reverse to show oldest to newest (left to right)
-      const sortedData = [...dailyData].reverse();
-
-      const bars = sortedData.map(day => {
-        const value = day[valueField] || 0;
-        const heightPercent = maxValue > 0 ? (value / maxValue) * 100 : 0;
-        const date = new Date(day.date);
-        const label = `${date.getMonth() + 1}/${date.getDate()}`;
-
-        return `
-          <div class="bar-item">
-            <div class="bar" style="height: ${heightPercent}%">
-              <div class="bar-value">${value}</div>
-            </div>
-            <div class="bar-label">${label}</div>
-          </div>
-        `;
-      }).join('');
-
-      return `<div class="chart-bars">${bars}</div>`;
-    }
+    const { renderBarChart } = window.AnalyticsUtils || {};
 
     // Export data as CSV
     async function exportData(type) {
@@ -1650,6 +1593,7 @@
       } catch (error) {
         console.error('Failed to load FAQ stats:', error);
         document.getElementById('topFAQs').innerHTML = '<div class="error">無法載入 FAQ 統計數據</div>';
+        document.getElementById('faqDailyChart').innerHTML = `<div class="no-data" style="color:#991b1b;">載入錯誤：${error.message}</div>`;
       }
     }
 
@@ -1813,31 +1757,7 @@
 
     // Render FAQ daily chart
     function renderFAQDailyChart(dailyData) {
-      const container = document.getElementById('faqDailyChart');
-      if (!dailyData || dailyData.length === 0) {
-        container.innerHTML = '<div class="no-data">暫無每日數據</div>';
-        return;
-      }
-
-      const maxClicks = Math.max(...dailyData.map(d => d.clicks || 0));
-
-      // Reverse to show oldest to newest
-      const sortedData = [...dailyData].reverse();
-
-      container.innerHTML = sortedData.map(day => {
-        const heightPercent = maxClicks > 0 ? ((day.clicks || 0) / maxClicks) * 100 : 0;
-        const date = new Date(day.date);
-        const label = `${date.getMonth() + 1}/${date.getDate()}`;
-
-        return `
-          <div class="bar-item">
-            <div class="bar" style="height: ${heightPercent}%">
-              <div class="bar-value">${day.clicks || 0}</div>
-            </div>
-            <div class="bar-label">${label}</div>
-          </div>
-        `;
-      }).join('');
+      renderBarChart('faqDailyChart', dailyData, 'clicks');
     }
 
     // Utility functions
@@ -1879,16 +1799,29 @@
             displayTagStats(data.data);
           } else {
             console.warn('[Tag Analytics] API returned error:', data.error);
-            displayLocalTagData();
+            showTagError(data.error?.message || 'Tag 統計載入失敗');
           }
         } else {
-          console.warn('[Tag Analytics] API unavailable, using localStorage');
-          displayLocalTagData();
+          console.warn('[Tag Analytics] API unavailable');
+          showTagError('Tag 統計 API 不可用');
         }
       } catch (error) {
         console.warn('[Tag Analytics] Error loading from API:', error);
-        displayLocalTagData();
+        showTagError('Tag 統計載入錯誤：' + error.message);
       }
+    }
+
+    function showTagError(message) {
+      document.getElementById('tagTotalClicks').textContent = '-';
+      document.getElementById('tagFaqClicks').textContent = '-';
+      document.getElementById('tagResortClicks').textContent = '-';
+      document.getElementById('tagFaqUnique').textContent = '-';
+      document.getElementById('tagResortUnique').textContent = '-';
+      document.getElementById('tagTopClicks').textContent = '-';
+      document.getElementById('tagTopName').textContent = '-';
+      document.getElementById('topTags').innerHTML = `<p style="text-align: center; color: #991b1b; padding: 2rem;">${message}</p>`;
+      document.getElementById('tagDailyChart').innerHTML = `<p style="text-align: center; color: #991b1b; padding: 2rem;">${message}</p>`;
+      document.getElementById('localTagClicks').innerHTML = `<p style="text-align: center; color: #991b1b; padding: 2rem;">${message}</p>`;
     }
 
     // Display tag statistics from API
@@ -1942,12 +1875,10 @@
 
       document.getElementById('topTags').innerHTML = topTagsHTML || '<p style="text-align: center; color: #999; padding: 2rem;">暫無數據</p>';
 
-      // Daily trend chart
+      // Daily trend chart (stacked view keeps custom layout)
       const dailyChartHTML = renderTagDailyChart(data.daily);
       document.getElementById('tagDailyChart').innerHTML = dailyChartHTML;
 
-      // Also display local data
-      displayLocalTagData();
     }
 
     // Render daily tag chart
@@ -1986,9 +1917,8 @@
       }).join('');
     }
 
-    // Display tag clicks from backend API (統一資料來源)
-    // LINUS PRINCIPLE: Single Source of Truth
-    async function displayLocalTagData() {
+    // Display tag clicks from backend API (單一來源)
+    async function displayTagRecords() {
       try {
         const response = await fetch(`${API_BASE}/analytics/tag-clicks?limit=100`);
         const result = await response.json();
@@ -2004,7 +1934,6 @@
           return;
         }
 
-        // Show last 20 (already sorted DESC from API)
         const recent = tagClicks.slice(0, 20);
 
         const html = recent.map(click => {
@@ -2036,8 +1965,8 @@
 
         document.getElementById('localTagClicks').innerHTML = html;
       } catch (error) {
-        console.error('[Tag Analytics] Error displaying local data:', error);
-        document.getElementById('localTagClicks').innerHTML = '<p style="text-align: center; color: #999; padding: 2rem;">載入失敗</p>';
+        console.error('[Tag Analytics] Error displaying tag records:', error);
+        document.getElementById('localTagClicks').innerHTML = `<p style="text-align: center; color: #991b1b; padding: 2rem;">載入失敗：${error.message}</p>`;
       }
     }
 
@@ -2060,16 +1989,28 @@
             displaySectionStats(data.data);
           } else {
             console.warn('[Section Analytics] API returned error:', data.error);
-            displayLocalSectionData();
+            showSectionError(data.error?.message || '分類統計載入失敗');
           }
         } else {
-          console.warn('[Section Analytics] API unavailable, using localStorage');
-          displayLocalSectionData();
+          console.warn('[Section Analytics] API unavailable');
+          showSectionError('分類統計 API 不可用');
         }
       } catch (error) {
         console.warn('[Section Analytics] Error loading from API:', error);
-        displayLocalSectionData();
+        showSectionError('分類統計載入錯誤：' + error.message);
       }
+    }
+
+    function showSectionError(message) {
+      document.getElementById('sectionTotalClicks').textContent = '-';
+      document.getElementById('sectionUniqueCount').textContent = '-';
+      document.getElementById('sectionTopName').textContent = '-';
+      document.getElementById('sectionTopClicks').textContent = '-';
+      document.getElementById('sectionLanguages').textContent = '-';
+      document.getElementById('topSections').innerHTML = `<p style="text-align: center; color: #991b1b; padding: 2rem;">${message}</p>`;
+      document.getElementById('sectionDailyChart').innerHTML = `<p style="text-align: center; color: #991b1b; padding: 2rem;">${message}</p>`;
+      document.getElementById('sectionLanguageDistribution').innerHTML = `<p style="text-align: center; color: #991b1b; padding: 2rem;">${message}</p>`;
+      document.getElementById('localSectionClicks').innerHTML = `<p style="text-align: center; color: #991b1b; padding: 2rem;">${message}</p>`;
     }
 
     function displaySectionStats(data) {
@@ -2107,8 +2048,7 @@
       document.getElementById('topSections').innerHTML = topSectionsHTML || '<p style="text-align: center; color: #999; padding: 2rem;">暫無數據</p>';
 
       // Daily trend chart
-      const dailyChartHTML = renderGenericDailyChart(data.daily, 'clicks');
-      document.getElementById('sectionDailyChart').innerHTML = dailyChartHTML;
+      renderBarChart('sectionDailyChart', data.daily, 'clicks');
 
       // Language distribution
       const languageHTML = data.by_language.map(lang => `
@@ -2125,13 +2065,12 @@
 
       document.getElementById('sectionLanguageDistribution').innerHTML = languageHTML || '<p style="text-align: center; color: #999; padding: 2rem;">暫無數據</p>';
 
-      // Local data
-      displayLocalSectionData();
+      // Latest records
+      displaySectionRecords();
     }
 
-    // Display section clicks from backend API (統一資料來源)
-    // LINUS PRINCIPLE: Single Source of Truth
-    async function displayLocalSectionData() {
+    // Display section clicks from backend API (單一來源)
+    async function displaySectionRecords() {
       try {
         const response = await fetch(`${API_BASE}/analytics/section-views?limit=100`);
         const result = await response.json();
@@ -2176,7 +2115,7 @@
         document.getElementById('localSectionClicks').innerHTML = html;
       } catch (error) {
         console.error('[Section Analytics] Error loading section views from API:', error);
-        document.getElementById('localSectionClicks').innerHTML = '<p style="text-align: center; color: #999; padding: 2rem;">載入失敗</p>';
+        document.getElementById('localSectionClicks').innerHTML = `<p style="text-align: center; color: #991b1b; padding: 2rem;">載入失敗：${error.message}</p>`;
       }
     }
 
@@ -2200,15 +2139,18 @@
             displayResortStats(data.data);
           } else {
             console.warn('[Resort Analytics] API returned error:', data.error);
+            showResortError(data.error?.message || '雪場統計載入失敗');
           }
         } else {
           console.warn('[Resort Analytics] API unavailable');
+          showResortError('雪場統計 API 不可用');
         }
 
         // Also load engagement data
         await loadResortEngagementData();
       } catch (error) {
         console.warn('[Resort Analytics] Error loading from API:', error);
+        showResortError('雪場統計載入錯誤：' + error.message);
       }
     }
 
@@ -2244,8 +2186,7 @@
       document.getElementById('topRegions').innerHTML = topRegionsHTML || '<p style="text-align: center; color: #999; padding: 2rem;">暫無數據</p>';
 
       // Daily trend chart
-      const dailyChartHTML = renderGenericDailyChart(data.daily, 'clicks');
-      document.getElementById('resortDailyChart').innerHTML = dailyChartHTML;
+      renderBarChart('resortDailyChart', data.daily, 'clicks');
 
       // Language distribution
       const languageHTML = data.by_language.map(lang => `
@@ -2260,6 +2201,16 @@
       `).join('');
 
       document.getElementById('resortLanguageDistribution').innerHTML = languageHTML || '<p style="text-align: center; color: #999; padding: 2rem;">暫無數據</p>';
+    }
+
+    function showResortError(message) {
+      document.getElementById('resortRegionClicks').textContent = '-';
+      document.getElementById('resortUniqueRegions').textContent = '-';
+      document.getElementById('resortTopRegion').textContent = '-';
+      document.getElementById('resortTopRegionClicks').textContent = '-';
+      document.getElementById('topRegions').innerHTML = `<p style="text-align: center; color: #991b1b; padding: 2rem;">${message}</p>`;
+      document.getElementById('resortDailyChart').innerHTML = `<p style="text-align: center; color: #991b1b; padding: 2rem;">${message}</p>`;
+      document.getElementById('resortLanguageDistribution').innerHTML = `<p style="text-align: center; color: #991b1b; padding: 2rem;">${message}</p>`;
     }
 
 
@@ -2282,96 +2233,27 @@
             displayResortEngagementStats(data.data);
           } else {
             console.warn('[Resort Engagement] API returned error:', data.error);
-            loadResortEngagementFromLocalStorage();
+            showEngagementError(data.error?.message || '雪場互動載入失敗');
           }
         } else {
-          console.warn('[Resort Engagement] API unavailable, using localStorage');
-          loadResortEngagementFromLocalStorage();
+          console.warn('[Resort Engagement] API unavailable');
+          showEngagementError('雪場互動 API 不可用');
         }
       } catch (error) {
-        console.warn('[Resort Engagement] Error loading from API, using localStorage:', error);
-        loadResortEngagementFromLocalStorage();
+        console.warn('[Resort Engagement] Error loading from API:', error);
+        showEngagementError('雪場互動載入錯誤：' + error.message);
       }
     }
 
-    function loadResortEngagementFromLocalStorage() {
-      try {
-        const languageFilter = document.getElementById('resortLanguageFilter').value;
-        const daysFilter = parseInt(document.getElementById('resortDaysFilter').value);
-
-        let engagements = JSON.parse(localStorage.getItem('resortEngagements') || '[]');
-
-        // Apply language filter
-        if (languageFilter) {
-          engagements = engagements.filter(e => e.language === languageFilter);
-        }
-
-        // Apply time filter
-        const cutoffDate = new Date();
-        cutoffDate.setDate(cutoffDate.getDate() - daysFilter);
-        engagements = engagements.filter(e => new Date(e.timestamp) >= cutoffDate);
-
-        if (engagements.length === 0) {
-          displayNoEngagementData();
-          return;
-        }
-
-        // Calculate stats from localStorage
-        const stats = {
-          total_engagements: engagements.length,
-          engagement_by_type: [],
-          top_resorts: [],
-          daily_trend: []
-        };
-
-        // Count by engagement type
-        const typeCounts = {};
-        engagements.forEach(e => {
-          typeCounts[e.engagement_type] = (typeCounts[e.engagement_type] || 0) + 1;
-        });
-        stats.engagement_by_type = Object.entries(typeCounts).map(([type, count]) => ({
-          engagement_type: type,
-          count: count
-        }));
-
-        // Count by resort
-        const resortCounts = {};
-        const resortEngagementTypes = {};
-        engagements.forEach(e => {
-          const resortId = e.resort_id;
-          const resortName = e.resort_name || resortId;
-          if (!resortCounts[resortId]) {
-            resortCounts[resortId] = { resort_id: resortId, resort_name: resortName, total: 0, types: {} };
-          }
-          resortCounts[resortId].total++;
-          resortCounts[resortId].types[e.engagement_type] = (resortCounts[resortId].types[e.engagement_type] || 0) + 1;
-        });
-
-        stats.top_resorts = Object.values(resortCounts)
-          .sort((a, b) => b.total - a.total)
-          .slice(0, 10)
-          .map(r => ({
-            resort_id: r.resort_id,
-            resort_name: r.resort_name,
-            total_engagements: r.total,
-            engagement_types: r.types
-          }));
-
-        // Count by day
-        const dayCounts = {};
-        engagements.forEach(e => {
-          const date = new Date(e.timestamp).toISOString().split('T')[0];
-          dayCounts[date] = (dayCounts[date] || 0) + 1;
-        });
-        stats.daily_trend = Object.entries(dayCounts)
-          .sort((a, b) => a[0].localeCompare(b[0]))
-          .map(([date, count]) => ({ date, engagements: count }));
-
-        displayResortEngagementStats(stats);
-      } catch (error) {
-        console.error('[Resort Engagement] Error loading from localStorage:', error);
-        displayNoEngagementData();
-      }
+    function showEngagementError(message) {
+      document.getElementById('totalEngagements').textContent = '-';
+      document.getElementById('expandCount').textContent = '-';
+      document.getElementById('officialSiteCount').textContent = '-';
+      document.getElementById('feedbackCount').textContent = '-';
+      document.getElementById('topEngagedResorts').innerHTML = `<p style="text-align: center; color: #991b1b; padding: 2rem;">${message}</p>`;
+      document.getElementById('engagementTypeBreakdown').innerHTML = `<p style="text-align: center; color: #991b1b; padding: 2rem;">${message}</p>`;
+      document.getElementById('engagementDailyChart').innerHTML = `<p style="text-align: center; color: #991b1b; padding: 2rem;">${message}</p>`;
+      document.getElementById('localEngagementRecords').innerHTML = `<p style="text-align: center; color: #991b1b; padding: 2rem;">${message}</p>`;
     }
 
     function displayResortEngagementStats(data) {
@@ -2436,8 +2318,7 @@
       document.getElementById('engagementTypeBreakdown').innerHTML = engagementTypeHTML || '<p style="text-align: center; color: #999; padding: 2rem;">暫無數據</p>';
 
       // Daily engagement trend
-      const dailyChartHTML = renderGenericDailyChart(data.daily_trend, 'engagements');
-      document.getElementById('engagementDailyChart').innerHTML = dailyChartHTML;
+      renderBarChart('engagementDailyChart', data.daily_trend, 'engagements', '暫無每日互動數據');
 
       // Display local engagement records
       displayLocalEngagementRecords();

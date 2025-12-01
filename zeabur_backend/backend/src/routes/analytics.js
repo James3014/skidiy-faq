@@ -12,7 +12,6 @@
 const express = require('express');
 const router = express.Router();
 const AlertService = require('../services/alert-service');
-const CRMService = require('../services/crm-service');
 const { AppError } = require('../middleware/error-handler');
 const { sendSuccess } = require('../utils/response-formatter');
 const requireApiKey = require('../middleware/api-key');
@@ -26,17 +25,11 @@ let analyticsService = null;
 let alertService = null;
 let crmService = null;
 
-try {
-  crmService = new CRMService();
-  console.log('[Analytics API] CRM Service initialized for email lookup');
-} catch (error) {
-  console.error('[Analytics API] CRM Service initialization failed:', error.message);
-}
-
 // Initialization function called from server.js
-function initializeServices(analyticsServiceInstance) {
+function initializeServices(analyticsServiceInstance, crmServiceInstance = null) {
   try {
     analyticsService = analyticsServiceInstance;
+    crmService = crmServiceInstance;
     console.log('[Analytics API] Using Analytics Service from server.js');
 
     // Initialize Alert Service
