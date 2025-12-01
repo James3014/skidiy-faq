@@ -1520,7 +1520,7 @@
       // Reverse to show oldest to newest (left to right)
       const sortedData = [...dailyData].reverse();
 
-      return sortedData.map(day => {
+      const bars = sortedData.map(day => {
         const value = day[valueField] || 0;
         const heightPercent = maxValue > 0 ? (value / maxValue) * 100 : 0;
         const date = new Date(day.date);
@@ -1535,6 +1535,8 @@
           </div>
         `;
       }).join('');
+
+      return `<div class="chart-bars">${bars}</div>`;
     }
 
     // Export data as CSV
