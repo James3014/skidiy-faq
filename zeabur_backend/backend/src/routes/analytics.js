@@ -12,6 +12,7 @@
 const express = require('express');
 const router = express.Router();
 const AlertService = require('../services/alert-service');
+const CRMService = require('../services/crm-service');
 const { AppError } = require('../middleware/error-handler');
 const { sendSuccess } = require('../utils/response-formatter');
 const requireApiKey = require('../middleware/api-key');
@@ -23,6 +24,14 @@ const fs = require('fs').promises;
 // This eliminates duplicate initialization and path confusion
 let analyticsService = null;
 let alertService = null;
+let crmService = null;
+
+try {
+  crmService = new CRMService();
+  console.log('[Analytics API] CRM Service initialized for email lookup');
+} catch (error) {
+  console.error('[Analytics API] CRM Service initialization failed:', error.message);
+}
 
 // Initialization function called from server.js
 function initializeServices(analyticsServiceInstance) {
@@ -2207,6 +2216,104 @@ router.get('/resort-engagement-stats', async (req, res, next) => {
 
     sendSuccess(res, stats, 200);
 
+  } catch (error) {
+    next(error);
+  }
+});
+
+/**
+ * Normalize email for comparison
+ */
+function normalizeEmail(email) {
+  if (typeof email !== 'string') return null;
+  const trimmed = email.trim().toLowerCase();
+  return trimmed.length > 0 ? trimmed : null;
+}
+
+/**
+ * Resolve user_id by email from CRM logs to avoid storing PII in analytics DB
+ * Returns the most recent matching user_id, or null if not found
+ */
+function resolveUserIdByEmail(email) {
+  if (!crmService) return null;
+
+  const normalizedEmail = normalizeEmail(email);
+  if (!normalizedEmail) return null;
+
+  const inquiries = crmService.readInquiries({ limit: 5000 });
+
+  for (const inquiry of inquiries) {
+    const meta = inquiry.metadata || {};
+    const candidateEmails = [
+      inquiry.email,
+      meta.email,
+      meta.user_email,
+      meta.contact_email,
+      meta.contact?.email,
+      meta.contact?.primaryEmail,
+      inquiry.user_id && inquiry.user_id.includes('@') ? inquiry.user_id : null
+    ]
+      .filter(Boolean)
+      .map(normalizeEmail)
+      .filter(Boolean);
+
+    if (candidateEmails.includes(normalizedEmail)) {
+      return inquiry.user_id || null;
+    }
+  }
+
+  return null;
+}
+
+/**
+ * 查詢用戶數據（透過 Email 解析 user_id）
+ * GET /api/v1/analytics/user/by-email
+ *
+ * Query params:
+ * - email: user email (required)
+ * - type: 'clicks' | 'preferences' (預設 'clicks')
+ * - days: 回溯天數 (預設 30)
+ * - limit: 最大記錄數 (預設 50，僅 clicks 時使用)
+ */
+router.get('/user/by-email', async (req, res, next) => {
+  try {
+    if (!analyticsService) {
+      throw new AppError('ANALYTICS_NOT_INITIALIZED', 'Analytics service not initialized', 503);
+    }
+
+    const { email, type = 'clicks', days = 30, limit = 50 } = req.query;
+
+    if (!email || typeof email !== 'string') {
+      throw new AppError('INVALID_EMAIL', 'Email 為必填欄位', 400);
+    }
+
+    const normalizedEmail = normalizeEmail(email);
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!normalizedEmail || !emailPattern.test(normalizedEmail)) {
+      throw new AppError('INVALID_EMAIL', '無效的 Email 格式', 400);
+    }
+
+    if (!['clicks', 'preferences'].includes(type)) {
+      throw new AppError('INVALID_TYPE', '無效的查詢類型，僅支援 clicks 或 preferences', 400);
+    }
+
+    const userId = resolveUserIdByEmail(normalizedEmail);
+    if (!userId) {
+      throw new AppError('USER_NOT_FOUND', '無法根據 Email 找到對應的用戶 ID，請確認該 Email 已有互動記錄', 404);
+    }
+
+    const data = analyticsService.getUserData(userId, {
+      type,
+      days: parseInt(days, 10),
+      limit: parseInt(limit, 10)
+    });
+
+    sendSuccess(res, {
+      user_id: userId,
+      lookup_email: normalizedEmail,
+      type,
+      data
+    }, 200);
   } catch (error) {
     next(error);
   }

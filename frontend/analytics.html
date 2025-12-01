@@ -1158,15 +1158,25 @@
       <!-- Search Form -->
       <div style="background: white; padding: 1.5rem; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); margin-bottom: 2rem;">
         <div style="display: flex; gap: 1rem; align-items: end; flex-wrap: wrap;">
+          <div style="flex: 0 0 150px;">
+            <label for="userLookupMode" style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #374151;">識別方式</label>
+            <select
+              id="userLookupMode"
+              style="width: 100%; padding: 0.75rem; border: 1px solid #d1d5db; border-radius: 6px; font-size: 14px;"
+            >
+              <option value="email">Email</option>
+              <option value="userId">用戶 ID</option>
+            </select>
+          </div>
           <div style="flex: 1; min-width: 300px;">
-            <label for="userIdInput" style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #374151;">用戶 ID (MongoDB ObjectId)</label>
+            <label id="userIdLabel" for="userIdInput" style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #374151;">Email</label>
             <input
               type="text"
               id="userIdInput"
-              placeholder="例如：66a5efd86416cfc2689b9a53"
+              placeholder="例如：user@example.com"
               style="width: 100%; padding: 0.75rem; border: 1px solid #d1d5db; border-radius: 6px; font-size: 14px;"
             />
-            <small style="color: #6b7280; display: block; margin-top: 0.25rem;">24 位英數字組合</small>
+            <small id="userIdHelper" style="color: #6b7280; display: block; margin-top: 0.25rem;">輸入使用者 Email，系統會自動解析對應的用戶 ID</small>
           </div>
           <div style="flex: 0 0 150px;">
             <label for="queryType" style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #374151;">查詢類型</label>
@@ -1207,6 +1217,7 @@
           <div style="display: flex; align-items: center; gap: 0.5rem; color: #0369a1; font-weight: 600;">
             <span>👤</span>
             <span>用戶 ID: <span id="displayUserId"></span></span>
+            <span id="displayUserEmailWrapper" style="display: none; margin-left: 1rem;">✉️ Email: <span id="displayUserEmail"></span></span>
             <span style="margin-left: 1rem;">📅 查詢期間: 最近 <span id="displayDays"></span> 天</span>
           </div>
         </div>
@@ -3233,6 +3244,25 @@
     // Initial load
     document.addEventListener('DOMContentLoaded', () => {
       const languageSelect = document.getElementById('analyticsLanguageSelect');
+      const lookupModeSelect = document.getElementById('userLookupMode');
+      const userIdLabel = document.getElementById('userIdLabel');
+      const userIdHelper = document.getElementById('userIdHelper');
+      const userIdInput = document.getElementById('userIdInput');
+
+      function updateUserLookupUI(mode = 'email') {
+        if (!userIdLabel || !userIdHelper || !userIdInput) return;
+
+        if (mode === 'email') {
+          userIdLabel.textContent = 'Email';
+          userIdInput.placeholder = '例如：user@example.com';
+          userIdHelper.textContent = '輸入使用者 Email，系統會自動解析對應的用戶 ID';
+        } else {
+          userIdLabel.textContent = '用戶 ID (MongoDB ObjectId)';
+          userIdInput.placeholder = '例如：66a5efd86416cfc2689b9a53';
+          userIdHelper.textContent = '24 位英數字組合';
+        }
+      }
+
       if (languageSelect) {
         languageSelect.value = analyticsLanguage;
         languageSelect.addEventListener('change', () => {
@@ -3261,9 +3291,17 @@
         });
       }
 
+      if (lookupModeSelect) {
+        updateUserLookupUI(lookupModeSelect.value);
+        lookupModeSelect.addEventListener('change', (e) => {
+          updateUserLookupUI(e.target.value);
+        });
+      }
+
       // User Data Query Function
       async function queryUserData() {
-        const userId = document.getElementById('userIdInput').value.trim();
+        const lookupMode = document.getElementById('userLookupMode')?.value || 'email';
+        const identifier = document.getElementById('userIdInput').value.trim();
         const queryType = document.getElementById('queryType').value;
         const days = document.getElementById('userDays').value;
 
@@ -3273,23 +3311,42 @@
         document.getElementById('clicksView').style.display = 'none';
         document.getElementById('preferencesView').style.display = 'none';
         document.getElementById('noDataMessage').style.display = 'none';
+        const displayEmailWrapper = document.getElementById('displayUserEmailWrapper');
+        if (displayEmailWrapper) {
+          displayEmailWrapper.style.display = 'none';
+        }
 
-        // Validate user ID
-        if (!userId) {
+        // Validate identifier
+        if (!identifier) {
           document.getElementById('userQueryError').style.display = 'block';
-          document.getElementById('userErrorMessage').textContent = '請輸入用戶 ID';
+          document.getElementById('userErrorMessage').textContent = lookupMode === 'email'
+            ? '請輸入 Email'
+            : '請輸入用戶 ID';
           return;
         }
 
-        if (!/^[0-9a-f]{24}$/i.test(userId)) {
-          document.getElementById('userQueryError').style.display = 'block';
-          document.getElementById('userErrorMessage').textContent = '無效的用戶 ID 格式（需要 24 位英數字）';
-          return;
+        if (lookupMode === 'email') {
+          const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+          if (!emailPattern.test(identifier)) {
+            document.getElementById('userQueryError').style.display = 'block';
+            document.getElementById('userErrorMessage').textContent = '請輸入有效的 Email';
+            return;
+          }
+        } else {
+          if (!/^[0-9a-f]{24}$/i.test(identifier)) {
+            document.getElementById('userQueryError').style.display = 'block';
+            document.getElementById('userErrorMessage').textContent = '無效的用戶 ID 格式（需要 24 位英數字）';
+            return;
+          }
         }
 
         try {
           // Call API
-          const response = await fetch(`${API_BASE}/analytics/user/${userId}?type=${queryType}&days=${days}`);
+          const endpoint = lookupMode === 'email'
+            ? `${API_BASE}/analytics/user/by-email?email=${encodeURIComponent(identifier)}&type=${queryType}&days=${days}`
+            : `${API_BASE}/analytics/user/${identifier}?type=${queryType}&days=${days}`;
+
+          const response = await fetch(endpoint);
           const result = await response.json();
 
           if (!response.ok || !result.success) {
@@ -3297,10 +3354,20 @@
           }
 
           const data = result.data;
+          const resolvedUserId = data.user_id || identifier;
+          const resolvedEmail = data.lookup_email || (lookupMode === 'email' ? identifier : null);
 
           // Display user info
-          document.getElementById('displayUserId').textContent = userId;
+          document.getElementById('displayUserId').textContent = resolvedUserId;
           document.getElementById('displayDays').textContent = days;
+          if (resolvedEmail) {
+            const emailWrapper = document.getElementById('displayUserEmailWrapper');
+            const emailText = document.getElementById('displayUserEmail');
+            if (emailWrapper && emailText) {
+              emailWrapper.style.display = 'inline-flex';
+              emailText.textContent = resolvedEmail;
+            }
+          }
           document.getElementById('userDataResults').style.display = 'block';
 
           // Check if data is empty
@@ -3398,6 +3465,9 @@
           document.getElementById('userErrorMessage').textContent = error.message || '查詢失敗，請稍後再試';
         }
       }
+
+      // Expose for inline onclick
+      window.queryUserData = queryUserData;
 
       // Set default active tab (LLM tab)
       document.getElementById('llm-tab').classList.add('active');
