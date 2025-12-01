@@ -166,6 +166,9 @@ class AnalyticsService {
         click_type TEXT NOT NULL,
         resort_id TEXT,
         region TEXT,
+        engagement_type TEXT,
+        resort_name TEXT,
+        metadata TEXT,
         language TEXT DEFAULT 'zh',
         timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
       );
@@ -173,6 +176,7 @@ class AnalyticsService {
       CREATE INDEX IF NOT EXISTS idx_resort_clicks_click_type ON resort_clicks(click_type);
       CREATE INDEX IF NOT EXISTS idx_resort_clicks_resort_id ON resort_clicks(resort_id);
       CREATE INDEX IF NOT EXISTS idx_resort_clicks_region ON resort_clicks(region);
+      CREATE INDEX IF NOT EXISTS idx_resort_clicks_engagement ON resort_clicks(engagement_type);
       CREATE INDEX IF NOT EXISTS idx_resort_clicks_timestamp ON resort_clicks(timestamp);
       CREATE INDEX IF NOT EXISTS idx_resort_clicks_language ON resort_clicks(language);
 
@@ -230,6 +234,9 @@ class AnalyticsService {
     ensureColumn('tag_clicks', 'language', "ALTER TABLE tag_clicks ADD COLUMN language TEXT DEFAULT 'zh'", 'zh');
     ensureColumn('section_views', 'language', "ALTER TABLE section_views ADD COLUMN language TEXT DEFAULT 'zh'", 'zh');
     ensureColumn('resort_clicks', 'language', "ALTER TABLE resort_clicks ADD COLUMN language TEXT DEFAULT 'zh'", 'zh');
+    ensureColumn('resort_clicks', 'engagement_type', "ALTER TABLE resort_clicks ADD COLUMN engagement_type TEXT", null);
+    ensureColumn('resort_clicks', 'resort_name', "ALTER TABLE resort_clicks ADD COLUMN resort_name TEXT", null);
+    ensureColumn('resort_clicks', 'metadata', "ALTER TABLE resort_clicks ADD COLUMN metadata TEXT", null);
 
     console.log('[Analytics Service] Column migration complete');
   }
@@ -871,8 +878,8 @@ class AnalyticsService {
    */
   trackResortEngagement(data) {
     const stmt = this.db.prepare(`
-      INSERT INTO resort_clicks (timestamp, click_type, region, resort_id, language, metadata)
-      VALUES (?, ?, ?, ?, ?, ?)
+      INSERT INTO resort_clicks (timestamp, click_type, region, resort_id, engagement_type, resort_name, metadata, language)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?)
     `);
 
     const metadata = JSON.stringify({
@@ -885,8 +892,10 @@ class AnalyticsService {
       data.click_type || 'resort_engagement',
       null, // region is null for engagement tracking
       data.resort_id,
-      data.language || 'zh',
-      metadata
+      data.engagement_type || null,
+      data.resort_name || null,
+      metadata,
+      data.language || 'zh'
     );
   }
 
@@ -895,15 +904,117 @@ class AnalyticsService {
    */
   getResortEngagementStats(options = {}) {
     try {
-      // Simple stats without complex filtering
-      // Return empty data structure since resort_clicks table has minimal data
+      const days = options.days ? parseInt(options.days, 10) : 30;
+      const limit = options.limit ? parseInt(options.limit, 10) : 20;
+      const language = options.language && options.language !== 'all' ? options.language : null;
+
+      const cutoff = new Date();
+      cutoff.setDate(cutoff.getDate() - days);
+
+      const params = [cutoff.toISOString()];
+      let languageFilterSql = '';
+      if (language) {
+        languageFilterSql = 'AND language = ?';
+        params.push(language);
+      }
+
+      // Fetch engagement records
+      const engagements = this.db.prepare(`
+        SELECT
+          resort_id,
+          resort_name,
+          engagement_type,
+          language,
+          timestamp
+        FROM resort_clicks
+        WHERE (click_type = 'resort_engagement' OR engagement_type IS NOT NULL)
+          AND timestamp >= ?
+          ${languageFilterSql}
+        ORDER BY timestamp DESC
+        LIMIT ?
+      `).all(...params, limit * 10); // fetch more for aggregation
+
+      if (!engagements || engagements.length === 0) {
+        return {
+          top_resorts: [],
+          engagement_by_type: [],
+          daily_trend: [],
+          language_distribution: [],
+          total_engagements: 0
+        };
+      }
+
+      // Aggregate by engagement type
+      const typeCounts = {};
+      engagements.forEach(e => {
+        let engagementType = e.engagement_type || 'unknown';
+        if ((!e.engagement_type) && e.metadata) {
+          try {
+            const meta = JSON.parse(e.metadata);
+            engagementType = meta.engagement_type || engagementType;
+          } catch (err) {
+            // ignore parse errors
+          }
+        }
+        const key = engagementType;
+        typeCounts[key] = (typeCounts[key] || 0) + 1;
+      });
+      const engagementByType = Object.entries(typeCounts)
+        .map(([type, count]) => ({ engagement_type: type, count }))
+        .sort((a, b) => b.count - a.count);
+
+      // Top resorts
+      const resortCounts = {};
+      engagements.forEach(e => {
+        let engagementType = e.engagement_type || 'unknown';
+        let resortName = e.resort_name || e.resort_id || 'unknown';
+        if ((!e.engagement_type || !e.resort_name) && e.metadata) {
+          try {
+            const meta = JSON.parse(e.metadata);
+            engagementType = e.engagement_type || meta.engagement_type || engagementType;
+            resortName = e.resort_name || meta.resort_name || resortName;
+          } catch (err) {
+            // ignore parse errors
+          }
+        }
+
+        const key = e.resort_id || 'unknown';
+        if (!resortCounts[key]) {
+          resortCounts[key] = { resort_id: key, resort_name: resortName || key, total_engagements: 0, engagement_types: {} };
+        }
+        resortCounts[key].total_engagements += 1;
+        resortCounts[key].engagement_types[engagementType] = (resortCounts[key].engagement_types[engagementType] || 0) + 1;
+      });
+      const topResorts = Object.values(resortCounts)
+        .sort((a, b) => b.total_engagements - a.total_engagements)
+        .slice(0, limit);
+
+      // Daily trend
+      const dailyBuckets = {};
+      engagements.forEach(e => {
+        const dateKey = e.timestamp?.slice(0, 10);
+        dailyBuckets[dateKey] = (dailyBuckets[dateKey] || 0) + 1;
+      });
+      const dailyTrend = Object.entries(dailyBuckets)
+        .map(([date, engagements]) => ({ date, engagements }))
+        .sort((a, b) => new Date(a.date) - new Date(b.date));
+
+      // Language distribution
+      const langCounts = {};
+      engagements.forEach(e => {
+        const lang = e.language || 'zh';
+        langCounts[lang] = (langCounts[lang] || 0) + 1;
+      });
+      const languageDistribution = Object.entries(langCounts)
+        .map(([lang, clicks]) => ({ language: lang, clicks }))
+        .sort((a, b) => b.clicks - a.clicks);
 
       return {
-        top_resorts: [],
-        engagement_by_type: [],
-        daily_trend: [],
-        language_distribution: [],
-        total_engagements: 0
+        top_resorts: topResorts,
+        engagement_by_type: engagementByType,
+        daily_trend: dailyTrend,
+        language_distribution: languageDistribution,
+        total_engagements: engagements.length
       };
     } catch (error) {
       console.error('[Analytics Service] getResortEngagementStats error:', error.message);

@@ -1242,7 +1242,8 @@ router.get('/section-views', async (req, res, next) => {
  *
  * Query params:
  * - limit: number (default 100, max 500)
- * - click_type: "expand" | "card_click" | "amenity_tag" (optional)
+ * - click_type: "region" | "resort_card" | "resort_engagement" | legacy: "expand"/"official_site_click"/"feedback" (optional)
+ * - engagement_type: "expand" | "official_site_click" | "feedback" (optional)
  * - language: string (optional)
  * - days: number (default 30)
  *
@@ -1270,6 +1271,7 @@ router.get('/resort-clicks', async (req, res, next) => {
     const {
       limit = 100,
       click_type,
+      engagement_type,
       language,
       days = 30
     } = req.query;
@@ -1284,8 +1286,11 @@ router.get('/resort-clicks', async (req, res, next) => {
     let query = `
       SELECT
         resort_id,
+        resort_name,
         region,
         click_type,
+        engagement_type,
+        metadata,
         language,
         timestamp
       FROM resort_clicks
@@ -1293,9 +1298,18 @@ router.get('/resort-clicks', async (req, res, next) => {
     `;
     const params = [dateFilter];
 
-    if (click_type) {
+    const legacyEngagementTypes = ['expand', 'official_site_click', 'feedback'];
+    const effectiveEngagementType = legacyEngagementTypes.includes(click_type) ? click_type : engagement_type;
+    const effectiveClickType = legacyEngagementTypes.includes(click_type) ? 'resort_engagement' : click_type;
+
+    if (effectiveClickType) {
       query += ` AND click_type = ?`;
-      params.push(click_type);
+      params.push(effectiveClickType);
+    }
+
+    if (effectiveEngagementType) {
+      query += ` AND (engagement_type = ? OR json_extract(COALESCE(metadata, '{}'), '$.engagement_type') = ?)`;
+      params.push(effectiveEngagementType, effectiveEngagementType);
     }
 
     if (language) {
