@@ -6,3 +6,10 @@ frontend/node_modules/
 .env
 zeabur_backend/backend/.env
 .admin-password.txt
+
+# Database files (should not be committed)
+*.db
+*.db-shm
+*.db-wal
+zeabur_backend/backend/data/
+zeabur_backend/data/
