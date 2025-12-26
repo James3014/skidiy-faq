@@ -36,1405 +36,81 @@
   <link rel="alternate" hreflang="en-US" href="https://faq.diy.ski/?lang=en">
   <link rel="alternate" hreflang="th-TH" href="https://faq.diy.ski/?lang=th">
   <link rel="alternate" hreflang="x-default" href="https://faq.diy.ski/">
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+  
+  <!-- 動態 noindex 控制 -->
+  <script>
+    // 檢查是否為搜尋查詢頁面，如果是則添加 noindex
+    if (window.location.search.includes('q=') || 
+        (window.location.search.includes('lang=') && window.location.search.length > 8)) {
+      const noindexMeta = document.createElement('meta');
+      noindexMeta.name = 'robots';
+      noindexMeta.content = 'noindex, nofollow';
+      document.head.appendChild(noindexMeta);
+    }
+  </script>
+  
+  <link rel="stylesheet" href="assets/css/index.css">
 
-    body {
-      font-family: Roboto, "微軟正黑體", -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
-      background: #F0F0F0;
-      min-height: 100vh;
-      color: #47596C;
-    }
-
-    /* Header with language selector */
-    .header {
-      background: #2D395C;
-      padding: 1rem 2rem;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-bottom: none;
-    }
-
-    .logo {
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: white;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .ai-badge {
-      background: #4A5F8C;
-      color: white;
-      padding: 0.25rem 0.75rem;
-      border-radius: 12px;
-      font-size: 0.75rem;
-      font-weight: 600;
-    }
-
-    .language-selector select {
-      padding: 0.375rem 1rem;
-      border: 1px solid #d1d5db;
-      border-radius: 6px;
-      font-size: 0.875rem;
-      cursor: pointer;
-      background: white;
-      color: #374151;
-      min-width: 140px;
-      appearance: none;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3E%3Cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3E%3C/svg%3E");
-      background-position: right 0.5rem center;
-      background-repeat: no-repeat;
-      background-size: 1.5em 1.5em;
-      padding-right: 2.5rem;
-    }
-
-    .language-selector select:focus {
-      outline: none;
-      ring: 2px solid #4A5F8C;
-      border-color: #4A5F8C;
-    }
-
-    /* Footer */
-    .footer {
-      background: #2D395C;
-      color: white;
-      margin-top: 4rem;
-    }
-
-    .footer-content {
-      max-width: 1400px;
-      margin: 0 auto;
-      padding: 0.75rem 2rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .footer-info {
-      display: flex;
-      flex-direction: column;
-      gap: 0.25rem;
-    }
-
-    .company-name {
-      font-size: 0.75rem;
-      font-weight: 500;
-      color: white;
-      line-height: 1.5;
-    }
-
-    .company-details {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      font-size: 0.75rem;
-      color: #d1d5db;
-      line-height: 1.5;
-      margin-top: 0.125rem;
-    }
-
-    .company-details span {
-      color: #d1d5db;
-    }
-
-    .company-details span:nth-child(2) {
-      color: #d1d5db;
-    }
-
-    .company-details a {
-      color: #93c5fd;
-      text-decoration: none;
-      transition: color 0.2s;
-    }
-
-    .company-details a:hover {
-      color: white;
-    }
-
-    .social-links {
-      display: flex;
-      align-items: center;
-    }
-
-    .social-links a {
-      color: #d1d5db;
-      padding: 0.375rem;
-      transition: color 0.2s;
-    }
-
-    .social-links a:hover {
-      color: white;
-    }
-
-    .social-links svg {
-      width: 1.25rem;
-      height: 1.25rem;
-    }
-
-    @media (max-width: 768px) {
-      .footer-content {
-        flex-direction: row;
-        padding: 0.5rem 1rem;
-      }
-
-      .footer-info {
-        flex: 1;
-      }
-
-      .company-name {
-        font-size: 0.7rem;
-      }
-
-      .company-details {
-        font-size: 0.7rem;
-        flex-wrap: wrap;
-      }
-    }
-
-    /* Main layout with sidebar */
-    .main-layout {
-      display: flex;
-      max-width: 1400px;
-      margin: 2rem auto;
-      gap: 2rem;
-      padding: 0 2rem;
-    }
-
-    /* Sidebar */
-    .sidebar {
-      width: 280px;
-      background: white;
-      border-radius: 12px;
-      padding: 1.5rem;
-      height: fit-content;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-    }
-
-    .sidebar h3 {
-      margin-bottom: 1rem;
-      color: #333;
-      font-size: 1.1rem;
-    }
-
-    .collapsible-header {
-      cursor: pointer;
-      user-select: none;
-      transition: all 0.3s ease;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .collapsible-header:hover {
-      color: #4A5F8C;
-    }
-
-    .collapse-icon {
-      display: inline-block;
-      transition: transform 0.3s ease;
-      font-size: 0.8rem;
-    }
-
-    .collapsible-header.collapsed .collapse-icon {
-      transform: rotate(-90deg);
-    }
-
-    .collapsible-content {
-      max-height: 2000px;
-      overflow: hidden;
-      transition: max-height 0.3s ease, opacity 0.3s ease;
-      opacity: 1;
-    }
-
-    .collapsible-content.collapsed {
-      max-height: 0;
-      opacity: 0;
-    }
-
-    .sidebar-section {
-      padding: 0.75rem 1rem;
-      margin: 0.5rem 0;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: all 0.2s;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .sidebar-section:hover {
-      background: #f0f0f0;
-    }
-
-    .sidebar-section.active {
-      background: #4A5F8C;
-      color: white;
-    }
-
-    .section-count {
-      font-size: 0.9rem;
-      opacity: 0.7;
-    }
-
-    /* Content area */
-    .content {
-      flex: 1;
-      background: white;
-      border-radius: 12px;
-      padding: 2rem;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-      min-height: 600px;
-    }
-
-    /* Search box */
-    .search-box {
-      display: flex;
-      gap: 1rem;
-      margin-bottom: 1rem;
-    }
-
-    .search-input {
-      flex: 1;
-      padding: 1rem;
-      border: 2px solid #4A5F8C;
-      border-radius: 20px;
-      font-size: 1rem;
-      transition: border-color 0.3s;
-      color: #47596C;
-    }
-
-    .search-input:focus {
-      outline: none;
-      border-color: #3A4D73;
-      box-shadow: 0 1px 0 0 #4A5F8C;
-    }
-
-    .search-btn {
-      padding: 1rem 2rem;
-      background: #4A5F8C;
-      color: white;
-      border: none;
-      border-radius: 20px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-
-    .search-btn:hover {
-      background: #3A4D73;
-    }
-
-    /* Intent Detection Panel */
-    .intent-panel {
-      background: #f8f9fa;
-      border: 2px solid #e0e0e0;
-      border-radius: 12px;
-      padding: 1rem;
-      margin-bottom: 1.5rem;
-      display: none;
-    }
-
-    .intent-panel.show {
-      display: block;
-      animation: slideIn 0.3s ease;
-    }
-
-    @keyframes slideIn {
-      from {
-        opacity: 0;
-        transform: translateY(-10px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .intent-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 0.75rem;
-    }
-
-    .intent-title {
-      font-weight: 600;
-      color: #333;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .intent-badge {
-      display: inline-block;
-      padding: 0.25rem 0.75rem;
-      border-radius: 20px;
-      font-size: 0.85rem;
-      font-weight: 600;
-      background: #4A5F8C;
-      color: white;
-    }
-
-    .intent-confidence {
-      font-size: 0.9rem;
-      color: #666;
-    }
-
-    .slot-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-      margin-top: 0.5rem;
-    }
-
-    .slot-tag {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.25rem;
-      padding: 0.4rem 0.75rem;
-      background: white;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      font-size: 0.85rem;
-    }
-
-    .slot-label {
-      color: #999;
-      font-weight: 600;
-    }
-
-    .slot-value {
-      color: #333;
-    }
-
-    /* Recommendations */
-    .recommendations {
-      margin-top: 1rem;
-      padding-top: 1rem;
-      border-top: 1px solid #e0e0e0;
-    }
-
-    .recommendations h4 {
-      font-size: 0.9rem;
-      color: #666;
-      margin-bottom: 0.5rem;
-    }
-
-    .recommendation-item {
-      padding: 0.5rem;
-      background: white;
-      border-radius: 6px;
-      margin-bottom: 0.5rem;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-
-    .recommendation-item:hover {
-      background: #f0f0f0;
-    }
-
-    /* Hot FAQs */
-    .hot-faqs {
-      margin-bottom: 2rem;
-    }
-
-    .hot-faqs h2 {
-      margin-bottom: 1rem;
-      color: #333;
-    }
-
-    .hot-faq-item {
-      padding: 1rem;
-      border-bottom: 1px solid #eee;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-
-    .hot-faq-item:hover {
-      background: #f8f9fa;
-    }
-
-    /* Resort Regions */
-    .resort-region {
-      padding: 0.6rem 1rem;
-      margin: 0.4rem 0;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: all 0.2s;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 0.9rem;
-    }
-
-    .resort-region:hover {
-      background: #f0f0f0;
-    }
-
-    .resort-region.active {
-      background: #4A5F8C;
-      color: white;
-    }
-
-    .resort-count {
-      font-size: 0.85rem;
-      opacity: 0.7;
-    }
-
-    /* Resort Card */
-    .resort-card {
-      background: white;
-      border: 2px solid #4A5F8C;
-      border-radius: 12px;
-      padding: 1.5rem;
-      margin-bottom: 1rem;
-      transition: all 0.3s;
-    }
-
-    .resort-card:hover {
-      border-color: #3A4D73;
-      box-shadow: 0 4px 16px rgba(74, 95, 140, 0.15);
-      transform: translateY(-2px);
-    }
-
-    .resort-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: 0;
-      padding-bottom: 1rem;
-      border-bottom: 2px solid #f0f0f0;
-    }
-
-    .resort-header.clickable {
-      cursor: pointer;
-      user-select: none;
-    }
-
-    .resort-header.clickable:hover {
-      background: rgba(74, 95, 140, 0.05);
-      margin: -0.5rem;
-      padding: 0.5rem 0.5rem 1.5rem 0.5rem;
-      border-radius: 8px;
-    }
-
-    .expand-icon {
-      display: inline-block;
-      margin-right: 0.5rem;
-      font-size: 0.9rem;
-      color: #4A5F8C;
-      transition: transform 0.3s;
-    }
-
-    .resort-name {
-      font-size: 1.3rem;
-      font-weight: 700;
-      color: #2D395C;
-      display: flex;
-      align-items: center;
-    }
-
-    .resort-details {
-      margin-top: 1rem;
-    }
-
-    .resort-name-en {
-      font-size: 0.9rem;
-      color: #666;
-      margin-top: 0.25rem;
-    }
-
-    .resort-region-tag {
-      background: #4A5F8C;
-      color: white;
-      padding: 0.25rem 0.75rem;
-      border-radius: 6px;
-      font-size: 0.85rem;
-      white-space: nowrap;
-    }
-
-    .resort-stats {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1rem;
-      margin-bottom: 1rem;
-    }
-
-    .resort-stat {
-      text-align: center;
-    }
-
-    .resort-stat-value {
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: #4A5F8C;
-    }
-
-    .resort-stat-label {
-      font-size: 0.85rem;
-      color: #666;
-      margin-top: 0.25rem;
-    }
-
-    .resort-info {
-      margin-top: 1rem;
-    }
-
-    .resort-info-row {
-      display: flex;
-      gap: 0.5rem;
-      margin: 0.75rem 0;
-      font-size: 0.95rem;
-    }
-
-    .resort-info-label {
-      font-weight: 600;
-      color: #333;
-      min-width: 80px;
-    }
-
-    .resort-info-value {
-      color: #666;
-      flex: 1;
-    }
-
-    .resort-amenities {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-      margin-top: 1rem;
-    }
-
-    .resort-amenity {
-      background: #f0f0f0;
-      padding: 0.25rem 0.75rem;
-      border-radius: 6px;
-      font-size: 0.85rem;
-      color: #666;
-      transition: all 0.2s ease;
-    }
-
-    .resort-amenity.clickable {
-      cursor: pointer;
-    }
-
-    .resort-amenity.clickable:hover {
-      background: #4A5F8C;
-      color: white;
-      transform: translateY(-1px);
-    }
-
-    .resort-link {
-      display: inline-block;
-      margin-top: 1rem;
-      padding: 0.75rem 1.5rem;
-      background: #4A5F8C;
-      color: white;
-      text-decoration: none;
-      border-radius: 8px;
-      font-weight: 600;
-      transition: background 0.2s;
-    }
-
-    .resort-link:hover {
-      background: #3A4D73;
-    }
-
-    @media (max-width: 768px) {
-      .resort-stats {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .resort-stat-value {
-        font-size: 1.2rem;
-      }
-    }
-
-    /* FAQ Results */
-    .results-header {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 1.5rem;
-      padding-bottom: 1rem;
-      border-bottom: 2px solid #eee;
-    }
-
-    .faq-item {
-      background: white;
-      border: 2px solid #4A5F8C;
-      border-radius: 12px;
-      padding: 1.5rem;
-      margin-bottom: 1rem;
-      cursor: pointer;
-      transition: all 0.3s;
-      overflow: hidden;
-    }
-
-    .faq-item:hover {
-      border-color: #3A4D73;
-      box-shadow: 0 4px 16px rgba(97, 154, 236, 0.15);
-      transform: translateY(-2px);
-    }
-
-    .faq-item.expanded {
-      border-color: #3A4D73;
-      background: #eaf1fc;
-    }
-
-    .faq-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 1rem;
-    }
-
-    .faq-question {
-      font-size: 1.1rem;
-      font-weight: 600;
-      color: #333;
-      margin: 0;
-      flex: 1;
-    }
-
-    .faq-toggle-icon {
-      font-size: 1.5rem;
-      color: #4A5F8C;
-      transition: transform 0.3s;
-      flex-shrink: 0;
-    }
-
-    .faq-item.expanded .faq-toggle-icon {
-      transform: rotate(180deg);
-    }
-
-    .faq-answer {
-      color: #666;
-      line-height: 1.6;
-      margin-top: 1rem;
-      padding-top: 1rem;
-      border-top: 1px solid #e0e0e0;
-      max-height: 0;
-      overflow: hidden;
-      opacity: 0;
-      transition: max-height 0.4s ease, opacity 0.3s ease, margin-top 0.3s ease, padding-top 0.3s ease;
-    }
-
-    .faq-item.expanded .faq-answer {
-      max-height: 1000px;
-      opacity: 1;
-    }
-
-    .faq-answer .faq-postscript {
-      margin-top: 0.75rem;
-      padding-top: 0.75rem;
-      border-top: 1px dashed rgba(148, 163, 184, 0.4);
-      font-size: 0.95rem;
-      color: #64748b;
-    }
-
-    .confidence-badge {
-      display: inline-block;
-      padding: 4px 12px;
-      border-radius: 12px;
-      font-size: 0.85rem;
-      font-weight: 600;
-      margin-left: 0.5rem;
-    }
-
-    .confidence-high { background: #d4edda; color: #155724; }
-    .confidence-medium { background: #fff3cd; color: #856404; }
-    .confidence-low { background: #f8d7da; color: #721c24; }
-
-    .faq-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-      margin-top: 0.5rem;
-    }
-
-    .faq-tag {
-      display: inline-block;
-      padding: 0.25rem 0.75rem;
-      background: #e8eaf6;
-      color: #4A5F8C;
-      border-radius: 12px;
-      font-size: 0.8rem;
-      font-weight: 500;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      border: 1px solid transparent;
-    }
-
-    .faq-tag:hover {
-      background: #4A5F8C;
-      color: white;
-      transform: translateY(-1px);
-      box-shadow: 0 2px 4px rgba(74, 95, 140, 0.3);
-    }
-
-    /* FAQ Links Styling */
-    .faq-link {
-      color: #2D5AA0;
-      text-decoration: none;
-      font-weight: 500;
-      border-bottom: 1px solid #2D5AA0;
-      transition: all 0.2s ease;
-      word-break: break-word;
-    }
-
-    .faq-link:hover {
-      color: #1a3a66;
-      border-bottom-color: #1a3a66;
-      background-color: rgba(45, 90, 160, 0.05);
-    }
-
-    .faq-link-email::before {
-      content: '✉️ ';
-      margin-right: 2px;
-    }
-
-    .faq-link-external::after {
-      content: ' 🔗';
-      margin-left: 2px;
-      font-size: 0.9em;
-    }
-
-    .loading { text-align: center; padding: 3rem; color: #999; }
-    .hidden { display: none; }
-
-    /* AI Chat Widget - Floating bottom-right */
-    .ai-chat-widget {
-      position: fixed;
-      bottom: 2rem;
-      right: 2rem;
-      z-index: 1000;
-    }
-
-    .ai-chat-button {
-      width: 60px;
-      height: 60px;
-      border-radius: 50%;
-      background: #4A5F8C;
-      color: white;
-      border: none;
-      font-size: 1.8rem;
-      cursor: pointer;
-      box-shadow: 0 4px 20px rgba(97, 154, 236, 0.4);
-      transition: all 0.3s;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .ai-chat-button:hover {
-      transform: scale(1.1);
-      box-shadow: 0 6px 30px rgba(97, 154, 236, 0.6);
-    }
-
-    .ai-chat-button.active {
-      background: #f44336;
-    }
-
-    .ai-chat-window {
-      position: absolute;
-      bottom: 80px;
-      right: 0;
-      width: 380px;
-      height: 500px;
-      background: white;
-      border-radius: 16px;
-      box-shadow: 0 8px 40px rgba(0,0,0,0.2);
-      display: none;
-      flex-direction: column;
-      overflow: hidden;
-    }
-
-    .ai-chat-window.open {
-      display: flex;
-    }
-
-    .ai-chat-header {
-      background: #4A5F8C;
-      color: white;
-      padding: 1rem;
-      font-weight: 600;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .ai-chat-messages {
-      flex: 1;
-      overflow-y: auto;
-      padding: 1rem;
-      background: #f5f5f5;
-    }
-
-    .ai-chat-message {
-      margin-bottom: 1rem;
-      display: flex;
-      gap: 0.5rem;
-    }
-
-    .ai-chat-message.user {
-      flex-direction: row-reverse;
-    }
-
-    .ai-chat-message .avatar {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.2rem;
-      flex-shrink: 0;
-    }
-
-    .ai-chat-message.assistant .avatar {
-      background: #4A5F8C;
-    }
-
-    .ai-chat-message.user .avatar {
-      background: #e0e0e0;
-    }
-
-    .ai-chat-message .bubble {
-      padding: 0.75rem 1rem;
-      border-radius: 12px;
-      max-width: 70%;
-      word-wrap: break-word;
-    }
-
-    .ai-chat-message.assistant .bubble {
-      background: white;
-      color: #333;
-    }
-
-    .ai-chat-message.user .bubble {
-      background: #4A5F8C;
-      color: white;
-    }
-
-    .ai-chat-input-area {
-      padding: 1rem;
-      background: white;
-      border-top: 1px solid #e0e0e0;
-      display: flex;
-      gap: 0.5rem;
-    }
-
-    .ai-chat-input {
-      flex: 1;
-      padding: 0.75rem;
-      border: 2px solid #4A5F8C;
-      border-radius: 20px;
-      font-size: 0.95rem;
-      outline: none;
-      color: #47596C;
-    }
-
-    .ai-chat-input:focus {
-      border-color: #3A4D73;
-      box-shadow: 0 1px 0 0 #4A5F8C;
-    }
-
-    .ai-chat-send {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background: #4A5F8C;
-      color: white;
-      border: none;
-      cursor: pointer;
-      font-size: 1.2rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .ai-chat-send:hover {
-      transform: scale(1.05);
-      background: #3A4D73;
-    }
-
-    .ai-chat-send:disabled {
-      background: #ccc;
-      cursor: not-allowed;
-      transform: none;
-    }
-
-    /* Results Modal */
-    .modal-overlay {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(0, 0, 0, 0.5);
-      z-index: 100;
-      animation: fadeIn 0.3s ease;
-    }
-
-    .modal-overlay.show {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .modal-content {
-      background: white;
-      border-radius: 12px;
-      padding: 2rem;
-      max-height: 90vh;
-      overflow-y: auto;
-      max-width: 800px;
-      width: 90%;
-      position: relative;
-      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
-      animation: slideUp 0.3s ease;
-    }
-
-    .modal-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 1.5rem;
-      padding-bottom: 1rem;
-      border-bottom: 2px solid #4A5F8C;
-    }
-
-    .modal-title {
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: #4A5F8C;
-      margin: 0;
-    }
-
-    .modal-close {
-      background: none;
-      border: none;
-      font-size: 1.5rem;
-      color: #999;
-      cursor: pointer;
-      padding: 0;
-      width: 40px;
-      height: 40px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 50%;
-      transition: background 0.2s;
-    }
-
-    .modal-close:hover {
-      background: #f0f0f0;
-      color: #4A5F8C;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-
-    @keyframes slideUp {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    /* Responsive */
-    @media (max-width: 1024px) {
-      .main-layout { flex-direction: column; }
-      .sidebar { width: 100%; }
-    }
-
-    @media (max-width: 768px) {
-      /* Header responsive adjustments */
-      .header {
-        padding: 0.75rem 1rem;
-        gap: 0.5rem;
-      }
-
-      .logo {
-        font-size: 1.2rem;
-        gap: 0.3rem;
-      }
-
-      .logo img {
-        height: 2rem !important;
-      }
-
-      .language-selector select {
-        padding: 0.375rem 0.75rem;
-        font-size: 0.8rem;
-        min-width: 120px;
-        padding-right: 2rem;
-      }
-
-      /* Search box adjustments */
-      .search-box {
-        gap: 0.5rem;
-        margin-bottom: 0.75rem;
-      }
-
-      .search-input {
-        padding: 0.75rem;
-        font-size: 0.9rem;
-      }
-
-      .search-input::placeholder {
-        font-size: 0.85rem;
-      }
-
-      .search-btn {
-        padding: 0.75rem 1rem;
-        font-size: 0.9rem;
-        white-space: nowrap;
-      }
-
-      /* Modal adjustments */
-      .modal-content {
-        width: 95%;
-        padding: 1.5rem;
-        border-radius: 8px;
-      }
-
-      .modal-title {
-        font-size: 1.2rem;
-      }
-    }
-
-    /* ============================================
-       反饋系統 CSS
-       ============================================ */
-
-    /* 反饋區域 */
-    .feedback-section {
-      margin-top: 1rem;
-      padding-top: 1rem;
-      border-top: 1px solid #e0e0e0;
-      display: flex;
-      flex-direction: column;
-      gap: 0.75rem;
-      align-items: flex-start;
-    }
-
-    .feedback-label {
-      font-size: 0.875rem;
-      color: #666;
-      font-weight: 500;
-    }
-
-    .feedback-buttons {
-      display: flex;
-      gap: 0.5rem;
-      width: 100%;
-    }
-
-    .btn-helpful,
-    .btn-not-helpful {
-      flex: 1;
-      padding: 0.5rem 0.75rem;
-      border: 1px solid #d1d5db;
-      border-radius: 6px;
-      background: white;
-      color: #374151;
-      font-size: 0.875rem;
-      font-weight: 500;
-      cursor: pointer;
-      transition: all 0.2s ease;
-    }
-
-    .btn-helpful:hover {
-      background: #dcfce7;
-      border-color: #16a34a;
-      color: #15803d;
-    }
-
-    .btn-not-helpful:hover {
-      background: #fee2e2;
-      border-color: #dc2626;
-      color: #b91c1c;
-    }
-
-    /* 反饋彈窗 */
-    .feedback-modal {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.5);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 1000;
-    }
-
-    .feedback-modal-content {
-      background: white;
-      border-radius: 12px;
-      width: 90%;
-      max-width: 400px;
-      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
-    }
-
-    .feedback-modal-header {
-      padding: 1.5rem;
-      border-bottom: 1px solid #e0e0e0;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .feedback-modal-header h3 {
-      margin: 0;
-      font-size: 1.125rem;
-    }
-
-    .feedback-modal-close {
-      background: none;
-      border: none;
-      font-size: 1.5rem;
-      cursor: pointer;
-      color: #999;
-      padding: 0;
-      width: 2rem;
-      height: 2rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .feedback-modal-close:hover {
-      color: #333;
-    }
-
-    .feedback-modal-body {
-      padding: 1.5rem;
-    }
-
-    .feedback-prompt {
-      font-size: 0.95rem;
-      color: #374151;
-      margin-bottom: 1rem;
-      font-weight: 500;
-    }
-
-    .reasons-section {
-      margin-bottom: 1rem;
-    }
-
-    .reasons-title {
-      font-size: 0.875rem;
-      font-weight: 600;
-      margin-bottom: 0.75rem;
-      color: #374151;
-    }
-
-    .reasons-list {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-    }
-
-    .reasons-list label {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      cursor: pointer;
-      font-size: 0.875rem;
-    }
-
-    .reasons-list input[type="radio"] {
-      cursor: pointer;
-    }
-
-    .comment-section {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-    }
-
-    .comment-section label {
-      font-size: 0.875rem;
-      font-weight: 500;
-      color: #374151;
-    }
-
-    .comment-section textarea {
-      padding: 0.75rem;
-      border: 1px solid #d1d5db;
-      border-radius: 6px;
-      font-family: inherit;
-      font-size: 0.875rem;
-      resize: vertical;
-    }
-
-    .comment-section textarea:focus {
-      outline: none;
-      border-color: #2563eb;
-      box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1);
-    }
-
-    .feedback-modal-footer {
-      padding: 1rem 1.5rem;
-      border-top: 1px solid #e0e0e0;
-      display: flex;
-      gap: 0.75rem;
-      justify-content: flex-end;
-    }
-
-    .btn-cancel,
-    .btn-submit {
-      padding: 0.5rem 1rem;
-      border-radius: 6px;
-      border: 1px solid #d1d5db;
-      font-size: 0.875rem;
-      font-weight: 500;
-      cursor: pointer;
-      transition: all 0.2s ease;
-    }
-
-    .btn-cancel {
-      background: white;
-      color: #374151;
-    }
-
-    .btn-cancel:hover {
-      background: #f9fafb;
-    }
-
-    .btn-submit {
-      background: #2563eb;
-      border-color: #2563eb;
-      color: white;
-    }
-
-    .btn-submit:hover {
-      background: #1d4ed8;
-    }
-
-    .btn-submit:disabled {
-      background: #9ca3af;
-      border-color: #9ca3af;
-      cursor: not-allowed;
-    }
-
-    /* 提交成功提示 */
-    .feedback-success {
-      position: fixed;
-      bottom: 2rem;
-      right: 2rem;
-      background: #10b981;
-      color: white;
-      padding: 1rem 1.5rem;
-      border-radius: 8px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-      animation: slideUp 0.3s ease-out;
-      z-index: 2000;
-    }
-
-    @keyframes slideUp {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    /* 響應式設計 */
-    @media (max-width: 768px) {
-      .feedback-buttons {
-        flex-direction: column;
-      }
-
-      .feedback-modal-content {
-        width: 85%;
-      }
-
-      .feedback-success {
-        bottom: 1rem;
-        right: 1rem;
-        left: 1rem;
-        max-width: calc(100% - 2rem);
-      }
-
-      .feedback-modal-header {
-        padding: 1rem 1.5rem;
-      }
-
-      .feedback-modal-body {
-        padding: 1rem 1.5rem;
-      }
-
-      .feedback-modal-footer {
-        padding: 1rem 1.5rem;
-      }
-    }
-  </style>
 </head>
 <body>
+  <!-- DEBUG: 如果你看到這段文字，表示你正在看正確的本地版本 -->
   <!-- Header -->
   <div class="header">
-    <div class="logo">
-      <img src="assets/logo.png" alt="SkiDIY" style="height: 2.5rem; width: auto; margin-right: 0.5rem;">
-      <span>FAQ</span>
-    </div>
-    <div class="language-selector">
-      <select id="languageSelect">
-        <option value="zh">繁體中文</option>
-        <option value="en">English</option>
-        <option value="th">ภาษาไทย</option>
-      </select>
+    <div class="header-inner">
+      <div class="logo">
+        <img src="assets/logo.png" alt="SkiDIY" class="logo-img">
+        <span>FAQ</span>
+      </div>
+      <div class="language-selector">
+        <select id="languageSelect">
+          <option value="zh">繁體中文</option>
+          <option value="en">English</option>
+          <option value="th">ภาษาไทย</option>
+        </select>
+      </div>
     </div>
   </div>
 
-  <!-- Main Layout -->
-  <div class="main-layout">
-    <!-- Sidebar -->
-    <div class="sidebar">
-      <h3 class="collapsible-header" data-target="sidebarSections">
-        <span class="collapse-icon">▼</span> 📂 FAQ分類
-      </h3>
-      <div id="sidebarSections" class="collapsible-content"></div>
-
-      <h3 class="collapsible-header" data-target="resortRegions" style="margin-top: 2rem;">
-        <span class="collapse-icon">▼</span> 🏔️ 雪場資訊
-      </h3>
-      <div id="resortRegions" class="collapsible-content"></div>
-
-      <h3 style="margin-top: 2rem;">🔥 熱門問題</h3>
-      <div id="hotFAQs"></div>
-    </div>
-
-    <!-- Content -->
-    <div class="content">
-      <!-- Search Box -->
-      <div class="search-box">
+  <!-- Hero with search -->
+  <section class="hero">
+    <div class="hero-overlay">
+      <h1 class="hero-title hero-title--compact">常見問題</h1>
+      <div class="search-box hero-search">
         <input
           type="text"
           id="searchInput"
           class="search-input"
           placeholder="輸入問題，AI 自動分析..."
         >
-        <button id="searchBtn" class="search-btn">🔍 智慧搜尋</button>
+        <button id="searchBtn" class="search-btn">搜尋</button>
       </div>
+    </div>
+  </section>
 
+  <!-- Main Layout -->
+  <div class="main-layout">
+    <!-- Tabs for FAQ / Resort / Hot -->
+    <div class="tabs-shell">
+      <div class="tab-buttons">
+        <button class="tab-button active" data-tab="faq-tab"><span>FAQ 分類</span><span class="tab-arrow">▾</span></button>
+        <button class="tab-button" data-tab="resort-tab"><span>🏔️ 雪場資訊</span><span class="tab-arrow">▾</span></button>
+        <button class="tab-button" data-tab="hot-tab"><span>🔥 熱門問題</span><span class="tab-arrow">▾</span></button>
+      </div>
+      <div class="tab-panels">
+        <div id="faq-tab" class="tab-panel active">
+          <div id="sidebarSections" class="collapsible-content"></div>
+        </div>
+        <div id="resort-tab" class="tab-panel">
+          <div id="resortRegions" class="collapsible-content"></div>
+        </div>
+        <div id="hot-tab" class="tab-panel">
+          <div id="hotFAQs"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="content">
       <!-- Intent Detection Panel -->
       <div id="intentPanel" class="intent-panel">
         <div class="intent-header">
@@ -1500,13 +176,7 @@
   </div>
 
   <script src="assets/env.js"></script>
-  <script>
-    // Set API_BASE early to avoid 404 errors on localhost
-    if (!window.API_BASE) {
-      const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-      window.API_BASE = isLocalhost ? 'http://localhost:3000/api/v1' : 'https://faq-api-v1.zeabur.app/api/v1';
-    }
-  </script>
+  <script src="lib/api-client.js"></script>
   <script src="lib/config.js"></script>
   <script src="lib/fuse.min.js"></script>
   <script src="lib/purify.min.js"></script>
@@ -1515,8 +185,27 @@
   <script src="lib/faq-renderer.js"></script>
   <script src="lib/park-faq-module.js"></script>
   <script src="lib/auth-helper.js"></script>
+  <script src="lib/sidebar.js"></script>
+  <script src="lib/search.js"></script>
+  <script src="lib/analytics.js"></script>
+  <script src="lib/resort.js"></script>
+  <script src="lib/ai-chat.js"></script>
 
   <script>
+    // Simple tab switcher for FAQ/Resort/Hot panels
+    document.addEventListener('DOMContentLoaded', () => {
+      const buttons = Array.from(document.querySelectorAll('.tab-button'));
+      const panels = Array.from(document.querySelectorAll('.tab-panel'));
+
+      buttons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const target = btn.dataset.tab;
+          buttons.forEach(b => b.classList.toggle('active', b === btn));
+          panels.forEach(p => p.classList.toggle('active', p.id === target));
+        });
+      });
+    });
+
     let faqEngine = null;
     let i18n = null;
     let allFAQs = [];
@@ -1530,8 +219,31 @@
     let linkRegistry = null; // Store unified link registry
     let currentUserId = null; // LINUS PRINCIPLE: 單一全域變數，失敗時為 null
 
-    // API base configuration
-    const API_BASE = window.API_BASE || '/api/v1';
+    // API base configuration (single source via ApiClient)
+    const API_BASE = (window.ApiClient && window.ApiClient.baseUrl) || window.API_BASE || '/api/v1';
+    const BACKEND_URL = (window.ApiClient && window.ApiClient.backendUrl) || window.BACKEND_URL || API_BASE;
+
+    // ========== UI State Helpers ==========
+    function showLoadingState() {
+      const loading = document.getElementById('loadingState');
+      const results = document.getElementById('resultsSection');
+      loading?.classList.remove('hidden');
+      results?.classList.add('hidden');
+    }
+
+    function hideLoadingState() {
+      const loading = document.getElementById('loadingState');
+      loading?.classList.add('hidden');
+    }
+
+    function showResultsSection() {
+      const results = document.getElementById('resultsSection');
+      results?.classList.remove('hidden');
+    }
+
+    function showError(message) {
+      alert(message);
+    }
 
     // Intent name mapping (中文)
     const intentNames = {
@@ -1845,11 +557,11 @@
 
         // Handle mailto: links
         if (url.startsWith('mailto:')) {
-          return `<a href="${safeUrl}" class="faq-link faq-link-email" onclick="event.stopPropagation()">${safeLabel}</a>`;
+        return `<a href="${safeUrl}" class="faq-link faq-link-email">${safeLabel}</a>`;
         }
 
         // Handle external links
-        return `<a href="${safeUrl}" target="_blank" rel="noopener noreferrer" class="faq-link faq-link-external" onclick="event.stopPropagation()">${safeLabel}</a>`;
+        return `<a href="${safeUrl}" target="_blank" rel="noopener noreferrer" class="faq-link faq-link-external">${safeLabel}</a>`;
       });
     }
 
@@ -1871,19 +583,6 @@
     document.addEventListener('DOMContentLoaded', async () => {
       try {
         console.log('[Init] Starting initialization...');
-
-        // Configure API endpoints for local development
-        // Priority: explicit window vars > localhost > Zeabur production
-        if (!window.API_BASE) {
-          const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-          window.API_BASE = isLocalhost ? 'http://localhost:3000/api/v1' : 'https://faq-api-v1.zeabur.app/api/v1';
-          console.log('[Init] API_BASE configured:', window.API_BASE);
-        }
-        if (!window.BACKEND_URL) {
-          const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-          window.BACKEND_URL = isLocalhost ? 'http://localhost:3000/api/v1' : 'https://faq-api-v1.zeabur.app/api/v1';
-          console.log('[Init] BACKEND_URL configured:', window.BACKEND_URL);
-        }
 
         // Initialize i18n (optional - don't fail if it errors)
         try {
@@ -1923,7 +622,7 @@
 
         // Load link_registry (unified link management) from backend API
         try {
-          const backendUrl = window.BACKEND_URL || 'https://faq-api-v1.zeabur.app/api/v1';
+          const backendUrl = BACKEND_URL || 'https://faq-api-v1.zeabur.app/api/v1';
           const registryResponse = await fetch(`${backendUrl}/links/registry`);
           if (registryResponse.ok) {
             const registryData = await registryResponse.json();
@@ -1945,7 +644,7 @@
         }
 
         // Render UI components
-        renderSidebar();
+        handleRenderSidebar();
         console.log('[Init] Sidebar rendered');
 
         renderResortRegions();
@@ -2015,13 +714,13 @@
 
         // Initialize AI chat widget
         try {
-          initAIChatWidget();
+          AIChat.init({ faqEngine });
         } catch (chatError) {
           console.warn('[Init] AI chat widget initialization failed (non-critical):', chatError);
         }
       } catch (error) {
         console.error('Initialization failed:', error);
-        alert('初始化失敗: ' + error.message + '\n\n請檢查瀏覽器控制台以獲取更多資訊。');
+        showError('初始化失敗: ' + error.message + '\n\n請檢查瀏覽器控制台以獲取更多資訊。');
       }
     });
 
@@ -2035,210 +734,56 @@
       return translated && translated !== key ? translated : rawSection;
     }
 
-    // Render sidebar sections
-    function renderSidebar() {
+    function handleRenderSidebar() {
       console.log('[Sidebar] Rendering sidebar with', allFAQs.length, 'FAQs');
-
-      const sections = {};
-      allFAQs.forEach(faq => {
-        const section = (faq.metadata && faq.metadata.section) || faq.section || '其他';
-        sections[section] = (sections[section] || 0) + 1;
-      });
-
-      console.log('[Sidebar] Sections found:', Object.keys(sections));
-      console.log('[Sidebar] Section counts:', sections);
-
-      const sidebarHTML = Object.entries(sections)
-        .map(([name, count]) => `
-          <div class="sidebar-section" data-section="${name}">
-            <span>${getSectionLabel(name)}</span>
-            <span class="section-count">(${count})</span>
-          </div>
-        `).join('');
-
-      const sidebarElement = document.getElementById('sidebarSections');
-      if (!sidebarElement) {
-        console.error('[Sidebar] Element #sidebarSections not found!');
+      if (!window.Sidebar) {
+        console.error('[Sidebar] Sidebar module missing');
         return;
       }
-
-      sidebarElement.innerHTML = sidebarHTML;
-      console.log('[Sidebar] HTML rendered, length:', sidebarHTML.length);
-
-      // Section click handlers
-      document.querySelectorAll('.sidebar-section').forEach(el => {
-        el.addEventListener('click', () => {
-          document.querySelectorAll('.sidebar-section').forEach(e => e.classList.remove('active'));
-          el.classList.add('active');
-
-          const section = el.dataset.section;
+      Sidebar.render({
+        faqs: allFAQs,
+        currentLanguage,
+        currentSection,
+        getSectionLabel,
+        onSectionSelect: (section) => {
           currentSection = section;
-
-          // Track section click for analytics
           trackSectionClick(section);
-
           filterBySection(section);
-        });
+        }
       });
-
-      if (currentSection) {
-        const activeEl = document.querySelector(`.sidebar-section[data-section="${currentSection}"]`);
-        if (activeEl) {
-          activeEl.classList.add('active');
-        }
-      }
-
-      console.log('[Sidebar] Click handlers attached to', document.querySelectorAll('.sidebar-section').length, 'sections');
     }
 
-    const FAQ_SESSION_KEY = 'faq_session_id';
-
-    function getFaqSessionId() {
-      try {
-        const storage = window.sessionStorage || window.localStorage;
-        let id = storage.getItem(FAQ_SESSION_KEY);
-        if (!id) {
-          id = (window.crypto?.randomUUID?.() || `sess_${Date.now()}_${Math.random().toString(16).slice(2)}`);
-          storage.setItem(FAQ_SESSION_KEY, id);
-        }
-        return id;
-      } catch (error) {
-        console.warn('[Analytics] Failed to access storage for session id:', error);
-        return `sess_${Date.now()}`;
-      }
-    }
-
-    async function trackFAQInteraction({ faqId, source = 'search_results', position = null, clicked = true, query = null }) {
-      if (!faqId) return;
-
-      const payload = {
-        faq_id: faqId,
-        clicked,
-        language: currentLanguage || 'zh',
-        source,
-        position: typeof position === 'number' ? position : (Number.isFinite(position) ? position : null),
-        query_text: query || lastSearchQuery || null,
-        session_id: getFaqSessionId(),
-        user_id: currentUserId || null,  // LINUS PRINCIPLE: 有就帶，沒有就 null
-        timestamp: new Date().toISOString()
-      };
-
-      // Linus 原則: 消除特殊情況 - 統一記錄到後端 + localStorage
-      try {
-        // 1. 發送到後端 API（持久化到資料庫）
-        const response = await fetch(`${API_BASE}/analytics/track-faq-view`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
-        });
-
-        if (!response.ok) {
-          const errorText = await response.text();
-          console.error(`[Analytics] API returned ${response.status}:`, errorText);
-          throw new Error(`HTTP ${response.status}: ${errorText.substring(0, 100)}`);
-        }
-
-        console.log(`[Analytics] ✅ Tracked FAQ interaction (${payload.source}) for ${faqId}`);
-
-        // 2. 寫入 localStorage（本地記錄，即使後端失敗也保留）
-        try {
-          const localClicks = JSON.parse(localStorage.getItem('faq_clicks') || '[]');
-
-          // 添加 FAQ 標題用於本地調試（不發送到後端）
-          const faqItem = window.faqEngine?.items?.find(item => item.id === faqId);
-          const localPayload = {
-            ...payload,
-            faq_title: faqItem?.content?.question || faqId, // 顯示標題或 ID
-            _debug_only: true // 標記為僅調試用途
-          };
-
-          localClicks.push(localPayload);
-          // 保留最近 500 筆記錄（避免 localStorage 過大）
-          if (localClicks.length > 500) {
-            localClicks.splice(0, localClicks.length - 500);
-          }
-          localStorage.setItem('faq_clicks', JSON.stringify(localClicks));
-          console.log(`[Analytics] Saved to localStorage (${localClicks.length} records)`);
-        } catch (storageError) {
-          console.warn('[Analytics] Failed to save to localStorage:', storageError);
-        }
-      } catch (error) {
-        console.warn('[Analytics] Failed to track FAQ interaction:', error);
-      }
-    }
+    // Analytics handled by Analytics module (see lib/analytics.js)
 
     // ==================== Resort Functions ====================
 
     // Render resort regions in sidebar
     async function renderResortRegions() {
       try {
-        // 使用後端 API 載入雪場資料
         let data = resortDataCache;
         if (!data) {
           const response = await fetch(`${API_BASE}/resort/all`);
-          if (!response.ok) {
-            console.warn('[Resorts] Failed to load resort list');
-            return;
-          }
-
+          if (!response.ok) return;
           const result = await response.json();
           data = result.data || result;
-          if (!data.resorts) {
-            console.warn('[Resorts] Invalid resort data');
-            return;
-          }
-
+          if (!data.resorts) return;
           resortDataCache = data;
         }
-
+        if (!window.ResortModule) return;
         const locale = getResortLocale();
-
-        // 按地區分組雪場
-        const byRegion = {};
-        data.resorts.forEach(resort => {
-          const region = resort.region || 'Others';
-          if (!byRegion[region]) {
-            byRegion[region] = [];
-          }
-          byRegion[region].push(resort);
-        });
-
-        const regionsHTML = Object.entries(byRegion)
-          .sort((a, b) => b[1].length - a[1].length) // 依雪場數量排序
-          .map(([region, resorts]) => {
-            const displayName = getRegionDisplayName(region);
-            return `
-              <div class="resort-region" data-region="${region}">
-                <span>${DOMPurify.sanitize(displayName)}</span>
-                <span class="resort-count">(${resorts.length})</span>
-              </div>
-            `;
-          }).join('');
-
-        document.getElementById('resortRegions').innerHTML = regionsHTML;
-
-        // 點擊地區顯示雪場列表
-        document.querySelectorAll('.resort-region').forEach(el => {
-          el.addEventListener('click', () => {
+        const byRegion = ResortModule.renderRegions({
+          data,
+          getRegionDisplayName: (region) => DOMPurify.sanitize(getRegionDisplayName(region)),
+          onRegionSelect: ({ region, resorts }) => {
             document.querySelectorAll('.resort-region').forEach(e => e.classList.remove('active'));
-            el.classList.add('active');
-
-            const region = el.dataset.region;
-
-            // Track region click
-            trackRegionClick(region);
-
-            showResortsByRegion(region, byRegion[region]);
-          });
-        });
-
-        if (activeResortRegion && byRegion[activeResortRegion]) {
-          const activeEl = document.querySelector(`.resort-region[data-region="${activeResortRegion}"]`);
-          if (activeEl) {
-            activeEl.classList.add('active');
+            const el = document.querySelector(`.resort-region[data-region="${region}"]`);
+            if (el) el.classList.add('active');
+            Analytics.trackRegionClick(region, currentLanguage);
+            showResortsByRegion(region, resorts);
           }
-
-          const totalPages = Math.max(1, Math.ceil(byRegion[activeResortRegion].length / RESORTS_PER_PAGE));
+        });
+        if (activeResortRegion && byRegion[activeResortRegion]) {
+          const totalPages = Math.max(1, Math.ceil(byRegion[activeResortRegion].length / ResortModule.RESORTS_PER_PAGE));
           const desiredPage = Math.min(currentResortPage || 1, totalPages);
           const modal = document.getElementById('resultsModal');
           if (modal && modal.classList.contains('show')) {
@@ -2248,8 +793,6 @@
         } else {
           activeResortRegion = null;
         }
-
-        console.log(`[Resorts] Rendered ${Object.keys(byRegion).length} regions`);
       } catch (error) {
         console.error('[Resorts] Error loading resorts:', error);
       }
@@ -2260,26 +803,20 @@
     const RESORTS_PER_PAGE = 15;
 
     async function showResortsByRegion(regionName, resorts) {
-      currentResortPage = 1; // 重置頁碼
+      currentResortPage = 1;
       activeResortRegion = regionName;
       const totalPages = Math.ceil(resorts.length / RESORTS_PER_PAGE);
 
       renderResortPage(regionName, resorts, currentResortPage, totalPages);
       hideIntentPanel();
 
-      // Load Park FAQ cards for the first resort if available (Linus principle: data-driven design)
       if (resorts.length > 0 && typeof ParkFAQ !== 'undefined') {
         const firstResort = resorts[0];
-        // LINUS PRINCIPLE: Extract park slug correctly from resort_id structure
-        // Format: region_slug_variant (e.g., "iwate_appi_kogen" → "appi")
-        // We need the SECOND element [1], not the last element
         const slugParts = firstResort.resort_id?.split('_') || [];
         const parkSlug = slugParts.length >= 2 ? slugParts[1] : slugParts[slugParts.length - 1];
         const parkName = firstResort.names?.zh || firstResort.name || '';
         if (parkSlug && parkName) {
-          ParkFAQ.loadAndDisplay(parkSlug, parkName, currentLanguage || 'zh').catch(err =>
-            console.log(`[Park FAQ] No cards for ${parkSlug}`)
-          );
+          ParkFAQ.loadAndDisplayInTab(parkSlug, parkName, currentLanguage || 'zh', 'resortRegions').catch(() => {});
         }
       }
     }
@@ -2287,73 +824,120 @@
     function renderResortPage(regionName, resorts, page, totalPages) {
       const locale = getResortLocale();
       const displayName = getRegionDisplayName(regionName);
-      const startIdx = (page - 1) * RESORTS_PER_PAGE;
-      const endIdx = startIdx + RESORTS_PER_PAGE;
-      const pageResorts = resorts.slice(startIdx, endIdx);
-
-      const title = locale.pagination.regionTitle(displayName, page, totalPages, resorts.length);
-      const resortsHTML = pageResorts.map(resort => createResortCard(resort)).join('');
-
-      const escapedRegion = regionName.replace(/'/g, "\\'");
-
-      // 分頁控制按鈕
-      const paginationHTML = totalPages > 1 ? `
-        <div style="display: flex; justify-content: center; align-items: center; gap: 1rem; margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid #e5e7eb;">
-          <button
-            onclick="changePage(${page - 1}, '${escapedRegion}', ${JSON.stringify(resorts).replace(/"/g, '&quot;')}, ${totalPages})"
-            ${page === 1 ? 'disabled' : ''}
-            style="padding: 0.5rem 1rem; background: ${page === 1 ? '#ccc' : '#4A5F8C'}; color: white; border: none; border-radius: 8px; cursor: ${page === 1 ? 'not-allowed' : 'pointer'};">
-            ${locale.pagination.prev}
-          </button>
-          <span style="color: #666;">${locale.pagination.pageStatus(page, totalPages)}</span>
-          <button
-            onclick="changePage(${page + 1}, '${escapedRegion}', ${JSON.stringify(resorts).replace(/"/g, '&quot;')}, ${totalPages})"
-            ${page === totalPages ? 'disabled' : ''}
-            style="padding: 0.5rem 1rem; background: ${page === totalPages ? '#ccc' : '#4A5F8C'}; color: white; border: none; border-radius: 8px; cursor: ${page === totalPages ? 'not-allowed' : 'pointer'};">
-            ${locale.pagination.next}
-          </button>
-        </div>
-      ` : '';
-
-      displayResortsInModal(resortsHTML + paginationHTML, title);
+      ResortModule.renderResortPage({
+        regionName,
+        resorts,
+        page,
+        totalPages,
+        createCard: (resort) => createResortCard(resort),
+        title: {
+          header: locale.pagination.regionTitle(displayName, page, totalPages, resorts.length),
+          prev: locale.pagination.prev,
+          next: locale.pagination.next,
+          pageStatus: locale.pagination.pageStatus
+        },
+        onPageChange: (newPage) => {
+          currentResortPage = newPage;
+          renderResortPage(regionName, resorts, newPage, totalPages);
+        }
+      });
     }
-
-    // 全域函數供 onclick 使用
-    window.changePage = function(newPage, regionName, resorts, totalPages) {
-      currentResortPage = newPage;
-      renderResortPage(regionName, resorts, newPage, totalPages);
-    };
 
     // 展開/收合更多 amenities
     window.toggleMoreAmenities = function(resortId, allAmenities) {
       const container = document.getElementById(`amenities-${resortId}`);
+      if (!container) return;
       const isExpanded = container.dataset.expanded === 'true';
       const locale = getResortLocale();
+      const makeTag = (a) => `<span class="resort-amenity clickable" data-tag="${DOMPurify.sanitize(a)}" data-resort-id="${resortId}">${DOMPurify.sanitize(getAmenityLabel(a, currentLanguage))}</span>`;
+      const toggleBtn = (label, expanded) => `
+        <button class="amenities-toggle ${expanded ? 'expanded' : ''}" data-resort-id="${resortId}" data-amenities='${JSON.stringify(allAmenities).replace(/"/g, '&quot;')}'>
+          ${label}
+        </button>
+      `;
 
       if (isExpanded) {
-        // 收合：只顯示前 15 個
-        container.innerHTML = allAmenities.slice(0, 15).map(a =>
-          `<span class="resort-amenity clickable" onclick="trackTagClick(event, 'resort', '${DOMPurify.sanitize(a)}', '${resortId}')">${DOMPurify.sanitize(getAmenityLabel(a, currentLanguage))}</span>`
-        ).join('') + `
-          <button onclick="toggleMoreAmenities('${resortId}', ${JSON.stringify(allAmenities).replace(/"/g, '&quot;')})"
-            style="background: #4A5F8C; color: white; border: none; padding: 0.25rem 0.75rem; border-radius: 6px; cursor: pointer; font-size: 0.8rem;">
-            ${locale.toggles.more(allAmenities.length - 15)}
-          </button>
-        `;
+        container.innerHTML = allAmenities.slice(0, 15).map(makeTag).join('') +
+          toggleBtn(locale.toggles.more(allAmenities.length - 15), false);
         container.dataset.expanded = 'false';
       } else {
-        // 展開：顯示全部
-        container.innerHTML = allAmenities.map(a =>
-          `<span class="resort-amenity clickable" onclick="trackTagClick(event, 'resort', '${DOMPurify.sanitize(a)}', '${resortId}')">${DOMPurify.sanitize(getAmenityLabel(a, currentLanguage))}</span>`
-        ).join('') + `
-          <button onclick="toggleMoreAmenities('${resortId}', ${JSON.stringify(allAmenities).replace(/"/g, '&quot;')})"
-            style="background: #666; color: white; border: none; padding: 0.25rem 0.75rem; border-radius: 6px; cursor: pointer; font-size: 0.8rem;">
-            ${locale.toggles.less}
-          </button>
-        `;
+        container.innerHTML = allAmenities.map(makeTag).join('') +
+          toggleBtn(locale.toggles.less, true);
         container.dataset.expanded = 'true';
       }
     };
+
+    function toggleResortCard(card) {
+      if (!card) return;
+      const details = card.querySelector('.resort-details');
+      const icon = card.querySelector('.expand-icon');
+      const isExpanded = card.dataset.expanded === 'true';
+      const resortId = card.dataset.resortId;
+      const resortName = card.querySelector('.resort-name')?.textContent?.replace('▶', '').replace('▼', '').trim() || 'Unknown';
+
+      if (isExpanded) {
+        details.style.display = '';
+        if (icon) icon.style.transform = 'rotate(0deg)';
+        card.dataset.expanded = 'false';
+        card.classList.remove('expanded');
+      } else {
+        details.style.display = '';
+        if (icon) icon.style.transform = 'rotate(180deg)';
+        card.dataset.expanded = 'true';
+        card.classList.add('expanded');
+        Analytics.trackResortEngagement({ engagementType: 'expand', resortId, resortName, language: currentLanguage });
+      }
+    }
+
+    function handleResortDelegation(container) {
+      if (!container) return;
+      if (container.dataset.resortDelegated === 'true') return;
+      container.dataset.resortDelegated = 'true';
+      container.addEventListener('click', (e) => {
+        const header = e.target.closest('.resort-header[data-action="toggle-resort"]');
+        if (header) {
+          toggleResortCard(header.closest('.resort-card'));
+          return;
+        }
+        const amenity = e.target.closest('.resort-amenity.clickable');
+        if (amenity) {
+          trackTagClick(null, 'resort', amenity.dataset.tag, amenity.dataset.resortId);
+          return;
+        }
+        const toggleBtn = e.target.closest('.amenities-toggle');
+        if (toggleBtn) {
+          const list = toggleBtn.dataset.amenities ? JSON.parse(toggleBtn.dataset.amenities) : [];
+          toggleMoreAmenities(toggleBtn.dataset.resortId, list);
+          e.stopPropagation();
+          return;
+        }
+        const linkEl = e.target.closest('.resort-link');
+        if (linkEl) {
+          const type = linkEl.dataset.linkType || 'link';
+          const resortId = linkEl.dataset.resortId || '';
+          const resortName = linkEl.dataset.resortName || '';
+          Analytics.trackResortEngagement({ engagementType: `${type}_click`, resortId, resortName, language: currentLanguage });
+          e.stopPropagation();
+          return;
+        }
+        const feedbackBtn = e.target.closest('.feedback-buttons button[data-feedback]');
+        if (feedbackBtn) {
+          openFeedbackModal(feedbackBtn);
+          e.stopPropagation();
+          return;
+        }
+        const related = e.target.closest('.resort-related[data-resort-id]');
+        if (related) {
+          const rid = related.dataset.resortId;
+          showResortDetail(rid);
+          return;
+        }
+        const card = e.target.closest('.resort-card');
+        if (card && !e.target.closest('a') && !e.target.closest('.amenities-toggle')) {
+          toggleResortCard(card);
+        }
+      });
+    }
 
     // Helper function to display resort links dynamically
     // Usage: displayResortLinks(resortCardElement, ['official_site', 'booking_page'])
@@ -2379,7 +963,7 @@
 
         if (!label) return '';
 
-        return `<a href="${DOMPurify.sanitize(url)}" target="_blank" class="resort-link" onclick="event.stopPropagation(); trackResortEngagement(event, '${linkName}_click', '${resortCard.dataset.resortId}', '')" title="${DOMPurify.sanitize(label)}">
+        return `<a href="${DOMPurify.sanitize(url)}" target="_blank" class="resort-link" data-link-type="${linkName}_click" data-resort-id="${resortCard.dataset.resortId}" title="${DOMPurify.sanitize(label)}">
           ${icon} ${DOMPurify.sanitize(label)}
         </a>`;
       }).join(' | ');
@@ -2464,7 +1048,7 @@
 
       return `
         <div class="resort-card collapsible" data-resort-id="${resort.resort_id}" data-expanded="false" data-resort-links='${linksDataAttr}'>
-          <div class="resort-header clickable" onclick="toggleResortCard(this)">
+          <div class="resort-header clickable" data-action="toggle-resort">
             <div>
               <div class="resort-name">
                 <span class="expand-icon">▶</span>
@@ -2511,10 +1095,10 @@
 
           ${amenities.length > 0 ? `
             <div class="resort-amenities" id="amenities-${resort.resort_id}">
-              ${amenities.slice(0, 15).map(a => `<span class="resort-amenity clickable" onclick="trackTagClick(event, 'resort', '${DOMPurify.sanitize(a)}', '${resort.resort_id}')">${DOMPurify.sanitize(getAmenityLabel(a, currentLanguage))}</span>`).join('')}
+              ${amenities.slice(0, 15).map(a => `<span class="resort-amenity clickable" data-tag="${DOMPurify.sanitize(a)}" data-resort-id="${resort.resort_id}">${DOMPurify.sanitize(getAmenityLabel(a, currentLanguage))}</span>`).join('')}
               ${amenities.length > 15 ? `
-                <button onclick="toggleMoreAmenities('${resort.resort_id}', ${JSON.stringify(amenities).replace(/"/g, '&quot;')})"
-                  style="background: #4A5F8C; color: white; border: none; padding: 0.25rem 0.75rem; border-radius: 6px; cursor: pointer; font-size: 0.8rem;">
+                <button class="amenities-toggle" data-resort-id="${resort.resort_id}" data-amenities='${JSON.stringify(amenities).replace(/"/g, '&quot;')}'
+                  style="background: #4F8190; color: white; border: none; padding: 0.25rem 0.75rem; border-radius: 6px; cursor: pointer; font-size: 0.8rem; box-shadow: 0 6px 14px rgba(79,129,144,0.2);">
                   ${locale.toggles.more(amenities.length - 15)}
                 </button>
               ` : ''}
@@ -2522,7 +1106,7 @@
           ` : ''}
 
           ${officialSite || (linkRegistry && linkRegistry.resort && linkRegistry.resort.official_site) ? `
-            <a href="${DOMPurify.sanitize(officialSite || resolveLink('official_site', resort) || '#')}" target="_blank" class="resort-link" onclick="trackResortEngagement(event, 'official_site_click', '${resort.resort_id}', '${DOMPurify.sanitize(primary)}')">
+            <a href="${DOMPurify.sanitize(officialSite || resolveLink('official_site', resort) || '#')}" target="_blank" class="resort-link" data-link-type="official_site" data-resort-id="${resort.resort_id}" data-resort-name="${DOMPurify.sanitize(primary)}">
               ${locale.viewOfficialSite}
             </a>
           ` : ''}
@@ -2530,10 +1114,10 @@
           <div class="feedback-section">
             <span class="feedback-label">${currentLanguage === 'en' ? 'Was this helpful?' : currentLanguage === 'th' ? 'มีประโยชน์หรือไม่' : '這個資訊有幫助嗎？'}</span>
             <div class="feedback-buttons">
-              <button class="btn-helpful" onclick="openFeedbackModal(this)" aria-label="${currentLanguage === 'en' ? 'Helpful' : currentLanguage === 'th' ? 'มีประโยชน์' : '有幫助'}">
+              <button class="btn-helpful" data-feedback="helpful" aria-label="${currentLanguage === 'en' ? 'Helpful' : currentLanguage === 'th' ? 'มีประโยชน์' : '有幫助'}">
                 👍 ${currentLanguage === 'en' ? 'Helpful' : currentLanguage === 'th' ? 'มีประโยชน์' : '有幫助'}
               </button>
-              <button class="btn-not-helpful" onclick="openFeedbackModal(this)" aria-label="${currentLanguage === 'en' ? 'Not helpful' : currentLanguage === 'th' ? 'ไม่มีประโยชน์' : '沒幫助'}">
+              <button class="btn-not-helpful" data-feedback="not_helpful" aria-label="${currentLanguage === 'en' ? 'Not helpful' : currentLanguage === 'th' ? 'ไม่มีประโยชน์' : '沒幫助'}">
                 👎 ${currentLanguage === 'en' ? 'Not helpful' : currentLanguage === 'th' ? 'ไม่มีประโยชน์' : '沒幫助'}
               </button>
             </div>
@@ -2561,7 +1145,7 @@
           const response = await fetch(`${API_BASE}/resort/all`);
           if (!response.ok) {
             console.warn('[Resorts] Failed to load resort list for filtering');
-            alert(locale.alerts.loadError);
+            showError(locale.alerts.loadError);
             return;
           }
 
@@ -2569,7 +1153,7 @@
           data = result.data || result;
           if (!data.resorts) {
             console.warn('[Resorts] Invalid resort data');
-            alert(locale.alerts.loadError);
+            showError(locale.alerts.loadError);
             return;
           }
           resortDataCache = data;
@@ -2583,7 +1167,7 @@
         const amenityLabel = getAmenityLabel(amenity, currentLanguage);
 
         if (filtered.length === 0) {
-          alert(locale.alerts.amenityNotFound(amenityLabel));
+          showError(locale.alerts.amenityNotFound(amenityLabel));
           return;
         }
 
@@ -2595,48 +1179,29 @@
 
       } catch (error) {
         console.error('[Resorts] Error filtering by amenity:', error);
-        alert(locale.alerts.loadError);
+        showError(locale.alerts.loadError);
       }
     }
 
     // Render filtered resorts with pagination
     function renderFilteredResortsPage(amenity, resorts, page, totalPages) {
       const locale = getResortLocale();
-      const startIdx = (page - 1) * RESORTS_PER_PAGE;
-      const endIdx = startIdx + RESORTS_PER_PAGE;
-      const pageResorts = resorts.slice(startIdx, endIdx);
-
       const amenityLabel = getAmenityLabel(amenity, currentLanguage);
-      const title = locale.pagination.amenityTitle(amenityLabel, page, totalPages, resorts.length);
-      const resortsHTML = pageResorts.map(resort => createResortCard(resort)).join('');
-      const escapedAmenity = amenity.replace(/'/g, "\\'");
-
-      // 分頁控制按鈕
-      const paginationHTML = totalPages > 1 ? `
-        <div style="display: flex; justify-content: center; align-items: center; gap: 1rem; margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid #e5e7eb;">
-          <button
-            onclick="changeFilteredPage(${page - 1}, '${escapedAmenity}', ${JSON.stringify(resorts).replace(/"/g, '&quot;')}, ${totalPages})"
-            ${page === 1 ? 'disabled' : ''}
-            style="padding: 0.5rem 1rem; background: ${page === 1 ? '#ccc' : '#4A5F8C'}; color: white; border: none; border-radius: 8px; cursor: ${page === 1 ? 'not-allowed' : 'pointer'};">
-            ${locale.pagination.prev}
-          </button>
-          <span style="color: #666;">${locale.pagination.pageStatus(page, totalPages)}</span>
-          <button
-            onclick="changeFilteredPage(${page + 1}, '${escapedAmenity}', ${JSON.stringify(resorts).replace(/"/g, '&quot;')}, ${totalPages})"
-            ${page === totalPages ? 'disabled' : ''}
-            style="padding: 0.5rem 1rem; background: ${page === totalPages ? '#ccc' : '#4A5F8C'}; color: white; border: none; border-radius: 8px; cursor: ${page === totalPages ? 'not-allowed' : 'pointer'};">
-            ${locale.pagination.next}
-          </button>
-        </div>
-      ` : '';
-
-      displayResortsInModal(resortsHTML + paginationHTML, title);
+      ResortModule.renderResortPage({
+        regionName: amenity,
+        resorts,
+        page,
+        totalPages,
+        createCard: (resort) => createResortCard(resort),
+        title: {
+          header: locale.pagination.amenityTitle(amenityLabel, page, totalPages, resorts.length),
+          prev: locale.pagination.prev,
+          next: locale.pagination.next,
+          pageStatus: locale.pagination.pageStatus
+        },
+        onPageChange: (newPage) => renderFilteredResortsPage(amenity, resorts, newPage, totalPages)
+      });
     }
-
-    // Global function for filtered pagination
-    window.changeFilteredPage = function(newPage, amenity, resorts, totalPages) {
-      renderFilteredResortsPage(amenity, resorts, newPage, totalPages);
-    };
 
     // Show single resort detail
     async function showResortDetail(resortId) {
@@ -2709,19 +1274,15 @@
       hotFAQs = hotFAQs.slice(0, 5);
 
       const hotHTML = hotFAQs.map(faq => {
-        const localized = faqEngine.getLocalizedContent(faq, currentLanguage);
-        const question = DOMPurify.sanitize(localized.question || faq.canonical_question || '');
-        return `
-        <div class="hot-faq-item" onclick="showFAQDetail('${faq.id}', 'hot_list')">
-          ${question}
-        </div>
-      `;
+        return FAQRenderer.generateFAQCard(faq, currentLanguage, { includeFeedback: true, includeIcon: true });
       }).join('');
 
       // Render to sidebar
       const hotFAQsEl = document.getElementById('hotFAQs');
       if (hotFAQsEl) {
         hotFAQsEl.innerHTML = hotHTML;
+        // Bind events to hot FAQ cards
+        FAQRenderer.bindFAQItemEvents('#hotFAQs');
         console.log(`[Hot FAQs] Rendered ${hotFAQs.length} hot questions to sidebar`);
       } else {
         console.warn('[Hot FAQs] hotFAQs element not found');
@@ -2730,44 +1291,12 @@
 
     // Filter by section
     async function filterBySection(section) {
-      // Track section click
-      trackSectionClick(section);
-
       const filtered = allFAQs.filter(faq => (faq.metadata && faq.metadata.section === section) || faq.section === section);
-      const categoryLabel = i18n ? i18n.t('category') : '分類';
-      const title = `${categoryLabel}：${getSectionLabel(section)}`;
+      const title = getSectionLabel(section);
 
       // Show results in Modal (mobile-friendly)
       displayFAQsInModal(filtered, title);
       hideIntentPanel();
-    }
-
-    // Track section click
-    async function trackSectionClick(section) {
-      try {
-        console.log(`[Section Click] Section: ${section}`);
-
-        const sectionClick = {
-          timestamp: new Date().toISOString(),
-          section: section,
-          language: currentLanguage
-        };
-
-        // Store in localStorage
-        const clicks = JSON.parse(localStorage.getItem('sectionClicks') || '[]');
-        clicks.push(sectionClick);
-        if (clicks.length > 100) clicks.shift();
-        localStorage.setItem('sectionClicks', JSON.stringify(clicks));
-
-        // Try to send to backend
-        await fetch(`${API_BASE}/analytics/track-section-click`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(sectionClick)
-        });
-      } catch (error) {
-        console.error('[Section Click] Error tracking:', error);
-      }
     }
 
     function displayFAQsInModal(faqs, title) {
@@ -2805,14 +1334,12 @@
         return cardHTML;
       }).join('');
 
-      document.getElementById('modalResultsList').innerHTML = faqsHtml;
+      const modalList = document.getElementById('modalResultsList');
+      modalList.innerHTML = faqsHtml;
+      modalList.dataset.faqDelegated = 'false'; // reset to allow rebind
+      bindFAQClicks(modalList, true);
 
-      // Add click handlers for accordion
-      document.querySelectorAll('#resultsModal .faq-item').forEach(item => {
-        item.addEventListener('click', (e) => {
-          toggleFAQItem(item);
-        });
-      });
+      bindFAQClicks('#resultsModal', true);
 
       // Show modal
       document.getElementById('resultsModal').classList.add('show');
@@ -2822,111 +1349,87 @@
       document.getElementById('resultsModal').classList.remove('show');
     }
 
-    // Search with Intent Detection
+    // Search with Intent Detection (delegated to SearchModule)
     async function performSearch() {
-      const query = document.getElementById('searchInput').value.trim();
-      if (!query) return;
-      lastSearchQuery = query;
-
-      document.getElementById('loadingState').classList.remove('hidden');
-      document.getElementById('resultsSection').classList.add('hidden');
-      hideIntentPanel();
-
-      try {
-        const startTime = performance.now();
-        let intentData = null;
-
-        // Try to call Intent Detection API (optional)
-        try {
-          const intentResponse = await fetch(`${API_BASE}/intent/analyze`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ query, contextual: true })
-          });
-
-          if (intentResponse.ok) {
-            intentData = await intentResponse.json();
-            console.log('[Search] Intent detection succeeded');
-          } else {
-            console.warn('[Search] Intent API returned status:', intentResponse.status);
-          }
-        } catch (intentError) {
-          console.warn('[Search] Intent API unavailable:', intentError.message);
-        }
-
-        // Perform FAQ search (always required)
-        const results = await faqEngine.search(query, { limit: 10 });
-        const searchTime = Math.round(performance.now() - startTime);
-
-        // Search resorts in parallel using local JSON
-        let resortResults = [];
-        try {
-          let resortData = resortDataCache;
-          if (!resortData) {
-            const resortResponse = await fetch(`${API_BASE}/resort/all`);
-            if (resortResponse.ok) {
-              const result = await resortResponse.json();
-              resortData = result.data || result;
-              resortDataCache = resortData;
-            } else {
-              console.warn('[Search] Resort data request failed with status:', resortResponse.status);
-            }
-          }
-
-          if (resortData?.resorts) {
-            const queryLower = query.toLowerCase();
-
-            resortResults = resortData.resorts.filter(resort => {
-              const nameMatch = Object.values(resort.names || {})
-                .some(name => typeof name === 'string' && name.toLowerCase().includes(queryLower));
-
-              const amenityMatch = Array.isArray(resort.amenities) &&
-                resort.amenities.some(a => typeof a === 'string' && a.toLowerCase().includes(queryLower));
-
-              const regionCandidates = new Set();
-              if (resort.region) {
-                regionCandidates.add(resort.region);
-              }
-              Object.values(RESORT_LOCALE).forEach(locale => {
-                const regionLabel = locale.regionNames[resort.region];
-                if (regionLabel) {
-                  regionCandidates.add(regionLabel);
-                }
-              });
-              const regionMatch = Array.from(regionCandidates)
-                .some(label => typeof label === 'string' && label.toLowerCase().includes(queryLower));
-
-              return nameMatch || amenityMatch || regionMatch;
-            }).map(resort => {
-              const names = getResortDisplayNames(resort, currentLanguage);
-              return {
-                resort_id: resort.resort_id,
-                name: names.primary,
-                region: getRegionDisplayName(resort.region || ''),
-              };
-            });
-
-            console.log(`[Search] Found ${resortResults.length} matching resorts for "${query}"`);
-          }
-        } catch (resortError) {
-          console.warn('[Search] Resort search failed:', resortError);
-        }
-
-        // Display intent detection results if available
-        if (intentData && intentData.data) {
-          displayIntentResults(intentData.data);
-        }
-
-        // Display FAQ results (always)
-        const faqs = results.map(r => ({...r.item, score: r.score}));
-        const searchTitle = i18n ? i18n.t('search_results') : '搜尋結果';
-        displayFAQs(faqs, searchTitle, searchTime, resortResults, 'search_results');
-
-      } catch (error) {
-        console.error('Search failed:', error);
-        document.getElementById('loadingState').classList.add('hidden');
-        alert('搜尋失敗: ' + error.message);
+      const searchTitle = i18n ? i18n.t('search_results') : '搜尋結果';
+      if (!window.SearchModule) {
+        console.error('[Search] SearchModule missing');
+        return;
       }
+      await SearchModule.performSearch({
+        apiBase: API_BASE,
+        faqEngine,
+        currentLanguage,
+        onBeforeSearch: () => {
+          const query = document.getElementById('searchInput').value.trim();
+          lastSearchQuery = query;
+          showLoadingState();
+          hideIntentPanel();
+        },
+        onAfterSearch: () => {
+          // no-op for now
+        },
+        onDisplayIntent: (intentData) => {
+          displayIntentResults(intentData);
+        },
+        onDisplayResults: ({ faqs, query, searchTime, resortResults }) => {
+          lastSearchQuery = query;
+          displayFAQs(faqs, searchTitle, searchTime, resortResults, 'search_results');
+        },
+        onHideIntentPanel: hideIntentPanel,
+        resortSearchFn: async (query, language) => {
+          let resortResults = [];
+          try {
+            let resortData = resortDataCache;
+            if (!resortData) {
+              const resortResponse = await fetch(`${API_BASE}/resort/all`);
+              if (resortResponse.ok) {
+                const result = await resortResponse.json();
+                resortData = result.data || result;
+                resortDataCache = resortData;
+              } else {
+                console.warn('[Search] Resort data request failed with status:', resortResponse.status);
+              }
+            }
+
+            if (resortData?.resorts) {
+              const queryLower = query.toLowerCase();
+              resortResults = resortData.resorts.filter(resort => {
+                const nameMatch = Object.values(resort.names || {})
+                  .some(name => typeof name === 'string' && name.toLowerCase().includes(queryLower));
+
+                const amenityMatch = Array.isArray(resort.amenities) &&
+                  resort.amenities.some(a => typeof a === 'string' && a.toLowerCase().includes(queryLower));
+
+                const regionCandidates = new Set();
+                if (resort.region) {
+                  regionCandidates.add(resort.region);
+                }
+                Object.values(RESORT_LOCALE).forEach(locale => {
+                  const regionLabel = locale.regionNames[resort.region];
+                  if (regionLabel) {
+                    regionCandidates.add(regionLabel);
+                  }
+                });
+                const regionMatch = Array.from(regionCandidates)
+                  .some(label => typeof label === 'string' && label.toLowerCase().includes(queryLower));
+
+                return nameMatch || amenityMatch || regionMatch;
+              }).map(resort => {
+                const names = getResortDisplayNames(resort, language);
+                return {
+                  resort_id: resort.resort_id,
+                  name: names.primary,
+                  region: getRegionDisplayName(resort.region || '', language),
+                };
+              });
+            }
+          } catch (resortError) {
+            console.warn('[Search] Resort search failed:', resortError);
+          }
+          return resortResults;
+        }
+      });
     }
 
     // Display Intent Detection Results
@@ -2966,8 +1469,8 @@
       if (recommendations && recommendations.length > 0) {
         const recList = document.getElementById('recommendationsList');
         recList.innerHTML = recommendations.map(rec => `
-          <div class="recommendation-item" onclick="showFAQDetail('${rec.faq_id}', 'intent_recommendation')">
-            ${rec.question} <span style="color: #999;">(${Math.round(rec.confidence * 100)}%)</span>
+          <div class="recommendation-item" data-faq-id="${rec.faq_id}" data-source="intent_recommendation">
+            ${rec.question} <span class="confidence">(${Math.round(rec.confidence * 100)}%)</span>
           </div>
         `).join('');
         document.getElementById('recommendations').classList.remove('hidden');
@@ -2985,8 +1488,8 @@
 
     // Display FAQs
     function displayFAQs(faqs, title, searchTime = null, resortResults = [], source = 'search_results') {
-      document.getElementById('loadingState').classList.add('hidden');
-      document.getElementById('resultsSection').classList.remove('hidden');
+      hideLoadingState();
+      showResultsSection();
 
       const locale = getResortLocale();
       const totalResults = faqs.length + resortResults.length;
@@ -3005,17 +1508,15 @@
       let resortsHTML = '';
       if (resortResults.length > 0) {
         resortsHTML = `
-          <div style="margin-bottom: 2rem;">
-            <h3 style="color: #2D395C; margin-bottom: 1rem; font-size: 1.2rem;">${locale.search.relatedTitle}</h3>
-            ${resortResults.map(resort => {
-              return `
-                <div class="resort-region" style="cursor: pointer; margin: 0.5rem 0;"
-                     onclick="showResortDetail('${resort.resort_id}')">
-                  <span><strong>${DOMPurify.sanitize(resort.name || '')}</strong></span>
-                  <span class="resort-count">${DOMPurify.sanitize(resort.region || '')}</span>
-                </div>
-              `;
-            }).join('')}
+          <div class="related-resorts">
+            <h3>${locale.search.relatedTitle}</h3>
+            ${resortResults.map(resort => `
+              <div class="resort-region resort-related"
+                   data-resort-id="${resort.resort_id}">
+                <span><strong>${DOMPurify.sanitize(resort.name || '')}</strong></span>
+                <span class="resort-count">${DOMPurify.sanitize(resort.region || '')}</span>
+              </div>
+            `).join('')}
           </div>
         `;
       }
@@ -3047,19 +1548,17 @@
         return cardHTML;
       }).join('');
 
-      document.getElementById('resultsList').innerHTML = resortsHTML + resultsHTML;
-
-      // Add click handlers for accordion
-      document.querySelectorAll('.faq-item').forEach(item => {
-        item.addEventListener('click', (e) => {
-          toggleFAQItem(item);
-        });
-      });
+      const resultsContainer = document.getElementById('resultsList');
+      resultsContainer.innerHTML = resortsHTML + resultsHTML;
+      resultsContainer.dataset.faqDelegated = 'false'; // reset to allow rebind
+      bindFAQClicks(resultsContainer);
     }
 
     // Track tag click (FAQ tags or Resort amenity tags)
     window.trackTagClick = async function(event, tagType, tagName, itemId) {
-      event.stopPropagation(); // Prevent FAQ accordion from toggling
+      if (event && typeof event.stopPropagation === 'function') {
+        event.stopPropagation(); // Prevent FAQ accordion from toggling
+      }
 
       console.log(`[Tag Click] ========== TAG 點擊事件觸發 ==========`);
       console.log(`[Tag Click] Type: ${tagType}, Tag: ${tagName}, Item: ${itemId}`);
@@ -3172,7 +1671,7 @@
             en: `No FAQs found with tag "${displayTag}"`,
             th: `ไม่พบ FAQ ที่มีแท็ก "${displayTag}"`
           };
-          alert(messages[currentLanguage] || messages.zh);
+          showError(messages[currentLanguage] || messages.zh);
           return;
         }
 
@@ -3192,155 +1691,31 @@
       }
     }
 
-    // Track resort region click
-    async function trackRegionClick(region) {
-      try {
-        console.log(`[Region Click] Region: ${region}`);
-
-        const regionClick = {
-          timestamp: new Date().toISOString(),
-          click_type: 'region',
-          region: region,
-          language: currentLanguage
-        };
-
-        // Store in localStorage
-        const clicks = JSON.parse(localStorage.getItem('resortClicks') || '[]');
-        clicks.push(regionClick);
-        if (clicks.length > 100) clicks.shift();
-        localStorage.setItem('resortClicks', JSON.stringify(clicks));
-
-        // Try to send to backend
-        try {
-          await fetch(`${API_BASE}/analytics/track-resort-click`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(regionClick)
-          });
-        } catch (err) {
-          console.warn('[Region Click] Backend tracking unavailable:', err.message);
-        }
-      } catch (error) {
-        console.error('[Region Click] Error tracking:', error);
-      }
-    }
-
-    // Track resort card click
-    async function trackResortClick(resortId) {
-      try {
-        console.log(`[Resort Click] Resort ID: ${resortId}`);
-
-        const resortClick = {
-          timestamp: new Date().toISOString(),
-          click_type: 'resort_card',
-          resort_id: resortId,
-          language: currentLanguage
-        };
-
-        // Store in localStorage
-        const clicks = JSON.parse(localStorage.getItem('resortClicks') || '[]');
-        clicks.push(resortClick);
-        if (clicks.length > 100) clicks.shift();
-        localStorage.setItem('resortClicks', JSON.stringify(clicks));
-
-        // Try to send to backend
-        try {
-          await fetch(`${API_BASE}/analytics/track-resort-click`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(resortClick)
-          });
-        } catch (err) {
-          console.warn('[Resort Click] Backend tracking unavailable:', err.message);
-        }
-      } catch (error) {
-        console.error('[Resort Click] Error tracking:', error);
-      }
-    }
-
-    // Track resort engagement (meaningful user interactions indicating interest)
-    window.trackResortEngagement = async function(event, engagementType, resortId, resortName) {
-      try {
-        console.log(`[Resort Engagement] Type: ${engagementType}, Resort: ${resortName} (${resortId})`);
-
-        const engagement = {
-          timestamp: new Date().toISOString(),
-          click_type: 'resort_engagement',
-          engagement_type: engagementType, // 'expand', 'official_site_click', 'feedback'
-          resort_id: resortId,
-          resort_name: resortName,
-          language: currentLanguage
-        };
-
-        // Store in localStorage
-        try {
-          let engagements = JSON.parse(localStorage.getItem('resortEngagements') || '[]');
-          // If data is corrupted or not an array, reset it
-          if (!Array.isArray(engagements)) {
-            console.warn('[Resort Engagement] Corrupted data detected, resetting...');
-            engagements = [];
-          }
-          engagements.push(engagement);
-          if (engagements.length > 100) engagements.shift();
-          localStorage.setItem('resortEngagements', JSON.stringify(engagements));
-          console.log('[Resort Engagement] Tracked successfully:', engagement);
-        } catch (e) {
-          console.warn('[Resort Engagement] Failed to parse data, resetting:', e);
-          localStorage.setItem('resortEngagements', JSON.stringify([engagement]));
-        }
-
-        // Try to send to backend
-        try {
-          await fetch(`${API_BASE}/analytics/track-resort-engagement`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(engagement)
-          });
-        } catch (err) {
-          console.warn('[Resort Engagement] Backend tracking unavailable:', err.message);
-        }
-      } catch (error) {
-        console.error('[Resort Engagement] Error tracking:', error);
-      }
-    };
-
-    // Toggle resort card expand/collapse
-    window.toggleResortCard = function(headerElement) {
-      const card = headerElement.closest('.resort-card');
-      const details = card.querySelector('.resort-details');
-      const icon = card.querySelector('.expand-icon');
-      const isExpanded = card.dataset.expanded === 'true';
-      const resortId = card.dataset.resortId;
-      const resortName = card.querySelector('.resort-name')?.textContent?.replace('▶', '').replace('▼', '').trim() || 'Unknown';
-
-      if (isExpanded) {
-        // Collapse
-        details.style.display = 'none';
-        icon.textContent = '▶';
-        card.dataset.expanded = 'false';
-        console.log(`[Resort Card] Collapsed: ${resortName}`);
-      } else {
-        // Expand
-        details.style.display = 'block';
-        icon.textContent = '▼';
-        card.dataset.expanded = 'true';
-        console.log(`[Resort Card] Expanded: ${resortName}`);
-
-        // Track expansion as engagement (user is interested in this resort)
-        trackResortEngagement(null, 'expand', resortId, resortName);
-      }
-    };
-
     // Toggle FAQ item (accordion style)
     function toggleFAQItem(item) {
       if (!item) return;
 
       const wasExpanded = item.classList.contains('expanded');
+      const answer = item.querySelector('.faq-answer');
+      const icon = item.querySelector('.faq-toggle-icon');
 
       if (wasExpanded) {
         item.classList.remove('expanded');
+        if (answer) {
+          answer.style.display = 'block';
+          answer.style.maxHeight = '0px';
+          answer.style.opacity = '0';
+        }
       } else {
         item.classList.add('expanded');
+        if (answer) {
+          answer.style.display = 'block';
+          // 等待瀏覽器計算高度，確保 transition 有效
+          requestAnimationFrame(() => {
+            answer.style.maxHeight = answer.scrollHeight + 'px';
+            answer.style.opacity = '1';
+          });
+        }
 
         const faqId = item.dataset.faqId;
         if (faqId) {
@@ -3360,10 +1735,47 @@
         }
       }
 
-      const icon = item.querySelector('.faq-toggle-icon');
       if (icon) {
-        icon.textContent = item.classList.contains('expanded') ? '▲' : '▼';
+        icon.style.transform = item.classList.contains('expanded') ? 'rotate(180deg)' : 'rotate(0deg)';
       }
+    }
+
+    function expandFAQItem(item) {
+      if (!item) return;
+      if (item.classList.contains('expanded')) {
+        toggleFAQItem(item);
+        return;
+      }
+      item.classList.add('expanded');
+      const answer = item.querySelector('.faq-answer');
+      const icon = item.querySelector('.faq-toggle-icon');
+      if (answer) {
+        answer.style.display = 'block';
+        requestAnimationFrame(() => {
+          answer.style.maxHeight = answer.scrollHeight + 'px';
+          answer.style.opacity = '1';
+        });
+      }
+      if (icon) {
+        icon.style.transform = 'rotate(180deg)';
+      }
+    }
+
+    function bindFAQClicks(containerSelector, isModal = false) {
+      const container = typeof containerSelector === 'string'
+        ? document.querySelector(containerSelector)
+        : containerSelector;
+      if (!container || container.dataset.faqDelegated === 'true') return;
+      container.dataset.faqDelegated = 'true';
+      container.addEventListener('click', (e) => {
+        const faqItem = e.target.closest('.faq-item');
+        if (!faqItem) return;
+        if (e.target.closest('a') || e.target.closest('.feedback-buttons') || e.target.closest('.faq-tag')) return;
+        toggleFAQItem(faqItem);
+        if (isModal) {
+          faqItem.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      });
     }
 
     // Show FAQ detail (hot FAQ click or recommendation click)
@@ -3378,6 +1790,7 @@
         console.log('[showFAQDetail] FAQ already in results, scrolling into view');
         ensureResultsSectionVisible(source);
         item.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        expandFAQItem(item);
         return;
       }
 
@@ -3410,7 +1823,7 @@
 
         const injectedItem = document.querySelector(`.faq-item[data-faq-id="${faqId}"]`);
         if (injectedItem) {
-          injectedItem.addEventListener('click', () => toggleFAQItem(injectedItem));
+          expandFAQItem(injectedItem);
         }
         hideIntentPanel();
 
@@ -3426,14 +1839,10 @@
 
     function ensureResultsSectionVisible(sourceLabel = 'hot_list') {
       const loadingStateEl = document.getElementById('loadingState');
-      if (loadingStateEl) {
-        loadingStateEl.classList.add('hidden');
-      }
+      loadingStateEl?.classList.add('hidden');
 
       const resultsSectionEl = document.getElementById('resultsSection');
-      if (resultsSectionEl) {
-        resultsSectionEl.classList.remove('hidden');
-      }
+      resultsSectionEl?.classList.remove('hidden');
 
       const contextLabels = {
         hot_list: {
@@ -3481,6 +1890,91 @@
         }
       });
 
+      // Resort and FAQ delegation
+      handleResortDelegation(document.getElementById('resultsList'));
+      handleResortDelegation(document.getElementById('modalResultsList'));
+
+      const hotFAQsEl = document.getElementById('hotFAQs');
+      if (hotFAQsEl) {
+        hotFAQsEl.addEventListener('click', (e) => {
+        const item = e.target.closest('.hot-faq-item[data-faq-id]');
+        if (item) {
+          showFAQDetail(item.dataset.faqId, item.dataset.source || 'hot_list');
+        }
+      });
+    }
+
+      const recList = document.getElementById('recommendationsList');
+      if (recList) {
+        recList.addEventListener('click', (e) => {
+          const item = e.target.closest('.recommendation-item[data-faq-id]');
+          if (item) {
+            showFAQDetail(item.dataset.faqId, item.dataset.source || 'intent_recommendation');
+          }
+        });
+      }
+
+      // FAQ tag delegation
+      const resultsList = document.getElementById('resultsList');
+      if (resultsList) {
+        resultsList.addEventListener('click', (e) => {
+          const tag = e.target.closest('.faq-tag[data-tag]');
+          if (tag) {
+            const tagName = tag.dataset.tag;
+            const faqId = tag.dataset.faqId || '';
+            trackTagClick(null, 'faq', tagName, faqId);
+            e.stopPropagation();
+            return;
+          }
+          const feedbackBtn = e.target.closest('.feedback-buttons button[data-feedback]');
+          if (feedbackBtn) {
+            openFeedbackModal(feedbackBtn);
+            e.stopPropagation();
+            return;
+          }
+          const faqItem = e.target.closest('.faq-item');
+          if (faqItem && !e.target.closest('a') && !e.target.closest('.feedback-buttons')) {
+            toggleFAQItem(faqItem);
+          }
+        });
+      }
+      const modalResultsList = document.getElementById('modalResultsList');
+      if (modalResultsList) {
+        modalResultsList.addEventListener('click', (e) => {
+          const tag = e.target.closest('.faq-tag[data-tag]');
+          if (tag) {
+            const tagName = tag.dataset.tag;
+            const faqId = tag.dataset.faqId || '';
+            trackTagClick(null, 'faq', tagName, faqId);
+            e.stopPropagation();
+            return;
+          }
+          const feedbackBtn = e.target.closest('.feedback-buttons button[data-feedback]');
+          if (feedbackBtn) {
+            openFeedbackModal(feedbackBtn);
+            e.stopPropagation();
+            return;
+          }
+          const faqItem = e.target.closest('.faq-item');
+          if (faqItem && !e.target.closest('a') && !e.target.closest('.feedback-buttons')) {
+            toggleFAQItem(faqItem);
+          }
+        });
+      }
+
+      // Fallback global delegation for FAQ items (ensure toggling even after dynamic inserts)
+      // 移除全域多餘委派，集中在容器委派
+
+      const feedbackModal = document.getElementById('feedbackModal');
+      if (feedbackModal) {
+        const closeBtn = document.getElementById('feedbackModalClose');
+        const cancelBtn = document.getElementById('btnCancel');
+        const submitBtn = document.getElementById('btnSubmit');
+        closeBtn?.addEventListener('click', closeFeedbackModal);
+        cancelBtn?.addEventListener('click', closeFeedbackModal);
+        submitBtn?.addEventListener('click', submitFeedback);
+      }
+
       // Real-time intent detection (debounced)
       document.getElementById('searchInput').addEventListener('input', (e) => {
         clearTimeout(searchDebounce);
@@ -3510,7 +2004,7 @@
           updateUILanguage();
 
           // Re-render category sidebar and hot list for new language
-          renderSidebar();
+          handleRenderSidebar();
           renderResortRegions();
           renderHotFAQs();
 
@@ -3522,7 +2016,7 @@
           }
         } catch (error) {
           console.error('Language switch failed:', error);
-          alert('切換語言失敗: ' + error.message);
+          showError('切換語言失敗: ' + error.message);
         }
       });
 
@@ -3602,119 +2096,6 @@
       }
     }
 
-    // ==================== AI Chat Widget ====================
-
-    function initAIChatWidget() {
-      console.log('[AI Chat] Initializing AI chat widget...');
-
-      const toggleBtn = document.getElementById('aiChatToggle');
-      const chatWindow = document.getElementById('aiChatWindow');
-      const chatInput = document.getElementById('aiChatInput');
-      const sendBtn = document.getElementById('aiChatSend');
-      const messagesContainer = document.getElementById('aiChatMessages');
-
-      // Toggle chat window
-      toggleBtn.addEventListener('click', () => {
-        chatWindow.classList.toggle('open');
-        toggleBtn.classList.toggle('active');
-
-        if (chatWindow.classList.contains('open')) {
-          toggleBtn.textContent = '✕';
-          chatInput.focus();
-        } else {
-          toggleBtn.textContent = '💬';
-        }
-      });
-
-      // Send message on button click
-      sendBtn.addEventListener('click', sendMessage);
-
-      // Send message on Enter key
-      chatInput.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter' && !e.shiftKey) {
-          e.preventDefault();
-          sendMessage();
-        }
-      });
-
-      async function sendMessage() {
-        const message = chatInput.value.trim();
-        if (!message) return;
-
-        // Add user message to chat
-        addMessageToChat('user', message);
-        chatInput.value = '';
-        sendBtn.disabled = true;
-
-        // Scroll to bottom
-        messagesContainer.scrollTop = messagesContainer.scrollHeight;
-
-        try {
-          // Search FAQ for relevant answers
-          const results = await faqEngine.search(message);
-
-          // Generate AI response
-          let response = '';
-
-          if (results.length > 0) {
-            const topResult = results[0];
-            const confidence = Math.round((1 - topResult.score) * 100);
-
-            if (confidence >= 70) {
-              // High confidence - provide direct answer
-              response = `我找到了相關答案（信心度 ${confidence}%）：\n\n${topResult.item.answer_template.text}`;
-
-              if (topResult.item.answer_template.postscript) {
-                response += `\n\n${topResult.item.answer_template.postscript}`;
-              }
-            } else {
-              // Lower confidence - suggest FAQs
-              response = `我找到了一些可能相關的問題：\n\n`;
-              results.slice(0, 3).forEach((result, index) => {
-                const conf = Math.round((1 - result.score) * 100);
-                response += `${index + 1}. ${result.item.canonical_question} (${conf}%)\n`;
-              });
-              response += `\n您可以點選左側搜尋來查看詳細答案。`;
-            }
-          } else {
-            // No results found
-            response = '抱歉，我沒有找到直接相關的答案。您可以嘗試：\n\n1. 換個方式描述您的問題\n2. 瀏覽左側的分類清單\n3. 查看熱門問題\n4. 聯繫我們的客服團隊：service@diy.ski';
-          }
-
-          // Add AI response to chat
-          setTimeout(() => {
-            addMessageToChat('assistant', response);
-            sendBtn.disabled = false;
-            messagesContainer.scrollTop = messagesContainer.scrollHeight;
-          }, 500);
-
-        } catch (error) {
-          console.error('[AI Chat] Error:', error);
-          addMessageToChat('assistant', '抱歉，處理您的問題時發生錯誤。請稍後再試。');
-          sendBtn.disabled = false;
-        }
-      }
-
-      function addMessageToChat(role, text) {
-        const messageDiv = document.createElement('div');
-        messageDiv.className = `ai-chat-message ${role}`;
-
-        const avatar = document.createElement('div');
-        avatar.className = 'avatar';
-        avatar.textContent = role === 'user' ? '👤' : '🤖';
-
-        const bubble = document.createElement('div');
-        bubble.className = 'bubble';
-        bubble.textContent = text;
-
-        messageDiv.appendChild(avatar);
-        messageDiv.appendChild(bubble);
-
-        messagesContainer.appendChild(messageDiv);
-      }
-
-      console.log('[AI Chat] AI chat widget initialized');
-    }
   </script>
 
   <!-- SEO Modules and Initialization -->
@@ -4189,7 +2570,7 @@
     <div class="feedback-modal-content">
       <div class="feedback-modal-header">
         <h3 id="feedbackModalTitle">😊 感謝您的反饋</h3>
-        <button class="feedback-modal-close" onclick="closeFeedbackModal()" aria-label="關閉">✕</button>
+        <button class="feedback-modal-close" id="feedbackModalClose" aria-label="關閉">✕</button>
       </div>
 
       <div class="feedback-modal-body">
@@ -4219,8 +2600,8 @@
       </div>
 
       <div class="feedback-modal-footer">
-        <button class="btn-cancel" id="btnCancel" onclick="closeFeedbackModal()">跳過</button>
-        <button class="btn-submit" id="btnSubmit" onclick="submitFeedback()">提交反饋</button>
+        <button class="btn-cancel" id="btnCancel">跳過</button>
+        <button class="btn-submit" id="btnSubmit">提交反饋</button>
       </div>
     </div>
   </div>

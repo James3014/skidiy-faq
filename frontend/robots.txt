@@ -17,6 +17,11 @@ Disallow: /*.js
 Disallow: /node_modules/
 Disallow: /.git/
 
+# 禁止索引動態搜尋 URL
+Disallow: /*?q=*
+Disallow: /*?lang=*
+Disallow: /*?search=*
+
 # 搜尋引擎爬蟲延遲設定
 Crawl-delay: 1
 Request-rate: 1/1s
