@@ -156,6 +156,72 @@
       }
     }
 
+    /* Tabs System */
+    .tabs-shell {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      margin-bottom: 1.5rem;
+      overflow: hidden;
+    }
+
+    .tab-buttons {
+      display: flex;
+      background: #f8f9fa;
+      border-bottom: 1px solid #e9ecef;
+      padding: 0;
+    }
+
+    .tab-button {
+      flex: 1;
+      padding: 1rem 1.5rem;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: #6c757d;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      transition: all 0.2s ease;
+      border-bottom: 3px solid transparent;
+    }
+
+    .tab-button:hover {
+      background: #e9ecef;
+      color: #495057;
+    }
+
+    .tab-button.active {
+      background: white;
+      color: #619AEC;
+      border-bottom-color: #619AEC;
+      font-weight: 600;
+    }
+
+    .tab-arrow {
+      font-size: 0.75rem;
+      transition: transform 0.2s;
+    }
+
+    .tab-button.active .tab-arrow {
+      transform: rotate(180deg);
+    }
+
+    .tab-panels {
+      padding: 1rem;
+    }
+
+    .tab-panel {
+      display: none;
+    }
+
+    .tab-panel.active {
+      display: block;
+    }
+
     /* Main layout with sidebar */
     .main-layout {
       display: flex;
