@@ -44,10 +44,10 @@ const FAQRenderer = {
     // 反饋按鈕
     const feedbackHTML = includeFeedback ? this.getFeedbackButtonsHTML(currentLanguage) : '';
 
-    // 切換圖標
+    // 切換圖標 - Figma 設計中在問題右側
     const toggleIcon = includeIcon ? '<span class="faq-toggle-icon">▼</span>' : '';
 
-    // 組合完整 HTML
+    // 組合完整 HTML (Figma 對齐)
     return `
       <div class="faq-item" data-faq-id="${faq.id}" data-faq-index="${faq.index || 0}">
         <div class="faq-header">
@@ -73,11 +73,8 @@ const FAQRenderer = {
    * @returns {string} 信心度徽章 HTML
    */
   calculateConfidenceBadge(score) {
-    const confidence = score ? Math.round((1 - score) * 100) : 100;
-    const confidenceClass = confidence >= 80 ? 'confidence-high' :
-                           confidence >= 60 ? 'confidence-medium' : 'confidence-low';
-
-    return `<span class="confidence-badge ${confidenceClass}">${confidence}%</span>`;
+    // 移除百分比显示
+    return '';
   },
 
   /**
@@ -125,7 +122,7 @@ const FAQRenderer = {
     const noLabels = {
       'en': 'No',
       'th': 'ไม่',
-      'zh': '沒有幫助'
+      'zh': '沒幫助'
     };
 
     const label = labels[language] || labels['zh'];
@@ -136,10 +133,10 @@ const FAQRenderer = {
       <div class="feedback-section">
         <span class="feedback-label">${label}</span>
         <div class="feedback-buttons">
-          <button class="btn-helpful" onclick="openFeedbackModal(this)" title="${yesLabel}">
+          <button class="btn-helpful" data-feedback="helpful" title="${yesLabel}">
             👍 ${yesLabel}
           </button>
-          <button class="btn-not-helpful" onclick="openFeedbackModal(this)" title="${noLabel}">
+          <button class="btn-not-helpful" data-feedback="not_helpful" title="${noLabel}">
             👎 ${noLabel}
           </button>
         </div>
@@ -174,10 +171,11 @@ const FAQRenderer = {
 
         // Linus 原則: 統一生成帶 onclick 事件的 tag HTML
         // 消除 displayFAQsInModal 中的特殊替換邏輯
+        // Figma 設計: # 前綴 + 自動換行
         const sanitizedTag = DOMPurify.sanitize(tag);
         const sanitizedDisplay = DOMPurify.sanitize(displayTag);
 
-        return `<span class="faq-tag" onclick="trackTagClick(event, 'faq', '${sanitizedTag}', '${faq.id}')">${sanitizedDisplay}</span>`;
+        return `<span class="faq-tag" data-tag="${sanitizedTag}" data-faq-id="${faq.id}" data-tag-type="faq">#${sanitizedDisplay}</span>`;
       })
       .join('');
 

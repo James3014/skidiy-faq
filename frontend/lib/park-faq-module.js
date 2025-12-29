@@ -44,23 +44,27 @@ const ParkFAQ = (() => {
     const tagsHTML = tags.map(tag => `
       <span
         class="park-faq-tag"
-        onclick="ParkFAQ.handleTagClick('${DOMPurify.sanitize(tag.name)}', '${card.id}', '${card.park_slug}', window.currentLanguage || 'zh')"
+        data-park-tag="${DOMPurify.sanitize(tag.name)}"
+        data-park-card-id="${card.id}"
+        data-park-slug="${card.park_slug}"
         style="cursor: pointer; display: inline-block; background: #e3f2fd; padding: 0.25rem 0.75rem; border-radius: 12px; margin-right: 0.5rem; font-size: 0.85rem; border: 1px solid #2196f3; color: #1976d2; font-weight: 500;">
         ${DOMPurify.sanitize(tag.name)}
       </span>
     `).join('');
 
     return `
-      <div class="park-faq-card" style="border: 1px solid #e5e7eb; border-radius: 8px; padding: 1rem; margin-bottom: 1rem; background: #fafafa;">
+      <div class="park-faq-card" style="border: 1px solid #4192a6; border-radius: 16px; padding: 16px 20px; margin-bottom: 1rem; background: rgba(228, 243, 250, 0.9); cursor: pointer; transition: all 0.3s;">
         <div style="margin-bottom: 0.75rem;">
           <button
-            style="background: none; border: none; text-align: left; width: 100%; cursor: pointer; padding: 0; font-size: 1rem; font-weight: 600; color: #2D395C;"
-            onclick="this.parentElement.parentElement.querySelector('.park-faq-content').style.display = this.parentElement.parentElement.querySelector('.park-faq-content').style.display === 'none' ? 'block' : 'none';">
-            ▶ ${DOMPurify.sanitize(question)}
+            class="park-faq-toggle"
+            style="background: none; border: none; text-align: left; width: 100%; cursor: pointer; padding: 0; font-size: 1rem; font-weight: 600; color: #47596c;"
+            data-park-card-id="${card.id}"
+            data-question="${DOMPurify.sanitize(question)}">
+            ▼ ${DOMPurify.sanitize(question)}
           </button>
         </div>
 
-        <div class="park-faq-content" style="display: none; margin-top: 0.75rem; padding-top: 0.75rem; border-top: 1px solid #e5e7eb;">
+        <div class="park-faq-content" style="display: none; margin-top: 0.75rem; padding-top: 0.75rem; border-top: none;">
           <p style="color: #47596C; line-height: 1.6; margin-bottom: 0.75rem;">
             ${DOMPurify.sanitize(answer)}
           </p>
@@ -83,7 +87,7 @@ const ParkFAQ = (() => {
       : `${DOMPurify.sanitize(data.park_cname)} - FAQ 卡片`;
 
     return `
-      <div class="park-faq-section" style="margin-bottom: 2rem; padding: 1.5rem; background: #ffffff; border-radius: 8px; border: 1px solid #e5e7eb;">
+      <div class="park-faq-section" style="margin-bottom: 2rem; padding: 1.5rem; background: transparent; border-radius: 0; border: none;">
         <h3 style="margin-bottom: 1rem; font-size: 1.25rem; color: #2D395C;">
           ${title}
         </h3>
@@ -120,6 +124,8 @@ const ParkFAQ = (() => {
     } else {
       modalResultsList.innerHTML = parkFaqHTML;
     }
+
+    attachDelegation(modalResultsList);
   }
 
   /**
@@ -136,6 +142,36 @@ const ParkFAQ = (() => {
     }
 
     displayInModal(data, parkName, language);
+    return true;
+  }
+
+  /**
+   * Load and display Park FAQ cards in Tab (not Modal)
+   */
+  async function loadAndDisplayInTab(parkSlug, parkName, language = 'zh', containerId = 'resortRegions') {
+    console.log(`[Park FAQ Tab] Loading cards for: ${parkName} (${parkSlug})`);
+
+    const data = await loadCards(parkSlug, language);
+    if (!data || !data.cards || data.cards.length === 0) {
+      console.log(`[Park FAQ Tab] No cards found for ${parkSlug}`);
+      return false;
+    }
+
+    // Generate section HTML with cards
+    const sectionHTML = generateSectionHTML(data, language, { title: parkName });
+
+    // Render to container
+    const container = document.getElementById(containerId);
+    if (container) {
+      container.innerHTML = sectionHTML;
+      console.log(`[Park FAQ Tab] Rendered ${data.cards.length} cards to ${containerId}`);
+
+      // Bind toggle events
+      bindToggleEvents();
+    } else {
+      console.warn(`[Park FAQ Tab] Container #${containerId} not found`);
+    }
+
     return true;
   }
 
@@ -231,7 +267,7 @@ const ParkFAQ = (() => {
         <h3 style="margin-bottom: 1rem; font-size: 1.25rem; color: #856404;">
           🏷️ 篩選結果: ${title}
           <button
-            onclick="document.querySelector('.park-faq-section').remove();"
+            class="park-faq-close"
             style="float: right; background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #856404;">
             ✕
           </button>
@@ -247,6 +283,7 @@ const ParkFAQ = (() => {
     modalResultsList.innerHTML = filteredHTML + existingContent;
 
     console.log(`[Park FAQ] Displayed ${filteredCards.length} filtered cards for tag: ${tagName}`);
+    attachDelegation(modalResultsList);
   }
 
   /**
@@ -302,9 +339,44 @@ const ParkFAQ = (() => {
     currentParkCards = cards;
   }
 
+  function attachDelegation(root) {
+    if (!root || root.dataset.parkFaqDelegated === 'true') return;
+    root.dataset.parkFaqDelegated = 'true';
+    root.addEventListener('click', (e) => {
+      const tagEl = e.target.closest('.park-faq-tag[data-park-tag]');
+      if (tagEl) {
+        const tagName = tagEl.dataset.parkTag;
+        const cardId = tagEl.dataset.parkCardId;
+        const slug = tagEl.dataset.parkSlug;
+        handleTagClick(tagName, cardId, slug, window.currentLanguage || 'zh');
+        e.stopPropagation();
+        return;
+      }
+      const toggle = e.target.closest('.park-faq-toggle');
+      if (toggle) {
+        const card = toggle.closest('.park-faq-card');
+        const content = card?.querySelector('.park-faq-content');
+        if (content) {
+          const isHidden = content.style.display === 'none' || !content.style.display;
+          content.style.display = isHidden ? 'block' : 'none';
+          const question = toggle.dataset.question || toggle.textContent.replace(/^.\\s*/, '');
+          toggle.textContent = `${isHidden ? '▼' : '▶'} ${question}`;
+        }
+        return;
+      }
+      const closeBtn = e.target.closest('.park-faq-close');
+      if (closeBtn) {
+        const section = closeBtn.closest('.park-faq-section');
+        section?.remove();
+        return;
+      }
+    });
+  }
+
   // Public API
   return {
     loadAndDisplay,
+    loadAndDisplayInTab,
     loadCards,
     generateSectionHTML,
     trackTagClick,
