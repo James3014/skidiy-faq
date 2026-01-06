@@ -37,11 +37,11 @@
   <link rel="alternate" hreflang="th-TH" href="https://faq.diy.ski/?lang=th">
   <link rel="alternate" hreflang="x-default" href="https://faq.diy.ski/">
   
-  <!-- 動態 noindex 控制 -->
+  <!-- 動態 noindex 控制 - 只排除搜尋結果頁面 -->
   <script>
-    // 檢查是否為搜尋查詢頁面，如果是則添加 noindex
-    if (window.location.search.includes('q=') || 
-        (window.location.search.includes('lang=') && window.location.search.length > 8)) {
+    // 只有搜尋查詢頁面 (?q=xxx) 才添加 noindex
+    // 語言切換頁面 (?lang=xx) 應該被索引
+    if (window.location.search.includes('q=')) {
       const noindexMeta = document.createElement('meta');
       noindexMeta.name = 'robots';
       noindexMeta.content = 'noindex, nofollow';
