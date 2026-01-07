@@ -15,7 +15,10 @@ COPY zeabur_backend/backend/.env.example ./.env.example
 
 # Copy data directory to match backend path resolution
 # Backend uses absolute path /data/ in container
+# Cache bust: 2026-01-08-v1
+RUN echo "Cache bust: 2026-01-08-v1"
 COPY zeabur_backend/data /data
+RUN ls -la /data && head -c 500 /data/faq_kb.phase0a.json
 
 # Set environment variables
 # SQLITE_DB_PATH must be absolute path to prevent __dirname resolution issues
