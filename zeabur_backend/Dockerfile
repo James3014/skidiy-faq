@@ -13,8 +13,10 @@ RUN npm ci --only=production
 COPY zeabur_backend/backend/src ./src
 COPY zeabur_backend/backend/.env.example ./.env.example
 
-# Copy data directory
-COPY zeabur_backend/data ./data
+# Copy data directory to match backend path resolution
+# Backend uses: path.join(__dirname, '../../../data/') from /app/src/routes/
+# This resolves to /data/ in container, so we copy there
+COPY zeabur_backend/data /data
 
 # Set environment variables
 # SQLITE_DB_PATH must be absolute path to prevent __dirname resolution issues
