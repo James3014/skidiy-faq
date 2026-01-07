@@ -15,7 +15,7 @@ COPY zeabur_backend/backend/.env.example ./.env.example
 
 # Copy data directory to match backend path resolution
 # Backend uses absolute path /data/ in container
-COPY zeabur_backend/faq_data /data
+COPY zeabur_backend/data /data
 
 # Set environment variables
 # SQLITE_DB_PATH must be absolute path to prevent __dirname resolution issues

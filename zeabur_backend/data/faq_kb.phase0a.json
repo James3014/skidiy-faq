@@ -12,7 +12,9 @@
       "NO_QUOTE: 不口頭報價，請導至系統頁面。",
       "NO_MANUAL_MATCH: 不人工查空檔/配對。",
       "NO_INSURANCE_BREAKDOWN: 不外顯保險費用細項。"
-    ]
+    ],
+    "last_updated": "2026-01-08T00:30:00+09:00",
+    "cache_bust": "v20260108"
   },
   "items": [
     {
@@ -8226,4 +8228,3 @@
     }
   ]
 }
-
