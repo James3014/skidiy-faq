@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>重构测试页面</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: 50px auto;
+      padding: 20px;
+    }
+    .test-section {
+      margin: 20px 0;
+      padding: 15px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+    }
+    .test-result {
+      margin: 10px 0;
+      padding: 10px;
+      border-radius: 4px;
+    }
+    .pass { background: #d4edda; color: #155724; }
+    .fail { background: #f8d7da; color: #721c24; }
+    button {
+      padding: 10px 20px;
+      margin: 5px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>重构功能测试</h1>
+  
+  <div class="test-section">
+    <h2>1. CSS 模块化测试</h2>
+    <div id="cssTest" class="test-result">等待测试...</div>
+    <button onclick="testCSS()">测试 CSS</button>
+  </div>
+
+  <div class="test-section">
+    <h2>2. JS 模块加载测试</h2>
+    <div id="jsTest" class="test-result">等待测试...</div>
+    <button onclick="testModules()">测试模块</button>
+  </div>
+
+  <div class="test-section">
+    <h2>3. 事件委派测试</h2>
+    <div id="eventTest" class="test-result">等待测试...</div>
+    <button onclick="testEvents()">测试事件</button>
+  </div>
+
+  <script>
+    function testCSS() {
+      const result = document.getElementById('cssTest');
+      try {
+        // 检查 CSS 文件是否加载
+        const link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.href = 'assets/css/index.css';
+        link.onload = () => {
+          result.className = 'test-result pass';
+          result.textContent = '✓ CSS 文件加载成功';
+        };
+        link.onerror = () => {
+          result.className = 'test-result fail';
+          result.textContent = '✗ CSS 文件加载失败';
+        };
+        document.head.appendChild(link);
+      } catch (e) {
+        result.className = 'test-result fail';
+        result.textContent = '✗ 测试出错: ' + e.message;
+      }
+    }
+
+    function testModules() {
+      const result = document.getElementById('jsTest');
+      const modules = [
+        'api-client.js',
+        'analytics.js',
+        'search.js',
+        'sidebar.js',
+        'resort.js',
+        'ai-chat.js',
+        'park-faq-module.js',
+        'faq-renderer.js'
+      ];
+      
+      let loaded = 0;
+      let failed = [];
+      
+      modules.forEach(module => {
+        const script = document.createElement('script');
+        script.src = 'lib/' + module;
+        script.onload = () => {
+          loaded++;
+          if (loaded === modules.length) {
+            result.className = 'test-result pass';
+            result.textContent = `✓ 所有模块加载成功 (${loaded}/${modules.length})`;
+          }
+        };
+        script.onerror = () => {
+          failed.push(module);
+          result.className = 'test-result fail';
+          result.textContent = `✗ 模块加载失败: ${failed.join(', ')}`;
+        };
+        document.head.appendChild(script);
+      });
+    }
+
+    function testEvents() {
+      const result = document.getElementById('eventTest');
+      try {
+        // 检查是否有 inline onclick
+        const inlineEvents = document.querySelectorAll('[onclick]');
+        if (inlineEvents.length === 0) {
+          result.className = 'test-result pass';
+          result.textContent = '✓ 没有发现 inline onclick 事件';
+        } else {
+          result.className = 'test-result fail';
+          result.textContent = `✗ 发现 ${inlineEvents.length} 个 inline onclick 事件`;
+        }
+      } catch (e) {
+        result.className = 'test-result fail';
+        result.textContent = '✗ 测试出错: ' + e.message;
+      }
+    }
+  </script>
+</body>
+</html>

@@ -12,4 +12,3 @@ zeabur_backend/backend/.env
 *.db-shm
 *.db-wal
 zeabur_backend/backend/data/
-zeabur_backend/data/
