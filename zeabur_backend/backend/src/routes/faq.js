@@ -184,7 +184,9 @@ async function loadFAQData() {
   // LINUS PRINCIPLE: Try the most reliable source first
   // Priority 1: Load from JSON file (deployed separately, most likely to have full data)
   try {
-    const dataPath = path.join(__dirname, '../../../data/faq_kb.phase0a.json');
+    // Use absolute path for Docker container compatibility
+    const dataPath = process.env.FAQ_DATA_PATH || '/data/faq_kb.phase0a.json';
+    console.log(`[FAQ Routes] Loading FAQ data from: ${dataPath}`);
     const content = await fs.readFile(dataPath, 'utf-8');
     faqData = JSON.parse(content);
     faqDataLoadTime = Date.now();
