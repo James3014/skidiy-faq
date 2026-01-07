@@ -14,9 +14,9 @@ COPY zeabur_backend/backend/src ./src
 COPY zeabur_backend/backend/.env.example ./.env.example
 
 # Copy data directory to match backend path resolution
-# Backend uses: path.join(__dirname, '../../../data/') from /app/src/routes/
-# This resolves to /data/ in container, so we copy there
-# Force rebuild: 2026-01-07
+# Backend uses absolute path /data/ in container
+# Cache bust argument - change this value to force rebuild
+ARG CACHE_BUST=20260107v2
 COPY zeabur_backend/data /data
 
 # Set environment variables
