@@ -383,3 +383,4 @@ process.on('SIGINT', () => {
 
 // Export for testing
 module.exports = { app, server };
+// Trigger rebuild 2026年 1月 7日 星期三 23時21分45秒 JST
