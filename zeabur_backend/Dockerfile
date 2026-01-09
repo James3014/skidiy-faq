@@ -23,7 +23,8 @@ RUN ls -la /app/faq_data && head -c 500 /app/faq_data/faq_kb.phase0a.json
 ENV NODE_ENV=production \
     PORT=8080 \
     SQLITE_DB_PATH=/data/analytics.db \
-    FAQ_DATA_PATH=/app/faq_data/faq_kb.phase0a.json
+    FAQ_DATA_PATH=/app/faq_data/faq_kb.phase0a.json \
+    FAQ_DATA_DIR=/app/faq_data
 
 # Expose port
 EXPOSE 8080

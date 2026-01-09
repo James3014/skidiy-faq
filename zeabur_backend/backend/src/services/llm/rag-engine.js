@@ -31,7 +31,7 @@ class RAGEngine {
    */
   async initialize() {
     // Load FAQ data (phase0a is canonical; legacy exports are read-only backups)
-    const faqPath = this.config.faqPath || path.join(__dirname, '../../../../data/faq_kb.phase0a.json');
+    const faqPath = this.config.faqPath || process.env.FAQ_DATA_PATH || path.join(__dirname, '../../../../data/faq_kb.phase0a.json');
 
     if (!fs.existsSync(faqPath)) {
       throw new Error(`FAQ data not found at: ${faqPath}`);
@@ -56,7 +56,8 @@ class RAGEngine {
     console.log(`[RAG Engine] Initialized with ${this.faqData.items.length} FAQ items`);
 
     // Load Resort data
-    const resortPath = this.config.resortPath || path.join(__dirname, '../../../../data/resort_kb.json');
+    const resortDir = process.env.FAQ_DATA_DIR || path.join(__dirname, '../../../../data');
+    const resortPath = this.config.resortPath || path.join(resortDir, 'resort_kb.json');
 
     if (fs.existsSync(resortPath)) {
       const resortRawData = fs.readFileSync(resortPath, 'utf8');
