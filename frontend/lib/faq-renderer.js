@@ -233,6 +233,9 @@ const FAQRenderer = {
     // 使用 DOMPurify 清理輸入
     let cleaned = DOMPurify.sanitize(text);
 
+    // 將換行符轉換為 HTML 換行
+    cleaned = cleaned.replace(/\n/g, '<br>');
+
     // 如果有 meta 對象和 link_tokens，進行替換
     if (typeof meta !== 'undefined' && meta.link_tokens) {
       Object.entries(meta.link_tokens).forEach(([key, url]) => {
