@@ -1772,10 +1772,8 @@
         // Get localized content
         const localized = faqEngine.getLocalizedContent(faq, currentLanguage);
         const question = DOMPurify.sanitize(localized.question || faq.canonical_question || '');
-        const answer = DOMPurify.sanitize(
-          (localized.answer || faq.answer_template?.text || (i18n ? i18n.t('no_answer_content') : '無答案內容'))
-            .replace(/\n/g, '<br>')
-        );
+        const rawAnswer = (localized.answer || faq.answer_template?.text || (i18n ? i18n.t('no_answer_content') : '無答案內容')).replace(/\n/g, '<br>');
+        const answer = DOMPurify.sanitize(rawAnswer, { ALLOWED_TAGS: ['br', 'a', 'strong', 'em', 'b', 'i'] });
         const confidenceLabel = i18n ? i18n.t('confidence') : '信心度';
 
         return `
@@ -2008,11 +2006,10 @@
 
         const localized = faqEngine.getLocalizedContent(faq, currentLanguage);
         const question = DOMPurify.sanitize(localized.question || faq.canonical_question || '');
-        const answer = DOMPurify.sanitize(
-          (localized.answer || '無答案內容').replace(/\n/g, '<br>')
-        );
+        const rawAnswer = (localized.answer || '無答案內容').replace(/\n/g, '<br>');
+        const answer = DOMPurify.sanitize(rawAnswer, { ALLOWED_TAGS: ['br', 'a', 'strong', 'em', 'b', 'i'] });
         const postscript = localized.postscript
-          ? `<div class="faq-postscript">${DOMPurify.sanitize(localized.postscript)}</div>`
+          ? `<div class="faq-postscript">${DOMPurify.sanitize(localized.postscript.replace(/\n/g, '<br>'), { ALLOWED_TAGS: ['br', 'a', 'strong', 'em', 'b', 'i'] })}</div>`
           : '';
 
         return `

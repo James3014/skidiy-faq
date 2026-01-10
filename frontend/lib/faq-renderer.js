@@ -230,11 +230,11 @@ const FAQRenderer = {
   parseLinksInText(text) {
     if (!text) return '';
 
-    // 使用 DOMPurify 清理輸入
-    let cleaned = DOMPurify.sanitize(text);
+    // 先將換行符轉換為 HTML 換行（在 sanitize 之前）
+    let processed = text.replace(/\n/g, '<br>');
 
-    // 將換行符轉換為 HTML 換行
-    cleaned = cleaned.replace(/\n/g, '<br>');
+    // 使用 DOMPurify 清理輸入（允許 br 標籤）
+    let cleaned = DOMPurify.sanitize(processed, { ALLOWED_TAGS: ['br', 'a', 'strong', 'em', 'b', 'i'] });
 
     // 如果有 meta 對象和 link_tokens，進行替換
     if (typeof meta !== 'undefined' && meta.link_tokens) {
